@@ -30,14 +30,14 @@ node 'app0' inherits appnode {
   }
     
   exec { "node_${node_version}_configure":
-    cwd     => "${node_src}"
-    command => "./configure --prefix=${node_dir}"
+    cwd     => "${node_src}",
+    command => "./configure --prefix=${node_dir}",
     unless  => "/opt/local/bin/test -f ${node_dir}/bin/node",
   }
   
   exec { "node_${node_version}_make":
-    cwd     => "${node_src}"
-    command => "/opt/local/bin/make && /opt/local/bin/make install"
+    cwd     => "${node_src}",
+    command => "/opt/local/bin/make && /opt/local/bin/make install",
     unless  => "/opt/local/bin/test -f ${node_dir}/bin/node",
   }
 }
