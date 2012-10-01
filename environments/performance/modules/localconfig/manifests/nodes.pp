@@ -27,17 +27,20 @@ node 'app0' inherits appnode {
     cwd     => "/tmp",
     command => "/opt/local/bin/tar -zxvf ${node_dl}",
     unless  => "/opt/local/bin/test -f ${node_dir}/bin/node",
+    require => Exec["node_${node_version}_wget"],
   }
     
   exec { "node_${node_version}_configure":
     cwd     => "${node_src}",
     command => "${node_src}/configure --prefix=${node_dir}",
     unless  => "/opt/local/bin/test -f ${node_dir}/bin/node",
+    require => Exec["node_${node_version}_extract"],
   }
   
   exec { "node_${node_version}_make":
     cwd     => "${node_src}",
     command => "/opt/local/bin/make && /opt/local/bin/make install",
     unless  => "/opt/local/bin/test -f ${node_dir}/bin/node",
+    require => [ Exec["node_${node_version}_configure"], Package["gcc-compiler"] ],
   }
 }
