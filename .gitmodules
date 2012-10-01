@@ -1,0 +1,3 @@
+[submodule "modules/puppet-pkgin"]
+	path = modules/puppet-pkgin
+	url = http://www.github.com/mudge/puppet-pkgin
