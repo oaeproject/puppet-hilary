@@ -31,8 +31,11 @@ cat << END
 END
 fi
 
+NODE_FILE=`cat ./.node`
 ENV_FILE=`pwd`/.environment
 ENV_ARG=""
+
+echo "node = $NODE_FILE"
 
 echo $@ | grep -q environment
 if [[ $? -eq 1 && -f $ENV_FILE ]]; then
@@ -43,4 +46,4 @@ fi
 # Look up modules in:
 # 1. environments/$environment/modules/
 # 2. modules/
-puppet apply --modulepath environments/\$environment/modules:modules site.pp $ENV_ARG $@
+puppet apply --verbose --modulepath environments/\$environment/modules:modules site.pp $ENV_ARG $@
