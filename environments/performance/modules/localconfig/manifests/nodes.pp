@@ -42,5 +42,6 @@ node 'app0' inherits appnode {
     command => "/opt/local/bin/make && /opt/local/bin/make install",
     unless  => "/opt/local/bin/test -f ${node_dir}/bin/node",
     require => [ Exec["node_${node_version}_configure"], Package["gcc-compiler"] ],
+    timeout => 0,
   }
 }
