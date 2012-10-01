@@ -6,3 +6,5 @@
 
 PKG_PATH=http://pkgsrc.joyent.com/sdc6/2012Q1/x86_64/All pkg_add smtools
 sm-rebuild-pkgsrc
+pkgin install ruby19-puppet
+pkgin install scmgit
