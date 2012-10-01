@@ -7,9 +7,8 @@ class localconfig {
   # App servers
   $app0_ip = '165.225.130.148'
 
-  $app_dir = '/opt/oae'
-
-  # Dependency versions
-  $node_version = '0.8.11'
+  $app_root = '/opt/oae'
+  $app_git_user = 'sakaiproject'
+  $app_git_branch = 'master'
 
 }
