@@ -19,7 +19,7 @@ var config = module.exports.config = {};
 
 // Cassandra related config information.
 config.cassandra = {
-    'hosts': '<%= scope.lookupvar("localconfig::db_hosts") %>',
+    'hosts': <%= scope.lookupvar("localconfig::db_hosts") %>,
     'keyspace': '<%= scope.lookupvar("localconfig::db_keyspace") %>',
     'user': '', 
     'pass': '',
@@ -36,7 +36,7 @@ config.cassandra = {
 //  0 = production
 //  1 = unit tests
 config.redis = {
-    'host': '<%= scope.lookupvar("localconfig::redis_host") %>',
+    'host': '<%= scope.lookupvar("localconfig::redis_hosts")[0] %>',
     'port': <%= scope.lookupvar("localconfig::redis_port") %>,
     'pass': '',
     'dbIndex': <%= scope.lookupvar("localconfig::redis_dbIndex") %>
