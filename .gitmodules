@@ -1,3 +1,6 @@
 [submodule "modules/puppet-pkgin"]
 	path = modules/puppet-pkgin
 	url = http://www.github.com/mudge/puppet-pkgin
+[submodule "modules/puppetlabs-vcsrepo"]
+	path = modules/puppetlabs-vcsrepo
+	url = http://www.github.com/puppetlabs/puppetlabs-vcsrepo
