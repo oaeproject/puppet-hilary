@@ -19,7 +19,7 @@ node 'app0' inherits appnode {
   
   exec { "node_${node_version}_wget":
     command => "/usr/bin/wget http://nodejs.org/dist/v${node_version}/node-v${node_version}.tar.gz -O ${node_dl}",
-    unless  => "test -f $node_dir"
+    unless  => "/opt/local/bin/test -f $node_dir"
   }
   
   exec { "node_${node_version}_extract":
