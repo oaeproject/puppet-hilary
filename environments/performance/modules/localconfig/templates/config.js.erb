@@ -19,13 +19,13 @@ var config = module.exports.config = {};
 
 // Cassandra related config information.
 config.cassandra = {
-    'hosts': '<%= scope.lookupVar("localconfig::db_hosts") %>',
-    'keyspace': '<%= scope.lookupVar("localconfig::db_keyspace") %>',
+    'hosts': '<%= scope.lookupvar("localconfig::db_hosts") %>',
+    'keyspace': '<%= scope.lookupvar("localconfig::db_keyspace") %>',
     'user': '', 
     'pass': '',
-    'timeout': <%= scope.lookupVar("localconfig::db_timeout") %>,
-    'replication': <%= scope.lookupVar("localconfig::db_replication") %>,
-    'strategyClass': '<%= scope.lookupVar("localconfig::db_strategyClass") %>'
+    'timeout': <%= scope.lookupvar("localconfig::db_timeout") %>,
+    'replication': <%= scope.lookupvar("localconfig::db_replication") %>,
+    'strategyClass': '<%= scope.lookupvar("localconfig::db_strategyClass") %>'
 };
 
 // The redis related configuration information.
@@ -36,10 +36,10 @@ config.cassandra = {
 //  0 = production
 //  1 = unit tests
 config.redis = {
-    'host': '<%= scope.lookupVar("localconfig::redis_host") %>',
-    'port': <%= scope.lookupVar("localconfig::redis_port") %>,
+    'host': '<%= scope.lookupvar("localconfig::redis_host") %>',
+    'port': <%= scope.lookupvar("localconfig::redis_port") %>,
     'pass': '',
-    'dbIndex': <%= scope.lookupVar("localconfig::redis_dbIndex") %>
+    'dbIndex': <%= scope.lookupvar("localconfig::redis_dbIndex") %>
 };
 
 config.log = {
