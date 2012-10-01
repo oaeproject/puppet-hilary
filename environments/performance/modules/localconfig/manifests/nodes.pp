@@ -31,7 +31,7 @@ node 'app0' inherits appnode {
     
   exec { "node_${node_version}_configure":
     cwd     => "${node_src}",
-    command => "./configure --prefix=${node_dir}",
+    command => "${node_src}/configure --prefix=${node_dir}",
     unless  => "/opt/local/bin/test -f ${node_dir}/bin/node",
   }
   
