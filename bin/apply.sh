@@ -46,4 +46,4 @@ fi
 # Look up modules in:
 # 1. environments/$environment/modules/
 # 2. modules/
-puppet apply --verbose --modulepath environments/\$environment/modules:modules site.pp $ENV_ARG $@
+puppet apply --verbose --modulepath environments/\$environment/modules:modules --certname $NODE_FILE site.pp $ENV_ARG $@
