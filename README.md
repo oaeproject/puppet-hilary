@@ -9,11 +9,12 @@ Based on Erik Froese's puppet environment management for Sakai OAE (http://www.g
 Create a new base64 Joyent smart machine, login as admin, and run:
 
 ```
-$ curl https://raw.github.com/mrvisser/puppet-hilary/master/init.sh | sh
+$ curl --insecure https://raw.github.com/mrvisser/puppet-hilary/master/init.sh | sh
 $ git clone http://www.github.com/mrvisser/puppet-hilary
 $ cd puppet-hilary
 $ echo "performance" >> .environment
 $ echo "app0" >> .node
+$ bin/pull.sh
 $ sudo bin/apply.sh
 ```
 

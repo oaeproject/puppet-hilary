@@ -1,4 +1,4 @@
 #!/usr/bin/sh
 
-sudo pkgin install ruby19-puppet
-sudo pkgin install scmgit
+sudo pkgin -y install ruby19-puppet
+sudo pkgin -y install scmgit
