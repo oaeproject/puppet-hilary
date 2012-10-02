@@ -52,14 +52,14 @@ node 'app0' inherits appnode {
   # Install dependencies
   exec { "npm_install_dependencies":
     cwd     => "${localconfig::app_root}",
-    command => "/usr/local/bin/npm install -d",
+    command => "/opt/local/bin/npm install -d",
     require => Exec["chown_${localconfig::app_root}"],
   }
   
   # Start the app server
   exec { "start_app":
     cwd     => "${localconfig::app_root}",
-    command => "/usr/local/bin/node app.js",
+    command => "/opt/local/bin/node app.js",
   }
 
 }
