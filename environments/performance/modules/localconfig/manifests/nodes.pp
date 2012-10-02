@@ -59,7 +59,7 @@ node 'app0' inherits appnode {
   # Start the app server
   exec { "start_app":
     cwd     => "${localconfig::app_root}",
-    command => "/opt/local/bin/node app.js",
+    command => "/opt/local/bin/node app.js > stdout.log &",
   }
 
 }
