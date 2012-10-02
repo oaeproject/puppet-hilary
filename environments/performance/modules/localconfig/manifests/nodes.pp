@@ -56,9 +56,10 @@ node 'app0' inherits appnode {
     require => Exec["chown_${localconfig::app_root}"],
   }
   
+  # Start the app server
   exec { "start_app":
     cwd     => "${localconfig::app_root}",
     command => "/usr/local/bin/node app.js",
-    
+  }
 
 }
