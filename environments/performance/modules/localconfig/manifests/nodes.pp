@@ -3,17 +3,17 @@ node 'app0' inherits appnode {
   # Install compiler tools
   package { 'gcc47':
     ensure    => present,
-    providers => pkgin,
+    provider  => pkgin,
   }
   
   package { 'gmake':
     ensure    => present,
-    providers => pkgin,
+    provider  => pkgin,
   }
   
   package { 'automake':
     ensure    => present,
-    providers => pkgin,
+    provider  => pkgin,
   }
 
   # Install node js
