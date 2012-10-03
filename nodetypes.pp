@@ -1,8 +1,8 @@
+
 node appnode {
 
   # The localconfig module is found in $environment/modules
-   class { 'localconfig': }
-
+  class { 'localconfig': }
 
   # Install compiler tools
   package { 'gcc47':
@@ -65,4 +65,16 @@ node appnode {
     cwd     => "${localconfig::app_root}",
     command => "/opt/local/bin/node app.js > stdout.log &",
   }
+}
+
+node dbnode {
+
+  # The localconfig module is found in $environment/modules
+  class { 'localconfig': }
+  
+  class { 'cassandra::common':
+    owner => $localconfig::user,
+    group => $localconfig::group,
+  }
+  
 }

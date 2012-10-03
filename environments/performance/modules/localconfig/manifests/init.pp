@@ -13,6 +13,7 @@ class localconfig {
   $redis_dbIndex = 0
   
   # Cassandra
+  $db_cluster_name = 'Sakai OAE Performance Testing Cluster'
   $db_keyspace = 'oae'
   $db_hosts = [ '127.0.0.1' ]
   $db_timeout = 5000
