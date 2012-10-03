@@ -71,6 +71,10 @@ node dbnode {
 
   # The localconfig module is found in $environment/modules
   class { 'localconfig': }
+
+  package { 'java-1.6.0-openjdk':
+    ensure  => installed,
+  }
   
   class { 'cassandra::common':
     owner => $localconfig::user,
