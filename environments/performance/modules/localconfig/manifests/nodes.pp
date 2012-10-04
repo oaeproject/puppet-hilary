@@ -18,6 +18,8 @@ node 'db0' inherits dbnode {
     cluster_name    => $localconfig::db_cluster_name,
   }
 
+  class { 'opscenter': }
+
 }
 
 node 'db1' inherits dbnode {

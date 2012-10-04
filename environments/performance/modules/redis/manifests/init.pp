@@ -1,14 +1,14 @@
 class redis {
 
   package { 'redis':
-    ensure => present,
+    ensure    => present,
     provider  => pkgin,
   }
 
   # define the service to restart
-  service { "redis":
+  service { 'redis':
     ensure  => 'running',
-    enable  => "true",
+    enable  => 'true',
     require => Package['redis'],
   }
   
