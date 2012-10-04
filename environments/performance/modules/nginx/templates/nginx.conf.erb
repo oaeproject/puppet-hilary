@@ -1,0 +1,40 @@
+user   www  www;
+worker_processes  1;
+
+events {
+    # After increasing this value You probably should increase limit
+    # of file descriptors (for example in start_precmd in startup script)
+    worker_connections  1024;
+}
+
+http {
+  include       /opt/local/etc/nginx/mime.types;
+  default_type  application/octet-stream;
+
+  sendfile        on;
+  keepalive_timeout  65;
+
+  ## Give each tenant their own upstream resource
+  <% tenantsHash.each_pair do |tenant,info| -%>
+  upstream <%= tenant %> {
+    <% internal_app_ips.each do |ip| -%>
+    server <%= ip %>:<%= info['port'] %>;
+    <% end -%>
+  }
+  
+  <% end -%>
+
+  ## Link the external vhosts to the respective backend upstream resource
+  <% tenantsHash.each_pair do |tenant, info| -%>
+  server {
+    listen       80;
+    server_name  <%= info['host'] %>;
+
+    location / {
+      proxy_pass  http://<%= tenant %>;
+    }
+  }
+  
+  <% end -%>
+  
+}

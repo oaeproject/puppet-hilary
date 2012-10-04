@@ -10,7 +10,8 @@ class localconfig {
   $web_hosts = ['165.225.133.100']
   
   # App servers
-  $app_hosts = ['165.225.130.148']
+  $app_hosts_internal = ['']
+  $app_hosts_external = ['165.225.130.148']
 
   # Redis
   $redis_hosts = [$app_hosts[0]]
