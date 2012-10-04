@@ -1,4 +1,6 @@
-class opscenter($listen_address, $port = 8888) {
+class opscenter(
+    $listen_address = '0.0.0.0',
+    $port = 8888) {
 
   package { 'opscenter-free':
     ensure  => installed,
@@ -7,8 +9,8 @@ class opscenter($listen_address, $port = 8888) {
   file { '/etc/opscenter/opscenterd.conf':
     ensure  => present,
     content => template('opscenter/opscenterd.conf.erb'),
-    requires => Package['opscenter-free'],
-    notify => Service['opscenterd'],
+    require => Package['opscenter-free'],
+    notify  => Service['opscenterd'],
   }
   
   service { 'opscenterd':

@@ -19,7 +19,7 @@ node 'db0' inherits dbnode {
   }
 
   class { 'opscenter':
-    listen_address => $localconfig::db_hosts[0]
+    require         => Class['cassandra::common'],
   }
 
 }
