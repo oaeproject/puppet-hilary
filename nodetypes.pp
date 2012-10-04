@@ -76,11 +76,4 @@ node dbnode {
     ensure  => installed,
   }
   
-  class { 'cassandra::common':
-    owner         => $localconfig::db_user,
-    group         => $localconfig::db_group,
-    hosts         => $localconfig::db_hosts,
-    cluster_name  => $localconfig::db_cluster_name,
-  }
-  
 }

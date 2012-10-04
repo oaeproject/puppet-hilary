@@ -6,6 +6,7 @@ class cassandra::common(
     $owner          = 'cassandra',
     $group          = 'cassandra',
     $hosts          = [ '127.0.0.1' ],
+    $listen_address = 'null',
     $cluster_name   = 'Cassandra Cluster',
     $cassandra_home = '/usr/share/cassandra') {
 

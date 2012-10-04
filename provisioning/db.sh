@@ -2,12 +2,33 @@
 
 # CentOS
 
+####################################################################################
+#
+# CentOS Joyent Performance testing environment setup.
+#
+# DON'T RUN THIS ON A PRODUCTION MACHINE. It will remove firewall rules to enable
+# easy access to test Cassandra nodes both internally and externally. This is not
+# safe for production!
+#
+####################################################################################
+
 echo "Backing /etc/hosts to /etc/hosts.bck. This will be modified to include the Joyent machine ID"
 cp /etc/hosts /etc/hosts.bck
 cat > /etc/hosts <<EOF
 127.0.0.1   localhost.localdomain localhost $HOSTNAME
 ::1         localhost.localdomain localhost $HOSTNAME
 EOF
+
+echo "Clearing the linux firewall rules."
+iptables -F
+iptables -X
+iptables -t nat -F
+iptables -t nat -X
+iptables -t mangle -F
+iptables -t mangle -X
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
 
 echo "Setting up yum repos"
 cat > /etc/yum.repos.d/puppet.repo <<EOF
