@@ -2,12 +2,6 @@
 
 # CentOS
 
-echo -n "What node name to initialize for? (e.g., db0, db1...) "
-read NODE_NAME
-
-echo -n "Automatically invoke puppet after initialization? (y/n) "
-read AUTO
-
 echo "Backing /etc/hosts to /etc/hosts.bck. This will be modified to include the Joyent machine ID"
 cp /etc/hosts /etc/hosts.bck
 cat > /etc/hosts <<EOF
@@ -48,10 +42,3 @@ echo "Setting up puppet scripts"
 git clone http://github.com/mrvisser/puppet-hilary
 cd puppet-hilary
 echo "performance" > .environment
-echo $NODE_NAME > .node
-
-if [ "$AUTO" == "y" ]
-  then
-    bin/pull.sh
-    bin/apply.sh
-fi
