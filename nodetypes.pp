@@ -77,8 +77,10 @@ node dbnode {
   }
   
   class { 'cassandra::common':
-    owner => $localconfig::app_user,
-    group => $localconfig::app_group,
+    owner         => $localconfig::db_user,
+    group         => $localconfig::db_group,
+    hosts         => $localconfig::db_hosts,
+    cluster_name  => $localconfig::db_cluster_name,
   }
   
 }
