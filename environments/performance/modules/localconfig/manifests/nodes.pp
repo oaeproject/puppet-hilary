@@ -19,7 +19,7 @@ node 'db0' inherits dbnode {
   }
 
   class { 'opscenter':
-    listen_interface => $localconfig::db_hosts[0]
+    listen_address => $localconfig::db_hosts[0]
   }
 
 }

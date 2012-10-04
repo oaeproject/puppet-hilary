@@ -1,4 +1,4 @@
-class opscenter($listen_interface, $port = 8888) {
+class opscenter($listen_address, $port = 8888) {
 
   package { 'opscenter-free':
     ensure  => installed,
