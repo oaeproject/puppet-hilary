@@ -3,10 +3,11 @@
 #
 
 class cassandra::common(
-    $owner = 'cassandra',
-    $group = 'cassandra',
-    $hosts = [ '127.0.0.1' ],
-    $cluster_name = 'Cassandra Cluster') {
+    $owner          = 'cassandra',
+    $group          = 'cassandra',
+    $hosts          = [ '127.0.0.1' ],
+    $cluster_name   = 'Cassandra Cluster',
+    $cassandra_home = '/usr/share/cassandra') {
 
 	$release = $operatingsystem ? {
 		/CentOS|RedHat/ => $lsbmajdistrelease,
