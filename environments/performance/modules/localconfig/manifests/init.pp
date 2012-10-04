@@ -1,8 +1,10 @@
 class localconfig {
 
   # OS
-  $user    = 'admin'
-  $group   = 'staff'
+  $app_user   = 'admin'
+  $app_group  = 'staff'
+  $db_user    = 'root'
+  $db_group   = 'root' 
   
   # App servers
   $app_hosts = ['165.225.130.148']

@@ -43,7 +43,7 @@ node appnode {
   
   # Own code as the application user
   exec { "chown_${localconfig::app_root}":
-    command => "/opt/local/gnu/bin/chown -R ${localconfig::user}:${localconfig::group} ${localconfig::app_root}",
+    command => "/opt/local/gnu/bin/chown -R ${localconfig::app_user}:${localconfig::app_group} ${localconfig::app_root}",
     require => Vcsrepo["${localconfig::app_root}"],
   }
   
@@ -77,8 +77,8 @@ node dbnode {
   }
   
   class { 'cassandra::common':
-    owner => $localconfig::user,
-    group => $localconfig::group,
+    owner => $localconfig::app_user,
+    group => $localconfig::app_group,
   }
   
 }
