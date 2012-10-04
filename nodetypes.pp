@@ -1,9 +1,9 @@
-
-node appnode {
-
+node basenode {
   # The localconfig module is found in $environment/modules
   class { 'localconfig': }
+}
 
+node appnode inherits basenode {
   # Install compiler tools
   package { 'gcc47':
     ensure    => present,
@@ -67,13 +67,8 @@ node appnode {
   }
 }
 
-node dbnode {
-
-  # The localconfig module is found in $environment/modules
-  class { 'localconfig': }
-
+node dbnode inherits basenode {
   package { 'java-1.6.0-openjdk':
     ensure  => installed,
   }
-  
 }

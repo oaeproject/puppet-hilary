@@ -6,12 +6,15 @@ class localconfig {
   $db_user    = 'root'
   $db_group   = 'root' 
   
+  # Web servers
+  $web_hosts = ['165.225.133.100']
+  
   # App servers
   $app_hosts = ['165.225.130.148']
 
   # Redis
   $redis_hosts = [$app_hosts[0]]
-  
+
   # Cassandra
   $db_cluster_name = 'Sakai OAE Performance Testing Cluster'
   $db_keyspace = 'oae'
