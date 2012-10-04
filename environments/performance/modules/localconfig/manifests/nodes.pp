@@ -1,5 +1,7 @@
 node 'app0' inherits appnode {
 
+  class { 'redis': }
+  
 }
 
 node 'app1' inherits appnode {

@@ -10,9 +10,7 @@ class localconfig {
   $app_hosts = ['165.225.130.148']
 
   # Redis
-  $redis_hosts = ['127.0.0.1']
-  $redis_port = 6379
-  $redis_dbIndex = 0
+  $redis_hosts = [$app_hosts[0]]
   
   # Cassandra
   $db_cluster_name = 'Sakai OAE Performance Testing Cluster'
