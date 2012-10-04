@@ -6,7 +6,7 @@ class opscenter($listen_interface, $port = 8888) {
   
   file { '/etc/opscenter/opscenterd.conf':
     ensure  => present,
-    content => template('opscenterd.conf.erb'),
+    content => template('opscenter/opscenterd.conf.erb'),
     requires => Package['opscenter-free'],
     notify => Service['opscenterd'],
   }
