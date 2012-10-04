@@ -8,7 +8,7 @@ node 'web0' inherits basenode {
   # Resource for the global tenant
   nginx::resource::upstream { 'global':
     ensure  => present,
-    members => $localconfig::app_hosts.collect {|ip| ip + ':2000' },
+    members => [ "${localconfig::app_hosts[0]}:2000" ],
   }
   
   # Virtual host
