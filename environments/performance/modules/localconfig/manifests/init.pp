@@ -21,7 +21,7 @@ class localconfig {
   $db_keyspace = 'oae'
   $db_hosts = [ '10.112.4.124', '10.112.4.125', '10.112.4.126' ]
   $db_timeout = 5000
-  $db_replication = 1
+  $db_replication = 3
   $db_strategyClass = 'SimpleStrategy'
 
   # Install details
