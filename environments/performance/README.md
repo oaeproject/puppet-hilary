@@ -5,6 +5,7 @@ The Sakai performance testing environment is run on a Joyent cluster. The app no
 Currently a puppet master is not installed, so doing things like terminating / recreating nodes and adding new nodes will be difficult. You will need to:
 
 a) Update the `modules/localconfig/manifests/init.pp` configuration spec to include the information of the new node (e.g., different IP, new IP, etc...)
+
 b) Apply the new configuration info manually to each and every node that is affected (this is the part puppet master does for you, if it's configured)
 
 ## Install an App Node
@@ -15,21 +16,21 @@ b) Apply the new configuration info manually to each and every node that is affe
 
 `curl --insecure https://raw.github.com/mrvisser/puppet-hilary/master/provisioning/app.sh | sh`
 
-4. Then create a file specifying the node name of this node (as per the `modules/localconfig/manifests/nodes.pp` specs): 
+4\. Then create a file specifying the node name of this node (as per the `modules/localconfig/manifests/nodes.pp` specs): 
 
 ``` 
 $ cd puppet-hilary
 $ echo "app0" > .node
 ```
 
-5. Then pull in the submodules and apply the puppet config (**sudo is required for running apply.sh**):
+5\. Then pull in the submodules and apply the puppet config (**sudo is required for running apply.sh**):
 
 ```
 $ bin/pull.sh
 $ sudo bin/apply.sh
 ```
 
-6. Done, your app node should now be running. If you didn't have a cassandra node deployed, it probably filed while starting up. Big time.
+6\. Done, your app node should now be running. If you didn't have a cassandra node deployed, it probably filed while starting up. Big time.
 
 Your app directory is located it `/opt/oae`. The process is called `node` if you need to kill it. No, there is no init script, yet.
 
@@ -45,18 +46,18 @@ Your app directory is located it `/opt/oae`. The process is called `node` if you
 
 `curl --insecure https://raw.github.com/mrvisser/puppet-hilary/master/provisioning/db.sh | sh`
 
-4. Then create a file specifying the node name of this node (as per the `modules/localconfig/manifests/nodes.pp` specs): 
+4\. Then create a file specifying the node name of this node (as per the `modules/localconfig/manifests/nodes.pp` specs): 
 
 ``` 
 $ cd puppet-hilary
 $ echo "db0" > .node
 ```
 
-5. Then pull in the submodules and apply the puppet config:
+5\. Then pull in the submodules and apply the puppet config:
 
 ```
 $ bin/pull.sh
 $ bin/apply.sh
 ```
 
-6. Done, your cassandra node should now be running. If you installed the node that has Datastax OpsCenter, then it will be accessible at port 8888 on the external IP of the node.
+6\. Done, your cassandra node should now be running. If you installed the node that has Datastax OpsCenter, then it will be accessible at port 8888 on the external IP of the node.
