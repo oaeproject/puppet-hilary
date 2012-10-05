@@ -14,7 +14,7 @@ class localconfig {
   $app_hosts_external = ['165.225.133.113', '165.225.133.114']
 
   # Redis
-  $redis_hosts = [$app_hosts[0]]
+  $redis_hosts = [$app_hosts_external[0]]
 
   # Cassandra
   $db_cluster_name = 'Sakai OAE Performance Testing Cluster'
