@@ -3,20 +3,22 @@
 # Web proxy node
 ##
 node 'web0' inherits basenode {
-  class { 'nginx': }
+  class { 'nginx':
   
-  # Resource for the global tenant
-  nginx::resource::upstream { 'global':
-    ensure  => present,
-    members => [ "${localconfig::app_hosts_internal[0]}:2000" ],
-  }
-  
-  # Virtual host
-  nginx::resource::vhost { "${localconfig::web_hosts[0]}":
-    ensure   => present,
-    proxy  => 'http://global',
-  }
-
+    ## Tenants
+    tenantsHash       =>  {
+        'global' => {
+            'host' => $localconfig::web_hosts[0],
+            'port' => 2000
+          },
+        't1' => {
+            'host' => t1.oae-performance.sakaiproject.org',
+            'port' => 2001
+          },
+      },
+    
+    ## Internal app IPs to proxy to
+    internal_app_ips  => $localconfig::internal_app_ips,
 }
 
 ##
