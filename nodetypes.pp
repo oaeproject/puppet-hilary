@@ -1,18 +1,9 @@
 node basenode {
   # The localconfig module is found in $environment/modules
   class { 'localconfig': }
-  
-  class { 'ntp':
-    time_zone =>  '/usr/share/zoneinfo/America/Phoenix',
-  }
 }
 
 node appnode inherits basenode {
-
-  # Timezone
-  class { 'ntp':
-    time_zone =>  '/usr/share/lib/zoneinfo/Canada/Eastern',
-  }
 
   # Install compiler tools
   package { 'gcc47':
@@ -78,17 +69,6 @@ node appnode inherits basenode {
 }
 
 node dbnode inherits basenode {
-  
-  # Timezone
-  class { 'ntp':
-    time_zone =>  '/usr/share/zoneinfo/Canada/Eastern',
-  }
-  
-  # Timezone
-  class { 'ntp':
-    time_zone =>  '/usr/share/lib/zoneinfo/Canada/Eastern',
-  }
-  
   package { 'java-1.6.0-openjdk':
     ensure  => installed,
   }
