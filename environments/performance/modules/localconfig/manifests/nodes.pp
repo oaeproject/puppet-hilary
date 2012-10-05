@@ -4,21 +4,18 @@
 ##
 node 'web0' inherits basenode {
   class { 'nginx':
-  
-    ## Tenants
     tenantsHash       =>  {
         'global' => {
             'host' => $localconfig::web_hosts[0],
             'port' => 2000
           },
         't1' => {
-            'host' => t1.oae-performance.sakaiproject.org',
+            'host' => 't1.oae-performance.sakaiproject.org',
             'port' => 2001
           },
       },
-    
-    ## Internal app IPs to proxy to
     internal_app_ips  => $localconfig::internal_app_ips,
+  }
 }
 
 ##
