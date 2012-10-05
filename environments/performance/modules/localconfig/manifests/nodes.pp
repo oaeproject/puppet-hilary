@@ -4,7 +4,7 @@
 ##
 node 'web0' inherits basenode {
   class { 'nginx':
-    tenantsHash       =>  {
+    tenantsHash =>  {
         'global' => {
             'host' => $localconfig::web_hosts[0],
             'port' => 2000
@@ -14,7 +14,7 @@ node 'web0' inherits basenode {
             'port' => 2001
           },
       },
-    internal_app_ips  => $localconfig::internal_app_ips,
+    internal_app_ips  => $localconfig::app_hosts_internal,
   }
 }
 
