@@ -24,7 +24,8 @@ class localconfig {
   $db_replication = 3
   $db_strategyClass = 'SimpleStrategy'
 
-  # Install details
+  # Installation details
+  $app_service_name = 'node-sakai-oae'
   $app_root = '/opt/oae'
   $app_git_user = 'sakaiproject'
   $app_git_branch = 'master'

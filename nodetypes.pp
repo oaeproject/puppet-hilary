@@ -5,7 +5,10 @@ node basenode {
 
 node appnode inherits basenode {
 
-  # Install compiler tools
+  ##################################
+  ## INSTALL PACKAGE DEPENDENCIES ##
+  ##################################
+
   package { 'gcc47':
     ensure    => present,
     provider  => pkgin,
@@ -21,47 +24,57 @@ node appnode inherits basenode {
     provider  => pkgin,
   }
 
-  # Install node js
   package { 'nodejs':
     ensure    => present,
     provider  => pkgin,
   }
   
-  # Install git
   package { 'scmgit':
     ensure    => present,
     provider  => pkgin,
   }
   
-  # Checkout code
+  
+  
+  ########################
+  ## DEPLOY APPLICATION ##
+  ########################
+  
+  # git clone http://github.com/sakaiproject/Hilary
   vcsrepo { "${localconfig::app_root}":
     ensure    => present,
     provider  => git,
-    source    => "http://www.github.com/${localconfig::app_git_user}/Hilary",
+    source    => "http://github.com/${localconfig::app_git_user}/Hilary",
     revision  => "${localconfig::app_git_branch}",
     require   => Package['scmgit'],
   }
   
-  # Configure the app
-  file { "${localconfig::app_root}/config.js":
-    ensure  => present,
-    content => template('localconfig/config.js.erb'),
-    notify  =>  Service['node-sakai-oae'],
-    require => Vcsrepo["${localconfig::app_root}"],
-  }
-  
-  # Drop in the service manifest
-  file { "${localconfig::app_root}/service.xml":
-    ensure  =>  present,
-    content =>  template('localconfig/node-oae-service-manifest.xml.erb'),
-    notify  =>  Service['node-sakai-oae'],
-    require => Vcsrepo["${localconfig::app_root}"],
-  }
-  
-  # Install dependencies
+  # npm install -d
   exec { "npm_install_dependencies":
     cwd     => "${localconfig::app_root}",
     command => "/opt/local/bin/npm install -d",
+  }
+  
+  # config.js
+  file { "${localconfig::app_root}/config.js":
+    ensure  => present,
+    content => template('localconfig/config.js.erb'),
+    notify  =>  Service[$localconfig::app_service_name],
+    require => Vcsrepo["${localconfig::app_root}"],
+  }
+  
+  
+  
+  #######################
+  ## START APPLICATION ##
+  #######################
+  
+  # Daemon script needed for SMF to manage the application
+  file { "${localconfig::app_root}/service.xml":
+    ensure  =>  present,
+    content =>  template('localconfig/node-oae-service-manifest.xml.erb'),
+    notify  =>  Exec['svccfg_${localconfig::app_service_name}'],
+    require =>  Vcsrepo["${localconfig::app_root}"],
   }
   
   # Own everything as the application user. We need to make sure all file changes in the directory are done before setting this
@@ -71,15 +84,24 @@ node appnode inherits basenode {
         File["${localconfig::app_root}/service.xml"], Exec["npm_install_dependencies"] ],
   }
   
+  # Force reload the manifest
+  exec { "svccfg_${localconfig::app_service_name}":
+    command   => "/usr/sbin/svccfg import ${localconfig::app_root}/service.xml",
+    notify    => Service["${localconfig::app_service_name}"],
+    require   => File["${localconfig::app_root}/service.xml"],
+  }
+  
   # Start the app server
-  service { 'node-sakai-oae':
+  service { "${localconfig::app_service_name}":
     ensure    => running,
     manifest  => "${localconfig::app_root}/service.xml",
     require => Exec["chown_${localconfig::app_root}"],
   }
+  
 }
 
 node dbnode inherits basenode {
+  # Use devel package so we actually get the JDK..
   package { 'java-1.6.0-openjdk-devel':
     ensure  => installed,
   }
