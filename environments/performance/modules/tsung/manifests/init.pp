@@ -50,7 +50,7 @@ class tsung (version = '1.4.2') {
   
   exec { "/tmp/${foldername}/configure":
     cwd     =>  "/tmp/${foldername}",
-    command =>  '/tmp/${foldername}/configure',
+    command =>  "/tmp/${foldername}/configure",
     unless  =>  '/opt/local/gnu/bin/test -f /opt/local/bin/tsung',
     require =>  Exec["tar zxvf /tmp/${filename}"],
   }
