@@ -46,5 +46,15 @@ class cassandra::common(
     content => template('cassandra/cassandra-env.sh.erb'),
     require => Package['dsc1.1'],
   }
+  
+  file { '/etc/security/limits.conf':
+    ensure  =>  present,
+    content =>  template('cassandra/limits.conf.erb'),
+  }
+
+  ## Further set system limits:
+  exec { 'sysctl-max-map-count':
+    command =>  '/sbin/sysctl -w vm.max_map_count=131072',
+  }
 
 }
