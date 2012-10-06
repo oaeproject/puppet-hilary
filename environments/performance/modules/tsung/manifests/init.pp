@@ -41,7 +41,7 @@ class tsung (version = '1.4.2') {
         Package['erlang'] ],
   }
   
-  exec { "tar zxvf ${filename}":
+  exec { "tar zxvf /tmp/${filename}":
     cwd     =>  '/tmp',
     command =>  "/opt/local/gnu/bin/tar -zxvf ${filename}",
     unless  =>  '/opt/local/gnu/bin/test -f /opt/local/bin/tsung',
@@ -50,9 +50,16 @@ class tsung (version = '1.4.2') {
   
   exec { "make /tmp/${foldername}":
     cwd     =>  "/tmp/${foldername}",
-    command =>  '/opt/local/gnu/bin/make && make install',
+    command =>  '/opt/local/gnu/bin/make',
     unless  =>  '/opt/local/gnu/bin/test -f /opt/local/bin/tsung',
-    require =>  Exec["tar zxvf ${filename}"],
+    require =>  Exec["tar zxvf /tmp/${filename}"],
+  }
+  
+  exec { "make install /tmp/${foldername}":
+    cwd     =>  "/tmp/${foldername}",
+    command =>  '/opt/local/gnu/bin/make install',
+    unless  =>  '/opt/local/gnu/bin/test -f /opt/local/bin/tsung',
+    require =>  Exec["make /tmp/${filename}"],
   }
 
 }
