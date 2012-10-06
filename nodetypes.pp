@@ -3,6 +3,10 @@ node basenode {
   class { 'localconfig': }
 }
 
+node drivernode inherits basenode {
+  class { 'tsung': }
+}
+
 node appnode inherits basenode {
 
   ##################################

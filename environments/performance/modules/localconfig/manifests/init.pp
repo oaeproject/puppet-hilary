@@ -30,4 +30,5 @@ class localconfig {
   $app_git_user = 'sakaiproject'
   $app_git_branch = 'master'
 
+  $driver_tsung_version = '1.4.2'
 }

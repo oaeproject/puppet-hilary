@@ -75,3 +75,10 @@ node 'db2' inherits dbnode {
     cluster_name    => $localconfig::db_cluster_name,
   }
 }
+
+#################
+## LOAD DRIVER ##
+#################
+
+node 'driver0' inherits drivernode {
+}
