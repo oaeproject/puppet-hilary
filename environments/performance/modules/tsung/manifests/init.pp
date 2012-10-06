@@ -59,7 +59,7 @@ class tsung (version = '1.4.2') {
     cwd     =>  "/tmp/${foldername}",
     command =>  '/opt/local/gnu/bin/make install',
     unless  =>  '/opt/local/gnu/bin/test -f /opt/local/bin/tsung',
-    require =>  Exec["make /tmp/${filename}"],
+    require =>  Exec["make /tmp/${foldername}"],
   }
 
 }
