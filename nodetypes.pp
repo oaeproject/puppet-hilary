@@ -73,7 +73,7 @@ node appnode inherits basenode {
   file { "${localconfig::app_root}/service.xml":
     ensure  =>  present,
     content =>  template('localconfig/node-oae-service-manifest.xml.erb'),
-    notify  =>  Exec['svccfg_${localconfig::app_service_name}'],
+    notify  =>  Exec["svccfg_${localconfig::app_service_name}"],
     require =>  Vcsrepo["${localconfig::app_root}"],
   }
   
