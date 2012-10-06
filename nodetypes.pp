@@ -42,34 +42,45 @@ node appnode inherits basenode {
     require   => Package['scmgit'],
   }
   
-  # Own code as the application user
-  exec { "chown_${localconfig::app_root}":
-    command => "/opt/local/gnu/bin/chown -R ${localconfig::app_user}:${localconfig::app_group} ${localconfig::app_root}",
-    require => Vcsrepo["${localconfig::app_root}"],
-  }
-  
   # Configure the app
   file { "${localconfig::app_root}/config.js":
     ensure  => present,
     content => template('localconfig/config.js.erb'),
+    notify  =>  Service['node-sakai-oae'],
+    require => Vcsrepo["${localconfig::app_root}"],
+  }
+  
+  # Drop in the service manifest
+  file { "${localconfig::app_root}/service.xml":
+    ensure  =>  present,
+    content =>  template('localconfig/node-oae-service-manifest.xml.erb'),
+    notify  =>  Service['node-sakai-oae'],
+    require => Vcsrepo["${localconfig::app_root}"],
   }
   
   # Install dependencies
   exec { "npm_install_dependencies":
     cwd     => "${localconfig::app_root}",
     command => "/opt/local/bin/npm install -d",
-    require => Exec["chown_${localconfig::app_root}"],
+  }
+  
+  # Own everything as the application user. We need to make sure all file changes in the directory are done before setting this
+  exec { "chown_${localconfig::app_root}":
+    command => "/opt/local/gnu/bin/chown -R ${localconfig::app_user}:${localconfig::app_group} ${localconfig::app_root}",
+    require => [Vcsrepo["${localconfig::app_root}"], File["${localconfig::app_root}/config.js"],
+        File["${localconfig::app_root}/service.xml"], Exec["npm_install_dependencies"] ],
   }
   
   # Start the app server
-  exec { "start_app":
-    cwd     => "${localconfig::app_root}",
-    command => "/opt/local/bin/node app.js > stdout.log &",
+  service { 'node-sakai-oae':
+    ensure    => running,
+    manifest  => "${localconfig::app_root}/service.xml",
+    require => Exec["chown_${localconfig::app_root}"],
   }
 }
 
 node dbnode inherits basenode {
-  package { 'java-1.6.0-openjdk':
+  package { 'java-1.6.0-openjdk-devel':
     ensure  => installed,
   }
 }
