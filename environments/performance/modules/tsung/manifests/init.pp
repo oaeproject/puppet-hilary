@@ -34,8 +34,8 @@ class tsung (version = '1.4.2') {
 
   exec { "wget ${url}":
     cwd     =>  '/tmp',
-    command =>  "wget ${url}",
-    unless  =>  'test -f /opt/local/bin/tsung',
+    command =>  "/usr/bin/wget ${url}",
+    unless  =>  '/opt/local/gnu/bin/test -f /opt/local/bin/tsung',
     creates =>  '/tmp/${filename}',
     require => [ Package['gcc47'], Package['gmake'], Package['automake'],
         Package['erlang'] ],
@@ -43,15 +43,15 @@ class tsung (version = '1.4.2') {
   
   exec { "tar zxvf ${filename}":
     cwd     =>  '/tmp',
-    command =>  "tar -zxvf ${filename}",
-    unless  =>  'test -f /opt/local/bin/tsung',
+    command =>  "/opt/local/gnu/bin/tar -zxvf ${filename}",
+    unless  =>  '/opt/local/gnu/bin/test -f /opt/local/bin/tsung',
     require =>  Exec["wget ${url}"],
   }
   
   exec { "make /tmp/${foldername}":
     cwd     =>  "/tmp/${foldername}",
     command =>  '/opt/local/gnu/bin/make && make install',
-    unless  =>  'test -f /opt/local/bin/tsung',
+    unless  =>  '/opt/local/gnu/bin/test -f /opt/local/bin/tsung',
     require =>  Exec["tar zxvf ${filename}"],
   }
 
