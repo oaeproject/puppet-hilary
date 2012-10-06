@@ -48,11 +48,18 @@ class tsung (version = '1.4.2') {
     require =>  Exec["wget ${url}"],
   }
   
+  exec { "/tmp/${foldername}/configure":
+    cwd     =>  "/tmp/${foldername}",
+    command =>  '/tmp/${foldername}/configure',
+    unless  =>  '/opt/local/gnu/bin/test -f /opt/local/bin/tsung',
+    require =>  Exec["tar zxvf /tmp/${filename}"],
+  }
+  
   exec { "make /tmp/${foldername}":
     cwd     =>  "/tmp/${foldername}",
     command =>  '/opt/local/gnu/bin/make',
     unless  =>  '/opt/local/gnu/bin/test -f /opt/local/bin/tsung',
-    require =>  Exec["tar zxvf /tmp/${filename}"],
+    require =>  Exec["/tmp/${foldername}/configure"],
   }
   
   exec { "make install /tmp/${foldername}":
