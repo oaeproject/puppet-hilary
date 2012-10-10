@@ -19,11 +19,7 @@ class opscenter(
     require => Package['opscenter-free'],
   }
 
-  # Make a call to the opscenter API to register our Cassandra cluster.
-  # This can only be run when the entire cluster is up and running.
-  #exec { 'register_cluster':
-  #  require => Service['opscenterd'],
-  #  command => '/usr/bin/curl -d \'{"jmx": {"username": "", "password": "", "port": "7199"}, "cassandra": {"username": "", "seed_hosts": "$localconfig::db_hosts[0], $localconfig::db_hosts[1], $localconfig::db_hosts[2]", "api_port": "9160", "password": ""}}\' -X POST http://127.0.0.1:8888/cluster-configs',
-  #}
+  # TODO: Configure opscenterd.
+  # http://www.datastax.com/docs/opscenter/configure/configure_opscenter_adv
   
 }
