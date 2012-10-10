@@ -27,6 +27,11 @@ class cassandra::common(
 		require => Yumrepo['datastax'],
 	}
 
+  package { 'opscenter-agent':
+    ensure  => installed,
+    require => Yumrepo['datastax'],
+  }
+
   file { 'cassandra.yaml': 
     path => '/etc/cassandra/conf/cassandra.yaml', 
     ensure => present,
@@ -55,6 +60,30 @@ class cassandra::common(
   ## Further set system limits:
   exec { 'sysctl-max-map-count':
     command =>  '/sbin/sysctl -w vm.max_map_count=131072',
+  }
+
+  ## chown all the files in /etc/cassandra to the cassandra user.
+  exec { "chown_cassandra":
+    command => '/bin/chown -R cassandra:cassandra /etc/cassandra',
+    require => File["cassandra.yaml", "cassandra-env.sh"],
+  }
+
+  # Start it.
+  # Note that the default /etc/init.d/cassandra script has an invalid
+  # status command. Puppet relies on a non-zero status code if cassandra
+  # is stopped.
+  service { 'cassandra':
+    ensure     => 'running',
+    require    => File['cassandra-env.sh', 'cassandra.yaml'],
+    enable     => 'true',
+    hasstatus  => 'false',
+  }
+
+  # Wait till we boot cassandra to boot the agent.
+  service { 'opscenter-agent':
+    ensure  => 'running',
+    require => Service['cassandra'],
+    enable  => 'true'
   }
 
 }

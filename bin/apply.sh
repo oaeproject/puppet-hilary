@@ -37,7 +37,7 @@ ENV_ARG=""
 
 echo "node = $NODE_FILE"
 
-echo $@ | grep -q environment
+echo $@ | grep -s environment
 if [[ $? -eq 1 && -f $ENV_FILE ]]; then
     echo "environment = `cat ${ENV_FILE}`"
     ENV_ARG="--environment `cat ${ENV_FILE}`"
