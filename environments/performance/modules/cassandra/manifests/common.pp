@@ -66,17 +66,15 @@ class cassandra::common(
   exec { "chown_cassandra":
     command => '/bin/chown -R cassandra:cassandra /etc/cassandra',
     require => File["cassandra.yaml", "cassandra-env.sh"],
-    notify => Service['cassandra'],
   }
 
   # Start it.
   # Note that the default /etc/init.d/cassandra script has an invalid
   # status command. Puppet relies on a non-zero status code if cassandra
   # is stopped.
-  # That's why we use a notify statement.
   service { 'cassandra':
     ensure     => 'running',
-    require    => Exec['chown_cassandra'],
+    require    => File['cassandra-env.sh', 'cassandra.yaml'],
     enable     => 'true',
     hasstatus  => 'false',
   }
