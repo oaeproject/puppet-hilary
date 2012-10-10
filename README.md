@@ -6,4 +6,4 @@ Based on Erik Froese's puppet environment management for Sakai OAE (http://www.g
 
 ### Performance Testing Environment
 
-See readme at [environments/performance](https://github.com/mrvisser/puppet-hilary/tree/master/environments/performance) for more information.
+See readme at [environments/performance](https://github.com/sakaiproject/puppet-hilary/tree/master/environments/performance) for more information.

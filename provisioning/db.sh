@@ -60,6 +60,6 @@ yum --enablerepo="puppetlabs,puppetlabsdeps" install -y puppet
 yum --enablerepo="epel" install -y git
 
 echo "Setting up puppet scripts"
-git clone http://github.com/mrvisser/puppet-hilary
+git clone http://github.com/sakaiproject/puppet-hilary
 cd puppet-hilary
 echo "performance" > .environment
