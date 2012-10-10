@@ -74,9 +74,10 @@ class cassandra::common(
   # is stopped.
   service { 'cassandra':
     ensure     => 'running',
-    require    => File['cassandra-env.sh', 'cassandra.yaml'],
+    require    => Exec['chown_cassandra'],
     enable     => 'true',
     hasstatus  => 'false',
+    subscribe  => File["cassandra.yaml", "cassandra-env.sh"],
   }
 
   # Wait till we boot cassandra to boot the agent.
