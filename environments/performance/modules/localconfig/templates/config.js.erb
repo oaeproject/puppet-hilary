@@ -63,10 +63,10 @@ config.log = {
 // * displaying data on the console
 // * pushing data to circonus (via httptrap and redis)
 config.telemetry = {
-    'enabled': false,
-    'publisher': 'console',
+    'enabled': true,
+    'publisher': 'circonus',
     'circonus': {
-        'url': 'https://trap.noit.circonus.net/module/httptrap/check-uuid/secret-here',
+        'url': '<%= scope.lookupvar("localconfig::circonus_url") %>',
         'circonusInterval': 30000,
         'redisInterval': 20000
     },
