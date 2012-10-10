@@ -23,6 +23,11 @@ class tsung (version = '1.4.2') {
     ensure    => present,
     provider  => 'pkgin',
   }
+
+  package { 'gnuplot':
+    ensure   => present,
+    provider => 'pkgin',
+  }
   
   ################################
   ## DOWNLOAD AND COMPILE TSUNG ##
