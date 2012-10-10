@@ -18,5 +18,8 @@ class opscenter(
     enable  => 'true',
     require => Package['opscenter-free'],
   }
+
+  # TODO: Configure opscenterd.
+  # http://www.datastax.com/docs/opscenter/configure/configure_opscenter_adv
   
 }
