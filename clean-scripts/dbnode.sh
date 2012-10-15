@@ -19,13 +19,14 @@ rm -rf /var/log/opscenter-agent/*
 chown -R cassandra:cassandra /var/log/cassandra
 
 # Delete all the data
-rm -rf /var/lib/cassandra/*
+rm -rf /var/lib/cassandra/data/oae/*
+rm -rf /var/lib/cassandra/commitlog/*
 chown -R cassandra:cassandra /var/lib/cassandra
 
 # Restore a correct snapshot.
 # The snapshot is stored at ~/snapshot/
 # The name of the snapshot sits in ~/snapshot/.name
-if [ -f ~/snapshot ] ; then
+if [ -d ~/snapshot ] ; then
     CFS=`ls ~/snapshot`
     SNAPSHOTNAME=`cat ~/snapshot/.name`
     for cf in $CFS ; do
