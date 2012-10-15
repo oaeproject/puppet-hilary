@@ -22,6 +22,17 @@ chown -R cassandra:cassandra /var/log/cassandra
 rm -rf /var/lib/cassandra/*
 chown -R cassandra:cassandra /var/lib/cassandra
 
+# Restore a correct snapshot.
+# The snapshot is stored at ~/snapshot/
+# The name of the snapshot sits in ~/snapshot/.name
+if [ -f ~/snapshot ] ; then
+    CFS=`ls ~/snapshot`
+    SNAPSHOTNAME=`cat ~/snapshot/.name`
+    for cf in $CFS ; do
+        cp -R ~/snapshot/${cf}/snapshots/${SNAPSHOTNAME}/* "/var/lib/cassandra/data/oae/${cf}"
+    done;
+fi
+
 # Pull latest puppet config and apply it.
 # This will also start the cassandra and any opscenter processes again.
 cd /root/puppet-hilary
