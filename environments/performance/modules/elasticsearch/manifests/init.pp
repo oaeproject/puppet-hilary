@@ -1,4 +1,3 @@
-class elasticsearch (
     $host_address,
     $host_port     = 9200,
     $max_memory_mb = 384,
