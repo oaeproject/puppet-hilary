@@ -37,6 +37,9 @@ class localconfig {
   $db_replication = 3
   $db_strategyClass = 'SimpleStrategy'
 
+  # Search
+  $search_hosts_internal = [ { 'host' => '10.112.5.49', 'port' => 9200 } ]
+
   # Installation details
   $app_service_name = 'node-sakai-oae'
   $app_root = '/opt/oae'
