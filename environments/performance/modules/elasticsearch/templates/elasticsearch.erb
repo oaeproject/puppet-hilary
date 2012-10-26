@@ -31,7 +31,7 @@ case "$1" in
   start)
     echo -n "Starting $DESC: "
     mkdir -p $LOG_DIR $DATA_DIR $WORK_DIR
-    if start-stop-daemon --start --pidfile $PID_FILE --startas $DAEMON -- $DAEMON_OPTS
+    if $DAEMON $DAEMON_OPTS
     then
         echo "started."
     else
@@ -40,7 +40,7 @@ case "$1" in
     ;;
   stop)
     echo -n "Stopping $DESC: "
-    if start-stop-daemon --stop --pidfile $PID_FILE
+    if kill `cat $PID_FILE`
     then
         echo "stopped."
     else

@@ -45,6 +45,7 @@ class elasticsearch (
 
   file { '/etc/init.d/elasticsearch':
     ensure  => present,
+    mode    => 0755,
     content => template('elasticsearch/elasticsearch.erb'),
     notify  => Service['elasticsearch'],
   }
