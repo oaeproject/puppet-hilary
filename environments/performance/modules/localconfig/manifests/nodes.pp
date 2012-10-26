@@ -68,6 +68,11 @@ node 'db0' inherits dbnode {
   class { 'opscenter':
     require => Class['cassandra::common'],
   }
+
+  class { 'munin::client':
+    hostname => 'db0',
+    require  => Class['cassandra::common'],
+  }
 }
 
 node 'db1' inherits dbnode {
@@ -78,6 +83,11 @@ node 'db1' inherits dbnode {
     listen_address  => $localconfig::db_hosts[1],
     cluster_name    => $localconfig::db_cluster_name,
   }
+
+  class { 'munin::client':
+    hostname => 'db1',
+    require  => Class['cassandra::common'],
+  }
 }
 
 node 'db2' inherits dbnode {
@@ -87,6 +97,11 @@ node 'db2' inherits dbnode {
     hosts           => $localconfig::db_hosts,
     listen_address  => $localconfig::db_hosts[2],
     cluster_name    => $localconfig::db_cluster_name,
+  }
+
+  class { 'munin::client':
+    hostname => 'db2',
+    require  => Class['cassandra::common'],
   }
 }
 

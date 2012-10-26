@@ -32,4 +32,12 @@ class localconfig {
   $app_git_branch = 'master'
 
   $driver_tsung_version = '1.4.2'
+
+  # Munin regexes
+  $munin_allowedRegexes = [
+    '^127\.0\.0\.1$',      # local check
+    '^10\.112\.3\.104$',   # the loader who has munin-master
+    '^75\.102\.43\.87$',   # Circonus - VA-a
+    '^75\.102\.43\.88$'    # Circonus - VA-b
+  ]
 }
