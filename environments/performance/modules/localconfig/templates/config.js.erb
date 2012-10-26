@@ -109,5 +109,9 @@ config.search = {
         },
         'allowRefresh': false,
     },
-    'hosts': <%= scope.lookupvar("localconfig::search_hosts_internal") %>
+    'hosts': [
+        <% scope.lookupvar("localconfig::search_hosts_internal").each do |host| -%>
+        { 'host': '<%= host["host"] %>', 'port': <%= host["port"] %> },
+        <% end -%>
+    ]
 };
