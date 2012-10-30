@@ -25,7 +25,7 @@
     </method_context>
 
     <!-- Start and stop descriptors -->
-    <exec_method type="method" name="start" exec="/opt/local/bin/node <%= scope.lookupvar('localconfig::app_root') %>/app.js"
+    <exec_method type="method" name="start" exec="/opt/local/bin/node <%= scope.lookupvar('localconfig::app_root') %>/cluster.js -c 2"
         timeout_seconds="60"/>
     <exec_method type="method" name="stop" exec=":kill" timeout_seconds="60"/>
 
