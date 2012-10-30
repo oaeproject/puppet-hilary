@@ -63,6 +63,7 @@ node 'db0' inherits dbnode {
     hosts           => $localconfig::db_hosts,
     listen_address  => $localconfig::db_hosts[0],
     cluster_name    => $localconfig::db_cluster_name,
+    initial_token   => $localconfig::db_initial_tokens[0],
   }
 
   class { 'opscenter':
@@ -82,6 +83,7 @@ node 'db1' inherits dbnode {
     hosts           => $localconfig::db_hosts,
     listen_address  => $localconfig::db_hosts[1],
     cluster_name    => $localconfig::db_cluster_name,
+    initial_token   => $localconfig::db_initial_tokens[1],
   }
 
   class { 'munin::client':
@@ -97,6 +99,7 @@ node 'db2' inherits dbnode {
     hosts           => $localconfig::db_hosts,
     listen_address  => $localconfig::db_hosts[2],
     cluster_name    => $localconfig::db_cluster_name,
+    initial_token   => $localconfig::db_initial_tokens[2],
   }
 
   class { 'munin::client':
