@@ -12,8 +12,11 @@ if [ -f /etc/init.d/opscenterd ] ; then
     /etc/init.d/opscenterd stop
 fi
 
-# make sure cassandra had time to shut down
+echo 'Sleeping 15s for db service shutdown'
 sleep 15
+
+# bring down the axe
+killall -9 java
 
 # Delete the logs.
 rm -rf /var/log/cassandra/*
