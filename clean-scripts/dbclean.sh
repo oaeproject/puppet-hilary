@@ -13,7 +13,7 @@ if [ -f /etc/init.d/opscenterd ] ; then
 fi
 
 # make sure cassandra had time to shut down
-sleep 5
+sleep 15
 
 # Delete the logs.
 rm -rf /var/log/cassandra/*
