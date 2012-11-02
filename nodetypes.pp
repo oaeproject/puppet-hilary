@@ -5,6 +5,17 @@ node basenode {
 
 node drivernode inherits basenode {
   class { 'tsung': }
+
+  package { 'nginx':
+    ensure    => present,
+    provider  => pkgin,
+  }
+
+  service { 'nginx':
+    ensure  => running,
+    enable  => 'true',
+    require => Package['nginx'],
+  }
 }
 
 node appnode inherits basenode {
