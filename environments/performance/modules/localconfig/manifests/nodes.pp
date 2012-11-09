@@ -38,15 +38,11 @@ node 'web0' inherits basenode {
 }
 
 
-
 ###############
 ## APP NODES ##
 ###############
 
-node 'app0' inherits appnode {
-  # App 0 also hosts redis
-  class { 'redis': }
-}
+node 'app0' inherits appnode { }
 
 node 'app1' inherits appnode { }
 
@@ -106,6 +102,14 @@ node 'db2' inherits dbnode {
     hostname => 'db2',
     require  => Class['cassandra::common'],
   }
+}
+
+#################
+## REDIS NODES ##
+#################
+
+node 'cache0' inherits basenode {
+  class { 'redis': }
 }
 
 #################
