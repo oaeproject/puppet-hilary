@@ -15,7 +15,7 @@ class localconfig {
   $circonus_url = 'https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t'
 
   # Redis
-  $redis_hosts = [$app_hosts_external[0]]
+  $redis_hosts = ['10.112.2.103']
 
   # Cassandra
   $db_cluster_name = 'Sakai OAE Performance Testing Cluster'

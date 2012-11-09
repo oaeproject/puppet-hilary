@@ -11,7 +11,6 @@ node 'web0' inherits basenode {
             'port' => 2000
         },
 
-
         't1' => {
             'host' => 't1.oae-performance.sakaiproject.org',
             'port' => 2001
