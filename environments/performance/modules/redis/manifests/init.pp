@@ -20,7 +20,7 @@ class redis {
   service { 'redis':
     ensure  => 'running',
     enable  => 'true',
-    require => File['redis.conf'], Package['redis'],
+    require => File['redis.conf']
   }
   
 }
