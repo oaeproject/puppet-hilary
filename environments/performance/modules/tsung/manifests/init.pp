@@ -1,4 +1,4 @@
-class tsung (version = '1.4.2') {
+class tsung ($version = '1.4.2') {
 
   ##########################
   ## PACKAGE DEPENDENCIES ##
