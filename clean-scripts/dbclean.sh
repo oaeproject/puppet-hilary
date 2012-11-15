@@ -12,8 +12,8 @@ if [ -f /etc/init.d/opscenterd ] ; then
     /etc/init.d/opscenterd stop
 fi
 
-echo 'Sleeping 15s for db service shutdown'
-sleep 15
+echo 'Sleeping 5s for db service shutdown'
+sleep 5
 
 # bring down the axe
 killall -9 java

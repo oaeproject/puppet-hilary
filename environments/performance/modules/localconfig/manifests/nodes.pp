@@ -103,6 +103,22 @@ node 'db2' inherits dbnode {
   }
 }
 
+node 'db3' inherits dbnode {
+  class { 'cassandra::common':
+    owner           => $localconfig::db_user,
+    group           => $localconfig::db_group,
+    hosts           => $localconfig::db_hosts,
+    listen_address  => $localconfig::db_hosts[3],
+    cluster_name    => $localconfig::db_cluster_name,
+    initial_token   => $localconfig::db_initial_tokens[3],
+  }
+
+  class { 'munin::client':
+    hostname => 'db3',
+    require  => Class['cassandra::common'],
+  }
+}
+
 #################
 ## REDIS NODES ##
 #################
