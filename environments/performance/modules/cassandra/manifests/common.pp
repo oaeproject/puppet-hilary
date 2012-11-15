@@ -11,22 +11,22 @@ class cassandra::common(
     $cassandra_home = '/usr/share/cassandra',
     $initial_token  = '') {
 
-	$release = $operatingsystem ? {
-		/CentOS|RedHat/ => $lsbmajdistrelease,
-		/Amazon|Linux/ => '6'
-	}
+  $release = $operatingsystem ? {
+    /CentOS|RedHat/ => $lsbmajdistrelease,
+    /Amazon|Linux/ => '6'
+  }
 
-	yumrepo { "datastax":
-		name => "datastax",
-		baseurl => "http://rpm.datastax.com/community",
-		enabled => '1',
-		gpgcheck => '0',
-	}
+  yumrepo { "datastax":
+    name => "datastax",
+    baseurl => "http://rpm.datastax.com/community",
+    enabled => '1',
+    gpgcheck => '0',
+  }
 
-	package { 'dsc1.1':
-		ensure => installed,
-		require => Yumrepo['datastax'],
-	}
+  package { 'dsc1.1':
+    ensure => installed,
+    require => Yumrepo['datastax'],
+  }
 
   file { 'cassandra.yaml': 
     path => '/etc/cassandra/conf/cassandra.yaml', 
@@ -74,13 +74,6 @@ class cassandra::common(
     enable     => 'true',
     hasstatus  => 'false',
     subscribe  => File["cassandra.yaml", "cassandra-env.sh"],
-  }
-
-  # Wait till we boot cassandra to boot the agent.
-  service { 'opscenter-agent':
-    ensure  => 'running',
-    require => Service['cassandra'],
-    enable  => 'true'
   }
 
 }
