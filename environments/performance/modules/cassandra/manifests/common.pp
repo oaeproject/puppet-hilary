@@ -28,11 +28,6 @@ class cassandra::common(
 		require => Yumrepo['datastax'],
 	}
 
-  package { 'opscenter-agent':
-    ensure  => installed,
-    require => Yumrepo['datastax'],
-  }
-
   file { 'cassandra.yaml': 
     path => '/etc/cassandra/conf/cassandra.yaml', 
     ensure => present,
