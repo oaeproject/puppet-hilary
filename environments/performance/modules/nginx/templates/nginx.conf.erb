@@ -4,7 +4,7 @@ worker_processes  1;
 events {
     # After increasing this value You probably should increase limit
     # of file descriptors (for example in start_precmd in startup script)
-    worker_connections  1024;
+    worker_connections  16000;
 }
 
 http {
