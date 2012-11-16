@@ -28,10 +28,10 @@ class cassandra::common(
 		require => Yumrepo['datastax'],
 	}
 
-  package { 'opscenter-agent':
-    ensure  => installed,
-    require => Yumrepo['datastax'],
-  }
+  # package { 'opscenter-agent':
+  #  ensure  => installed,
+  #  require => Yumrepo['datastax'],
+  # }
 
   file { 'cassandra.yaml': 
     path => '/etc/cassandra/conf/cassandra.yaml', 
@@ -82,10 +82,10 @@ class cassandra::common(
   }
 
   # Wait till we boot cassandra to boot the agent.
-  service { 'opscenter-agent':
-    ensure  => 'running',
-    require => Service['cassandra'],
-    enable  => 'true'
-  }
+  #service { 'opscenter-agent':
+  #  ensure  => 'running',
+  #  require => Service['cassandra'],
+  #  enable  => 'true'
+  #}
 
 }
