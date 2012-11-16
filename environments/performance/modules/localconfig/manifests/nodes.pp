@@ -49,6 +49,14 @@ node 'app2' inherits appnode { }
 
 node 'app3' inherits appnode { }
 
+node 'app4' inherits appnode { }
+
+node 'app5' inherits appnode { }
+
+node 'app6' inherits appnode { }
+
+node 'app7' inherits appnode { }
+
 #####################
 ## CASSANDRA NODES ##
 #####################
