@@ -78,7 +78,7 @@ class cassandra::common(
     require    => Exec['chown_cassandra'],
     enable     => 'true',
     hasstatus  => 'false',
-    subscribe  => File["cassandra.yaml", "cassandra-env.sh"],
+    subscribe  => File["cassandra.yaml"],
   }
 
   # Wait till we boot cassandra to boot the agent.
