@@ -45,6 +45,10 @@ node 'app0' inherits appnode { }
 
 node 'app1' inherits appnode { }
 
+node 'app2' inherits appnode { }
+
+node 'app3' inherits appnode { }
+
 
 
 #####################

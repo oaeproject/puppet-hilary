@@ -16,3 +16,6 @@ sudo rm -rf /opt/oae
 cd /home/admin/puppet-hilary
 bin/pull.sh
 sudo bin/apply.sh
+
+# Set the open file limit for all node processes
+sudo prctl -r -t basic -n process.max-file-descriptor -v 32768 -i process `pgrep node`

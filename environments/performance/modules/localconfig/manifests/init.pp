@@ -10,8 +10,19 @@ class localconfig {
   $web_hosts = ['165.225.133.115']
   
   # App servers
-  $app_hosts_internal = ['10.112.4.121', '10.112.4.122']
-  $app_hosts_external = ['165.225.133.113', '165.225.133.114']
+  $app_hosts_internal = [
+    '10.112.4.121',
+    '10.112.4.122',
+    '10.112.5.18',
+    '10.112.4.244'
+  ]
+  $app_hosts_external = [
+    '165.225.133.113',
+    '165.225.133.114',
+    '165.225.136.163',
+    '165.225.136.47'
+  ]
+  
   $circonus_url = 'https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t'
 
   # Redis
