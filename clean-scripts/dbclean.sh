@@ -24,7 +24,7 @@ rm -rf /var/log/opscenter-agent/*
 chown -R cassandra:cassandra /var/log/cassandra
 
 # Delete all the data
-find /var/lib/cassandra/data/oae/ -regex "^.*\.db$" -maxdepth 2 -exec rm -rf {} \;
+rm -rf /var/lib/cassandra/data/oae
 rm -rf /var/lib/cassandra/commitlog/*
 chown -R cassandra:cassandra /var/lib/cassandra
 
