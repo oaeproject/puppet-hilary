@@ -80,9 +80,11 @@ class cassandra::common(
     hasstatus  => 'false',
   }
 
+
   exec { "nodetool move ${initial_token}":
-    command =>  "/usr/bin/nodetool move ${initial_token}",
-    require =>  Service['cassandra'],
+    command   =>  "/usr/bin/nodetool move ${initial_token}",
+    require   =>  Service['cassandra'],
+    logoutput =>  false,
   }
 
   # Wait till we boot cassandra to boot the agent.
