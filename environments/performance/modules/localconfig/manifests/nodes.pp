@@ -10,7 +10,6 @@ node 'web0' inherits basenode {
             'host' => 'global.oae-performance.sakaiproject.org',
             'port' => 2000
         },
-
         't1' => {
             'host' => 't1.oae-performance.sakaiproject.org',
             'port' => 2001
@@ -145,6 +144,21 @@ node 'db4' inherits dbnode {
   }
 }
 
+node 'db5' inherits dbnode {
+  class { 'cassandra::common':
+    owner           => $localconfig::db_user,
+    group           => $localconfig::db_group,
+    hosts           => $localconfig::db_hosts,
+    listen_address  => $localconfig::db_hosts[5],
+    cluster_name    => $localconfig::db_cluster_name,
+    initial_token   => $localconfig::db_initial_tokens[5],
+  }
+
+  class { 'munin::client':
+    hostname => 'db5',
+    require  => Class['cassandra::common'],
+  }
+}
 
 #################
 ## REDIS NODES ##
