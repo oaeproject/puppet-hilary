@@ -5,33 +5,6 @@
 
 node 'web0' inherits basenode {
   class { 'nginx':
-    tenantsHash =>  {
-        'global' => {
-            'host' => 'global.oae-performance.sakaiproject.org',
-            'port' => 2000
-        },
-
-        't1' => {
-            'host' => 't1.oae-performance.sakaiproject.org',
-            'port' => 2001
-        },
-        't2' => {
-            'host' => 't2.oae-performance.sakaiproject.org',
-            'port' => 2002
-        },
-        't3' => {
-            'host' => 't3.oae-performance.sakaiproject.org',
-            'port' => 2003
-        },
-        't4' => {
-            'host' => 't4.oae-performance.sakaiproject.org',
-            'port' => 2004
-        },
-        't5' => {
-            'host' => 't5.oae-performance.sakaiproject.org',
-            'port' => 2005
-        }
-    },
     internal_app_ips  => $localconfig::app_hosts_internal,
   }
 }

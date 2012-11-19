@@ -1,8 +1,8 @@
 class nginx(
-    $tenantsHash,
     $internal_app_ips,
-    $owner = 'www',
-    $group = 'www') {
+    $ux_home  = '/opt/3akai-ux',
+    $owner    = 'www',
+    $group    = 'www') {
 
   package { 'nginx':
     ensure    => present,

@@ -1,40 +1,190 @@
-user   www  www;
-worker_processes  4;
-
+user                    <%= owner %> <%= group %>;
+worker_processes        5;
+worker_rlimit_nofile    8192;
+ 
 events {
-    # After increasing this value You probably should increase limit
-    # of file descriptors (for example in start_precmd in startup script)
-    worker_connections  16000;
+  worker_connections    4096;
 }
 
 http {
-  include       /opt/local/etc/nginx/mime.types;
-  default_type  application/octet-stream;
+    include       /opt/local/etc/nginx/mime.types;
+    default_type  application/octet-stream;
 
-  sendfile        on;
-  keepalive_timeout  65;
+    ##################
+    ##################
+    ## GLOBAL ADMIN ##
+    ##################
+    ##################
+    
+    ####################
+    ## LOAD BALANCING ##
+    ####################
 
-  ## Give each tenant their own upstream resource
-  <% tenantsHash.each_pair do |tenant,info| -%>
-  upstream <%= tenant %> {
-    <% internal_app_ips.each do |ip| -%>
-    server <%= ip %>:<%= info['port'] %>;
-    <% end -%>
-  }
-  
-  <% end -%>
-
-  ## Link the external vhosts to the respective backend upstream resource
-  <% tenantsHash.each_pair do |tenant, info| -%>
-  server {
-    listen       80;
-    server_name  <%= info['host'] %>;
-
-    location / {
-      proxy_pass  http://<%= tenant %>;
+    upstream globaladminworkers {
+        <% internal_app_ips.each do |ip| -%>
+        server <%= ip %>:2000;
+        <% end -%>
     }
-  }
-  
-  <% end -%>
-  
+    
+    server {
+        listen       80;
+        server_name  global.oae-performance.sakaiproject.org;
+
+        ##################
+        ## STATIC FILES ##
+        ##################
+        
+        ## TODO: Remove this
+        location /var/ {
+            alias <%= ux_home %>/var/;
+            autoindex off;
+        }
+        
+        ## Admin UI
+        
+        rewrite ^/$              /admin/index.html last;
+        rewrite ^/tenant/(.*)$   /admin/index.html last;
+        
+        location /admin/ {
+            alias <%= ux_home %>/admin/;
+            autoindex off;
+        }
+        
+        ## Shared Resources
+        
+        location /shared/ {
+            alias <%= ux_home %>/shared/;
+            autoindex off;
+        }
+        
+        ## Main UI
+        
+        location /ui/ {
+            alias <%= ux_home %>/ui/;
+            autoindex off;
+        }
+
+        #########################
+        ## APP SERVER REQUESTS ##
+        #########################
+
+        location /api/ {
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $http_host;
+            proxy_set_header X-NginX-Proxy true;
+            proxy_pass http://globaladminworkers;
+            proxy_redirect off;
+        }
+    }
+
+    ###################
+    ###################
+    ## TENANT SERVER ##
+    ###################
+    ###################
+
+    ####################
+    ## LOAD BALANCING ##
+    ####################
+
+    upstream tenantworkers {
+        <% internal_app_ips.each do |ip| -%>
+        server <%= ip %>:2001;
+        <% end -%>
+    }
+
+    server {
+        listen   80 default_server;
+
+        ##################
+        ## STATIC FILES ##
+        ##################
+        
+        ## TODO: Remove this
+        location /var/ {
+            alias <%= ux_home %>/var/;
+            autoindex off;
+        }
+        
+        ## Shared Resources
+        
+        location /shared/ {
+            alias <%= ux_home %>/shared/;
+            autoindex off;
+        }
+        
+        ## Main UI
+        
+        location /ui/ {
+            alias <%= ux_home %>/ui/;
+            autoindex off;
+        }
+
+        location /widgets/ {
+            alias <%= ux_home %>/widgets/;
+            autoindex off;
+        }
+        
+        rewrite ^/acknowledgements  /ui/acknowledgements.html last;
+        rewrite ^/categories        /ui/allcategories.html last;
+        rewrite ^/category          /ui/category.html last;
+        rewrite ^/content           /ui/content_profile.html last;
+        rewrite ^/register          /ui/create_new_account.html last;
+        rewrite ^/create            /ui/createnew.html last;
+        rewrite ^/favicon.ico       /ui/favicon.ico last;
+        rewrite ^/index$            /ui/index.html last;
+        rewrite ^/logout$           /ui/logout.html last;
+        rewrite ^/me$               /ui/me.html last;
+        rewrite ^/$                 /ui/index.html last;
+        rewrite ^/s2site            /ui/s23/s23_site.html last;
+        rewrite ^/search            /ui/search.html last;
+        rewrite ^/user/(.*)         /ui/user.html last;
+        
+        ## Admin UI
+
+        location /admin/ {
+            alias <%= ux_home %>/admin/;
+            autoindex off;
+        }
+        
+        rewrite ^/admin$  /admin/index.html last;
+        
+        ## API Documentation
+    
+        location /docs/ {
+            alias <%= ux_home %>/docs/;
+            autoindex off;
+        }
+        
+        rewrite ^/docs$  /docs/index.html last;
+    
+        ## Tests
+        
+        location /tests/ {
+            alias <%= ux_home %>/tests/;
+            autoindex off;
+        }
+    
+        #################
+        ## ERROR PAGES ##
+        #################
+        
+        error_page      403     /ui/403.html;
+        error_page      404     /ui/404.html;
+        error_page      500     /ui/500.html;
+    
+        #########################
+        ## APP SERVER REQUESTS ##
+        #########################
+    
+        location /api/ {
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $http_host;
+            proxy_set_header X-NginX-Proxy true;
+            proxy_pass http://tenantworkers;
+            proxy_redirect off;
+        }
+    }
 }
