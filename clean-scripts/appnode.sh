@@ -5,9 +5,6 @@
 # Stop the app server.
 svcadm disable node-sakai-oae
 
-# Flush Redis if we have one running.
-command -v redis-cli >/dev/null 2>&1 && redis-cli flushall
-
 # Delete the directory.
 sudo rm -rf /opt/oae
 
