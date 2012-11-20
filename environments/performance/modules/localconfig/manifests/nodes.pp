@@ -3,11 +3,7 @@
 ## WEB PROXY ##
 ###############
 
-node 'web0' inherits basenode {
-  class { 'nginx':
-    internal_app_ips  => $localconfig::app_hosts_internal,
-  }
-}
+node 'web0' inherits webnode { }
 
 
 ###############
