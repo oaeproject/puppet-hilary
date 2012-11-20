@@ -44,7 +44,7 @@ class localconfig {
   $app_git_branch = 'master'
 
   $ux_git_user = 'sakaiproject'
-  $app_git_branch = 'master'
+  $ux_git_branch = 'master'
   $ux_root = '/opt/3akai-ux'
 
   $driver_tsung_version = '1.4.2'
