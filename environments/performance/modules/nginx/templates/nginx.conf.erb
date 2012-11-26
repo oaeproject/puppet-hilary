@@ -97,6 +97,9 @@ http {
     server {
         listen   80 default_server;
 
+        # This determines the maximum size of an uploaded file.
+        client_max_body_size 4096M;
+
         ##################
         ## STATIC FILES ##
         ##################
@@ -158,7 +161,14 @@ http {
         }
         
         rewrite ^/docs$  /docs/index.html last;
-    
+
+        ## Local file downloads
+
+        location /files {
+            internal;
+            alias /opt/sakai/poc/files;
+        }
+
         ## Tests
         
         location /tests/ {
@@ -183,6 +193,7 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header Host $http_host;
             proxy_set_header X-NginX-Proxy true;
+            proxy_read_timeout 300;
             proxy_pass http://tenantworkers;
             proxy_redirect off;
         }
