@@ -177,3 +177,7 @@ node dbnode inherits basenode {
     ensure  => installed,
   }
 }
+
+node mqnode inherits basenode {
+  class { 'rabbitmq': }
+}

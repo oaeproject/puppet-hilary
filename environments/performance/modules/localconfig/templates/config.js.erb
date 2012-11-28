@@ -101,17 +101,26 @@ config.telemetry = {
 };
 
 config.search = {
+    'schemaExtension': {},
     'index': {
         'name': 'oae',
         'settings': {
             'number_of_shards': 5,
             'number_of_replicas': 1
         },
-        'allowRefresh': false,
+        'allowAnonRefresh': false,
     },
     'hosts': [
         <% scope.lookupvar("localconfig::search_hosts_internal").each do |host| -%>
         { 'host': '<%= host["host"] %>', 'port': <%= host["port"] %> },
         <% end -%>
     ]
+};
+
+config.mq = {
+    'connection': {
+        'host': <%= scope.lookupvar("localconfig::mq_hosts_internal")[0].host %>,
+        'port': <%= scope.lookupvar("localconfig::mq_hosts_internal")[0].port %>
+    },
+    'prefetchCount': 15
 };

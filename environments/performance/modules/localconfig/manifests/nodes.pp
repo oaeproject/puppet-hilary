@@ -101,3 +101,10 @@ node 'cache0' inherits basenode {
 
 node 'driver0' inherits drivernode {
 }
+
+#####################
+## MESSAGING NODES ##
+#####################
+
+node 'mq0' inherits mqnode {  
+}

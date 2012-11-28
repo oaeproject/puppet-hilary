@@ -40,6 +40,9 @@ class localconfig {
   # Search
   $search_hosts_internal = [ { 'host' => '10.112.4.222', 'port' => 9200 } ]
 
+  # Messaging
+  $mq_hosts_internal = [ { 'host' => '10.112.5.189', 'port' => 5672 } ]
+
   # Installation details
   $app_service_name = 'node-sakai-oae'
   $app_root = '/opt/oae'
