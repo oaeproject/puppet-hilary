@@ -40,7 +40,7 @@ Your app directory is located it `/opt/oae`. The process is called `node` if you
 
 1. From the Joyent Cloud admin, create a new `centos 6` machine
 2. After it's created, ssh into it using `ssh root@<external ip>` . You should have a public key configured on your Joyent account that allows you to do this without a password.
-3. From the admin home directory, run the following command to initialize the app machine:
+3. From the admin home directory, run the following command to initialize the db machine:
 
 **Note: The file is db.sh, not app.sh**
 

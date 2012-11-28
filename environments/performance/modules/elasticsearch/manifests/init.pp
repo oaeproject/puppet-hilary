@@ -47,7 +47,6 @@ class elasticsearch (
     ensure  => present,
     mode    => 0755,
     content => template('elasticsearch/elasticsearch.erb'),
-    notify  => Service['elasticsearch'],
   }
 
   file { '/opt/elasticsearch/config/elasticsearch.yml':
@@ -60,7 +59,7 @@ class elasticsearch (
   service { 'elasticsearch':
     ensure  => 'running',
     enable  => 'true',
-    require => [ Exec["mv ${foldername} /opt/elasticsearch"], File['/opt/elasticsearch/config/elasticsearch.yml'] ],
+    require => [ Exec["mv ${foldername} /opt/elasticsearch"], File['/opt/elasticsearch/config/elasticsearch.yml'], File['/etc/init.d/elasticsearch'] ],
   }
 
 }
