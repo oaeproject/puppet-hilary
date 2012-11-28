@@ -26,6 +26,7 @@ class elasticsearch (
     command =>  "/usr/bin/wget ${url}",
     unless  =>  '/usr/bin/test -d /opt/elasticsearch',
     creates =>  '/tmp/${filename}',
+    timeout =>  0,
   }
   
   exec { "tar zxvf /tmp/${filename}":
