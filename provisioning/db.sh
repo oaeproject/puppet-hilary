@@ -51,7 +51,7 @@ name=Extra Packages for Enterprise Linux \$releasever - \$basearch
 #baseurl=http://download.fedoraproject.org/pub/epel/\$releasever/\$basearch
 mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=epel-\$releasever&arch=\$basearch
 failovermethod=priority
-enabled=0
+enabled=1
 gpgcheck=0
 EOF
 
