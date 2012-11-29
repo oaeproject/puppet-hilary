@@ -119,8 +119,8 @@ config.search = {
 
 config.mq = {
     'connection': {
-        'host': <%= scope.lookupvar("localconfig::mq_hosts_internal")[0].host %>,
-        'port': <%= scope.lookupvar("localconfig::mq_hosts_internal")[0].port %>
+        'host': '<%= scope.lookupvar("localconfig::mq_hosts_internal")[0]["host"] %>',
+        'port': <%= scope.lookupvar("localconfig::mq_hosts_internal")[0]["port"] %>
     },
     'prefetchCount': 15
 };
