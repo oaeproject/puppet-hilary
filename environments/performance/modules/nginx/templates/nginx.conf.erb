@@ -166,7 +166,7 @@ http {
 
         location /files {
             internal;
-            alias /opt/sakai/poc/files;
+            alias <%= files_home %>;
         }
 
         ## Tests

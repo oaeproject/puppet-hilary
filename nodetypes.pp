@@ -166,6 +166,7 @@ node webnode inherits basenode {
   class { 'nginx':
     internal_app_ips  => $localconfig::app_hosts_internal,
     ux_home           => $localconfig::ux_root,
+    files_home        => $localconfig::app_files,
   }
 
 }
