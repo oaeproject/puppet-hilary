@@ -8,6 +8,9 @@ svcadm disable node-sakai-oae
 # Delete the directory.
 sudo rm -rf /opt/oae
 
+# Delete the files
+rm -rf /opt/files/*
+
 # Pull latest puppet config and apply it.
 # This will also start the node process again.
 cd /home/admin/puppet-hilary

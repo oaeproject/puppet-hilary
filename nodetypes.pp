@@ -70,13 +70,20 @@ node appnode inherits basenode {
     command => "/opt/local/bin/npm install -d",
     require => Vcsrepo["${localconfig::app_root}"],
   }
+
+  # Directory for temp files
+  file { "${localconfig::app_files}":
+    ensure  => directory,
+    owner   => "${localconfig::app_user}",
+    group   => "${localconfig::app_group}",
+  }
   
   # config.js
   file { "${localconfig::app_root}/config.js":
     ensure  => present,
     content => template('localconfig/config.js.erb'),
     notify  =>  Service[$localconfig::app_service_name],
-    require => Vcsrepo["${localconfig::app_root}"],
+    require => [ Vcsrepo["${localconfig::app_root}"], File["${localconfig::app_files}"] ],
   }
   
   
@@ -159,6 +166,7 @@ node webnode inherits basenode {
   class { 'nginx':
     internal_app_ips  => $localconfig::app_hosts_internal,
     ux_home           => $localconfig::ux_root,
+    files_home        => $localconfig::app_files,
   }
 
 }
