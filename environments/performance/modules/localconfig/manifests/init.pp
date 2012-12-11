@@ -53,7 +53,8 @@ class localconfig {
   $ux_git_user = 'sakaiproject'
   $ux_git_branch = 'master'
   $ux_root = '/opt/3akai-ux'
-
+  $ux_admin_host = 'admin.oae-performance.sakaiproject.org'
+  
   $driver_tsung_version = '1.4.2'
 
   # Munin regexes

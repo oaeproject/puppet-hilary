@@ -1,9 +1,10 @@
 class nginx(
     $internal_app_ips,
-    $ux_home    = '/opt/3akai-ux',
-    $files_home = '/opt/files',
-    $owner      = 'www',
-    $group      = 'www') {
+    $ux_home        = '/opt/3akai-ux',
+    $ux_admin_host  = 'admin.oae-performance.sakaiproject.org',
+    $files_home     = '/opt/files',
+    $owner          = 'www',
+    $group          = 'www') {
 
   package { 'nginx':
     ensure    => present,
