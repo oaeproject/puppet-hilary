@@ -48,8 +48,8 @@ node appnode inherits basenode {
     ensure    => present,
     provider  => pkgin,
   }
-  
-  
+
+
   
   ########################
   ## DEPLOY APPLICATION ##
@@ -86,8 +86,23 @@ node appnode inherits basenode {
     require => [ Vcsrepo["${localconfig::app_root}"], File["${localconfig::app_files}"] ],
   }
   
+
+
+  ####################
+  ## CLONE 3AKAI-UX ##
+  ####################
+
+  # git clone http://github.com/sakaiproject/3akai-ux
+  vcsrepo { "${localconfig::ux_root}":
+    ensure    => present,
+    provider  => git,
+    source    => "http://github.com/${localconfig::ux_git_user}/3akai-ux",
+    revision  => "${localconfig::ux_git_branch}",
+    require   => Package['scmgit'],
+  }
   
-  
+
+
   #######################
   ## START APPLICATION ##
   #######################
@@ -118,7 +133,7 @@ node appnode inherits basenode {
   service { "${localconfig::app_service_name}":
     ensure    => running,
     manifest  => "${localconfig::app_root}/service.xml",
-    require => Exec["chown_${localconfig::app_root}"],
+    require => [ Exec["chown_${localconfig::app_root}"], Vcsrepo["${localconfig::ux_root}"] ],
   }
   
 }

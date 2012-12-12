@@ -42,6 +42,12 @@ config.redis = {
     'dbIndex': 0
 };
 
+// UI related config information. By default, we assume that the UI repostory 
+// can be found on the same level as the Hilary folder.
+config.ui = {
+    'path': '<%= scope.lookupvar("localconfig::ux_root") %>'
+};
+
 // Configuration for the ports on which the global admin express server and
 // the tenant express server need to be running. It also specifies the tenant
 // alias used for the global admin 
