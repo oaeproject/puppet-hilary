@@ -46,7 +46,7 @@ class localconfig {
   # Installation details
   $app_service_name = 'node-sakai-oae'
   $app_root = '/opt/oae'
-  $app_files = '/opt/files'
+  $app_files = '/shared/files'
   $app_git_user = 'sakaiproject'
   $app_git_branch = 'master'
 
@@ -54,7 +54,7 @@ class localconfig {
   $ux_git_branch = 'master'
   $ux_root = '/opt/3akai-ux'
   $ux_admin_host = 'admin.oae-performance.sakaiproject.org'
-  
+
   $driver_tsung_version = '1.4.2'
 
   # Munin regexes
