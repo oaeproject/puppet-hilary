@@ -1,9 +1,10 @@
 class elasticsearch (
     $host_address,
-    $host_port     = 9200,
-    $max_memory_mb = 384,
-    $min_memory_mb = 384,
-    $version       = '0.20.0.RC1') {
+    $path_data,
+    $host_port      = 9200,
+    $max_memory_mb  = 384,
+    $min_memory_mb  = 384,
+    $version        = '0.20.0.RC1') {
 
   ##########################
   ## PACKAGE DEPENDENCIES ##
@@ -20,6 +21,10 @@ class elasticsearch (
   $foldername = "elasticsearch-${version}"
   $filename   = "${foldername}.tar.gz"
   $url        = "https://github.com/downloads/elasticsearch/elasticsearch/${filename}"
+
+  file { "${path_data}":
+    ensure  => 'directory',
+  }
 
   exec { "wget ${url}":
     cwd     =>  '/tmp',
@@ -60,7 +65,7 @@ class elasticsearch (
   service { 'elasticsearch':
     ensure  => 'running',
     enable  => 'true',
-    require => [ Exec["mv ${foldername} /opt/elasticsearch"], File['/opt/elasticsearch/config/elasticsearch.yml'], File['/etc/init.d/elasticsearch'] ],
+    require => [ Exec["mv ${foldername} /opt/elasticsearch"], File['/opt/elasticsearch/config/elasticsearch.yml'], File['/etc/init.d/elasticsearch'], File["${path_data}"] ],
   }
 
 }

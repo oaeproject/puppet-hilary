@@ -82,8 +82,11 @@ node 'db2' inherits dbnode {
 
 node 'search0' inherits basenode {
   class { 'elasticsearch':
+    path_data     => $localconfig::search_path_data,
     host_address  => $localconfig::search_hosts_internal[0]['host'],
     host_port     => $localconfig::search_hosts_internal[0]['port'],
+    max_memory_mb => 3072,
+    min_memory_mb => 3072,
   }
 }
 

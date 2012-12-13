@@ -39,6 +39,7 @@ class localconfig {
 
   # Search
   $search_hosts_internal = [ { 'host' => '10.112.4.222', 'port' => 9200 } ]
+  $search_path_data = '/data/search'
 
   # Messaging
   $mq_hosts_internal = [ { 'host' => '10.112.5.189', 'port' => 5672 } ]
