@@ -61,7 +61,7 @@ class localconfig {
   # Installation details
   $app_service_name = 'node-sakai-oae'
   $app_root = '/opt/oae'
-  $app_files = '/shared/files'
+  $app_files = '/opt/files'
   $app_git_user = 'sakaiproject'
   $app_git_branch = 'master'
 
