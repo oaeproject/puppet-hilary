@@ -156,6 +156,26 @@ node 'search1' inherits basenode {
   }
 }
 
+node 'search2' inherits basenode {
+  class { 'elasticsearch':
+    path_data     => $localconfig::search_path_data,
+    host_address  => $localconfig::search_hosts_internal[2]['host'],
+    host_port     => $localconfig::search_hosts_internal[2]['port'],
+    max_memory_mb => 3072,
+    min_memory_mb => 3072,
+  }
+}
+
+node 'search3' inherits basenode {
+  class { 'elasticsearch':
+    path_data     => $localconfig::search_path_data,
+    host_address  => $localconfig::search_hosts_internal[3]['host'],
+    host_port     => $localconfig::search_hosts_internal[3]['port'],
+    max_memory_mb => 3072,
+    min_memory_mb => 3072,
+  }
+}
+
 #################
 ## REDIS NODES ##
 #################
