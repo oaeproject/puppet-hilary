@@ -49,11 +49,31 @@ node appnode inherits basenode {
     provider  => pkgin,
   }
 
+  # cairo, pkg-config, xproto, renderproto, kbproto are all for Cairo / node-canvas
   package { 'cairo':
     ensure    => present,
     provider  => pkgin,
   }
 
+  package { 'pkg-config':
+    ensure    => present,
+    provider  => pkgin,
+  }
+
+  package { 'xproto':
+    ensure    => present,
+    provider  => pkgin,
+  }
+
+  package { 'renderproto':
+    ensure    => present,
+    provider  => pkgin,
+  }
+
+  package { 'kbproto':
+    ensure    => present,
+    provider  => pkgin,
+  }
   
   ########################
   ## DEPLOY APPLICATION ##
