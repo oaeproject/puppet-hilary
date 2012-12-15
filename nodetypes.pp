@@ -85,7 +85,8 @@ node appnode inherits basenode {
     provider  => git,
     source    => "http://github.com/${localconfig::app_git_user}/Hilary",
     revision  => "${localconfig::app_git_branch}",
-    require   => Package['scmgit'],
+    require   => [ Package['scmgit'], Package['cairo'], Package['pkg-config'], Package['xproto'], Package['renderproto'],
+      Package['kbproto'] ],
   }
   
   # npm install -d
