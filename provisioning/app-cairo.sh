@@ -10,7 +10,7 @@ tar -zxf pixman.tar.gz && cd pixman-$PIXMAN_VER/
 sudo make install
 
 cd /tmp
-curl http://cairographics.org/releases/cairo-$CAIRO_VER.tar.xz -o cairo.tar.gz
-tar -Jxf cairo.tar.gz && cd cairo-$CAIRO_VER
-./configure --prefix=/usr/local --disable-dependency-tracking
+curl http://cairographics.org/releases/cairo-$CAIRO_VER.tar.xz -o cairo.tar.xz
+tar -xJf cairo.tar.xz && cd cairo-$CAIRO_VER
+./configure --prefix=/usr/local --disable-dependency-tracking --enable-xlib=no
 sudo make install
