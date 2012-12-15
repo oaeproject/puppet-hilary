@@ -49,6 +49,10 @@ node appnode inherits basenode {
     provider  => pkgin,
   }
 
+  package { 'cairo':
+    ensure    => present,
+    provider  => pkgin,
+  }
 
   
   ########################
