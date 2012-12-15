@@ -11,6 +11,6 @@ sudo make install
 
 cd /tmp
 curl http://cairographics.org/releases/cairo-$CAIRO_VER.tar.xz -o cairo.tar.gz
-tar -zxf cairo.tar.gz && cd cairo-$CAIRO_VER
+tar -Jxf cairo.tar.gz && cd cairo-$CAIRO_VER
 ./configure --prefix=/usr/local --disable-dependency-tracking
 sudo make install
