@@ -91,7 +91,6 @@ node appnode inherits basenode {
   
   # npm install -d
   exec { "npm_install_dependencies":
-    environment => "LD_LIBRARY_PATH=/opt/local/lib",
     cwd         => "${localconfig::app_root}",
     command     => "/opt/local/bin/npm install -d",
     require     => Vcsrepo["${localconfig::app_root}"],
