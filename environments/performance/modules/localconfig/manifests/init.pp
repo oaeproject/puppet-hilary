@@ -51,7 +51,8 @@ class localconfig {
     { 'host' => '10.112.4.222', 'port' => 9200 },
     { 'host' => '10.112.6.21', 'port' => 9200 },
     { 'host' => '10.112.6.31', 'port' => 9200 },
-    { 'host' => '10.112.6.32', 'port' => 9200 }
+    { 'host' => '10.112.6.32', 'port' => 9200 },
+    { 'host' => '10.112.6.44', 'port' => 9200 }
   ]
   $search_path_data = '/var/lib/elasticsearch'
 
