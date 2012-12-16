@@ -178,13 +178,12 @@ http {
         rewrite ^/category          /ui/category.html last;
         rewrite ^/content           /ui/content_profile.html last;
         rewrite ^/register          /ui/register.html last;
-        rewrite ^/create            /ui/createnew.html last;
+        rewrite ^/creategroup       /ui/creategroup.html last;
         rewrite ^/favicon.ico       /ui/favicon.ico last;
+        rewrite ^/group/(.*)        /ui/group.html last;
         rewrite ^/index$            /ui/index.html last;
-        rewrite ^/logout$           /ui/logout.html last;
         rewrite ^/me$               /ui/me.html last;
         rewrite ^/$                 /ui/index.html last;
-        rewrite ^/s2site            /ui/s23/s23_site.html last;
         rewrite ^/search            /ui/search.html last;
         rewrite ^/user/(.*)         /ui/user.html last;
         
