@@ -74,6 +74,11 @@ node appnode inherits basenode {
     ensure    => present,
     provider  => pkgin,
   }
+
+  package { 'gtk2+':
+    ensure    => present,
+    provider  => pkgin,
+  }
   
   ########################
   ## DEPLOY APPLICATION ##
