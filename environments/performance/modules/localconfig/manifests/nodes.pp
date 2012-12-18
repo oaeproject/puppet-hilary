@@ -42,10 +42,6 @@ node 'db0' inherits dbnode {
     initial_token   => $localconfig::db_initial_tokens[0],
   }
 
-  class { 'opscenter':
-    require => Class['cassandra::common'],
-  }
-
   class { 'munin::client':
     hostname => 'db0',
     require  => Class['cassandra::common'],
