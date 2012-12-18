@@ -49,33 +49,7 @@ node appnode inherits basenode {
     provider  => pkgin,
   }
 
-  # cairo, pkg-config, xproto, renderproto, kbproto are all for Cairo / node-canvas
-  package { 'cairo':
-    ensure    => present,
-    provider  => pkgin,
-  }
-
-  package { 'pkg-config':
-    ensure    => present,
-    provider  => pkgin,
-  }
-
-  package { 'xproto':
-    ensure    => present,
-    provider  => pkgin,
-  }
-
-  package { 'renderproto':
-    ensure    => present,
-    provider  => pkgin,
-  }
-
-  package { 'kbproto':
-    ensure    => present,
-    provider  => pkgin,
-  }
-
-  package { 'gtk2+':
+  package { 'GraphicsMagick':
     ensure    => present,
     provider  => pkgin,
   }
@@ -90,15 +64,14 @@ node appnode inherits basenode {
     provider  => git,
     source    => "http://github.com/${localconfig::app_git_user}/Hilary",
     revision  => "${localconfig::app_git_branch}",
-    require   => [ Package['scmgit'], Package['cairo'], Package['pkg-config'], Package['xproto'], Package['renderproto'],
-      Package['kbproto'] ],
+    require   => [ Package['scmgit'] ],
   }
   
   # npm install -d
   exec { "npm_install_dependencies":
     cwd         => "${localconfig::app_root}",
     command     => "/opt/local/bin/npm install -d",
-    require     => Vcsrepo["${localconfig::app_root}"],
+    require     => [ Vcsrepo["${localconfig::app_root}"], Package['GraphicsMagick'] ],
   }
 
   # Directory for temp files
