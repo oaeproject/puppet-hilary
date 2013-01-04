@@ -18,9 +18,9 @@ class elasticsearch (
   ## DOWNLOAD AND COMPILE TSUNG ##
   ################################
 
-  $foldername = "elasticsearch-${version}"
+  $foldername = "v${version}"
   $filename   = "${foldername}.tar.gz"
-  $url        = "https://github.com/downloads/elasticsearch/elasticsearch/${filename}"
+  $url        = "https://github.com/elasticsearch/elasticsearch/archive/${filename}"
 
   file { "${path_data}":
     ensure  => 'directory',
