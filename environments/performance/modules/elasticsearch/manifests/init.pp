@@ -20,7 +20,7 @@ class elasticsearch (
 
   $foldername = "v${version}"
   $filename   = "${foldername}.tar.gz"
-  $url        = "https://github.com/elasticsearch/elasticsearch/archive/${filename}"
+  $url        = "https://nodeload.github.com/elasticsearch/elasticsearch/tar.gz/${foldername}"
 
   file { "${path_data}":
     ensure  => 'directory',
@@ -28,7 +28,7 @@ class elasticsearch (
 
   exec { "wget ${url}":
     cwd     =>  '/tmp',
-    command =>  "/usr/bin/wget ${url}",
+    command =>  "/usr/bin/wget ${url} -O ${filename}",
     unless  =>  '/usr/bin/test -d /opt/elasticsearch',
     creates =>  '/tmp/${filename}',
     timeout =>  0,
