@@ -18,9 +18,10 @@ class elasticsearch (
   ## DOWNLOAD AND COMPILE TSUNG ##
   ################################
 
-  $foldername = "v${version}"
-  $filename   = "${foldername}.tar.gz"
-  $url        = "https://nodeload.github.com/elasticsearch/elasticsearch/tar.gz/${foldername}"
+  $dl_filename          = "v${version}"
+  $extracted_foldername = "elasticsearch-${version}"
+  $local_filename       = "${dl_filename}.tar.gz"
+  $url                  = "https://nodeload.github.com/elasticsearch/elasticsearch/tar.gz/${dl_filename}"
 
   file { "${path_data}":
     ensure  => 'directory',
@@ -28,25 +29,25 @@ class elasticsearch (
 
   exec { "wget ${url}":
     cwd     =>  '/tmp',
-    command =>  "/usr/bin/wget ${url} -O ${filename}",
+    command =>  "/usr/bin/wget ${url} -O ${local_filename}",
     unless  =>  '/usr/bin/test -d /opt/elasticsearch',
-    creates =>  '/tmp/${filename}',
+    creates =>  '/tmp/${local_filename}',
     timeout =>  0,
   }
   
-  exec { "tar zxvf /tmp/${filename}":
+  exec { "tar zxvf /tmp/${local_filename}":
     cwd     =>  '/tmp',
-    command =>  "/bin/tar -zxvf ${filename}",
+    command =>  "/bin/tar -zxvf ${local_filename}",
     unless  =>  '/usr/bin/test -d /opt/elasticsearch',
     require =>  Exec["wget ${url}"],
   }
   
-  exec { "mv ${foldername} /opt/elasticsearch":
+  exec { "mv ${extracted_foldername} /opt/elasticsearch":
     cwd     =>  '/tmp',
-    command =>  "/bin/mv ${foldername} /opt/elasticsearch",
+    command =>  "/bin/mv ${extracted_foldername} /opt/elasticsearch",
     unless  =>  '/usr/bin/test -d /opt/elasticsearch',
     creates =>  '/opt/elasticsearch',
-    require =>  Exec["tar zxvf /tmp/${filename}"],
+    require =>  Exec["tar zxvf /tmp/${local_filename}"],
   }
 
   file { '/etc/init.d/elasticsearch':
@@ -58,14 +59,14 @@ class elasticsearch (
   file { '/opt/elasticsearch/config/elasticsearch.yml':
     ensure  => present,
     content => template('elasticsearch/elasticsearch.yml.erb'),
-    require => Exec["mv ${foldername} /opt/elasticsearch"],
+    require => Exec["mv ${extracted_foldername} /opt/elasticsearch"],
     notify  => Service['elasticsearch'],
   }
 
   service { 'elasticsearch':
     ensure  => 'running',
     enable  => 'true',
-    require => [ Exec["mv ${foldername} /opt/elasticsearch"], File['/opt/elasticsearch/config/elasticsearch.yml'], File['/etc/init.d/elasticsearch'], File["${path_data}"] ],
+    require => [ Exec["mv ${extracted_foldername} /opt/elasticsearch"], File['/opt/elasticsearch/config/elasticsearch.yml'], File['/etc/init.d/elasticsearch'], File["${path_data}"] ],
   }
 
 }
