@@ -75,4 +75,11 @@ class cassandra::common(
     hasstatus  => 'false',
   }
 
+  # Wait till we boot cassandra to boot the agent.
+  service { 'opscenter-agent':
+    ensure  => 'running',
+    require => Service['cassandra'],
+    enable  => 'true'
+  }
+
 }

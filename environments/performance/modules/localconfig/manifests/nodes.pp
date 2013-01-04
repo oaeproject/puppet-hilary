@@ -18,16 +18,6 @@ node 'app2' inherits appnode { }
 
 node 'app3' inherits appnode { }
 
-node 'app4' inherits appnode { }
-
-node 'app5' inherits appnode { }
-
-node 'app6' inherits appnode { }
-
-node 'app7' inherits appnode { }
-
-
-
 #####################
 ## CASSANDRA NODES ##
 #####################
@@ -40,6 +30,10 @@ node 'db0' inherits dbnode {
     listen_address  => $localconfig::db_hosts[0],
     cluster_name    => $localconfig::db_cluster_name,
     initial_token   => $localconfig::db_initial_tokens[0],
+  }
+
+  class { 'opscenter':
+    require => Class['cassandra::common'],
   }
 
   class { 'munin::client':
@@ -80,54 +74,6 @@ node 'db2' inherits dbnode {
   }
 }
 
-node 'db3' inherits dbnode {
-  class { 'cassandra::common':
-    owner           => $localconfig::db_user,
-    group           => $localconfig::db_group,
-    hosts           => $localconfig::db_hosts,
-    listen_address  => $localconfig::db_hosts[3],
-    cluster_name    => $localconfig::db_cluster_name,
-    initial_token   => $localconfig::db_initial_tokens[3],
-  }
-
-  class { 'munin::client':
-    hostname => 'db3',
-    require  => Class['cassandra::common'],
-  }
-}
-
-node 'db4' inherits dbnode {
-  class { 'cassandra::common':
-    owner           => $localconfig::db_user,
-    group           => $localconfig::db_group,
-    hosts           => $localconfig::db_hosts,
-    listen_address  => $localconfig::db_hosts[4],
-    cluster_name    => $localconfig::db_cluster_name,
-    initial_token   => $localconfig::db_initial_tokens[4],
-  }
-
-  class { 'munin::client':
-    hostname => 'db4',
-    require  => Class['cassandra::common'],
-  }
-}
-
-node 'db5' inherits dbnode {
-  class { 'cassandra::common':
-    owner           => $localconfig::db_user,
-    group           => $localconfig::db_group,
-    hosts           => $localconfig::db_hosts,
-    listen_address  => $localconfig::db_hosts[5],
-    cluster_name    => $localconfig::db_cluster_name,
-    initial_token   => $localconfig::db_initial_tokens[5],
-  }
-
-  class { 'munin::client':
-    hostname => 'db5',
-    require  => Class['cassandra::common'],
-  }
-}
-
 ##################
 ## SEARCH NODES ##
 ##################
@@ -147,36 +93,6 @@ node 'search1' inherits basenode {
     path_data     => $localconfig::search_path_data,
     host_address  => $localconfig::search_hosts_internal[1]['host'],
     host_port     => $localconfig::search_hosts_internal[1]['port'],
-    max_memory_mb => 3072,
-    min_memory_mb => 3072,
-  }
-}
-
-node 'search2' inherits basenode {
-  class { 'elasticsearch':
-    path_data     => $localconfig::search_path_data,
-    host_address  => $localconfig::search_hosts_internal[2]['host'],
-    host_port     => $localconfig::search_hosts_internal[2]['port'],
-    max_memory_mb => 3072,
-    min_memory_mb => 3072,
-  }
-}
-
-node 'search3' inherits basenode {
-  class { 'elasticsearch':
-    path_data     => $localconfig::search_path_data,
-    host_address  => $localconfig::search_hosts_internal[3]['host'],
-    host_port     => $localconfig::search_hosts_internal[3]['port'],
-    max_memory_mb => 3072,
-    min_memory_mb => 3072,
-  }
-}
-
-node 'search4' inherits basenode {
-  class { 'elasticsearch':
-    path_data     => $localconfig::search_path_data,
-    host_address  => $localconfig::search_hosts_internal[4]['host'],
-    host_port     => $localconfig::search_hosts_internal[4]['port'],
     max_memory_mb => 3072,
     min_memory_mb => 3072,
   }
