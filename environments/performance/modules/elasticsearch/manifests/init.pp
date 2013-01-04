@@ -4,7 +4,7 @@ class elasticsearch (
     $host_port      = 9200,
     $max_memory_mb  = 384,
     $min_memory_mb  = 384,
-    $version        = '0.20.0.RC1') {
+    $version        = '0.20.2') {
 
   ##########################
   ## PACKAGE DEPENDENCIES ##
