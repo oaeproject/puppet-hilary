@@ -18,10 +18,10 @@ class elasticsearch (
   ## DOWNLOAD AND COMPILE TSUNG ##
   ################################
 
-  $dl_filename          = "v${version}"
+  $dl_filename          = "elasticsearch-${version}.tar.gz"
   $extracted_foldername = "elasticsearch-${version}"
-  $local_filename       = "${dl_filename}.tar.gz"
-  $url                  = "https://nodeload.github.com/elasticsearch/elasticsearch/tar.gz/${dl_filename}"
+  $local_filename       = "${dl_filename}"
+  $url                  = "http://download.elasticsearch.org/elasticsearch/elasticsearch/${dl_filename}"
 
   file { "${path_data}":
     ensure  => 'directory',
