@@ -107,7 +107,11 @@ config.telemetry = {
 };
 
 config.search = {
-    'schemaExtension': {},
+    'hosts': [
+        <% scope.lookupvar("localconfig::search_hosts_internal").each do |host| -%>
+        { 'host': '<%= host["host"] %>', 'port': <%= host["port"] %> },
+        <% end -%>
+    ],
     'index': {
         'name': 'oae',
         'settings': {
@@ -115,30 +119,26 @@ config.search = {
             'number_of_replicas': 1,
             'analysis': {
                 'analyzer': {
-                    'general': {
+                    'q': {
                         'type': 'custom',
                         'char_filter': ['html_strip'],
-                        'tokenizer': 'whitespace',
-                        'filter': ['lowercase', 'general_edgengram']
+                        'tokenizer': 'letter',
+                        'filter': ['lowercase', 'q_edgengram']
                     }
                 },
                 'filter': {
-                    'general_edgengram': {
+                    'q_edgengram': {
                         'type': 'edgeNGram',
                         'min_gram': 1,
-                        'max_gram': 15,
-                        'side': 'front'
+                        'max_gram': 15
                     }
                 }
             }
         },
-        'allowAnonRefresh': false
+        'allowAnonRefresh': false,
+        'destroyOnStartup': false
     },
-    'hosts': [
-        <% scope.lookupvar("localconfig::search_hosts_internal").each do |host| -%>
-        { 'host': '<%= host["host"] %>', 'port': <%= host["port"] %> },
-        <% end -%>
-    ]
+    'processIndexJobs': true
 };
 
 config.mq = {
