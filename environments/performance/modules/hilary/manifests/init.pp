@@ -4,7 +4,7 @@ class hilary (
     $app_git_branch,
     $ux_root_dir,
     $ux_git_user,
-    $us_git_branch,
+    $ux_git_branch,
     $os_user,
     $os_group,
     $upload_files_dir,

@@ -30,7 +30,7 @@ node appnode inherits basenode {
     app_git_branch      => $localconfig::app_git_branch,
     ux_root_dir         => $localconfig::ux_root,
     ux_git_user         => $localconfig::ux_git_user,
-    us_git_branch       => $localconfig::ux_git_branch,
+    ux_git_branch       => $localconfig::ux_git_branch,
     os_user             => $localconfig::app_user,
     os_group            => $localconfig::app_group,
     upload_files_dir    => $localconfig::app_files,
@@ -42,14 +42,14 @@ node activitynode inherits basenode {
   ###########################################
   ## INSTALL HILARY AND 3AKAI-UX CONTAINER ##
   ###########################################
-  
+
   class { 'hilary':
     app_root_dir        => $localconfig::app_root,
     app_git_user        => $localconfig::app_git_user,
     app_git_branch      => $localconfig::app_git_branch,
     ux_root_dir         => $localconfig::ux_root,
     ux_git_user         => $localconfig::ux_git_user,
-    us_git_branch       => $localconfig::ux_git_branch,
+    ux_git_branch       => $localconfig::ux_git_branch,
     os_user             => $localconfig::app_user,
     os_group            => $localconfig::app_group,
     upload_files_dir    => $localconfig::app_files,
