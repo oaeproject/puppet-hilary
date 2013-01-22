@@ -1,15 +1,15 @@
 class hilary (
-    app_root_dir,
-    app_git_user,
-    app_git_branch,
-    ux_root_dir,
-    ux_git_user,
-    us_git_branch,
-    os_user,
-    os_group,
-    upload_files_dir,
-    enable_activities = false,
-    service_name      = 'node-sakai-oae') {
+    $app_root_dir,
+    $app_git_user,
+    $app_git_branch,
+    $ux_root_dir,
+    $ux_git_user,
+    $us_git_branch,
+    $os_user,
+    $os_group,
+    $upload_files_dir,
+    $enable_activities = false,
+    $service_name      = 'node-sakai-oae') {
   
   ##########################
   ## PACKAGE DEPENDENCIES ##
