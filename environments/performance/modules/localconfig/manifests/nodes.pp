@@ -18,6 +18,16 @@ node 'app2' inherits appnode { }
 
 node 'app3' inherits appnode { }
 
+####################
+## ACTIVITY NODES ##
+####################
+
+node 'activity0' inherits activitynode { }
+
+node 'activity1' inherits activitynode { }
+
+node 'activity2' inherits activitynode { }
+
 #####################
 ## CASSANDRA NODES ##
 #####################

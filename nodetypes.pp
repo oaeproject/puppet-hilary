@@ -20,125 +20,41 @@ node drivernode inherits basenode {
 
 node appnode inherits basenode {
 
-  ##################################
-  ## INSTALL PACKAGE DEPENDENCIES ##
-  ##################################
+  ###########################################
+  ## INSTALL HILARY AND 3AKAI-UX CONTAINER ##
+  ###########################################
 
-  package { 'gcc47':
-    ensure    => present,
-    provider  => pkgin,
+  class { 'hilary':
+    app_root_dir        => $localconfig::app_root,
+    app_git_user        => $localconfig::app_git_user,
+    app_git_branch      => $localconfig::app_git_branch,
+    ux_root_dir         => $localconfig::ux_root,
+    ux_git_user         => $localconfig::ux_git_user,
+    us_git_branch       => $localconfig::ux_git_branch,
+    os_user             => $localconfig::app_user,
+    os_group            => $localconfig::app_group,
+    upload_files_dir    => $localconfig::app_files,
   }
-  
-  package { 'gmake':
-    ensure    => present,
-    provider  => pkgin,
-  }
-  
-  package { 'automake':
-    ensure    => present,
-    provider  => pkgin,
-  }
+}
 
-  package { 'nodejs':
-    ensure    => present,
-    provider  => pkgin,
-  }
-  
-  package { 'scmgit':
-    ensure    => present,
-    provider  => pkgin,
-  }
+node activitynode inherits basenode {
 
-  package { 'GraphicsMagick':
-    ensure    => present,
-    provider  => pkgin,
+  ###########################################
+  ## INSTALL HILARY AND 3AKAI-UX CONTAINER ##
+  ###########################################
+  
+  class { 'hilary':
+    app_root_dir        => $localconfig::app_root,
+    app_git_user        => $localconfig::app_git_user,
+    app_git_branch      => $localconfig::app_git_branch,
+    ux_root_dir         => $localconfig::ux_root,
+    ux_git_user         => $localconfig::ux_git_user,
+    us_git_branch       => $localconfig::ux_git_branch,
+    os_user             => $localconfig::app_user,
+    os_group            => $localconfig::app_group,
+    upload_files_dir    => $localconfig::app_files,
+    enable_activities   => true,
   }
-  
-  ########################
-  ## DEPLOY APPLICATION ##
-  ########################
-  
-  # git clone http://github.com/sakaiproject/Hilary
-  vcsrepo { "${localconfig::app_root}":
-    ensure    => present,
-    provider  => git,
-    source    => "http://github.com/${localconfig::app_git_user}/Hilary",
-    revision  => "${localconfig::app_git_branch}",
-    require   => [ Package['scmgit'] ],
-  }
-  
-  # npm install -d
-  exec { "npm_install_dependencies":
-    cwd         => "${localconfig::app_root}",
-    command     => "/opt/local/bin/npm install -d",
-    require     => [ Vcsrepo["${localconfig::app_root}"], Package['GraphicsMagick'] ],
-  }
-
-  # Directory for temp files
-  file { "${localconfig::app_files}":
-    ensure  => directory,
-    owner   => "${localconfig::app_user}",
-    group   => "${localconfig::app_group}",
-  }
-  
-  # config.js
-  file { "${localconfig::app_root}/config.js":
-    ensure  => present,
-    content => template('localconfig/config.js.erb'),
-    notify  =>  Service[$localconfig::app_service_name],
-    require => [ Vcsrepo["${localconfig::app_root}"], File["${localconfig::app_files}"] ],
-  }
-  
-
-
-  ####################
-  ## CLONE 3AKAI-UX ##
-  ####################
-
-  # git clone http://github.com/sakaiproject/3akai-ux
-  vcsrepo { "${localconfig::ux_root}":
-    ensure    => present,
-    provider  => git,
-    source    => "http://github.com/${localconfig::ux_git_user}/3akai-ux",
-    revision  => "${localconfig::ux_git_branch}",
-    require   => Package['scmgit'],
-  }
-  
-
-
-  #######################
-  ## START APPLICATION ##
-  #######################
-  
-  # Daemon script needed for SMF to manage the application
-  file { "${localconfig::app_root}/service.xml":
-    ensure  =>  present,
-    content =>  template('localconfig/node-oae-service-manifest.xml.erb'),
-    notify  =>  Exec["svccfg_${localconfig::app_service_name}"],
-    require =>  Vcsrepo["${localconfig::app_root}"],
-  }
-  
-  # Own everything as the application user. We need to make sure all file changes in the directory are done before setting this
-  exec { "chown_${localconfig::app_root}":
-    command => "/opt/local/gnu/bin/chown -R ${localconfig::app_user}:${localconfig::app_group} ${localconfig::app_root}",
-    require => [Vcsrepo["${localconfig::app_root}"], File["${localconfig::app_root}/config.js"],
-        File["${localconfig::app_root}/service.xml"], Exec["npm_install_dependencies"] ],
-  }
-  
-  # Force reload the manifest
-  exec { "svccfg_${localconfig::app_service_name}":
-    command   => "/usr/sbin/svccfg import ${localconfig::app_root}/service.xml",
-    notify    => Service["${localconfig::app_service_name}"],
-    require   => File["${localconfig::app_root}/service.xml"],
-  }
-  
-  # Start the app server
-  service { "${localconfig::app_service_name}":
-    ensure    => running,
-    manifest  => "${localconfig::app_root}/service.xml",
-    require => [ Exec["chown_${localconfig::app_root}"], Vcsrepo["${localconfig::ux_root}"] ],
-  }
-  
 }
 
 node webnode inherits basenode {

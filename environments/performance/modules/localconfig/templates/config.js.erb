@@ -45,7 +45,7 @@ config.redis = {
 // UI related config information. By default, we assume that the UI repostory 
 // can be found on the same level as the Hilary folder.
 config.ui = {
-    'path': '<%= scope.lookupvar("localconfig::ux_root") %>'
+    'path': '<%= ux_root_dir %>'
 };
 
 // Configuration for the ports on which the global admin express server and
@@ -63,7 +63,7 @@ config.servers = {
 // administrator panel.
 // This configuration only deals with where temp files should be stored.
 config.files = {
-    'uploadDir': '<%= scope.lookupvar("localconfig::app_files") %>'
+    'uploadDir': '<%= upload_files_dir %>'
 };
 
 // The configuration that can be used to generate secure HTTP cookies.
@@ -159,4 +159,8 @@ config.mq = {
  */
 config.signing = {
     'key': 'The default signing key, please change me. I changed it.'
+};
+
+config.activity = {
+    'processActivityJobs': <%= enable_activities ? true : false %>
 };
