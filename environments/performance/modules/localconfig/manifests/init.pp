@@ -22,7 +22,7 @@ class localconfig {
     '165.225.136.163',
     '165.225.136.47',
   ]
-  
+
   $circonus_url = 'https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t'
 
   # Redis
