@@ -71,7 +71,7 @@ class hilary (
   file { "${upload_files_dir}":
     ensure  => directory,
     owner   => "${os_user}",
-    group   => "${os_branch}",
+    group   => "${os_group}",
   }
   
   # config.js
