@@ -54,6 +54,41 @@ node activitynode inherits basenode {
     os_group            => $localconfig::app_group,
     upload_files_dir    => $localconfig::app_files,
     enable_activities   => true,
+    enable_previews     => false,
+  }
+}
+
+node ppnode inherits basenode {
+
+  ##########################
+  ## PACKAGE DEPENDENCIES ##
+  ##########################
+
+  package { 'libreoffice':
+    ensure  => installed,
+  }
+
+  package { 'pdftk':
+    ensure  => installed,
+  }
+
+  ###########################################
+  ## INSTALL HILARY AND 3AKAI-UX CONTAINER ##
+  ###########################################
+
+  class { 'hilary':
+    app_root_dir        => $localconfig::app_root,
+    app_git_user        => $localconfig::app_git_user,
+    app_git_branch      => $localconfig::app_git_branch,
+    ux_root_dir         => $localconfig::ux_root,
+    ux_git_user         => $localconfig::ux_git_user,
+    ux_git_branch       => $localconfig::ux_git_branch,
+    os_user             => $localconfig::pp_user,
+    os_group            => $localconfig::pp_group,
+    upload_files_dir    => $localconfig::app_files,
+    enable_activities   => false,
+    enable_previews     => true,
+    provider            => 'apt',
   }
 }
 

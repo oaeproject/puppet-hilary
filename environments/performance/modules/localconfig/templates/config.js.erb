@@ -19,7 +19,10 @@ var config = module.exports.config = {};
 
 // Cassandra related config information.
 config.cassandra = {
-    'hosts': <%= scope.lookupvar("localconfig::db_hosts") %>,
+    'hosts': [
+        <% scope.lookupvar("localconfig::db_hosts").each_with_index do |ip, index| %>'<%= ip %>',
+<% end %>
+    ],
     'keyspace': '<%= scope.lookupvar("localconfig::db_keyspace") %>',
     'user': '', 
     'pass': '',
@@ -147,6 +150,40 @@ config.mq = {
         'port': <%= scope.lookupvar("localconfig::mq_hosts_internal")[0]["port"] %>
     },
     'prefetchCount': 15
+};
+
+/**
+ * `config.previews`
+ *
+ * Configuration namespace for the preview processor.
+ *
+ * @param {Boolean}     enabled                 Whether or not the preview processor should be running.
+ * @param {String}      dir                     A directory that can be used to store temporary files in.
+ * @param {Object}      office                  Holds the configuration for anything Office related.
+ * @paran {String}      office.binary           The path to the 'soffice.bin' binary that starts up Libre Office. ex: On OS X it is `/Applications/LibreOffice.app/Contents/MacOS/soffice.bin` with a default install.
+ * @param {Number}      office.timeout          Defines the timeout (in ms) when the Office process should be killed.
+ * @param {Object}      pdf                     Holds the configuration for anything related to PDF splitting.
+ * @paran {String}      pdf.binary              The path to the `pdftk` binary that can be used to split a PDF file into a PDF-per-page.
+ * @param {Number}      pdf.timeout             Defines the timeout (in ms) when the pdftk process should be killed.
+ * @param {Object}      credentials             Holds the credentials that can be used to log on the global admin server.
+ * @param {String}      credentials.username    The username to login with on the global admin server.
+ * @param {String}      credentials.password    The password to login with on the global admin server.
+ */
+config.previews = {
+    'enabled': <%= enable_previews ? true : false %>,
+    'dir': '<%= upload_files_dir %>' + '/previews',
+    'office': {
+        'binary': '/usr/bin/soffice',
+        'timeout': 120000
+    },
+    'pdf': {
+        'binary': '/usr/bin/pdftk',
+        'timeout': 120000
+    },
+    'credentials': {
+        'username': 'administrator',
+        'password': 'administrator'
+    }
 };
 
 /**

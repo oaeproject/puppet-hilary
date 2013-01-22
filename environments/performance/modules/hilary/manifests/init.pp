@@ -9,42 +9,33 @@ class hilary (
     $os_group,
     $upload_files_dir,
     $enable_activities = false,
+    $enable_previews   = false,
+    $provider          = 'pkgin',
     $service_name      = 'node-sakai-oae') {
-  
+
   ##########################
   ## PACKAGE DEPENDENCIES ##
   ##########################
 
-  package { 'gcc47':
-    ensure    => present,
-    provider  => pkgin,
-  }
-  
-  package { 'gmake':
-    ensure    => present,
-    provider  => pkgin,
-  }
-  
-  package { 'automake':
-    ensure    => present,
-    provider  => pkgin,
-  }
-
-  package { 'nodejs':
-    ensure    => present,
-    provider  => pkgin,
-  }
-  
-  package { 'scmgit':
-    ensure    => present,
-    provider  => pkgin,
+  case $operatingsystem {
+    debian, ubuntu: {
+      $packages = [ 'gcc', 'automake', 'nodejs', 'npm', 'graphicsmagick' ]
+      $npm_binary = '/usr/bin/npm'
+    }
+    Solaris: {
+      $packages = [ 'gcc', 'automake', 'gmake', 'nodejs', 'GraphicsMagick' ]
+      $npm_binary = '/opt/local/bin/npm'
+    }
+    default: {
+      $packages = [ 'gcc', 'automake', 'gmake', 'nodejs', 'npm', 'GraphicsMagick' ]
+      $npm_binary = '/usr/bin/npm'
+    }
   }
 
-  package { 'GraphicsMagick':
+  package { $packages:
     ensure    => present,
-    provider  => pkgin,
+    provider  => $provider,
   }
-
 
   ########################
   ## DEPLOY APPLICATION ##
@@ -56,14 +47,21 @@ class hilary (
     provider  => git,
     source    => "http://github.com/${app_git_user}/Hilary",
     revision  => "${app_git_branch}",
-    require   => [ Package['scmgit'] ],
+  }
+
+  file { "${app_root_dir}":
+    ensure  => directory,
+    mode    => 644,
+    owner   => "${os_user}",
+    group   => "${os_group}",
+    recurse => true,
   }
   
   # npm install -d
   exec { "npm_install_dependencies":
     cwd         => "${app_root_dir}",
-    command     => "/opt/local/bin/npm install -d",
-    require     => [ Vcsrepo["${app_root_dir}"], Package['GraphicsMagick'] ],
+    command     => "${npm_binary} install -d",
+    require     => [ File["${app_root_dir}"], Package[$packages] ],
   }
 
   # Directory for temp files
@@ -77,7 +75,6 @@ class hilary (
   file { "${app_root_dir}/config.js":
     ensure  => present,
     content => template('localconfig/config.js.erb'),
-    notify  =>  Service["${service_name}"],
     require => [ Vcsrepo["${app_root_dir}"], File["${upload_files_dir}"] ],
   }
 
@@ -93,7 +90,6 @@ class hilary (
     provider  => git,
     source    => "http://github.com/${ux_git_user}/3akai-ux",
     revision  => "${ux_git_branch}",
-    require   => Package['scmgit'],
   }
 
 
@@ -102,33 +98,55 @@ class hilary (
   ## START APPLICATION ##
   #######################
   
-  # Daemon script needed for SMF to manage the application
-  file { "${app_root_dir}/service.xml":
-    ensure  =>  present,
-    content =>  template('localconfig/node-oae-service-manifest.xml.erb'),
-    notify  =>  Exec["svccfg_${service_name}"],
-    require =>  Vcsrepo["${app_root_dir}"],
+  case $operatingsystem {
+    debian, ubuntu: {
+
+      file { "/etc/init/hilary.conf":
+        ensure  =>  present,
+        content =>  template('localconfig/upstart_hilary.conf.erb'),
+        require =>  Vcsrepo["${app_root_dir}"],
+      }
+
+      # Create a symlink to /etc/init/*.conf in /etc/init.d, because Puppet 2.7 looks there incorrectly (see: http://projects.puppetlabs.com/issues/14297)
+      file { '/etc/init.d/hilary':
+        ensure => link,
+        target => '/lib/init/hilary',
+        require =>  File["/etc/init/hilary.conf"],
+      }
+
+      service { 'hilary':
+        ensure => running,
+        provider => 'upstart',
+        require => File['/etc/init.d/hilary'],
+      }
+    }
+    Solaris: {
+      # Daemon script needed for SMF to manage the application
+      file { "${app_root_dir}/service.xml":
+        ensure  =>  present,
+        content =>  template('localconfig/node-oae-service-manifest.xml.erb'),
+        notify  =>  Exec["svccfg_${service_name}"],
+        require =>  Vcsrepo["${app_root_dir}"],
+      }
+
+      # Force reload the manifest
+      exec { "svccfg_${service_name}":
+        command   => "/usr/sbin/svccfg import ${app_root_dir}/service.xml",
+        notify    => Service["${service_name}"],
+        require   => File["${app_root_dir}/service.xml"],
+      }
+
+      # Start the app server
+      service { "${service_name}":
+        ensure    => running,
+        manifest  => "${app_root_dir}/service.xml",
+        require   => Exec["svccfg_${service_name}"],
+      }
+    }
+    default: {
+      exec { "notsupported":
+        command   => fail("No support yet for ${::operatingsystem}")
+      }
+    }
   }
-  
-  # Own everything as the application user. We need to make sure all file changes in the directory are done before setting this
-  exec { "chown_${app_root_dir}":
-    command => "/opt/local/gnu/bin/chown -R ${os_user}:${os_group} ${app_root_dir}",
-    require => [Vcsrepo["${app_root_dir}"], File["${app_root_dir}/config.js"],
-        File["${app_root_dir}/service.xml"], Exec["npm_install_dependencies"] ],
-  }
-  
-  # Force reload the manifest
-  exec { "svccfg_${service_name}":
-    command   => "/usr/sbin/svccfg import ${app_root_dir}/service.xml",
-    notify    => Service["${service_name}"],
-    require   => File["${app_root_dir}/service.xml"],
-  }
-  
-  # Start the app server
-  service { "${service_name}":
-    ensure    => running,
-    manifest  => "${app_root_dir}/service.xml",
-    require => [ Exec["chown_${app_root_dir}"], Vcsrepo["${ux_root_dir}"] ],
-  }
-  
 }

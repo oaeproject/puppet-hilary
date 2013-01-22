@@ -183,3 +183,9 @@ node 'driver0' inherits drivernode {
 
 node 'mq0' inherits mqnode {  
 }
+
+#############################
+## PREVIEW PROCESSOR NODES ##
+#############################
+
+node 'pp0' inherits ppnode { }
