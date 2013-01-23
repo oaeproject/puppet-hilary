@@ -28,6 +28,12 @@ node 'activity1' inherits activitynode { }
 
 node 'activity2' inherits activitynode { }
 
+node 'activity3' inherits activitynode { }
+
+node 'activity4' inherits activitynode { }
+
+node 'activity5' inherits activitynode { }
+
 #####################
 ## CASSANDRA NODES ##
 #####################
@@ -80,6 +86,54 @@ node 'db2' inherits dbnode {
 
   class { 'munin::client':
     hostname => 'db2',
+    require  => Class['cassandra::common'],
+  }
+}
+
+node 'db3' inherits dbnode {
+  class { 'cassandra::common':
+    owner           => $localconfig::db_user,
+    group           => $localconfig::db_group,
+    hosts           => $localconfig::db_hosts,
+    listen_address  => $localconfig::db_hosts[3],
+    cluster_name    => $localconfig::db_cluster_name,
+    initial_token   => $localconfig::db_initial_tokens[3],
+  }
+
+  class { 'munin::client':
+    hostname => 'db3',
+    require  => Class['cassandra::common'],
+  }
+}
+
+node 'db4' inherits dbnode {
+  class { 'cassandra::common':
+    owner           => $localconfig::db_user,
+    group           => $localconfig::db_group,
+    hosts           => $localconfig::db_hosts,
+    listen_address  => $localconfig::db_hosts[4],
+    cluster_name    => $localconfig::db_cluster_name,
+    initial_token   => $localconfig::db_initial_tokens[4],
+  }
+
+  class { 'munin::client':
+    hostname => 'db4',
+    require  => Class['cassandra::common'],
+  }
+}
+
+node 'db5' inherits dbnode {
+  class { 'cassandra::common':
+    owner           => $localconfig::db_user,
+    group           => $localconfig::db_group,
+    hosts           => $localconfig::db_hosts,
+    listen_address  => $localconfig::db_hosts[5],
+    cluster_name    => $localconfig::db_cluster_name,
+    initial_token   => $localconfig::db_initial_tokens[5],
+  }
+
+  class { 'munin::client':
+    hostname => 'db5',
     require  => Class['cassandra::common'],
   }
 }
