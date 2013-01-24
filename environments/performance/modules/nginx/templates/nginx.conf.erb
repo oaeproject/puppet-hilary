@@ -10,6 +10,10 @@ http {
     include       /opt/local/etc/nginx/mime.types;
     default_type  application/octet-stream;
 
+    ssl_certificate      <%= cert %>;
+    ssl_certificate_key  <%= cert_key %>;
+ 
+
     ##################
     ##################
     ## GLOBAL ADMIN ##
@@ -28,6 +32,7 @@ http {
     
     server {
         listen       80;
+        listen       443 ssl;
         server_name  <%= ux_admin_host %>;
 
         ##################
@@ -130,6 +135,7 @@ http {
 
     server {
         listen   80 default_server;
+        listen   443 default_server ssl;
 
         # This determines the maximum size of an uploaded file.
         client_max_body_size 4096M;

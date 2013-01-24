@@ -2,6 +2,8 @@
 # This bash script holds the commands to scrub
 # a web server and start fresh.
 
+# Stop nginx
+svcadm disable nginx
 
 # Delete the directory.
 sudo rm -rf /opt/3akai-ux
