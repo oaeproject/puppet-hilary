@@ -117,7 +117,10 @@ class hilary (
       service { 'hilary':
         ensure => running,
         provider => 'upstart',
-        require => File['/etc/init.d/hilary'],
+        require => [  File['/etc/init.d/hilary'],
+                      Vcsrepo["${ux_root_dir}"],
+                      Exec["npm_install_dependencies"],
+                   ]
       }
     }
     Solaris: {
@@ -140,7 +143,10 @@ class hilary (
       service { "${service_name}":
         ensure    => running,
         manifest  => "${app_root_dir}/service.xml",
-        require   => Exec["svccfg_${service_name}"],
+        require   => [  Exec["svccfg_${service_name}"],
+                        Vcsrepo["${ux_root_dir}"],
+                        Exec["npm_install_dependencies"],
+                     ]
       }
     }
     default: {

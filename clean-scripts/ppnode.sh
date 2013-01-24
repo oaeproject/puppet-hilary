@@ -1,9 +1,9 @@
 #!/bin/bash
 # This bash script holds the commands to scrub
-# an app server and start fresh.
+# a pp server and start fresh.
 
 # Stop the app server.
-svcadm disable node-sakai-oae
+stop hilary
 
 # Delete the directory.
 sudo rm -rf /opt/oae
