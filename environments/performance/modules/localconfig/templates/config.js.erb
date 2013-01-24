@@ -51,12 +51,19 @@ config.ui = {
     'path': '<%= ux_root_dir %>'
 };
 
-// Configuration for the ports on which the global admin express server and
-// the tenant express server need to be running. It also specifies the tenant
-// alias used for the global admin 
+/**
+ * `config.servers`
+ *
+ * Configuration namespace for servers.
+ *
+ * @param   {String}    globalAdminAlias        The tenant alias that will be used for the global admins.
+ * @param   {String}    globalAdminHost         The hostname on which the global admin server can be reached by users.
+ * @param   {Number}    globalAdminPort         The network port on which the global admin express server can run.
+ * @param   {Number}    tenantPort              The network port on which the tenant express server can run.
+ */
 config.servers = {
-    // Port on which the global admin server should be initialized
     'globalAdminAlias': 'admin',
+    'globalAdminHost': 'admin.oae-performance.sakaiproject.org',
     'globalAdminPort': 2000,
     'tenantPort': 2001
 };
