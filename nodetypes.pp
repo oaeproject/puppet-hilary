@@ -53,7 +53,7 @@ node activitynode inherits basenode {
     os_user             => $localconfig::app_user,
     os_group            => $localconfig::app_group,
     upload_files_dir    => $localconfig::app_files,
-    enable_activities   => true,
+    enable_activities   => false,
     enable_previews     => false,
   }
 }
@@ -87,7 +87,7 @@ node ppnode inherits basenode {
     os_group            => $localconfig::pp_group,
     upload_files_dir    => $localconfig::app_files,
     enable_activities   => false,
-    enable_previews     => true,
+    enable_previews     => false,
     provider            => 'apt',
   }
 }
