@@ -189,3 +189,7 @@ node 'mq0' inherits mqnode {
 #############################
 
 node 'pp0' inherits ppnode { }
+
+node 'pp1' inherits ppnode { }
+
+node 'pp2' inherits ppnode { }
