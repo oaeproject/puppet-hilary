@@ -3,7 +3,7 @@
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  *     http://www.osedu.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing,
@@ -17,12 +17,15 @@ var bunyan = require('bunyan');
 
 var config = module.exports.config = {};
 
+// UI related config information. By default, we assume that the UI repostory
+// can be found on the same level as the Hilary folder.
+config.ui = {
+    'path': '<%= ux_root_dir %>'
+};
+
 // Cassandra related config information.
 config.cassandra = {
-    'hosts': [
-        <% scope.lookupvar("localconfig::db_hosts").each_with_index do |ip, index| %>'<%= ip %>',
-<% end %>
-    ],
+    'hosts': [ <% scope.lookupvar("localconfig::db_hosts").each_with_index do |ip, index| %>'<%= ip %>', <% end %> ],
     'keyspace': '<%= scope.lookupvar("localconfig::db_keyspace") %>',
     'user': '', 
     'pass': '',
@@ -45,12 +48,6 @@ config.redis = {
     'dbIndex': 0
 };
 
-// UI related config information. By default, we assume that the UI repostory 
-// can be found on the same level as the Hilary folder.
-config.ui = {
-    'path': '<%= ux_root_dir %>'
-};
-
 /**
  * `config.servers`
  *
@@ -69,9 +66,10 @@ config.servers = {
 };
 
 // Configuration regarding file uploads.
-// Where and how the end files will be stored can be configured in the
-// administrator panel.
-// This configuration only deals with where temp files should be stored.
+// The `uploadDir` key determines where upload files can be buffered before
+// moving them over to the configured storage backend.
+// The storage backend can be configured in the Admin UI and can be changed
+// at runtime.
 config.files = {
     'uploadDir': '<%= upload_files_dir %>'
 };
@@ -80,13 +78,13 @@ config.files = {
 // It's strongly recommended that you change this value.
 // Make sure that this value is the same accross each app server.
 config.cookie = {
-    'secret': 'this secret will be used to sign your cookies, change me!'
+    'secret': 'this secret will be used to sign your cookies, I totally changed it!'
 };
 
 config.log = {
     'streams': [
         {
-            'level': 'trace',
+            'level': 'info',
             'path': '/opt/oae/server.log'
         }
     ],
@@ -96,7 +94,6 @@ config.log = {
         'res': bunyan.stdSerializers.res
     }
 };
-
 
 // This object holds the configuration for the telemetry monitoring.
 // By default telemetry is disabled.
@@ -116,6 +113,18 @@ config.telemetry = {
     }
 };
 
+/**
+ * `config.search`
+ *
+ * Configuration namespace for search.
+ *
+ * @param  {Object[]}  hosts                    The elastic search hosts/ports with which to communicate. Each element of this array is a hash that has 2 keys: 'host' and 'port'.
+ * @param  {Object}    index                    Holds configuration properties for the OAE search index.
+ * @param  {String}    index.name               The unique name of the index.
+ * @param  {Object}    index.settings           Holds the elastic search index configuration settings, as per http://www.elasticsearch.org/guide/reference/api/admin-indices-create-index.html
+ * @param  {Boolean}   [index.destroyOnStartup] Whether or not the index should be destroyed when the server starts up. Do not enable this on a production server. Defaults to `false`.
+ * @param  {Boolean}   [processIndexJobs]       Whether or not this node should act as an indexer. Only disable this if you have another dedicated set of machines performing index processing. Defaults to `true`.
+ */
 config.search = {
     'hosts': [
         <% scope.lookupvar("localconfig::search_hosts_internal").each do |host| -%>
@@ -148,9 +157,18 @@ config.search = {
         'allowAnonRefresh': false,
         'destroyOnStartup': false
     },
-    'processIndexJobs': false
+    'processIndexJobs': true
 };
 
+/**
+ * `config.mq`
+ *
+ * Configuration namespace for the message queue (RabbitMQ).
+ *
+ * @param   {Object}    connection      The connection description
+ * @param   {String}    connection.host The host for the connection
+ * @param   {Number}    connection.port The port for the connection
+ */
 config.mq = {
     'connection': {
         'host': '<%= scope.lookupvar("localconfig::mq_hosts_internal")[0]["host"] %>',
@@ -178,7 +196,7 @@ config.mq = {
  */
 config.previews = {
     'enabled': <%= enable_previews ? true : false %>,
-    'dir': '<%= upload_files_dir %>' + '/previews',
+    'dir': '/tmp/previews',
     'office': {
         'binary': '/usr/bin/soffice',
         'timeout': 120000
@@ -199,10 +217,10 @@ config.previews = {
  * Configuration namespace for the signing logic
  * FIXME: once https://github.com/sakaiproject/Hilary/issues/331 is addressed, this config can move to the Global Admin Config.
  *
- * @param  {String}    key     This key will be used to sign URLs like profile pictures, content previews, etc.. . It's vital to the security of the system that you change this in production.
+ * @param   {String}    key     This key will be used to sign URLs like profile pictures, content previews, etc.. . It's vital to the security of the system that you change this in production.
  */
 config.signing = {
-    'key': 'The default signing key, please change me. I changed it.'
+    'key': 'Not the default signing key anymore.'
 };
 
 /**
