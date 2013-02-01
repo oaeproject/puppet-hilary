@@ -24,21 +24,9 @@ rm -rf /var/log/opscenter-agent/*
 chown -R cassandra:cassandra /var/log/cassandra
 
 # Delete all the data
-find /var/lib/cassandra/data/oae/ -regex "^.*\.db$" -maxdepth 2 -exec rm -rf {} \;
-rm -rf /var/lib/cassandra/commitlog/*
-chown -R cassandra:cassandra /var/lib/cassandra
-
-# Restore a correct snapshot.
-# The name of the snapshot sits in ~/.snapshotname
-if [ -f ~/.snapshotname ] ; then
-    CFS=`ls /var/lib/cassandra/data/oae`
-    SNAPSHOTNAME=`cat ~/.snapshotname`
-    echo "Restoring ${SNAPSHOTNAME}."
-    for cf in $CFS ; do
-        cp -R /var/lib/cassandra/data/oae/${cf}/snapshots/${SNAPSHOTNAME}/* "/var/lib/cassandra/data/oae/${cf}"
-    done;
-fi
-
+rm -rf /data/cassandra/data/oae /var/lib/cassandra/data/oae
+rm -rf /data/cassandra/commitlog/* /var/lib/cassandra/commitlog/*
+chown -R cassandra:cassandra /data/cassandra
 
 # Pull latest puppet config and apply it.
 # This will also start the cassandra and any opscenter processes again.
