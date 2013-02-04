@@ -26,7 +26,7 @@ chown -R cassandra:cassandra /var/log/cassandra
 # Delete all the data
 rm -rf /data/cassandra/data/oae /var/lib/cassandra/data/oae
 rm -rf /data/cassandra/commitlog/* /var/lib/cassandra/commitlog/*
-mkdir -p /data/cassandra/data
+mkdir -p /data/cassandra/data /data/cassandra/commitlog
 chown -R cassandra:cassandra /data/cassandra
 
 # Pull latest puppet config and apply it.
