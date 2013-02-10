@@ -216,7 +216,7 @@ slave-serve-stale-data yes
 #
 
 # 7GB
-maxmemory 7516192768
+# maxmemory 7516192768
 
 # MAXMEMORY POLICY: how Redis will select what to remove when maxmemory
 # is reached? You can select among five behavior:
@@ -239,7 +239,7 @@ maxmemory 7516192768
 #
 # The default is:
 #
-maxmemory-policy volatile-ttl
+# maxmemory-policy volatile-ttl
 
 # LRU and minimal TTL algorithms are not precise algorithms but approximated
 # algorithms (in order to save memory), so you can select as well the sample
@@ -247,7 +247,7 @@ maxmemory-policy volatile-ttl
 # pick the one that was used less recently, you can change the sample size
 # using the following configuration directive.
 #
-maxmemory-samples 100
+# maxmemory-samples 3
 
 ############################## APPEND ONLY MODE ###############################
 
