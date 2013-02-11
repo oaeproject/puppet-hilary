@@ -14,7 +14,7 @@ class redis {
   file { 'redis.conf':
     path    => '/opt/local/etc/redis.conf',
     ensure  => present,
-    mode    => 0640,
+    mode    => 0660,
     owner   => $owner,
     group   => $group,
     content => template('redis/redis.conf.erb'),
