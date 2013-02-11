@@ -6,7 +6,7 @@ class redis {
   }
 
   exec { 'svccfg import redis.xml':
-    command => '/usr/sbin/svccfg import /opt/local/share/smf/manifest/redis.xml',
+    command => '/usr/sbin/svccfg import /opt/local/share/smf/redis/manifest.xml',
     require => Package['redis'],
   }
 
