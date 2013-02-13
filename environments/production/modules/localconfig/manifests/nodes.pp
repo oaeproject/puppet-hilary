@@ -106,6 +106,10 @@ node 'cache0' inherits basenode {
   class { 'redis': }
 }
 
+node 'c3903749-764a-4378-be81-b80c2465ba69' inherits basenode {
+  class { 'redis': }
+}
+
 #################
 ## LOAD DRIVER ##
 #################
