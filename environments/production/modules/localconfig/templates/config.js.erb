@@ -1,0 +1,162 @@
+/*
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ * 
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+var bunyan = require('bunyan');
+
+var config = module.exports.config = {};
+
+// Cassandra related config information.
+config.cassandra = {
+    'hosts': <%= scope.lookupvar("localconfig::db_hosts") %>,
+    'keyspace': '<%= scope.lookupvar("localconfig::db_keyspace") %>',
+    'user': '', 
+    'pass': '',
+    'timeout': <%= scope.lookupvar("localconfig::db_timeout") %>,
+    'replication': <%= scope.lookupvar("localconfig::db_replication") %>,
+    'strategyClass': '<%= scope.lookupvar("localconfig::db_strategyClass") %>'
+};
+
+// The redis related configuration information.
+// The `dbIndex` key allows for seperation of actual and unit test data.
+// By default redis starts up with 16 DB indexes so there should
+// be no need to create one.
+// We'll assume that:
+//  0 = production
+//  1 = unit tests
+config.redis = {
+    'host': '<%= scope.lookupvar("localconfig::redis_hosts")[0] %>',
+    'port': 6379,
+    'pass': '',
+    'dbIndex': 0
+};
+
+// UI related config information. By default, we assume that the UI repostory 
+// can be found on the same level as the Hilary folder.
+config.ui = {
+    'path': '<%= scope.lookupvar("localconfig::ux_root") %>'
+};
+
+// Configuration for the ports on which the global admin express server and
+// the tenant express server need to be running. It also specifies the tenant
+// alias used for the global admin 
+config.servers = {
+    // Port on which the global admin server should be initialized
+    'globalAdminAlias': 'admin',
+    'globalAdminPort': 2000,
+    'tenantPort': 2001
+};
+
+// Configuration regarding file uploads.
+// Where and how the end files will be stored can be configured in the
+// administrator panel.
+// This configuration only deals with where temp files should be stored.
+config.files = {
+    'uploadDir': '<%= scope.lookupvar("localconfig::app_files") %>'
+};
+
+// The configuration that can be used to generate secure HTTP cookies.
+// It's strongly recommended that you change this value.
+// Make sure that this value is the same accross each app server.
+config.cookie = {
+    'secret': 'this secret will be used to sign your cookies, change me!'
+};
+
+config.log = {
+    'streams': [
+        {
+            'level': 'info',
+            'path': '/opt/oae/server.log'
+        }
+    ],
+    'serializers': {
+        'err': bunyan.stdSerializers.err,
+        'req': bunyan.stdSerializers.req,
+        'res': bunyan.stdSerializers.res
+    }
+};
+
+
+// This object holds the configuration for the telemetry monitoring.
+// By default telemetry is disabled.
+// We currently support two types of publishers:
+// * displaying data on the console
+// * pushing data to circonus (via httptrap and redis)
+config.telemetry = {
+    'enabled': true,
+    'publisher': 'circonus',
+    'circonus': {
+        'url': '<%= scope.lookupvar("localconfig::circonus_url") %>',
+        'circonusInterval': 30000,
+        'redisInterval': 20000
+    },
+    'console': {
+        'interval': 5000
+    }
+};
+
+config.search = {
+    'hosts': [
+        <% scope.lookupvar("localconfig::search_hosts_internal").each do |host| -%>
+        { 'host': '<%= host["host"] %>', 'port': <%= host["port"] %> },
+        <% end -%>
+    ],
+    'index': {
+        'name': 'oae',
+        'settings': {
+            'number_of_shards': 5,
+            'number_of_replicas': 1,
+            'analysis': {
+                'analyzer': {
+                    'q': {
+                        'type': 'custom',
+                        'char_filter': ['html_strip'],
+                        'tokenizer': 'letter',
+                        'filter': ['lowercase', 'q_edgengram']
+                    }
+                },
+                'filter': {
+                    'q_edgengram': {
+                        'type': 'edgeNGram',
+                        'min_gram': 1,
+                        'max_gram': 15
+                    }
+                }
+            }
+        },
+        'allowAnonRefresh': false,
+        'destroyOnStartup': false
+    },
+    'processIndexJobs': true
+};
+
+config.mq = {
+    'connection': {
+        'host': '<%= scope.lookupvar("localconfig::mq_hosts_internal")[0]["host"] %>',
+        'port': <%= scope.lookupvar("localconfig::mq_hosts_internal")[0]["port"] %>
+    },
+    'prefetchCount': 15
+};
+
+/**
+ * `config.signing`
+ *
+ * Configuration namespace for the signing logic
+ * FIXME: once https://github.com/sakaiproject/Hilary/issues/331 is addressed, this config can move to the Global Admin Config.
+ *
+ * @param  {String}    key     This key will be used to sign URLs like profile pictures, content previews, etc.. . It's vital to the security of the system that you change this in production.
+ */
+config.signing = {
+    'key': 'The default signing key, please change me. I changed it.'
+};
