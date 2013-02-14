@@ -241,11 +241,11 @@ config.signing = {
 config.activity = {
     'processActivityJobs': <%= enable_activities ? true : false %>,
     'activityTtl': 2 * 7 * 24 * 60 * 60,
-    'numberOfProcessingBuckets': 6,
+    'numberOfProcessingBuckets': 3,
     'aggregateIdleExpiry': 3 * 60 * 60,
     'aggregateMaxExpiry': 24 * 60 * 60,
     'collectionExpiry': 60,
-    'maxConcurrentCollections': 2,
+    'maxConcurrentCollections': 1,
     'collectionPollingFrequency': 5,
-    'collectionBatchSize': 500
+    'collectionBatchSize': 1000
 };
