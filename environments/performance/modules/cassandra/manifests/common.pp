@@ -70,13 +70,18 @@ class cassandra::common(
     command => "/bin/mkdir -p ${cassandra_data_dir}/data ${cassandra_data_dir}/saved_caches"
   }
 
+  exec { "chown_cassandra_data":
+    command => "/bin/chown -R cassandra:cassandra ${cassandra_data_dir}",
+    require => Exec["mkdir_p_${cassandra_data_dir}"],
+  }
+
   # Start it.
   # Note that the default /etc/init.d/cassandra script has an invalid
   # status command. Puppet relies on a non-zero status code if cassandra
   # is stopped.
   service { 'cassandra':
     ensure     => 'running',
-    require    => [Exec['chown_cassandra'], Exec["mkdir_p_${cassandra_data_dir}"]],
+    require    => [Exec['chown_cassandra'], Exec['chown_cassandra_data']],
     enable     => 'true',
     hasstatus  => 'false',
   }
