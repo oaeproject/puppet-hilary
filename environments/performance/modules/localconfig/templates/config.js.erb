@@ -241,7 +241,7 @@ config.signing = {
 config.activity = {
     'processActivityJobs': <%= enable_activities ? true : false %>,
     'activityTtl': 2 * 7 * 24 * 60 * 60,
-    'numberOfProcessingBuckets': 3,
+    'numberOfProcessingBuckets': 6,
     'aggregateIdleExpiry': 3 * 60 * 60,
     'aggregateMaxExpiry': 24 * 60 * 60,
     'collectionExpiry': 120,
