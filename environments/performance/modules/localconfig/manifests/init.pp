@@ -30,6 +30,9 @@ class localconfig {
   # Redis
   $redis_hosts = ['10.112.2.103']
 
+  # ActivityRedis
+  $activity_redis_hosts = ['10.112.7.97']
+
   # Cassandra
   $db_cluster_name = 'Sakai OAE Performance Testing Cluster'
   $db_keyspace = 'oae'
