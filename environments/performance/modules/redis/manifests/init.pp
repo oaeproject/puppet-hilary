@@ -1,4 +1,8 @@
-class redis {
+class redis (
+    $eviction_maxmemory   = 'null',
+    $eviction_policy      = 'null',
+    $eviction_samples     = 'null'
+  ) {
 
   package { 'redis':
     ensure    => present,

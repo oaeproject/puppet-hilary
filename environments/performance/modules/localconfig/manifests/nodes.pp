@@ -170,6 +170,14 @@ node 'cache0' inherits basenode {
   class { 'redis': }
 }
 
+node 'activity-cache' inherits basenode {
+  class { 'redis':
+    eviction_maxmemory  => 3758096384,
+    eviction_policy     => 'volatile-ttl',
+    eviction_samples    => 3
+  }
+}
+
 #################
 ## LOAD DRIVER ##
 #################

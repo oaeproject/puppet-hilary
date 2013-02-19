@@ -215,8 +215,9 @@ slave-serve-stale-data yes
 # output buffers (but this is not needed if the policy is 'noeviction').
 #
 
-# 7GB
-maxmemory 7516192768
+<% if eviction_maxmemory != 'null' %>
+maxmemory <%= eviction_maxmemory %>
+<% end %>
 
 # MAXMEMORY POLICY: how Redis will select what to remove when maxmemory
 # is reached? You can select among five behavior:
@@ -239,7 +240,10 @@ maxmemory 7516192768
 #
 # The default is:
 #
-maxmemory-policy volatile-ttl
+
+<% if eviction_policy != 'null' %>
+maxmemory-policy <%= eviction_policy %>
+<% end %>
 
 # LRU and minimal TTL algorithms are not precise algorithms but approximated
 # algorithms (in order to save memory), so you can select as well the sample
@@ -249,7 +253,9 @@ maxmemory-policy volatile-ttl
 #
 # maxmemory-samples 3
 
-maxmemory-samples 3
+<% if eviction_samples !== 'null' %>
+maxmemory-samples <%= eviction_samples %>
+<% end %>
 
 ############################## APPEND ONLY MODE ###############################
 
