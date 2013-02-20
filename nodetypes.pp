@@ -24,6 +24,11 @@ node appnode inherits basenode {
   ## INSTALL HILARY AND 3AKAI-UX CONTAINER ##
   ###########################################
 
+  exec { "pull_in_saml_jar":
+    command => "/usr/bin/wget --directory-prefix=/opt http://stuff.gaeremynck.com/oae/org.sakaiproject.Hilary.SAMLParser-1.0-SNAPSHOT-jar-with-dependencies.jar",
+    creates => "/opt/org.sakaiproject.Hilary.SAMLParser-1.0-SNAPSHOT-jar-with-dependencies.jar",
+  }
+
   class { 'hilary':
     app_root_dir        => $localconfig::app_root,
     app_git_user        => $localconfig::app_git_user,

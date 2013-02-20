@@ -19,15 +19,15 @@ class hilary (
 
   case $operatingsystem {
     debian, ubuntu: {
-      $packages = [ 'gcc', 'automake', 'nodejs', 'npm', 'graphicsmagick' ]
+      $packages = [ 'gcc', 'automake', 'nodejs', 'npm', 'graphicsmagick', 'openjdk-6-jre' ]
       $npm_binary = '/usr/bin/npm'
     }
     Solaris: {
-      $packages = [ 'gcc47', 'automake', 'gmake', 'nodejs', 'GraphicsMagick' ]
+      $packages = [ 'gcc47', 'automake', 'gmake', 'nodejs', 'GraphicsMagick', 'sun-jre6-6.0.26' ]
       $npm_binary = '/opt/local/bin/npm'
     }
     default: {
-      $packages = [ 'gcc', 'automake', 'gmake', 'nodejs', 'npm', 'GraphicsMagick' ]
+      $packages = [ 'gcc', 'automake', 'gmake', 'nodejs', 'npm', 'GraphicsMagick', 'openjdk-6-jre' ]
       $npm_binary = '/usr/bin/npm'
     }
   }
