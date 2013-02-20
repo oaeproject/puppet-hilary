@@ -11,27 +11,27 @@ class localconfig {
   
   # App servers
   $app_hosts_internal = [
-    '10.112.4.121',
-    '10.112.4.122',
-    '10.112.5.18',
-    '10.112.4.244',
+    '10.224.14.6',
+    '10.224.14.7',
+    '10.224.14.8',
+    '10.224.14.9',
   ]
   $app_hosts_external = [
-    '165.225.133.113',
-    '165.225.133.114',
-    '165.225.136.163',
-    '165.225.136.47',
+    '37.153.97.179',
+    '37.153.97.64',
+    '37.153.97.87',
+    '37.153.96.213',
   ]
   
   $circonus_url = 'https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t'
 
   # Redis
-  $redis_hosts = ['10.112.2.103']
+  $redis_hosts = ['10.224.14.5']
 
   # Cassandra
-  $db_cluster_name = 'Sakai OAE Performance Testing Cluster'
+  $db_cluster_name = 'Sakai OAE Production Cluster'
   $db_keyspace = 'oae'
-  $db_hosts = [ '10.112.4.124', '10.112.4.125', '10.112.4.126' ]
+  $db_hosts = [ '10.224.14.22', '10.224.14.23', '10.224.14.24' ]
   $db_initial_tokens = [ '0', '56713727820156410577229101238628035242', '113427455640312821154458202477256070484' ]
   $db_timeout = 5000
   $db_replication = 3
@@ -45,7 +45,7 @@ class localconfig {
   $search_path_data = '/var/lib/elasticsearch'
 
   # Messaging
-  $mq_hosts_internal = [ { 'host' => '10.112.5.189', 'port' => 5672 } ]
+  $mq_hosts_internal = [ { 'host' => '10.224.14.20', 'port' => 5672 } ]
 
   # Installation details
   $app_service_name = 'node-sakai-oae'
