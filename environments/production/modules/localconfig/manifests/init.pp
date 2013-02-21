@@ -48,7 +48,6 @@ class localconfig {
   $mq_hosts_internal = [ { 'host' => '10.224.14.20', 'port' => 5672 } ]
 
   # Installation details
-  $app_service_name = 'node-sakai-oae'
   $app_root = '/opt/oae'
   $app_files = '/shared/files'
   $app_git_user = 'sakaiproject'

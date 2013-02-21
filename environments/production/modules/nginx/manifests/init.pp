@@ -3,29 +3,31 @@ class nginx(
     $ux_home        = '/opt/3akai-ux',
     $ux_admin_host  = 'admin.oae-performance.sakaiproject.org',
     $files_home     = '/opt/files',
+    $cert           = '/opt/local/etc/nginx/server.crt',
+    $cert_key       = '/opt/local/etc/nginx/server.key',
     $owner          = 'www',
     $group          = 'www') {
 
-  package { 'nginx':
-    ensure    => present,
-    provider  => pkgin,
+  exec { 'nginx_install':
+    cwd       => '/tmp',
+    command   => '/home/admin/puppet-hilary/environments/performance/modules/nginx/scripts/install.sh'
   }
   
-  file { '/opt/local/etc/nginx/nginx.conf':
+  file { 'nginx_config':
     path    => '/opt/local/etc/nginx/nginx.conf', 
     ensure  => present,
     mode    => 0640,
     owner   => $owner,
     group   => $group,
     content => template('nginx/nginx.conf.erb'),
-    require => Package['nginx'],
+    require => Exec['nginx_install'],
     notify  => Service['nginx'],
   }
   
   service { 'nginx':
     ensure  => running,
     enable  => 'true',
-    require => Package['nginx'],
+    require => File['nginx_config'],
   }
 
 }
