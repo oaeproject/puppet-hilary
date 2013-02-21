@@ -1,6 +1,5 @@
 class munin::client($hostname) {
-  include munin::repos
-  
+
   package { 'munin-node': ensure => installed }
   
   user { 'munin':
