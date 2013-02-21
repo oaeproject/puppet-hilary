@@ -4,7 +4,9 @@ class localconfig {
   $app_user   = 'admin'
   $app_group  = 'staff'
   $db_user    = 'root'
-  $db_group   = 'root' 
+  $db_group   = 'root'
+  $pp_user    = 'root'
+  $pp_group   = 'root'
   
   # Web servers
   $web_hosts = ['165.225.133.115']
@@ -22,16 +24,19 @@ class localconfig {
     '165.225.136.163',
     '165.225.136.47',
   ]
-  
+
   $circonus_url = 'https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t'
 
   # Redis
   $redis_hosts = ['10.112.2.103']
 
+  # ActivityRedis
+  $activity_redis_hosts = ['10.112.7.97']
+
   # Cassandra
   $db_cluster_name = 'Sakai OAE Performance Testing Cluster'
   $db_keyspace = 'oae'
-  $db_hosts = [ '10.112.4.124', '10.112.4.125', '10.112.4.126' ]
+  $db_hosts = [ '10.112.7.231', '10.112.7.44', '10.112.7.215' ]
   $db_initial_tokens = [ '0', '56713727820156410577229101238628035242', '113427455640312821154458202477256070484' ]
   $db_timeout = 5000
   $db_replication = 3
@@ -48,7 +53,6 @@ class localconfig {
   $mq_hosts_internal = [ { 'host' => '10.112.5.189', 'port' => 5672 } ]
 
   # Installation details
-  $app_service_name = 'node-sakai-oae'
   $app_root = '/opt/oae'
   $app_files = '/shared/files'
   $app_git_user = 'sakaiproject'

@@ -3,13 +3,14 @@
 #
 
 class cassandra::common(
-    $owner          = 'cassandra',
-    $group          = 'cassandra',
-    $hosts          = [ '127.0.0.1' ],
-    $listen_address = 'null',
-    $cluster_name   = 'Cassandra Cluster',
-    $cassandra_home = '/usr/share/cassandra',
-    $initial_token  = '') {
+    $owner              = 'cassandra',
+    $group              = 'cassandra',
+    $hosts              = [ '127.0.0.1' ],
+    $listen_address     = 'null',
+    $cluster_name       = 'Cassandra Cluster',
+    $cassandra_home     = '/usr/share/cassandra',
+    $cassandra_data_dir = '/data/cassandra',
+    $initial_token      = '') {
 
 	$release = $operatingsystem ? {
 		/CentOS|RedHat/ => $lsbmajdistrelease,
@@ -64,13 +65,23 @@ class cassandra::common(
     require => File["cassandra.yaml", "cassandra-env.sh"],
   }
 
+  ## Ensure the data directory exists
+  exec { "mkdir_p_${cassandra_data_dir}":
+    command => "/bin/mkdir -p ${cassandra_data_dir}/data ${cassandra_data_dir}/saved_caches"
+  }
+
+  exec { "chown_cassandra_data":
+    command => "/bin/chown -R cassandra:cassandra ${cassandra_data_dir}",
+    require => Exec["mkdir_p_${cassandra_data_dir}"],
+  }
+
   # Start it.
   # Note that the default /etc/init.d/cassandra script has an invalid
   # status command. Puppet relies on a non-zero status code if cassandra
   # is stopped.
   service { 'cassandra':
     ensure     => 'running',
-    require    => Exec['chown_cassandra'],
+    require    => [Exec['chown_cassandra'], Exec['chown_cassandra_data']],
     enable     => 'true',
     hasstatus  => 'false',
   }
