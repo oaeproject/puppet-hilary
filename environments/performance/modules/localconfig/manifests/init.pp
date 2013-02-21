@@ -36,7 +36,7 @@ class localconfig {
   # Cassandra
   $db_cluster_name = 'Sakai OAE Performance Testing Cluster'
   $db_keyspace = 'oae'
-  $db_hosts = [ '10.112.7.231', '10.112.7.44', '10.112.7.215' ]
+  $db_hosts = [ '10.112.2.44', '10.112.7.44', '10.112.7.215' ]
   $db_initial_tokens = [ '0', '56713727820156410577229101238628035242', '113427455640312821154458202477256070484' ]
   $db_timeout = 5000
   $db_replication = 3
