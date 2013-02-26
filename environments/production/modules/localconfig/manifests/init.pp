@@ -58,8 +58,6 @@ class localconfig {
   $ux_root = '/opt/3akai-ux'
   $ux_admin_host = 'admin.oae-performance.sakaiproject.org'
 
-  $driver_tsung_version = '1.4.2'
-
   # Munin regexes
   $munin_allowedRegexes = [
     '^127\.0\.0\.1$',      # local check

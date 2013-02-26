@@ -178,13 +178,6 @@ node 'activity-cache' inherits basenode {
   }
 }
 
-#################
-## LOAD DRIVER ##
-#################
-
-node 'driver0' inherits drivernode {
-}
-
 #####################
 ## MESSAGING NODES ##
 #####################
