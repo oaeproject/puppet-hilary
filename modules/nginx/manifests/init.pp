@@ -8,9 +8,19 @@ class nginx(
     $owner          = 'www',
     $group          = 'www') {
 
+  file { 'nginx_script':
+    path    => '/home/admin/nginx/scripts/install.sh',
+    ensure  => present,
+    mode    => 0700,
+    owner   => root,
+    group   => root,
+    source  => 'puppet:///modules/nginx/scripts/install.sh',
+  }
+
   exec { 'nginx_install':
     cwd       => '/tmp',
-    command   => 'puppet:///modules/nginx/scripts/install.sh'
+    command   => '/home/admin/nginx/scripts/install.sh',
+    require   => File['nginx_script']
   }
   
   file { 'nginx_config':
