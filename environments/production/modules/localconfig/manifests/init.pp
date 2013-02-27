@@ -27,9 +27,11 @@ class localconfig {
 
   $circonus_url = 'https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t'
 
-  # Redis
-  $redis_hosts = ['10.224.14.5']
+  # Redis -- List the master first (at index 0)
+  $redis_hosts = ['10.224.14.14', '10.224.14.15']
 
+  # Activity redis -- List the master first (at index 0)
+  $activity_redis_hosts = ['10.224.14.12', '10.224.14.13']
   # Cassandra
   $db_cluster_name = 'Sakai OAE Production Cluster'
   $db_keyspace = 'oae'
