@@ -8,6 +8,11 @@ class nginx(
     $owner          = 'www',
     $group          = 'www') {
 
+  exec { 'installdir':
+    command => '/opt/local/gnu/bin/mkdir -p /home/admin/nginx/scripts',
+    unless  => '/opt/local/gnu/bin/test -d /home/jeff/src/my/dir/path',
+  }
+
   file { 'nginx_script':
     path    => '/home/admin/nginx/scripts/install.sh',
     ensure  => present,
@@ -15,6 +20,7 @@ class nginx(
     owner   => root,
     group   => root,
     source  => 'puppet:///modules/nginx/install.sh',
+    require => Exec['installdir']
   }
 
   exec { 'nginx_install':
