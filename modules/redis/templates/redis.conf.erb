@@ -145,6 +145,8 @@ dir /var/db/redis
 #
 # slaveof <masterip> <masterport>
 
+<% if slave_of != 'null' %>slaveof <%= slave_of %> 6379<% end %>
+
 # If the master is password protected (using the "requirepass" configuration
 # directive below) it is possible to tell the slave to authenticate before
 # starting the replication synchronization process, otherwise the master will

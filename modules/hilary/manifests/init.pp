@@ -51,31 +51,31 @@ class hilary (
 
   file { "${app_root_dir}":
     ensure  => directory,
-    mode    => 644,
-    owner   => "${os_user}",
-    group   => "${os_group}",
+    mode    => "0644",
+    owner   => $os_user,
+    group   => $os_group,
     recurse => true,
   }
-  
+
   # npm install -d
   exec { "npm_install_dependencies":
-    cwd         => "${app_root_dir}",
+    cwd         => $app_root_dir,
     command     => "${npm_binary} install -d",
-    require     => [ File["${app_root_dir}"], Package[$packages] ],
+    require     => [ File[$app_root_dir], Package[$packages] ],
   }
 
   # Directory for temp files
   file { "${upload_files_dir}":
     ensure  => directory,
-    owner   => "${os_user}",
-    group   => "${os_group}",
+    owner   => $os_user,
+    group   => $os_group,
   }
-  
+
   # config.js
   file { "${app_root_dir}/config.js":
     ensure  => present,
     content => template('localconfig/config.js.erb'),
-    require => [ Vcsrepo["${app_root_dir}"], File["${upload_files_dir}"] ],
+    require => [ Vcsrepo[$app_root_dir], File[$upload_files_dir] ],
   }
 
 
@@ -85,11 +85,11 @@ class hilary (
   ####################
 
   # git clone http://github.com/sakaiproject/3akai-ux
-  vcsrepo { "${ux_root_dir}":
+  vcsrepo { $ux_root_dir:
     ensure    => present,
     provider  => git,
     source    => "http://github.com/${ux_git_user}/3akai-ux",
-    revision  => "${ux_git_branch}",
+    revision  => $ux_git_branch,
   }
 
 
@@ -97,14 +97,14 @@ class hilary (
   #######################
   ## START APPLICATION ##
   #######################
-  
+
   case $operatingsystem {
     debian, ubuntu: {
 
       file { "/etc/init/hilary.conf":
         ensure  =>  present,
         content =>  template('localconfig/upstart_hilary.conf.erb'),
-        require =>  Vcsrepo["${app_root_dir}"],
+        require =>  Vcsrepo[$app_root_dir],
       }
 
       # Create a symlink to /etc/init/*.conf in /etc/init.d, because Puppet 2.7 looks there incorrectly (see: http://projects.puppetlabs.com/issues/14297)
@@ -115,12 +115,12 @@ class hilary (
       }
 
       service { 'hilary':
-        ensure => running,
+        ensure   => running,
         provider => 'upstart',
-        require => [  File['/etc/init.d/hilary'],
-                      Vcsrepo["${ux_root_dir}"],
+        require  => [ File['/etc/init.d/hilary'],
+                      Vcsrepo[$ux_root_dir],
                       Exec["npm_install_dependencies"],
-                   ]
+                    ]
       }
     }
     Solaris: {
@@ -129,24 +129,24 @@ class hilary (
         ensure  =>  present,
         content =>  template('localconfig/node-oae-service-manifest.xml.erb'),
         notify  =>  Exec["svccfg_${service_name}"],
-        require =>  Vcsrepo["${app_root_dir}"],
+        require =>  Vcsrepo[$app_root_dir],
       }
 
       # Force reload the manifest
       exec { "svccfg_${service_name}":
         command   => "/usr/sbin/svccfg import ${app_root_dir}/service.xml",
-        notify    => Service["${service_name}"],
+        notify    => Service[$service_name],
         require   => File["${app_root_dir}/service.xml"],
       }
 
       # Start the app server
-      service { "${service_name}":
-        ensure    => running,
-        manifest  => "${app_root_dir}/service.xml",
-        require   => [  Exec["svccfg_${service_name}"],
-                        Vcsrepo["${ux_root_dir}"],
-                        Exec["npm_install_dependencies"],
-                     ]
+      service { $service_name:
+        ensure   => running,
+        manifest => "${app_root_dir}/service.xml",
+        require  => [ Exec["svccfg_${service_name}"],
+                      Vcsrepo[$ux_root_dir],
+                      Exec["npm_install_dependencies"],
+                    ]
       }
     }
     default: {

@@ -5,6 +5,8 @@
 
 node 'web0' inherits webnode { }
 
+node 'web1' inherits webnode { }
+
 
 ###############
 ## APP NODES ##
@@ -166,11 +168,17 @@ node 'search1' inherits basenode {
 ## REDIS NODES ##
 #################
 
-node 'cache0' inherits basenode {
+node 'cache-master' inherits basenode {
   class { 'redis': }
 }
 
-node 'activity-cache' inherits basenode {
+node 'cache-slave' inherits basenode {
+  class { 'redis':
+    slave_of  => $localconfig::redis_hosts[0],
+  }
+}
+
+node 'activity-cache-master' inherits basenode {
   class { 'redis':
     eviction_maxmemory  => 3758096384,
     eviction_policy     => 'volatile-ttl',
@@ -178,11 +186,13 @@ node 'activity-cache' inherits basenode {
   }
 }
 
-#################
-## LOAD DRIVER ##
-#################
-
-node 'driver0' inherits drivernode {
+node 'activity-cache-slave' inherits basenode {
+  class { 'redis':
+    eviction_maxmemory  => 3758096384,
+    eviction_policy     => 'volatile-ttl',
+    eviction_samples    => 3,
+    slave_of            => $localconfig::activity_redis_hosts[0]
+  }
 }
 
 #####################

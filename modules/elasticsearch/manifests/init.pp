@@ -31,17 +31,17 @@ class elasticsearch (
     cwd     =>  '/tmp',
     command =>  "/usr/bin/wget ${url} -O ${local_filename}",
     unless  =>  '/usr/bin/test -d /opt/elasticsearch',
-    creates =>  '/tmp/${local_filename}',
+    creates =>  "/tmp/${local_filename}",
     timeout =>  0,
   }
-  
+
   exec { "tar zxvf /tmp/${local_filename}":
     cwd     =>  '/tmp',
     command =>  "/bin/tar -zxvf ${local_filename}",
     unless  =>  '/usr/bin/test -d /opt/elasticsearch',
     require =>  Exec["wget ${url}"],
   }
-  
+
   exec { "mv ${extracted_foldername} /opt/elasticsearch":
     cwd     =>  '/tmp',
     command =>  "/bin/mv ${extracted_foldername} /opt/elasticsearch",
@@ -52,7 +52,7 @@ class elasticsearch (
 
   file { '/etc/init.d/elasticsearch':
     ensure  => present,
-    mode    => 0755,
+    mode    => "0755",
     content => template('elasticsearch/elasticsearch.erb'),
   }
 
@@ -65,7 +65,7 @@ class elasticsearch (
 
   service { 'elasticsearch':
     ensure  => 'running',
-    enable  => 'true',
+    enable  => true,
     require => [ Exec["mv ${extracted_foldername} /opt/elasticsearch"], File['/opt/elasticsearch/config/elasticsearch.yml'], File['/etc/init.d/elasticsearch'], File["${path_data}"] ],
   }
 
