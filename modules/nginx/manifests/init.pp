@@ -14,7 +14,7 @@ class nginx(
     mode    => 0700,
     owner   => root,
     group   => root,
-    source  => 'puppet:///modules/nginx/scripts/install.sh',
+    source  => 'puppet:///modules/nginx/install.sh',
   }
 
   exec { 'nginx_install':
