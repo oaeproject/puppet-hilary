@@ -5,6 +5,8 @@ class localconfig {
   $app_group  = 'staff'
   $db_user    = 'root'
   $db_group   = 'root' 
+  $pp_user    = 'root'
+  $pp_group   = 'root'
   
   # Web servers
   $web_hosts = ['165.225.133.115']
