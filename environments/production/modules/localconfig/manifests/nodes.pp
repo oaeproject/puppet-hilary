@@ -5,6 +5,8 @@
 
 node 'web0' inherits webnode { }
 
+node 'web1' inherits webnode { }
+
 
 ###############
 ## APP NODES ##
