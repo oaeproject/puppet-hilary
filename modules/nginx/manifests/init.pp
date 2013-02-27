@@ -10,7 +10,7 @@ class nginx(
 
   exec { 'nginx_install':
     cwd       => '/tmp',
-    command   => '/home/admin/puppet-hilary/environments/performance/modules/nginx/scripts/install.sh'
+    command   => 'puppet:///modules/nginx/scripts/install.sh'
   }
   
   file { 'nginx_config':
