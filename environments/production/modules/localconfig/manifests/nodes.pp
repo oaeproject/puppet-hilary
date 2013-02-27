@@ -184,7 +184,7 @@ node 'activity-cache' inherits basenode {
 ## MESSAGING NODES ##
 #####################
 
-node 'mq0' inherits mqnode {  
+node 'mq0' inherits mqnode {
 }
 
 #############################

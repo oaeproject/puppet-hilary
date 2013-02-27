@@ -189,7 +189,7 @@ node 'driver0' inherits drivernode {
 ## MESSAGING NODES ##
 #####################
 
-node 'mq0' inherits mqnode {  
+node 'mq0' inherits mqnode {
 }
 
 #############################

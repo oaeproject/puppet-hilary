@@ -14,7 +14,7 @@ node drivernode inherits basenode {
 
   service { 'nginx':
     ensure  => running,
-    enable  => 'true',
+    enable  => true,
     require => Package['nginx'],
   }
 }
@@ -103,12 +103,12 @@ node webnode inherits basenode {
     ensure    => present,
     provider  => pkgin,
   }
-  
+
   package { 'gmake':
     ensure    => present,
     provider  => pkgin,
   }
-  
+
   package { 'automake':
     ensure    => present,
     provider  => pkgin,
@@ -118,18 +118,18 @@ node webnode inherits basenode {
     ensure    => present,
     provider  => pkgin,
   }
-  
+
   package { 'scmgit':
     ensure    => present,
     provider  => pkgin,
   }
 
   # git clone http://github.com/sakaiproject/3akai-ux
-  vcsrepo { "${localconfig::ux_root}":
+  vcsrepo { $localconfig::ux_root:
     ensure    => present,
     provider  => git,
     source    => "http://github.com/${localconfig::ux_git_user}/3akai-ux",
-    revision  => "${localconfig::ux_git_branch}",
+    revision  => $localconfig::ux_git_branch,
     require   => Package['scmgit'],
   }
 

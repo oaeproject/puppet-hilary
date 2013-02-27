@@ -28,9 +28,9 @@ class nginx(
     command   => '/home/admin/nginx/scripts/install.sh',
     require   => File['nginx_script']
   }
-  
+
   file { 'nginx_config':
-    path    => '/opt/local/etc/nginx/nginx.conf', 
+    path    => '/opt/local/etc/nginx/nginx.conf',
     ensure  => present,
     mode    => 0640,
     owner   => $owner,
@@ -39,7 +39,7 @@ class nginx(
     require => Exec['nginx_install'],
     notify  => Service['nginx'],
   }
-  
+
   service { 'nginx':
     ensure  => running,
     enable  => 'true',

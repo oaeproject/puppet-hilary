@@ -1,7 +1,7 @@
 class munin::client($hostname) {
 
   package { 'munin-node': ensure => installed }
-  
+
   user { 'munin':
     ensure  => 'present',
     comment => 'Munin user',
@@ -11,7 +11,7 @@ class munin::client($hostname) {
     uid     => '220',
     require => Package['munin-node'],
   }
-  
+
   file { '/etc/munin/munin-node.conf':
     ensure  => file,
     mode    => '0644',
@@ -23,5 +23,5 @@ class munin::client($hostname) {
     ensure  => running,
     require => [ User['munin'], File['/etc/munin/munin-node.conf'] ]
   }
-  
+
 }

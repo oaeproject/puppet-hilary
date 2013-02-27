@@ -19,5 +19,5 @@ class rabbitmq {
   service { 'rabbitmq-server':
     ensure  => running,
   }
-  
+
 }

@@ -4,13 +4,13 @@ class localconfig {
   $app_user   = 'admin'
   $app_group  = 'staff'
   $db_user    = 'root'
-  $db_group   = 'root' 
+  $db_group   = 'root'
   $pp_user    = 'root'
   $pp_group   = 'root'
-  
+
   # Web servers
   $web_hosts = ['165.225.133.115']
-  
+
   # App servers
   $app_hosts_internal = [
     '10.224.14.6',
@@ -24,7 +24,7 @@ class localconfig {
     '37.153.97.87',
     '37.153.96.213',
   ]
-  
+
   $circonus_url = 'https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t'
 
   # Redis

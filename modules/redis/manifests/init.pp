@@ -29,7 +29,7 @@ class redis (
     ensure    => 'running',
     enable    => 'true',
     require   => File['redis.conf'],
-    subscribe => File['redis.conf']  
+    subscribe => File['redis.conf']
   }
-  
+
 }
