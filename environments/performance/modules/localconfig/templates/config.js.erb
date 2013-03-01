@@ -71,7 +71,12 @@ config.servers = {
 // The storage backend can be configured in the Admin UI and can be changed
 // at runtime.
 config.files = {
-    'uploadDir': '<%= upload_files_dir %>'
+    'tmpDir': '<%= upload_files_dir %>',
+    'uploadDir': '<%= upload_files_dir %>',
+    'cleaner': {
+        'enabled': true,
+        'interval': 2*60*60
+    }
 };
 
 // The configuration that can be used to generate secure HTTP cookies.
