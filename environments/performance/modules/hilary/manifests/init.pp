@@ -60,7 +60,7 @@ class hilary (
   # npm install -d
   exec { "npm_install_dependencies":
     cwd         => "${app_root_dir}",
-    command     => "${npm_binary} install -d",
+    command     => "${npm_binary} install -d > npm_install.log",
     require     => [ File["${app_root_dir}"], Package[$packages] ],
     timeout     => 0,
   }
