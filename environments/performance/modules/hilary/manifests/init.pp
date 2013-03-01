@@ -62,6 +62,7 @@ class hilary (
     cwd         => "${app_root_dir}",
     command     => "${npm_binary} install -d",
     require     => [ File["${app_root_dir}"], Package[$packages] ],
+    timeout     => 0,
   }
 
   # Directory for temp files
