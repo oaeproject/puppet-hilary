@@ -3,7 +3,13 @@
 ## WEB PROXY ##
 ###############
 
-node 'web0' inherits webnode { }
+node 'web0' inherits webnode {
+  class { 'nfs':
+    mountpoint => '/shared',
+    server     => $localconfig::nfs_server,
+    sourcedir  => $localconfig::nfs_sourcedir,
+  }
+}
 
 node 'web1' inherits webnode { }
 
