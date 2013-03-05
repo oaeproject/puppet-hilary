@@ -123,7 +123,7 @@ class hilary (
                     ]
       }
     }
-    Solaris: {
+    solaris: {
       # Daemon script needed for SMF to manage the application
       file { "${app_root_dir}/service.xml":
         ensure  =>  present,
