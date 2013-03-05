@@ -63,6 +63,7 @@ class hilary (
     cwd         => $app_root_dir,
     command     => "${npm_binary} install -d",
     require     => [ File[$app_root_dir], Package[$packages], Vcsrepo[$app_root_dir] ],
+    logoutput   => "on_failure",
   }
 
   # Directory for temp files
