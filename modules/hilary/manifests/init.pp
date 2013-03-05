@@ -42,14 +42,14 @@ class hilary (
   ########################
 
   # git clone http://github.com/sakaiproject/Hilary
-  vcsrepo { "${app_root_dir}":
+  vcsrepo { $app_root_dir:
     ensure    => present,
     provider  => git,
     source    => "http://github.com/${app_git_user}/Hilary",
-    revision  => "${app_git_branch}",
+    revision  => $app_git_branch,
   }
 
-  file { "${app_root_dir}":
+  file { $app_root_dir:
     ensure  => directory,
     mode    => "0644",
     owner   => $os_user,
@@ -61,11 +61,11 @@ class hilary (
   exec { "npm_install_dependencies":
     cwd         => $app_root_dir,
     command     => "${npm_binary} install -d",
-    require     => [ File[$app_root_dir], Package[$packages] ],
+    require     => [ File[$app_root_dir], Package[$packages], Vcsrepo[$app_root_dir] ],
   }
 
   # Directory for temp files
-  file { "${upload_files_dir}":
+  file { $upload_files_dir:
     ensure  => directory,
     owner   => $os_user,
     group   => $os_group,
