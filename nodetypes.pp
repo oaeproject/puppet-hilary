@@ -65,6 +65,12 @@ node activitynode inherits basenode {
     enable_activities   => true,
     enable_previews     => false,
   }
+
+  # These don't actually use the shared dir, but the hilary class needs it to exist
+  file { '/shared':
+    ensure => 'directory',
+    before => Class['hilary']
+  }
 }
 
 node ppnode inherits basenode {
