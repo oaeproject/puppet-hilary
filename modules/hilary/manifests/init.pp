@@ -23,7 +23,7 @@ class hilary (
       $npm_binary = '/usr/bin/npm'
     }
     solaris: {
-      $packages = [ 'gcc47', 'automake', 'gmake', 'nodejs', 'GraphicsMagick', 'git' ]
+      $packages = [ 'gcc47', 'automake', 'gmake', 'nodejs', 'GraphicsMagick', 'scmgit' ]
       $npm_binary = '/opt/local/bin/npm'
     }
     default: {
