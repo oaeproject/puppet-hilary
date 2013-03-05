@@ -72,4 +72,8 @@ class localconfig {
     '^75\.102\.43\.87$',   # Circonus - VA-a
     '^75\.102\.43\.88$'    # Circonus - VA-b
   ]
+
+  # NFS
+  $nfs_server = 10.112.0.6
+  $nfs_sourcedir = /vol/joya62690cd_e032_45fc_84d8_c063dd34bcf0
 }

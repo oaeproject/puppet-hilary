@@ -72,5 +72,5 @@ class localconfig {
 
   # NFS
   $nfs_server = '10.224.7.250'
-  $nfs_sourcedir = '/zones/nfs/a906ce30-37bb-480c-98a5-794981b27e01/sakai1'
+  $nfs_sourcedir = '/zones/nfs/a906ce30-37bb-480c-98a5-794981b27e01'
 }

@@ -35,7 +35,15 @@ node appnode inherits basenode {
     os_user             => $localconfig::app_user,
     os_group            => $localconfig::app_group,
     upload_files_dir    => $localconfig::app_files,
+    require             => Class['nfs']
   }
+
+  class { 'nfs':
+    mountpoint => '/shared',
+    server     => $localconfig::nfs_server,
+    sourcedir  => $localconfig::nfs_sourcedir,
+  }
+
 }
 
 node activitynode inherits basenode {
@@ -140,6 +148,11 @@ node webnode inherits basenode {
     files_home        => $localconfig::app_files,
   }
 
+  class { 'nfs':
+    mountpoint => '/shared',
+    server     => $localconfig::nfs_server,
+    sourcedir  => $localconfig::nfs_sourcedir,
+  }
 }
 
 node dbnode inherits basenode {
