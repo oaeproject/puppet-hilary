@@ -55,6 +55,7 @@ class hilary (
     owner   => $os_user,
     group   => $os_group,
     recurse => true,
+    require => Vcsrepo[$app_root_dir],
   }
 
   # npm install -d
