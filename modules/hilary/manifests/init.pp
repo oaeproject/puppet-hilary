@@ -62,8 +62,9 @@ class hilary (
   exec { "npm_install_dependencies":
     cwd         => $app_root_dir,
     command     => "${npm_binary} install -d",
-    require     => [ File[$app_root_dir], Package[$packages], Vcsrepo[$app_root_dir] ],
     logoutput   => "on_failure",
+    path        => [ '/opt/local/gnu/bin', '/opt/local/bin', '/opt/local/sbin', '/usr/bin:/usr/sbin' ],
+    require     => [ File[$app_root_dir], Package[$packages], Vcsrepo[$app_root_dir] ],
   }
 
   # Directory for temp files
