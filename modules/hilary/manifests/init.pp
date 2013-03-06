@@ -22,7 +22,7 @@ class hilary (
       $packages = [ 'gcc', 'automake', 'nodejs', 'npm', 'graphicsmagick', 'git' ]
       $npm_binary = '/usr/bin/npm'
     }
-    solaris: {
+    solaris, Solaris: {
       $packages = [ 'gcc47', 'automake', 'gmake', 'nodejs', 'GraphicsMagick', 'scmgit' ]
       $npm_binary = '/opt/local/bin/npm'
     }
@@ -126,7 +126,7 @@ class hilary (
                     ]
       }
     }
-    solaris: {
+    solaris, Solaris: {
       # Daemon script needed for SMF to manage the application
       file { "${app_root_dir}/service.xml":
         ensure  =>  present,
