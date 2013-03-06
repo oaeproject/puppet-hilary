@@ -6,11 +6,12 @@ class nginx(
     $cert           = '/opt/local/etc/nginx/server.crt',
     $cert_key       = '/opt/local/etc/nginx/server.key',
     $owner          = 'www',
-    $group          = 'www') {
+    $group          = 'www',
+    $installer_path = '/home/admin/nginx/scripts') {
 
   exec { 'installdir':
-    command => '/opt/local/gnu/bin/mkdir -p /home/admin/nginx/scripts',
-    unless  => '/opt/local/gnu/bin/test -d /home/jeff/src/my/dir/path',
+    command => "/opt/local/gnu/bin/mkdir -p ${installer_path}",
+    unless  => "/opt/local/gnu/bin/test -d ${installer_path}",
   }
 
   file { 'nginx_script':
@@ -25,7 +26,7 @@ class nginx(
 
   exec { 'nginx_install':
     cwd       => '/tmp',
-    command   => '/home/admin/nginx/scripts/install.sh',
+    command   => "${installer_path}/install.sh",
     require   => File['nginx_script']
   }
 
