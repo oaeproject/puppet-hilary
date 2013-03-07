@@ -19,6 +19,53 @@ node drivernode inherits basenode {
   }
 }
 
+node linuxnode inherits basenode {
+  
+  ####################
+  ## FIREWALL SETUP ##
+  ####################
+
+  # Allow outgoing traffic and disallow any passthroughs
+  # iptables -P INPUT DROP
+  # iptables -P OUTPUT ACCEPT
+  # iptables -P FORWARD DROP
+
+  iptables { '000 base input':
+    chain   => 'INPUT',
+    jump    => 'DROP'
+  }
+
+  iptables { '000 base output':
+    chain   => 'OUTPUT',
+    jump    => 'ACCEPT'
+  }
+
+  iptables { '000 base forward':
+    chain   => 'FORWARD',
+    jump    => 'DROP'
+  }
+
+  # Allow traffic already established to continue
+  # iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+  iptables { '001 continue':
+    chain   => 'INPUT',
+    state   => 'ESTABLISHED,RELATED',
+    jump    => 'ACCEPT',
+  }
+
+  # Allow ssh
+  # iptables -A INPUT -p tcp --dport ssh -j ACCEPT
+  # iptables -A INPUT -p tcp --dport domain -j ACCEPT
+
+  iptables { '002 ssh':
+    chain   => 'INPUT',
+    proto   => 'tcp',
+    dport   => 'ssh',
+    jump    => 'ACCEPT',
+  }
+}
+
 node appnode inherits basenode {
 
   ###########################################
@@ -73,7 +120,7 @@ node activitynode inherits basenode {
   }
 }
 
-node ppnode inherits basenode {
+node ppnode inherits linuxnode {
 
   ##########################
   ## PACKAGE DEPENDENCIES ##
@@ -161,13 +208,13 @@ node webnode inherits basenode {
   }
 }
 
-node dbnode inherits basenode {
+node dbnode inherits linuxnode {
   # Use devel package so we actually get the JDK..
   package { 'java-1.6.0-openjdk-devel':
     ensure  => installed,
   }
 }
 
-node mqnode inherits basenode {
+node mqnode inherits linuxnode {
   class { 'rabbitmq': }
 }
