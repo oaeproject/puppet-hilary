@@ -25,45 +25,58 @@ node linuxnode inherits basenode {
   ## FIREWALL SETUP ##
   ####################
 
-  # Allow outgoing traffic and disallow any passthroughs
-  # iptables -P INPUT DROP
-  # iptables -P OUTPUT ACCEPT
-  # iptables -P FORWARD DROP
-
-  iptables { '000 base input':
-    chain   => 'INPUT',
-    jump    => 'ACCEPT'
-  }
-
-  iptables { '000 base output':
-    chain   => 'OUTPUT',
-    jump    => 'ACCEPT'
-  }
-
-  iptables { '000 base forward':
-    chain   => 'FORWARD',
-    jump    => 'ACCEPT'
-  }
-
-  # Allow traffic already established to continue
-  # iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-
-  iptables { '001 continue':
-    chain   => 'INPUT',
-    state   => ['ESTABLISHED', 'RELATED'],
-    jump    => 'ACCEPT',
-  }
-
-  # Allow ssh
+  # Allow ssh always
   # iptables -A INPUT -p tcp --dport ssh -j ACCEPT
-  # iptables -A INPUT -p tcp --dport domain -j ACCEPT
 
-  iptables { '002 ssh':
+  iptables { '000 ssh':
     chain   => 'INPUT',
     proto   => 'tcp',
     dport   => 'ssh',
     jump    => 'ACCEPT',
   }
+
+  # Allow traffic already established to continue
+  # iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+  iptables { '998 continue':
+    chain   => 'INPUT',
+    state   => ['ESTABLISHED', 'RELATED'],
+    jump    => 'ACCEPT',
+  }
+
+  # Allow all private interface (eth1 on centos machines) input and forward traffic
+  iptables { '998 private input':
+    chain   => 'INPUT',
+    iniface => 'eth1',
+    jump    => 'ACCEPT'
+  }
+
+  iptables { '998 private input':
+    chain   => 'FORWARD',
+    iniface => 'eth1',
+    jump    => 'ACCEPT'
+  }
+
+  # Allow outgoing traffic and disallow any passthroughs
+  # iptables -P INPUT DROP
+  # iptables -P OUTPUT ACCEPT
+  # iptables -P FORWARD DROP
+
+  iptables { '999 base input':
+    chain   => 'INPUT',
+    jump    => 'DROP'
+  }
+
+  iptables { '999 base output':
+    chain   => 'OUTPUT',
+    jump    => 'ACCEPT'
+  }
+
+  iptables { '999 base forward':
+    chain   => 'FORWARD',
+    jump    => 'DROP'
+  }
+
 }
 
 node appnode inherits basenode {
