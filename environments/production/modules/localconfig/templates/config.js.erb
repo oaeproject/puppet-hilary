@@ -60,7 +60,7 @@ config.redis = {
  */
 config.servers = {
     'globalAdminAlias': 'admin',
-    'globalAdminHost': 'admin.oae-performance.sakaiproject.org',
+    'globalAdminHost': '<%= scope.lookupvar("localconfig::ux_admin_host") %>',
     'globalAdminPort': 2000,
     'tenantPort': 2001
 };
