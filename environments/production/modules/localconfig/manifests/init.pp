@@ -48,7 +48,7 @@ class localconfig {
   $ux_git_user = 'sakaiproject'
   $ux_git_branch = 'Hilary'
   $ux_root = '/opt/3akai-ux'
-  $ux_admin_host = 'admin.oae-performance.sakaiproject.org'
+  $ux_admin_host = 'admin.oae-production.sakaiproject.org'
 
   # Munin regexes
   $munin_allowedRegexes = [
