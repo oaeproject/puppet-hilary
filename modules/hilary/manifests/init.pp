@@ -19,16 +19,19 @@ class hilary (
 
   case $operatingsystem {
     debian, ubuntu: {
-      $packages = [ 'gcc', 'automake', 'nodejs', 'npm', 'graphicsmagick', 'git' ]
+      $packages   = [ 'gcc', 'automake', 'nodejs', 'npm', 'graphicsmagick', 'git' ]
       $npm_binary = '/usr/bin/npm'
+      $path       = ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin']
     }
     solaris, Solaris: {
-      $packages = [ 'gcc47', 'automake', 'gmake', 'nodejs', 'GraphicsMagick', 'scmgit' ]
+      $packages   = [ 'gcc47', 'automake', 'gmake', 'nodejs', 'GraphicsMagick', 'scmgit' ]
       $npm_binary = '/opt/local/bin/npm'
+      $path       = ['/opt/local/gnu/bin', '/opt/local/bin', '/opt/local/sbin', '/usr/bin', '/usr/sbin']
     }
     default: {
-      $packages = [ 'gcc', 'automake', 'gmake', 'nodejs', 'npm', 'GraphicsMagick', 'git' ]
+      $packages   = [ 'gcc', 'automake', 'gmake', 'nodejs', 'npm', 'GraphicsMagick', 'git' ]
       $npm_binary = '/usr/bin/npm'
+      $path       = ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin']
     }
   }
 
@@ -63,7 +66,7 @@ class hilary (
     cwd         => $app_root_dir,
     command     => "${npm_binary} install -d",
     logoutput   => "on_failure",
-    path        => [ '/opt/local/gnu/bin', '/opt/local/bin', '/opt/local/sbin', '/usr/bin:/usr/sbin' ],
+    path        => $path,
     require     => [ File[$app_root_dir], Package[$packages], Vcsrepo[$app_root_dir] ],
   }
 
