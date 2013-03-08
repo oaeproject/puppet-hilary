@@ -19,8 +19,8 @@ cat > /etc/hosts <<EOF
 EOF
 
 echo "Setting up apt repositories"
-apt-get install python-software-properties python g++ make
-add-apt-repository ppa:chris-lea/node.js
+apt-get -y install python-software-properties python g++ make
+add-apt-repository -y ppa:chris-lea/node.js
 apt-get update
 
 echo "Installing bootstrap dependencies"
