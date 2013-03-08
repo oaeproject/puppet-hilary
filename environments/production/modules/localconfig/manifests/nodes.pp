@@ -199,7 +199,7 @@ node 'activity-cache-slave' inherits basenode {
 ## MESSAGING NODES ##
 #####################
 
-node 'mq0' inherits mqnode {
+node 'mq-master' inherits mqnode {
 }
 
 #############################
