@@ -3,8 +3,8 @@ class nginx(
     $ux_home        = '/opt/3akai-ux',
     $ux_admin_host  = 'admin.oae-performance.sakaiproject.org',
     $files_home     = '/opt/files',
-    $cert           = '/opt/local/etc/nginx/server.crt',
-    $cert_key       = '/opt/local/etc/nginx/server.key',
+    $cert           = 'null',
+    $cert_key       = 'null',
     $owner          = 'www',
     $group          = 'www',
     $installer_path = '/home/admin/nginx/scripts') {
