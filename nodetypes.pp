@@ -51,7 +51,7 @@ node linuxnode inherits basenode {
     jump    => 'ACCEPT'
   }
 
-  iptables { '998 private input':
+  iptables { '998 private forward':
     chain   => 'FORWARD',
     iniface => 'eth1',
     jump    => 'ACCEPT'
