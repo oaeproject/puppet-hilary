@@ -72,7 +72,7 @@ class cassandra::common(
 
   exec { "chown_cassandra_data":
     command => "/bin/chown -R cassandra:cassandra ${cassandra_data_dir}",
-    require => Exec["mkdir_p_${cassandra_data_dir}"],
+    require => [ Exec["mkdir_p_${cassandra_data_dir}"], Package['dsc1.1'] ],
   }
 
   # Start it.
