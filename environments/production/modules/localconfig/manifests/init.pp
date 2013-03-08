@@ -33,7 +33,7 @@ class localconfig {
   $db_strategyClass = 'SimpleStrategy'
 
   # Search
-  $search_hosts_internal = [{ 'host' => '10.112.4.222', 'port' => 9200 }]
+  $search_hosts_internal = [{ 'host' => '10.224.14.25', 'port' => 9200 }]
   $search_path_data = '/var/lib/elasticsearch'
 
   # Messaging
