@@ -32,7 +32,7 @@ node linuxnode inherits basenode {
 
   iptables { '000 base input':
     chain   => 'INPUT',
-    jump    => 'DROP'
+    jump    => 'ACCEPT'
   }
 
   iptables { '000 base output':
@@ -42,7 +42,7 @@ node linuxnode inherits basenode {
 
   iptables { '000 base forward':
     chain   => 'FORWARD',
-    jump    => 'DROP'
+    jump    => 'ACCEPT'
   }
 
   # Allow traffic already established to continue
@@ -50,7 +50,7 @@ node linuxnode inherits basenode {
 
   iptables { '001 continue':
     chain   => 'INPUT',
-    state   => 'ESTABLISHED,RELATED',
+    state   => ['ESTABLISHED', 'RELATED'],
     jump    => 'ACCEPT',
   }
 
