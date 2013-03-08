@@ -144,7 +144,7 @@ node 'db5' inherits dbnode {
 ## SEARCH NODES ##
 ##################
 
-node 'search0' inherits basenode {
+node 'search0' inherits linuxnode {
   class { 'elasticsearch':
     path_data     => $localconfig::search_path_data,
     host_address  => $localconfig::search_hosts_internal[0]['host'],
@@ -154,7 +154,7 @@ node 'search0' inherits basenode {
   }
 }
 
-node 'search1' inherits basenode {
+node 'search1' inherits linuxnode {
   class { 'elasticsearch':
     path_data     => $localconfig::search_path_data,
     host_address  => $localconfig::search_hosts_internal[1]['host'],
