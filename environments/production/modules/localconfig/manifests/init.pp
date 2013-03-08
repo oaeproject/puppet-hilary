@@ -29,7 +29,7 @@ class localconfig {
   $db_hosts = ['10.224.14.28']
   $db_initial_tokens = [ '0', '56713727820156410577229101238628035242', '113427455640312821154458202477256070484' ]
   $db_timeout = 5000
-  $db_replication = 3
+  $db_replication = 1
   $db_strategyClass = 'SimpleStrategy'
 
   # Search
