@@ -152,6 +152,12 @@ node ppnode inherits linuxnode {
     enable_previews     => true,
     provider            => 'apt',
   }
+
+  # These don't actually use the shared dir, but the hilary class needs it to exist
+  file { '/shared':
+    ensure => 'directory',
+    before => Class['hilary']
+  }
 }
 
 node webnode inherits basenode {
