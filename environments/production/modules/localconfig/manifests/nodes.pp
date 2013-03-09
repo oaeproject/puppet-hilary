@@ -170,12 +170,14 @@ node 'search1' inherits linuxnode {
 
 node 'cache-master' inherits basenode {
   class { 'redis': }
+  class { 'ipfilter': }
 }
 
 node 'cache-slave' inherits basenode {
   class { 'redis':
     slave_of  => $localconfig::redis_hosts[0],
   }
+  class {'ipfilter': }
 }
 
 node 'activity-cache-master' inherits basenode {
@@ -184,6 +186,7 @@ node 'activity-cache-master' inherits basenode {
     eviction_policy     => 'volatile-ttl',
     eviction_samples    => 3
   }
+  class {'ipfilter': }
 }
 
 node 'activity-cache-slave' inherits basenode {
@@ -193,6 +196,7 @@ node 'activity-cache-slave' inherits basenode {
     eviction_samples    => 3,
     slave_of            => $localconfig::activity_redis_hosts[0]
   }
+  class {'ipfilter': }
 }
 
 #####################
