@@ -24,58 +24,51 @@ node linuxnode inherits basenode {
   ####################
   ## FIREWALL SETUP ##
   ####################
+  #
+  # By default, allow:
+  #
+  #   1.  SSH to all nodes
+  #   2.  Pings to all nodes
+  #   3.  Already-established traffic to continue
+  #   4.  Allow everything on private interfaces
+  #   5.  All outgoing traffic
+  #
+  # By default, deny:
+  #
+  #   6. All incoming traffic not white-listed above
+  #
+  # It is expected that any node that needs additional firewall rules opened will specify a rule with a
+  # "jump => 'ACCEPT'", with a resource name that is greater than 000 and less than 900. E.g.: to open
+  # https traffic on the elasticsearch public interface (for some reason), in your class manifest, include:
+  #
+  # iptables { '001 elasticsearch http':
+  #   chain => 'INPUT',
+  #   dport => 'https',
+  #   jump  => 'ACCEPT',
+  # }
+  #
 
-  # Allow ssh always
-  # iptables -A INPUT -p tcp --dport ssh -j ACCEPT
+  # 1.
+  iptables { '000 ssh': chain => 'INPUT', proto => 'tcp', dport => 'ssh', jump => 'ACCEPT', }
 
-  iptables { '000 ssh':
-    chain   => 'INPUT',
-    proto   => 'tcp',
-    dport   => 'ssh',
-    jump    => 'ACCEPT',
-  }
+  # 2.
+  iptables { '998 ping': chain => 'INPUT', proto => 'icmp', icmp => 'destination-unreachable', jump => 'ACCEPT', }
+  iptables { '998 ping': chain => 'INPUT', proto => 'icmp', icmp => 'source-quench', jump => 'ACCEPT', }
+  iptables { '998 ping': chain => 'INPUT', proto => 'icmp', icmp => 'time-exceeded', jump => 'ACCEPT', }
 
-  # Allow traffic already established to continue
-  # iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+  # 3.
+  iptables { '998 continue': chain => 'INPUT', state => ['ESTABLISHED', 'RELATED'], jump => 'ACCEPT', }
 
-  iptables { '998 continue':
-    chain   => 'INPUT',
-    state   => ['ESTABLISHED', 'RELATED'],
-    jump    => 'ACCEPT',
-  }
+  # 4.
+  iptables { '998 private input': chain => 'INPUT', iniface => 'eth1', jump => 'ACCEPT', }
+  iptables { '998 private forward': chain => 'FORWARD', iniface => 'eth1', jump => 'ACCEPT' }
 
-  # Allow all private interface (eth1 on centos machines) input and forward traffic
-  iptables { '998 private input':
-    chain   => 'INPUT',
-    iniface => 'eth1',
-    jump    => 'ACCEPT'
-  }
+  # 5.
+  iptables { '999 base output': chain => 'OUTPUT', jump => 'ACCEPT' }
 
-  iptables { '998 private forward':
-    chain   => 'FORWARD',
-    iniface => 'eth1',
-    jump    => 'ACCEPT'
-  }
-
-  # Allow outgoing traffic and disallow any passthroughs
-  # iptables -P INPUT DROP
-  # iptables -P OUTPUT ACCEPT
-  # iptables -P FORWARD DROP
-
-  iptables { '999 base input':
-    chain   => 'INPUT',
-    jump    => 'DROP'
-  }
-
-  iptables { '999 base output':
-    chain   => 'OUTPUT',
-    jump    => 'ACCEPT'
-  }
-
-  iptables { '999 base forward':
-    chain   => 'FORWARD',
-    jump    => 'DROP'
-  }
+  # 6.
+  iptables { '999 base input': chain => 'INPUT', jump => 'DROP' }
+  iptables { '999 base forward': chain => 'FORWARD', jump => 'DROP' }
 
 }
 
