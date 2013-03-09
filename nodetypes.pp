@@ -130,7 +130,7 @@ node activitynode inherits basenode {
   }
 
   class { 'ipfilter': }
-  
+
 }
 
 node ppnode inherits linuxnode {
@@ -226,7 +226,9 @@ node webnode inherits basenode {
     sourcedir  => $localconfig::nfs_sourcedir,
   }
 
-  class { 'ipfilter': }
+  class { 'ipfilter':
+    rules   => [ 'pass in quick on net0 proto tcp from any to any port=http keep state' ],
+  }
 }
 
 node dbnode inherits linuxnode {
