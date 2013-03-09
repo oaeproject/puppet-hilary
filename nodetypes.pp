@@ -30,7 +30,7 @@ node linuxnode inherits basenode {
   #   1.  SSH to all nodes
   #   2.  Pings to all nodes
   #   3.  Already-established traffic to continue
-  #   4.  Allow everything on private interfaces
+  #   4.  Allow everything on private and loopback interfaces
   #   5.  All outgoing traffic
   #
   # By default, deny:
@@ -62,6 +62,8 @@ node linuxnode inherits basenode {
   # 4.
   iptables { '998 private input': chain => 'INPUT', iniface => 'eth1', jump => 'ACCEPT', }
   iptables { '998 private forward': chain => 'FORWARD', iniface => 'eth1', jump => 'ACCEPT' }
+  iptables { '998 private input': chain => 'INPUT', iniface => 'lo0', jump => 'ACCEPT', }
+  iptables { '998 private forward': chain => 'FORWARD', iniface => 'lo0', jump => 'ACCEPT' }
 
   # 5.
   iptables { '999 base output': chain => 'OUTPUT', jump => 'ACCEPT' }
@@ -97,6 +99,8 @@ node appnode inherits basenode {
     sourcedir  => $localconfig::nfs_sourcedir,
   }
 
+  class { 'ipfilter': }
+
 }
 
 node activitynode inherits basenode {
@@ -124,6 +128,9 @@ node activitynode inherits basenode {
     ensure => 'directory',
     before => Class['hilary']
   }
+
+  class { 'ipfilter': }
+  
 }
 
 node ppnode inherits linuxnode {
@@ -218,6 +225,8 @@ node webnode inherits basenode {
     server     => $localconfig::nfs_server,
     sourcedir  => $localconfig::nfs_sourcedir,
   }
+
+  class { 'ipfilter': }
 }
 
 node dbnode inherits linuxnode {
