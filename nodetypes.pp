@@ -45,11 +45,11 @@ node linuxnode inherits basenode {
   }
 
   # Allow all private interface (eth1 on centos machines) input and forward traffic
-  # iptables { '998 private input':
-  #  chain   => 'INPUT',
-  #  iniface => 'eth1',
-  #  jump    => 'ACCEPT'
-  # }
+  iptables { '998 private input':
+    chain   => 'INPUT',
+    iniface => 'eth1',
+    jump    => 'ACCEPT'
+  }
 
   iptables { '998 private forward':
     chain   => 'FORWARD',
