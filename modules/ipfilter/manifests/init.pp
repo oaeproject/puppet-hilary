@@ -1,4 +1,4 @@
-class elasticsearch ($rules = 'null') {
+class ipfilter ($rules = 'null') {
 
   file { '/etc/ipf/ipf.conf':
     notify  => Service['ipfilter'],
