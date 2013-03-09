@@ -227,7 +227,10 @@ node webnode inherits basenode {
   }
 
   class { 'ipfilter':
-    rules   => [ 'pass in quick on net0 proto tcp from any to any port=http keep state' ],
+    rules   => [
+      'pass in quick on net0 proto tcp from any to any port=80 keep state',
+      'pass in quick on net0 proto tcp from any to any port=443 keep state'
+    ],
   }
 }
 
