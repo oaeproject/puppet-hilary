@@ -49,28 +49,28 @@ node linuxnode inherits basenode {
   #
 
   # 1.
-  iptables { '000 ssh': chain => 'INPUT', proto => 'tcp', dport => 'ssh', jump => 'ACCEPT', }
+  iptables { '000 allow ssh': chain => 'INPUT', proto => 'tcp', dport => 'ssh', jump => 'ACCEPT', }
 
   # 2.
-  iptables { '998 ping': chain => 'INPUT', proto => 'icmp', icmp => 'destination-unreachable', jump => 'ACCEPT', }
-  iptables { '998 ping': chain => 'INPUT', proto => 'icmp', icmp => 'source-quench', jump => 'ACCEPT', }
-  iptables { '998 ping': chain => 'INPUT', proto => 'icmp', icmp => 'time-exceeded', jump => 'ACCEPT', }
+  iptables { '998 ping unreachable': chain => 'INPUT', proto => 'icmp', icmp => 'destination-unreachable', jump => 'ACCEPT', }
+  iptables { '998 ping quench': chain => 'INPUT', proto => 'icmp', icmp => 'source-quench', jump => 'ACCEPT', }
+  iptables { '998 ping exceeded': chain => 'INPUT', proto => 'icmp', icmp => 'time-exceeded', jump => 'ACCEPT', }
 
   # 3.
   iptables { '998 continue': chain => 'INPUT', state => ['ESTABLISHED', 'RELATED'], jump => 'ACCEPT', }
 
   # 4.
-  iptables { '998 private input': chain => 'INPUT', iniface => 'eth1', jump => 'ACCEPT', }
-  iptables { '998 private forward': chain => 'FORWARD', iniface => 'eth1', jump => 'ACCEPT' }
-  iptables { '998 private input': chain => 'INPUT', iniface => 'lo0', jump => 'ACCEPT', }
-  iptables { '998 private forward': chain => 'FORWARD', iniface => 'lo0', jump => 'ACCEPT' }
+  iptables { '998 allow private input': chain => 'INPUT', iniface => 'eth1', jump => 'ACCEPT', }
+  iptables { '998 allow private forward': chain => 'FORWARD', iniface => 'eth1', jump => 'ACCEPT' }
+  iptables { '998 allow lo input': chain => 'INPUT', iniface => 'lo0', jump => 'ACCEPT', }
+  iptables { '998 allow lo forward': chain => 'FORWARD', iniface => 'lo0', jump => 'ACCEPT' }
 
   # 5.
-  iptables { '999 base output': chain => 'OUTPUT', jump => 'ACCEPT' }
+  iptables { '999 allow base output': chain => 'OUTPUT', jump => 'ACCEPT' }
 
   # 6.
-  iptables { '999 base input': chain => 'INPUT', jump => 'DROP' }
-  iptables { '999 base forward': chain => 'FORWARD', jump => 'DROP' }
+  iptables { '999 block base input': chain => 'INPUT', jump => 'DROP' }
+  iptables { '999 block base forward': chain => 'FORWARD', jump => 'DROP' }
 
 }
 
