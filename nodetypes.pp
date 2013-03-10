@@ -53,7 +53,7 @@ node linuxnode inherits basenode {
 
   # 2.
   iptables { '998 ping unreachable': chain => 'INPUT', proto => 'icmp', icmp => 'destination-unreachable', jump => 'ACCEPT', }
-  iptables { '998 ping quench': chain => 'INPUT', proto => 'icmp', icmp => 'source-quench', jump => 'ACCEPT', }
+  iptables { '998 ping quence': chain => 'INPUT', proto => 'icmp', icmp => 'source-quence', jump => 'ACCEPT', }
   iptables { '998 ping exceeded': chain => 'INPUT', proto => 'icmp', icmp => 'time-exceeded', jump => 'ACCEPT', }
 
   # 3.
