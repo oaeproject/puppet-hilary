@@ -240,7 +240,3 @@ node dbnode inherits linuxnode {
     ensure  => installed,
   }
 }
-
-node mqnode inherits linuxnode {
-  class { 'rabbitmq': }
-}

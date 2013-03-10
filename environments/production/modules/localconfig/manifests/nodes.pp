@@ -203,7 +203,11 @@ node 'activity-cache-slave' inherits basenode {
 ## MESSAGING NODES ##
 #####################
 
-node 'mq-master' inherits mqnode {
+node 'mq-master' inherits linuxnode {
+  class { 'rabbitmq':
+    listen_address  => $localconfig::mq_hosts[0]['host'],
+    listen_port     => $localconfig::mq_hosts[0]['port'],
+  }
 }
 
 #############################
