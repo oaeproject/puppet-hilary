@@ -239,8 +239,8 @@ node webnode inherits basenode {
 
   ## RSyslog: Manually crunch the log files using the rsyslog "imfile" plugin
   class { 'rsyslog':
-    server_host => $localconfig::rsyslog_host_internal,
-    imfiles => [
+    server_host     => $localconfig::rsyslog_host_internal,
+    imfiles         => [
 
       # Access log
       {
@@ -262,6 +262,16 @@ node webnode inherits basenode {
         poll_interval_seconds => 10,
       },
     ]
+  }
+
+  # Add a custom nginx log rotation entry into logadm
+  # Solaris by default already has a cronjob that executes logadm on a regular basis
+  file { '/etc/logadm.conf':
+    ensure  => present,
+    mode    => 0644,
+    owner   => 'root',
+    group   => 'root',
+    content => template('localconfig/logadm.web.config.erb'),
   }
 }
 

@@ -1,0 +1,24 @@
+# System services
+/var/adm/messages -C 4 -a 'kill -HUP `cat /var/run/*syslog*.pid`'
+/var/adm/pacct -C 0 -N -a '/usr/lib/acct/accton pacct' -g adm -m 664 -o adm -p never
+/var/cron/log -c -s 512k -t /var/cron/olog
+/var/fm/fmd/errlog -M '/usr/sbin/fmadm -q rotate errlog && mv /var/fm/fmd/errlog.0- $nfile' -N -s 2m
+/var/fm/fmd/fltlog -A 6m -M '/usr/sbin/fmadm -q rotate fltlog && mv /var/fm/fmd/fltlog.0- $nfile' -N -s 10m
+/var/log/pool/poold -N -a 'pkill -HUP poold; true' -s 512m
+/var/log/syslog -C 5 -a 'kill -HUP `cat /var/run/*syslog*.pid`' -s 100m
+/var/lp/logs/lpsched -C 2 -N -t '$file.$N'
+
+# Pattern based definitions
+smf_logs -C 3 -c -s 1m /var/svc/log/*.log
+
+# Chop the logs and kill -USR1 nginx, which will allow it to continue logging
+# This will keep max 5 100m files, deleting old ones. Logs are pushed to syslog so nothing gets lost 
+nginx -C 5 -s 100m '/var/log/nginx/{access,error}.log' -a 'kill -USR1 `cat /var/db/nginx/nginx.pid`'
+
+# These roll daily
+/var/log/auth.log -C 5 -a 'kill -HUP `cat /var/run/*syslog*.pid`' -s 100m
+#/var/log/courier.log -C 5 -P 'Tue Aug 25 03:10:00 2009' -a 'kill -HUP `cat /var/run/*syslog*.pid`' -s 100m
+/var/log/postfix.log -C 5 -a 'kill -HUP `cat /var/run/*syslog*.pid`' -s 100m
+#/var/log/postgresql.log -C 5 -c -s 100m
+
+# Logadm adds log files from pattern definitions here
