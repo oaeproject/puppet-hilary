@@ -1,0 +1,44 @@
+# rsyslog v5 configuration file
+
+# For more information see /usr/share/doc/rsyslog-*/rsyslog_conf.html
+# If you experience problems, see http://www.rsyslog.com/doc/troubleshoot.html
+
+#### MODULES ####
+
+$ModLoad imuxsock # provides support for local system logging (e.g. via logger command)
+$ModLoad imklog   # provides kernel logging support (previously done by rklogd)
+
+# Provides UDP syslog reception
+$ModLoad imudp
+$UDPServerRun 514
+
+#### GLOBAL DIRECTIVES ####
+
+# Use default timestamp format
+$ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
+
+# Include all config files in /etc/rsyslog.d/
+$IncludeConfig /etc/rsyslog.d/*.conf
+
+#### TEMPLATES ####
+
+$template DynLocal0,"/var/log/rsyslog/%HOSTNAME%-%fromhost-ip%/local0-%$YEAR%-%$MONTH%-%$DAY%.log"
+$template DynMail,"/var/log/rsyslog/%HOSTNAME%-%fromhost-ip%/mail-%$YEAR%-%$MONTH%-%$DAY%.log"
+$template DynOther,"/var/log/rsyslog/%HOSTNAME%-%fromhost-ip%/other-%$YEAR%-%$MONTH%-%$DAY%.log"
+$template DynKern,"/var/log/rsyslog/%HOSTNAME%-%fromhost-ip%/kern-%$YEAR%-%$MONTH%-%$DAY%.log"
+$template DynBoot,"/var/log/rsyslog/%HOSTNAME%-%fromhost-ip%/boot-%$YEAR%-%$MONTH%-%$DAY%.log"
+
+#### RULES ####
+
+kern.*          ?DynKern
+authpriv.*      ?DynOther
+cron.*          ?DynOther
+mail.*          ?DynMail
+local0.*        ?DynLocal0
+local7.*        ?DynBoot
+
+# Save news errors of level crit and higher in a special file.
+uucp,news.crit  ?DynOther
+
+# All logged in users get emergency messages
+*.emerg                                                 *

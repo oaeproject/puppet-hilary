@@ -93,7 +93,7 @@ node appnode inherits basenode {
     require             => Class['nfs']
   }
 
-  class { 'nfs':
+  class { 'smartos_nfs':
     mountpoint => '/shared',
     server     => $localconfig::nfs_server,
     sourcedir  => $localconfig::nfs_sourcedir,
@@ -220,7 +220,7 @@ node webnode inherits basenode {
     files_home        => $localconfig::app_files,
   }
 
-  class { 'nfs':
+  class { 'smartos_nfs':
     mountpoint => '/shared',
     server     => $localconfig::nfs_server,
     sourcedir  => $localconfig::nfs_sourcedir,
@@ -239,4 +239,8 @@ node dbnode inherits linuxnode {
   package { 'java-1.6.0-openjdk-devel':
     ensure  => installed,
   }
+}
+
+node syslognode inherits linuxnode {
+  
 }

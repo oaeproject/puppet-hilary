@@ -1,4 +1,4 @@
-class nfs (
+class smartos_nfs (
     $mountpoint,
     $server,
     $sourcedir) {

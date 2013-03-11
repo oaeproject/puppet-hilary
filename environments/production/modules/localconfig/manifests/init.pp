@@ -39,6 +39,9 @@ class localconfig {
   # Messaging
   $mq_hosts_internal = [ { 'host' => '10.224.14.20', 'port' => 5672 } ]
 
+  # RSyslog
+  $rsyslog_host_internal = '10.224.14.31'
+
   # Installation details
   $app_root = '/opt/oae'
   $app_files = '/shared/files'
