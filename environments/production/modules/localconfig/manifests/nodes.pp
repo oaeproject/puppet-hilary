@@ -219,3 +219,9 @@ node 'pp0' inherits ppnode { }
 node 'pp1' inherits ppnode { }
 
 node 'pp2' inherits ppnode { }
+
+#################
+## SYSLOG NODE ##
+#################
+
+node 'syslog' inherits syslognode { }
