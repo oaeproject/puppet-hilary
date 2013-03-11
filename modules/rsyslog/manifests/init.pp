@@ -4,22 +4,22 @@ class rsyslog (
     $server_logdir    = '/var/log/rsyslog',
     $owner            = 'root',
     $group            = 'root',
-    $imfiles          = 'null',
+    $imfiles          = false,
   ) {
 
   case $operatingsystem {
     debian, ubuntu: {
-      $solaris = 'false'
+      $solaris = false
       $provider = 'apt'
       $configpath = '/etc/rsyslog.conf'
     }
     solaris, Solaris: {
-      $solaris = 'true'
+      $solaris = true
       $provider = 'pkgin'
       $configpath = '/opt/local/etc/rsyslog.conf'
     }
     default: {
-      $solaris = 'false'
+      $solaris = false
       $provider = 'yum'
       $configpath = '/etc/rsyslog.conf'
     }
