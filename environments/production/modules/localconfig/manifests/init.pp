@@ -40,7 +40,7 @@ class localconfig {
   $mq_hosts_internal = [ { 'host' => '10.224.14.20', 'port' => 5672 } ]
 
   # RSyslog
-  $rsyslog_host_internal = '10.224.14.31'
+  $rsyslog_host_internal = '10.224.14.32'
   $rsyslog_server_logdir = '/var/log/rsyslog'
 
   # Installation details
