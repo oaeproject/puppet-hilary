@@ -152,6 +152,8 @@ node 'search0' inherits linuxnode {
     max_memory_mb => 3072,
     min_memory_mb => 3072,
   }
+
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 node 'search1' inherits linuxnode {
@@ -162,6 +164,8 @@ node 'search1' inherits linuxnode {
     max_memory_mb => 3072,
     min_memory_mb => 3072,
   }
+
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 #################
@@ -171,6 +175,7 @@ node 'search1' inherits linuxnode {
 node 'cache-master' inherits basenode {
   class { 'redis': }
   class { 'ipfilter': }
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 node 'cache-slave' inherits basenode {
@@ -178,6 +183,7 @@ node 'cache-slave' inherits basenode {
     slave_of  => $localconfig::redis_hosts[0],
   }
   class {'ipfilter': }
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 node 'activity-cache-master' inherits basenode {
@@ -187,6 +193,7 @@ node 'activity-cache-master' inherits basenode {
     eviction_samples    => 3
   }
   class {'ipfilter': }
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 node 'activity-cache-slave' inherits basenode {
@@ -197,6 +204,7 @@ node 'activity-cache-slave' inherits basenode {
     slave_of            => $localconfig::activity_redis_hosts[0]
   }
   class {'ipfilter': }
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 #####################
@@ -208,6 +216,8 @@ node 'mq-master' inherits linuxnode {
     listen_address  => $localconfig::mq_hosts_internal[0]['host'],
     listen_port     => $localconfig::mq_hosts_internal[0]['port'],
   }
+
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 #############################
