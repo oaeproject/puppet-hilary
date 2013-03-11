@@ -90,7 +90,7 @@ node appnode inherits basenode {
     os_user             => $localconfig::app_user,
     os_group            => $localconfig::app_group,
     upload_files_dir    => $localconfig::app_files,
-    require             => Class['nfs']
+    require             => Class['smartos_nfs']
   }
 
   class { 'smartos_nfs':
