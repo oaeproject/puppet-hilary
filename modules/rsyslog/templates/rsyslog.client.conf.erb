@@ -1,7 +1,7 @@
-<% if not solaris and not imfile -%>
+<% if solaris != 'true' and imfile == 'null' -%>
 $ModLoad imuxsock   # provides support for local system logging (e.g. via logger command)
 $ModLoad imklog     # provides kernel logging support (previously done by rklogd)
-<% elsif imfiles != false -%>
+<% elsif imfiles != 'null' -%>
 $ModLoad imfile
 
 <% imfiles.each do |imfile| -%>
