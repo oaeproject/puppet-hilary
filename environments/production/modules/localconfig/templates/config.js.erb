@@ -14,6 +14,7 @@
  */
 
 var bunyan = require('bunyan');
+var bsyslog = require('bunyan-syslog');
 
 var config = module.exports.config = {};
 
@@ -93,8 +94,13 @@ config.cookie = {
 config.log = {
     'streams': [
         {
-            'level': 'info',
-            'path': '/opt/oae/server.log'
+            level: 'debug',
+            type: 'raw',
+            stream: bsyslog.createSyslogStream({
+                facility: bsyslog.facility.local0,
+                host: '<%= scope.lookupvar("localconfig::rsyslog_host_internal") %>',
+                port: 514
+            })
         }
     ],
     'serializers': {
