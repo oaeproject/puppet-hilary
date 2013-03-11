@@ -90,10 +90,10 @@ node appnode inherits basenode {
     os_user             => $localconfig::app_user,
     os_group            => $localconfig::app_group,
     upload_files_dir    => $localconfig::app_files,
-    require             => Class['smartos_nfs']
+    require             => Class['smartosnfs']
   }
 
-  class { 'smartos_nfs':
+  class { 'smartosnfs':
     mountpoint => '/shared',
     server     => $localconfig::nfs_server,
     sourcedir  => $localconfig::nfs_sourcedir,
@@ -224,7 +224,7 @@ node webnode inherits basenode {
     files_home        => $localconfig::app_files,
   }
 
-  class { 'smartos_nfs':
+  class { 'smartosnfs':
     mountpoint => '/shared',
     server     => $localconfig::nfs_server,
     sourcedir  => $localconfig::nfs_sourcedir,
