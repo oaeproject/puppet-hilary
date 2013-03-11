@@ -251,8 +251,8 @@ node dbnode inherits linuxnode {
 
 node syslognode inherits linuxnode {
   class { 'rsyslog':
-    serverOrClient  => 'server',
-    server_host => $localconfig::rsyslog_host_internal,
+    clientOrServer  => 'server',
+    server_host     => $localconfig::rsyslog_host_internal,
     server_logdir   => $localconfig::rsyslog_server_logdir,
   }
 }
