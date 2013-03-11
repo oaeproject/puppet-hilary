@@ -49,6 +49,16 @@ class cassandra::common(
     require => Package['dsc1.1'],
   }
 
+  file { 'log4j-server.properties':
+    path    => '/etc/cassandra/conf/log4j-server.properties',
+    ensure  => present,
+    mode    => 0755,
+    owner   => $owner
+    group   => $group
+    content => template('cassandra/log4j-server.properties.erb'),
+    require => Package['dsc1.1'],
+  }
+
   file { '/etc/security/limits.conf':
     ensure  =>  present,
     content =>  template('cassandra/limits.conf.erb'),
@@ -62,7 +72,7 @@ class cassandra::common(
   ## chown all the files in /etc/cassandra to the cassandra user.
   exec { "chown_cassandra":
     command => '/bin/chown -R cassandra:cassandra /etc/cassandra',
-    require => File["cassandra.yaml", "cassandra-env.sh"],
+    require => File["cassandra.yaml", "cassandra-env.sh", "log4j-server.properties"],
   }
 
   ## Ensure the data directory exists

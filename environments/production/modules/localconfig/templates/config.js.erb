@@ -96,8 +96,9 @@ config.log = {
         {
             level: 'debug',
             type: 'raw',
-            stream: bsyslog.createSyslogStream({
-                facility: bsyslog.facility.local0,
+            stream: bsyslog.createBunyanStream({
+                type: 'udp',
+                facility: bsyslog.local0,
                 host: '<%= scope.lookupvar("localconfig::rsyslog_host_internal") %>',
                 port: 514
             })
