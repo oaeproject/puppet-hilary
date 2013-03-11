@@ -37,7 +37,7 @@ class rsyslog (
     notify  => Service['rsyslog'],
     owner   => $owner,
     group   => $group,
-    content => template("rsyslog/syslog.${clientOrServer}.conf.erb"),
+    content => template("rsyslog/rsyslog.${clientOrServer}.conf.erb"),
   }
 
   service { 'rsyslog': 
