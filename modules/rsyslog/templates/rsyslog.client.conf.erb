@@ -1,7 +1,26 @@
 
-<% if not solaris -%>
+<% if not solaris and not imfile -%>
 $ModLoad imuxsock   # provides support for local system logging (e.g. via logger command)
 $ModLoad imklog     # provides kernel logging support (previously done by rklogd)
+<% elsif imfiles -%>
+$ModLoad imfile
+
+<% imfiles.each do |imfile| -%>
+
+#####################################################
+## Input File log processing for <%= imfile['path'] %>:
+#####################################################
+
+$InputFileName <%= imfile['path'] %>
+$InputFileTag <%= imfile['tag'] %>:
+$InputFileStateFile <%= imfile['state_file_name'] %>
+$InputFileSeverity <%= imfile['severity'] %>
+$InputFileFacility <%= imfile['facility'] %>
+$InputFilePollInterval <%= imfile['poll_interval_seconds'] %>
+$InputRunFileMonitor
+
+<% end -%>
+
 <% else -%>
 $ModLoad imsolaris  # Solaris input support
 <% end -%>

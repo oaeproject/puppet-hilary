@@ -237,7 +237,32 @@ node webnode inherits basenode {
     ],
   }
 
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
+  ## RSyslog: Manually crunch the log files using the rsyslog "imfile" plugin
+  class { 'rsyslog':
+    server_host => $localconfig::rsyslog_host_internal,
+    imfiles => [
+
+      # Access log
+      {
+        path                  => '/var/log/nginx/access.log',
+        tag                   => 'access',
+        state_file_name       => 'nginx_access',
+        severity              => 'info',
+        facility              => 'local0',
+        poll_interval_seconds => 10,
+      },
+
+      # Error log
+      {
+        path                  => '/var/log/nginx/error.log',
+        tag                   => 'error',
+        state_file_name       => 'nginx_error',
+        severity              => 'error',
+        facility              => 'local1',
+        poll_interval_seconds => 10,
+      },
+    ]
+  }
 }
 
 node dbnode inherits linuxnode {
