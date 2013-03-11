@@ -4,6 +4,7 @@ class rsyslog (
     $server_logdir    = '/var/log/rsyslog',
     $owner            = 'root',
     $group            = 'root',
+    $imfiles           = false,
   ) {
 
   case $operatingsystem {
