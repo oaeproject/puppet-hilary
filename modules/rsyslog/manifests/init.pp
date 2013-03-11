@@ -8,13 +8,19 @@ class rsyslog (
 
   case $operatingsystem {
     debian, ubuntu: {
+      $solaris = false
       $provider = 'apt'
+      $configpath = '/etc/rsyslog.conf'
     }
     solaris, Solaris: {
+      $solaris = true
       $provider = 'pkgin'
+      $configpath = '/opt/local/etc/rsyslog.conf'
     }
     default: {
+      $solaris = false
       $provider = 'yum'
+      $configpath = '/etc/rsyslog.conf'
     }
   }
 
@@ -33,7 +39,7 @@ class rsyslog (
     }
   }
 
-  file { '/etc/rsyslog.conf':
+  file { 'rsyslog.conf':
     notify  => Service['rsyslog'],
     owner   => $owner,
     group   => $group,
@@ -42,6 +48,6 @@ class rsyslog (
 
   service { 'rsyslog': 
     ensure  => running,
-    require => File['/etc/rsyslog.conf'],
+    require => File['rsyslog.conf'],
   }
 }

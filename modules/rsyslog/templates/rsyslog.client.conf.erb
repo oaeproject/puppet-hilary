@@ -1,5 +1,10 @@
-$ModLoad imuxsock # provides support for local system logging (e.g. via logger command)
-$ModLoad imklog   # provides kernel logging support (previously done by rklogd)
+
+<% if not solaris -%>
+$ModLoad imuxsock   # provides support for local system logging (e.g. via logger command)
+$ModLoad imklog     # provides kernel logging support (previously done by rklogd)
+<% else -%>
+$ModLoad imsolaris  # Solaris input support
+<% end -%>
 
 # Provides UDP forwarding. The IP is the server's IP address
 *.* @<%= server_host %>

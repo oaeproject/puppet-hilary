@@ -22,6 +22,7 @@ $IncludeConfig /etc/rsyslog.d/*.conf
 
 #### TEMPLATES ####
 
+$template DynAuth,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/auth-%$YEAR%-%$MONTH%-%$DAY%.log"
 $template DynLocal0,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/local0-%$YEAR%-%$MONTH%-%$DAY%.log"
 $template DynMail,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/mail-%$YEAR%-%$MONTH%-%$DAY%.log"
 $template DynOther,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/other-%$YEAR%-%$MONTH%-%$DAY%.log"
@@ -30,15 +31,14 @@ $template DynBoot,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/boot-%$YEAR%-%$
 
 #### RULES ####
 
-kern.*          ?DynKern
-authpriv.*      ?DynOther
-cron.*          ?DynOther
-mail.*          ?DynMail
-local0.*        ?DynLocal0
-local7.*        ?DynBoot
+kern.*              ?DynKern
+authpriv.*;auth.*   ?DynAuth
+mail.*              ?DynMail
+local0.*            ?DynLocal0
+local7.*            ?DynBoot
 
-# Save news errors of level crit and higher in a special file.
-uucp,news.crit  ?DynOther
+# Store basically anything else higher than info as an "other"
+*.info;kern.none;authpriv.none;auth.none;mail.none;local0.none;local7.none    ?DynOther
 
 # All logged in users get emergency messages
-*.emerg                                                 *
+*.emerg             *
