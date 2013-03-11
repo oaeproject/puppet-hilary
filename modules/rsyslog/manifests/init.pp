@@ -39,7 +39,7 @@ class rsyslog (
     }
   }
 
-  file { 'rsyslog.conf':
+  file { "${configpath}":
     notify  => Service['rsyslog'],
     owner   => $owner,
     group   => $group,
@@ -48,6 +48,6 @@ class rsyslog (
 
   service { 'rsyslog': 
     ensure  => running,
-    require => File['rsyslog.conf'],
+    require => File["${configpath}"],
   }
 }
