@@ -63,10 +63,18 @@ class elasticsearch (
     notify  => Service['elasticsearch'],
   }
 
+  file { '/opt/elasticsearch/config/logging.yml':
+    ensure  => present,
+    content => template('elasticsearch/logging.yml.erb'),
+    require => Exec["mv ${extracted_foldername} /opt/elasticsearch"],
+    notify  => Service['elasticsearch'],
+  }
+
   service { 'elasticsearch':
     ensure  => 'running',
     enable  => true,
-    require => [ Exec["mv ${extracted_foldername} /opt/elasticsearch"], File['/opt/elasticsearch/config/elasticsearch.yml'], File['/etc/init.d/elasticsearch'], File["${path_data}"] ],
+    require => [ Exec["mv ${extracted_foldername} /opt/elasticsearch"], File['/opt/elasticsearch/config/elasticsearch.yml'],
+      File['/opt/elasticsearch/config/logging.yml'], File['/etc/init.d/elasticsearch'], File["${path_data}"] ],
   }
 
 }

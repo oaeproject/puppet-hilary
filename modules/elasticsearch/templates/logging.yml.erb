@@ -1,0 +1,57 @@
+rootLogger: INFO, console, syslog_info
+logger:
+  # log action execution errors for easier debugging
+  action: DEBUG
+  # reduce the logging for aws, too much is logged under the default INFO
+  com.amazonaws: WARN
+
+  # gateway
+  #gateway: DEBUG
+  #index.gateway: DEBUG
+
+  # peer shard recovery
+  #indices.recovery: DEBUG
+
+  # discovery
+  #discovery: TRACE
+
+  index.search.slowlog: TRACE, syslog_search_slow
+  index.indexing.slowlog: TRACE, syslog_index_slow
+
+additivity:
+  index.search.slowlog: false
+  index.indexing.slowlog: false
+
+appender:
+  console:
+    type: console
+    layout:
+      type: consolePattern
+      conversionPattern: "[%d{ISO8601}][%-5p][%-25c] %m%n"
+
+  syslog_info:
+    type: syslog
+    header: true
+    syslogHost: <%= scope.lookupvar("localconfig::rsyslog_host_internal") %>
+    facility: local0
+    layout:
+      type: pattern
+      conversionPattern: "[%d{ISO8601}][%-5p][%-25c] %m%n"
+
+  syslog_search_slow:
+    type: syslog
+    header: true
+    syslogHost: <%= scope.lookupvar("localconfig::rsyslog_host_internal") %>
+    facility: local1
+    layout:
+      type: pattern
+      conversionPattern: "[%d{ISO8601}][%-5p][%-25c] %m%n"
+
+  syslog_index_slow:
+    type: syslog
+    header: true
+    syslogHost: <%= scope.lookupvar("localconfig::rsyslog_host_internal") %>
+    facility: local2
+    layout:
+      type: pattern
+      conversionPattern: "[%d{ISO8601}][%-5p][%-25c] %m%n"

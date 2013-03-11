@@ -16,6 +16,7 @@ class redis (
 
   # Set the configuration file.
   file { 'redis.conf':
+    notify  => Service['redis'],
     path    => '/opt/local/etc/redis.conf',
     ensure  => present,
     mode    => 0644,
@@ -29,8 +30,7 @@ class redis (
   service { 'redis':
     ensure    => 'running',
     enable    => 'true',
-    require   => File['redis.conf'],
-    subscribe => File['redis.conf']
+    require   => [ File['redis.conf'], Class['rsyslog'] ],
   }
 
 }
