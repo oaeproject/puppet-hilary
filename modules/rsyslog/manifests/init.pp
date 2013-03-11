@@ -27,7 +27,7 @@ class rsyslog (
     solaris, Solaris: {
       # For SmartOS, we'll need to ensure that the default syslogd is disabled
       service { 'system/system-log':
-        ensure => disabled,
+        ensure => stopped,
         before => Service['rsyslog'],
       }
     }
