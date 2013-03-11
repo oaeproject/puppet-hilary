@@ -41,7 +41,7 @@ class localconfig {
 
   # RSyslog
   $rsyslog_host_internal = '10.224.14.31'
-  $rsyslog_server_logdir = '/var/log/syslog'
+  $rsyslog_server_logdir = '/var/log/rsyslog'
 
   # Installation details
   $app_root = '/opt/oae'
