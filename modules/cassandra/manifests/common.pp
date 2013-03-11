@@ -53,8 +53,8 @@ class cassandra::common(
     path    => '/etc/cassandra/conf/log4j-server.properties',
     ensure  => present,
     mode    => 0755,
-    owner   => $owner
-    group   => $group
+    owner   => $owner,
+    group   => $group,
     content => template('cassandra/log4j-server.properties.erb'),
     require => Package['dsc1.1'],
   }
