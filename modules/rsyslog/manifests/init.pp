@@ -1,6 +1,7 @@
 class rsyslog (
     $clientOrServer   = 'client',
     $server_host      = '127.0.0.1',
+    $server_logdir    = '/var/log/rsyslog'
     $owner            = 'root',
     $group            = 'root',
   ) {

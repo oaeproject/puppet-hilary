@@ -100,6 +100,7 @@ node appnode inherits basenode {
   }
 
   class { 'ipfilter': }
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 
 }
 
@@ -130,6 +131,7 @@ node activitynode inherits basenode {
   }
 
   class { 'ipfilter': }
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 
 }
 
@@ -171,6 +173,8 @@ node ppnode inherits linuxnode {
     ensure => 'directory',
     before => Class['hilary']
   }
+
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 node webnode inherits basenode {
@@ -227,11 +231,13 @@ node webnode inherits basenode {
   }
 
   class { 'ipfilter':
-    rules   => [
+    rules => [
       'pass in quick on net0 proto tcp from any to any port=80 keep state',
       'pass in quick on net0 proto tcp from any to any port=443 keep state'
     ],
   }
+
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 node dbnode inherits linuxnode {
@@ -239,8 +245,14 @@ node dbnode inherits linuxnode {
   package { 'java-1.6.0-openjdk-devel':
     ensure  => installed,
   }
+
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 node syslognode inherits linuxnode {
-  
+  class { 'rsyslog':
+    serverOrClient  => 'server',
+    server_host => $localconfig::rsyslog_host_internal,
+    server_logdir   => $localconfig::rsyslog_server_logdir,
+  }
 }

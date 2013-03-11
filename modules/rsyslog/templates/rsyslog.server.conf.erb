@@ -22,11 +22,11 @@ $IncludeConfig /etc/rsyslog.d/*.conf
 
 #### TEMPLATES ####
 
-$template DynLocal0,"/var/log/rsyslog/%HOSTNAME%-%fromhost-ip%/local0-%$YEAR%-%$MONTH%-%$DAY%.log"
-$template DynMail,"/var/log/rsyslog/%HOSTNAME%-%fromhost-ip%/mail-%$YEAR%-%$MONTH%-%$DAY%.log"
-$template DynOther,"/var/log/rsyslog/%HOSTNAME%-%fromhost-ip%/other-%$YEAR%-%$MONTH%-%$DAY%.log"
-$template DynKern,"/var/log/rsyslog/%HOSTNAME%-%fromhost-ip%/kern-%$YEAR%-%$MONTH%-%$DAY%.log"
-$template DynBoot,"/var/log/rsyslog/%HOSTNAME%-%fromhost-ip%/boot-%$YEAR%-%$MONTH%-%$DAY%.log"
+$template DynLocal0,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/local0-%$YEAR%-%$MONTH%-%$DAY%.log"
+$template DynMail,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/mail-%$YEAR%-%$MONTH%-%$DAY%.log"
+$template DynOther,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/other-%$YEAR%-%$MONTH%-%$DAY%.log"
+$template DynKern,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/kern-%$YEAR%-%$MONTH%-%$DAY%.log"
+$template DynBoot,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/boot-%$YEAR%-%$MONTH%-%$DAY%.log"
 
 #### RULES ####
 
