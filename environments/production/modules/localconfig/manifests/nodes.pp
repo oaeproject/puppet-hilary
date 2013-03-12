@@ -241,22 +241,40 @@ node 'syslog' inherits syslognode { }
 #############
 
 node 'bastion' inherits linuxnode {
-
-  sysctl::value { 'net.ipv4.ip_forward': value => '1' }
   
   ##########################
   ## WEB TRAFFIC HANDLING ##
   ##########################
 
   # Route web traffic to web0
-  iptables { '001 route web traffic to web0':
+  iptables { '001 route web :80 traffic to web0':
     chain     => 'PREROUTING',
     table     => 'nat',
     iniface   => 'eth0',
     proto     => 'tcp',
-    dport     => [ 80, 443 ],
+    dport     => 80,
     jump      => 'DNAT',
-    todest    => $localconfig::web_hosts[0],
+    todest    => "${localconfig::web_hosts[0]}:80",
+  }
+
+  iptables { '001 route web :443 traffic to web0':
+    chain     => 'PREROUTING',
+    table     => 'nat',
+    iniface   => 'eth0',
+    proto     => 'tcp',
+    dport     => 443,
+    jump      => 'DNAT',
+    todest    => "${localconfig::web_hosts[0]}:443",
+  }
+
+  # Masquerade
+  # iptables -t nat -A POSTROUTING -j MASQUERADE
+  iptables { '001 route web masquerade':
+    chain     => 'POSTROUTING',
+    table     => 'nat',
+    iniface   => 'eth0',
+    proto     => 'tcp',
+    jump      => 'MASQUERADE',
   }
 
   # Not yet. Just make sure it forwards first.
@@ -269,7 +287,7 @@ node 'bastion' inherits linuxnode {
   #   state     => 'NEW',
   # }
 
-  # Accept forwarded web traffic
+  # Accept web traffic in the input chain
   iptables { '001 accept web traffic forward':
     chain     => 'FORWARD',
     iniface   => 'eth0',
