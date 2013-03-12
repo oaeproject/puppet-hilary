@@ -272,21 +272,20 @@ node 'bastion' inherits linuxnode {
     chain     => 'FORWARD',
     iniface   => 'eth0',
     proto     => 'tcp',
-  #  state     => 'NEW',
+    state     => 'NEW',
     dport     => [ 80, 443 ],
-  #  limit     => '400/min',
-  #  burst     => 800,
+    limit     => '15000/min',
     jump      => 'ACCEPT',
   }
 
-  #iptables { '001 rate limit established forwarded web connections':
-  #  chain     => 'FORWARD',
-  #  iniface   => 'eth0',
-  #  proto     => 'tcp',
-  #  state     => ['RELATED', 'ESTABLISHED'],
-  #  dport     => [80, 443],
-  #  limit     => '50/sec',
-  #  burst     => 50,
-  #  jump      => 'ACCEPT',
-  #}
+  iptables { '001 rate limit established forwarded web connections':
+    chain     => 'FORWARD',
+    iniface   => 'eth0',
+    proto     => 'tcp',
+    state     => ['RELATED', 'ESTABLISHED'],
+    dport     => [80, 443],
+    limit     => '700/sec',
+    burst     => 900,
+    jump      => 'ACCEPT',
+  }
 }
