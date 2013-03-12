@@ -256,14 +256,14 @@ node 'bastion' inherits linuxnode {
     jump      => 'DNAT',
     todest    => $localconfig::web_hosts[0],
   }
-  
+
   # Masquerade?
   # iptables -t nat -A POSTROUTING -j MASQUERADE
-  iptables { '001 route web masquerade':
-    chain     => 'POSTROUTING',
-    table     => 'nat',
-    jump      => 'MASQUERADE',
-  }
+  #iptables { '001 route web masquerade':
+  #  chain     => 'POSTROUTING',
+  #  table     => 'nat',
+  #  jump      => 'MASQUERADE',
+  #}
 
   # Not yet. Just make sure it forwards first.
   # Rate limiting web traffic
