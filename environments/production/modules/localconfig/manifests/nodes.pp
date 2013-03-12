@@ -283,7 +283,7 @@ node 'bastion' inherits linuxnode {
   iptables { '001 rate limit established forwarded webc onnections':
     chain     => 'FORWARD',
     iniface   => 'eth0',
-    proto     => 'tcp'
+    proto     => 'tcp',
     state     => ['RELATED', 'ESTABLISHED'],
     dport     => [80, 443],
     limit     => '50/second',
