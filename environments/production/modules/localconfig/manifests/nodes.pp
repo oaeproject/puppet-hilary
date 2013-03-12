@@ -235,3 +235,47 @@ node 'pp2' inherits ppnode { }
 #################
 
 node 'syslog' inherits syslognode { }
+
+#############
+## BASTION ##
+#############
+
+node 'bastion' inherits linuxnode {
+  
+  ##########################
+  ## WEB TRAFFIC HANDLING ##
+  ##########################
+
+  # Route web traffic to web0
+  iptables { '001 route web traffic to web0':
+    chain     => 'PREROUTING',
+    table     => 'nat',
+    iniface   => 'eth0',
+    proto     => 'tcp',
+    dport     => [ 80, 443 ],
+    jump      => 'DNAT',
+    todest    => $localconfig::web_hosts[0],
+  }
+
+  # Not yet. Just make sure it forwards first.
+  # Rate limiting web traffic
+  # iptables -A INPUT -p tcp --dport 80 -m state --state NEW -m limit --limit 50/minute --limit-burst 200 -j ACCEPT
+  # iptables { '001 rate limit web traffic':
+  #   chain     => 'INPUT',
+  #   iniface   => 'eth0',
+  #   proto     => 'tcp',
+  #   state     => 'NEW',
+  # }
+
+  # Accept web traffic in the input chain
+  iptables { '001 accept web traffic':
+    chain     => 'INPUT',
+    iniface   => 'etho0',
+    proto     => 'tcp',
+    state     => 'NEW',
+    dport     => [ 80, 443 ],
+    jump      => 'ACCEPT',
+  }
+
+
+}

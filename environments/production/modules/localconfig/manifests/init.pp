@@ -9,7 +9,7 @@ class localconfig {
   $pp_group   = 'root'
 
   # Web servers
-  $web_hosts = ['165.225.133.115']
+  $web_hosts = ['10.224.14.16']
 
   # App servers
   $app_hosts_internal = ['10.224.14.27']
