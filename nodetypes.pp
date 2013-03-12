@@ -57,8 +57,8 @@ node linuxnode inherits basenode {
   iptables { '998 ping exceeded': chain => 'INPUT', proto => 'icmp', icmp => 'time-exceeded', jump => 'ACCEPT', }
 
   # 3.
-  iptables { '998 continue': chain => 'INPUT', state => ['ESTABLISHED', 'RELATED'], jump => 'ACCEPT', }
-  iptables { '998 continue': chain => 'FORWARD', state => ['ESTABLISHED', 'RELATED'], jump => 'ACCEPT', }
+  iptables { '998 input continue': chain => 'INPUT', state => ['ESTABLISHED', 'RELATED'], jump => 'ACCEPT', }
+  iptables { '998 forward continue': chain => 'FORWARD', state => ['ESTABLISHED', 'RELATED'], jump => 'ACCEPT', }
 
   # 4.
   iptables { '998 allow private input': chain => 'INPUT', iniface => 'eth1', jump => 'ACCEPT', }
