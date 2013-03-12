@@ -267,7 +267,7 @@ node 'bastion' inherits linuxnode {
   }
 
   # Accept forwarded web traffic with a rate limit
-  # iptables -A INPUT -p tcp --dport 80 -m state --state NEW -m limit --limit 50/minute --limit-burst 200 -j ACCEPT
+
   iptables { '001 rate limit new forwarded web connections':
     chain     => 'FORWARD',
     iniface   => 'eth0',
@@ -279,8 +279,7 @@ node 'bastion' inherits linuxnode {
     jump      => 'ACCEPT',
   }
 
-  # iptables -A INPUT -m state --state RELATED,ESTABLISHED -m limit --limit 50/second --limit-burst 50 -j ACCEPT
-  iptables { '001 rate limit established forwarded webc onnections':
+  iptables { '001 rate limit established forwarded web connections':
     chain     => 'FORWARD',
     iniface   => 'eth0',
     proto     => 'tcp',
