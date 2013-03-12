@@ -226,12 +226,7 @@ node webnode inherits basenode {
     sourcedir  => $localconfig::nfs_sourcedir,
   }
 
-  class { 'ipfilter':
-    rules => [
-      'pass in quick on net0 proto tcp from any to any port=80 keep state',
-      'pass in quick on net0 proto tcp from any to any port=443 keep state'
-    ],
-  }
+  class { 'ipfilter': }
 
   ## RSyslog: Manually crunch the log files using the rsyslog "imfile" plugin
   class { 'rsyslog':
