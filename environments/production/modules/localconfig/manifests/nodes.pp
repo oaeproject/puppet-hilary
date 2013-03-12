@@ -266,23 +266,28 @@ node 'bastion' inherits linuxnode {
     jump      => 'MASQUERADE',
   }
 
-  # Not yet. Just make sure it forwards first.
-  # Rate limiting web traffic
+  # Accept forwarded web traffic with a rate limit
   # iptables -A INPUT -p tcp --dport 80 -m state --state NEW -m limit --limit 50/minute --limit-burst 200 -j ACCEPT
-  # iptables { '001 rate limit web traffic':
-  #   chain     => 'INPUT',
-  #   iniface   => 'eth0',
-  #   proto     => 'tcp',
-  #   state     => 'NEW',
-  # }
-
-  # Accept web traffic in the input chain
-  iptables { '001 accept web traffic forward':
+  iptables { '001 rate limit new forwarded web connections':
     chain     => 'FORWARD',
     iniface   => 'eth0',
     proto     => 'tcp',
     state     => 'NEW',
     dport     => [ 80, 443 ],
+    limit     => '50/minute',
+    burst     => 200,
+    jump      => 'ACCEPT',
+  }
+
+  # iptables -A INPUT -m state --state RELATED,ESTABLISHED -m limit --limit 50/second --limit-burst 50 -j ACCEPT
+  iptables { '001 rate limit established forwarded webc onnections':
+    chain     => 'FORWARD',
+    iniface   => 'eth0',
+    proto     => 'tcp'
+    state     => ['RELATED', 'ESTABLISHED'],
+    dport     => [80, 443],
+    limit     => '50/second',
+    burst     => 50,
     jump      => 'ACCEPT',
   }
 }

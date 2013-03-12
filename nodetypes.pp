@@ -28,14 +28,13 @@ node linuxnode inherits basenode {
   # By default, allow:
   #
   #   1.  SSH to all nodes
-  #   2.  Pings to all nodes
-  #   3.  Already-established traffic to continue
-  #   4.  Allow everything on private and loopback interfaces
-  #   5.  All outgoing traffic
+  #   2.  pings to all nodes
+  #   3.  everything on private and loopback interfaces
+  #   4.  all outgoing traffic
   #
   # By default, deny:
   #
-  #   6. All incoming traffic not white-listed above
+  #   5. all incoming and forward traffic not white-listed above
   #
   # It is expected that any node that needs additional firewall rules opened will specify a rule with a
   # "jump => 'ACCEPT'", with a resource name that is greater than 000 and less than 900. E.g.: to open
@@ -57,19 +56,15 @@ node linuxnode inherits basenode {
   iptables { '998 ping exceeded': chain => 'INPUT', proto => 'icmp', icmp => 'time-exceeded', jump => 'ACCEPT', }
 
   # 3.
-  iptables { '998 input continue': chain => 'INPUT', state => ['ESTABLISHED', 'RELATED'], jump => 'ACCEPT', }
-  iptables { '998 forward continue': chain => 'FORWARD', state => ['ESTABLISHED', 'RELATED'], jump => 'ACCEPT', }
-
-  # 4.
   iptables { '998 allow private input': chain => 'INPUT', iniface => 'eth1', jump => 'ACCEPT', }
   iptables { '998 allow private forward': chain => 'FORWARD', iniface => 'eth1', jump => 'ACCEPT' }
   iptables { '998 allow lo input': chain => 'INPUT', iniface => 'lo', jump => 'ACCEPT', }
   iptables { '998 allow lo forward': chain => 'FORWARD', iniface => 'lo', jump => 'ACCEPT' }
 
-  # 5.
+  # 4.
   iptables { '999 allow base output': chain => 'OUTPUT', jump => 'ACCEPT' }
 
-  # 6.
+  # 5.
   iptables { '999 block base input': chain => 'INPUT', jump => 'DROP' }
   iptables { '999 block base forward': chain => 'FORWARD', jump => 'DROP' }
 
