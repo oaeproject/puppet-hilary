@@ -241,8 +241,19 @@ node 'syslog' inherits syslognode { }
 #############
 
 node 'bastion' inherits linuxnode {
-  
-  
+
+  ## Allow forwarding with sysctl
+  Exec { path => '/usr/bin:/usr/sbin/:/bin:/sbin' }
+
+  sysctl::value {
+    'net.ipv4.ip_forward': value => '1',
+    notify => Exec['load-sysctl'],
+  }
+
+  exec { 'load-sysctl':
+    command => 'sysctl -p /etc/sysctl.conf',
+    refreshonly => true,
+  }
 
   ##########################
   ## WEB TRAFFIC HANDLING ##
@@ -268,16 +279,18 @@ node 'bastion' inherits linuxnode {
 
   # Accept forwarded web traffic with a rate limit
 
+  ## Allos 15000 new connections per minute. 30000 / 60 = average of 500 requests per second over a period of a minute
   iptables { '001 rate limit new forwarded web connections':
     chain     => 'FORWARD',
     iniface   => 'eth0',
     proto     => 'tcp',
     state     => 'NEW',
     dport     => [ 80, 443 ],
-    limit     => '15000/min',
+    limit     => '30000/min',
     jump      => 'ACCEPT',
   }
 
+  ## After a burst of 900 packets per second, rate limit to 700 packets per second
   iptables { '001 rate limit established forwarded web connections':
     chain     => 'FORWARD',
     iniface   => 'eth0',
