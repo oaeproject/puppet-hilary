@@ -29,7 +29,7 @@ node linuxnode inherits basenode {
   #
   #   1.  SSH to all nodes
   #   2.  pings to all nodes
-  #   3.  everything on private and loopback interfaces
+  #   3.  everything on private and loopback interfaces, and established input traffic
   #   4.  all outgoing traffic
   #
   # By default, deny:
@@ -60,6 +60,12 @@ node linuxnode inherits basenode {
   iptables { '998 allow private forward': chain => 'FORWARD', iniface => 'eth1', jump => 'ACCEPT' }
   iptables { '998 allow lo input': chain => 'INPUT', iniface => 'lo', jump => 'ACCEPT', }
   iptables { '998 allow lo forward': chain => 'FORWARD', iniface => 'lo', jump => 'ACCEPT' }
+  iptables { '998 allow public established input':
+    chain => 'INPUT',
+    iniface => 'eth0',
+    state => ['ESTABLISHED', 'RELATED'],
+    jump => 'ACCEPT',
+  }
 
   # 4.
   iptables { '999 allow base output': chain => 'OUTPUT', jump => 'ACCEPT' }
