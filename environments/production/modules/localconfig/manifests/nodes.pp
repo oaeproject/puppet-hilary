@@ -270,7 +270,7 @@ node 'bastion' inherits linuxnode {
   # Accept web traffic in the input chain
   iptables { '001 accept web traffic':
     chain     => 'INPUT',
-    iniface   => 'etho0',
+    iniface   => 'eth0',
     proto     => 'tcp',
     state     => 'NEW',
     dport     => [ 80, 443 ],
