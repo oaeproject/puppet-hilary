@@ -69,8 +69,8 @@ node linuxnode inherits basenode {
   iptables { '999 allow base output': chain => 'OUTPUT', jump => 'ACCEPT' }
 
   # 6.
-  #iptables { '999 block base input': chain => 'INPUT', jump => 'DROP' }
-  #iptables { '999 block base forward': chain => 'FORWARD', jump => 'DROP' }
+  iptables { '999 block base input': chain => 'INPUT', jump => 'DROP' }
+  iptables { '999 block base forward': chain => 'FORWARD', jump => 'DROP' }
 
 }
 

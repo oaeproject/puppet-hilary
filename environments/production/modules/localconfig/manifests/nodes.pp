@@ -267,6 +267,16 @@ node 'bastion' inherits linuxnode {
     todest    => "${localconfig::web_hosts[0]}:443",
   }
 
+  # Masquerade?
+  # iptables -t nat -A POSTROUTING -j MASQUERADE
+  iptables { '001 route web masquerade':
+    chain     => 'POSTROUTING',
+    table     => 'nat',
+    iniface   => 'eth0',
+    proto     => 'tcp',
+    jump      => 'MASQUERADE',
+  }
+
   # Not yet. Just make sure it forwards first.
   # Rate limiting web traffic
   # iptables -A INPUT -p tcp --dport 80 -m state --state NEW -m limit --limit 50/minute --limit-burst 200 -j ACCEPT
