@@ -242,6 +242,8 @@ node 'syslog' inherits syslognode { }
 
 node 'bastion' inherits linuxnode {
   
+  
+
   ##########################
   ## WEB TRAFFIC HANDLING ##
   ##########################
@@ -252,23 +254,12 @@ node 'bastion' inherits linuxnode {
     table     => 'nat',
     iniface   => 'eth0',
     proto     => 'tcp',
-    dport     => 80,
+    dport     => [ 80, 443 ],
     jump      => 'DNAT',
-    todest    => "${localconfig::web_hosts[0]}:80",
+    todest    => $localconfig::web_hosts[0],
   }
 
-  iptables { '001 route web :443 traffic to web0':
-    chain     => 'PREROUTING',
-    table     => 'nat',
-    iniface   => 'eth0',
-    proto     => 'tcp',
-    dport     => 443,
-    jump      => 'DNAT',
-    todest    => "${localconfig::web_hosts[0]}:443",
-  }
-
-  # Masquerade
-  # iptables -t nat -A POSTROUTING -j MASQUERADE
+  # Masquerade - scrub the internal interface from outbound packets?
   iptables { '001 route web masquerade':
     chain     => 'POSTROUTING',
     table     => 'nat',
