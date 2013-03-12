@@ -58,6 +58,7 @@ node linuxnode inherits basenode {
 
   # 3.
   iptables { '998 continue': chain => 'INPUT', state => ['ESTABLISHED', 'RELATED'], jump => 'ACCEPT', }
+  iptables { '998 continue': chain => 'FORWARD', state => ['ESTABLISHED', 'RELATED'], jump => 'ACCEPT', }
 
   # 4.
   iptables { '998 allow private input': chain => 'INPUT', iniface => 'eth1', jump => 'ACCEPT', }
