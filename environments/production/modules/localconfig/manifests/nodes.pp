@@ -263,7 +263,6 @@ node 'bastion' inherits linuxnode {
   iptables { '001 route web masquerade':
     chain     => 'POSTROUTING',
     table     => 'nat',
-    outiface  => 'eth0',
     jump      => 'MASQUERADE',
   }
 
