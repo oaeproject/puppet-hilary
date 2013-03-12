@@ -247,26 +247,16 @@ node 'bastion' inherits linuxnode {
   ##########################
 
   # Route web traffic to web0
-  iptables { '001 route web :80 traffic to web0':
+  iptables { '001 route web traffic to web0':
     chain     => 'PREROUTING',
     table     => 'nat',
     iniface   => 'eth0',
     proto     => 'tcp',
-    dport     => 80,
+    dport     => [ 80, 443 ],
     jump      => 'DNAT',
-    todest    => "${localconfig::web_hosts[0]}:80",
+    todest    => $localconfig::web_hosts[0],
   }
-
-  iptables { '001 route web :443 traffic to web0':
-    chain     => 'PREROUTING',
-    table     => 'nat',
-    iniface   => 'eth0',
-    proto     => 'tcp',
-    dport     => 443,
-    jump      => 'DNAT',
-    todest    => "${localconfig::web_hosts[0]}:443",
-  }
-
+  
   # Masquerade?
   # iptables -t nat -A POSTROUTING -j MASQUERADE
   iptables { '001 route web masquerade':
