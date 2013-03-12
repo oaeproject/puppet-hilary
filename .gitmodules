@@ -10,3 +10,6 @@
 [submodule "modules/iptables"]
 	path = modules/iptables
 	url = https://github.com/camptocamp/puppet-iptables.git
+[submodule "modules/sysctl"]
+	path = modules/sysctl
+	url = https://github.com/duritong/puppet-sysctl.git

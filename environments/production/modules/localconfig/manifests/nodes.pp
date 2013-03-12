@@ -241,6 +241,8 @@ node 'syslog' inherits syslognode { }
 #############
 
 node 'bastion' inherits linuxnode {
+
+  sysctl::value { 'net.ipv4.ip_forward': value => '1' }
   
   ##########################
   ## WEB TRAFFIC HANDLING ##
@@ -257,14 +259,6 @@ node 'bastion' inherits linuxnode {
     todest    => $localconfig::web_hosts[0],
   }
 
-  # Masquerade?
-  # iptables -t nat -A POSTROUTING -j MASQUERADE
-  #iptables { '001 route web masquerade':
-  #  chain     => 'POSTROUTING',
-  #  table     => 'nat',
-  #  jump      => 'MASQUERADE',
-  #}
-
   # Not yet. Just make sure it forwards first.
   # Rate limiting web traffic
   # iptables -A INPUT -p tcp --dport 80 -m state --state NEW -m limit --limit 50/minute --limit-burst 200 -j ACCEPT
@@ -275,7 +269,7 @@ node 'bastion' inherits linuxnode {
   #   state     => 'NEW',
   # }
 
-  # Accept web traffic in the input chain
+  # Accept forwarded web traffic
   iptables { '001 accept web traffic forward':
     chain     => 'FORWARD',
     iniface   => 'eth0',
