@@ -10,3 +10,6 @@
 [submodule "modules/sysctl"]
 	path = modules/sysctl
 	url = https://github.com/duritong/puppet-sysctl.git
+[submodule "modules/firewall"]
+	path = modules/firewall
+	url = git://github.com/jjneely/puppetlabs-firewall.git
