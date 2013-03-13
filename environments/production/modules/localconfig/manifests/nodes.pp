@@ -263,7 +263,7 @@ node 'bastion' inherits linuxnode {
   # Accept forwarded web traffic with a rate limit
 
   # Limit new connections per minute
-  iptables { '001 rate limit new web connections':
+  iptables { '100 rate limit new web connections':
     chain     => 'INPUT',
     iniface   => 'eth0',
     proto     => 'tcp',
@@ -274,7 +274,7 @@ node 'bastion' inherits linuxnode {
   }
 
   # After a burst of 600 packets per second, rate limit to 500 packets per second
-  iptables { '001 rate limit established web connections':
+  iptables { '100 rate limit established web connections':
     chain     => 'INPUT',
     iniface   => 'eth0',
     proto     => 'tcp',
