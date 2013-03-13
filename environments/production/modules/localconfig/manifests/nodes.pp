@@ -270,10 +270,11 @@ node 'bastion' inherits linuxnode {
     todest    => $localconfig::web_hosts[0],
   }
 
-  # Masquerade - scrub the internal interface from outbound packets?
+  # Masquerade - scrub the internal interface ip from outbound packets
   iptables { '001 route web masquerade':
     chain     => 'POSTROUTING',
     table     => 'nat',
+    outiface  => 'eth0',
     jump      => 'MASQUERADE',
   }
 
