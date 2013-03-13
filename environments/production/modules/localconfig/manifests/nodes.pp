@@ -266,7 +266,7 @@ node 'bastion' inherits linuxnode {
     iniface   => 'eth0',
     proto     => 'tcp',
     dport     => [ 80, 443 ],
-    jump      => 'DNAT',
+    jump      => 'dnat',
     todest    => $localconfig::web_hosts[0],
   }
 
@@ -274,7 +274,7 @@ node 'bastion' inherits linuxnode {
   firewall { '001 route web masquerade':
     chain     => 'POSTROUTING',
     table     => 'nat',
-    jump      => 'MASQUERADE',
+    jump      => 'masquerade',
   }
 
   # Accept forwarded web traffic with a rate limit
@@ -287,7 +287,7 @@ node 'bastion' inherits linuxnode {
     state     => 'NEW',
     dport     => [ 80, 443 ],
     limit     => '30000/min',
-    action    => 'ACCEPT',
+    action    => 'accept',
   }
 
   ## After a burst of 900 packets per second, rate limit to 700 packets per second
@@ -299,6 +299,6 @@ node 'bastion' inherits linuxnode {
     dport     => [80, 443],
     limit     => '700/sec',
     burst     => 900,
-    action    => 'ACCEPT',
+    action    => 'accept',
   }
 }
