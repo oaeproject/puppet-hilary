@@ -33,11 +33,11 @@ class localconfig {
   $db_strategyClass = 'SimpleStrategy'
 
   # Search
-  $search_hosts_internal = [{ 'host' => '10.224.14.25', 'port' => 9200 }]
+  $search_hosts_internal = [{ 'host' => '10.224.14.36', 'port' => 9200 }]
   $search_path_data = '/var/lib/elasticsearch'
 
   # Messaging
-  $mq_hosts_internal = [ { 'host' => '10.224.14.20', 'port' => 5672 } ]
+  $mq_hosts_internal = [ { 'host' => '10.224.14.35', 'port' => 5672 } ]
 
   # RSyslog
   $rsyslog_host_internal = '10.224.14.32'
