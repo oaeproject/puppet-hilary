@@ -40,7 +40,7 @@ node linuxnode inherits basenode {
   # "jump => 'ACCEPT'", with a resource name that is greater than 000 and less than 900. E.g.: to open
   # https traffic on the elasticsearch public interface (for some reason), in your class manifest, include:
   #
-  # iptables { '001 elasticsearch http':
+  # firewall { '001 elasticsearch http':
   #   chain => 'INPUT',
   #   dport => 'https',
   #   jump  => 'ACCEPT',
@@ -48,19 +48,19 @@ node linuxnode inherits basenode {
   #
 
   # 1.
-  iptables { '000 allow ssh': chain => 'INPUT', proto => 'tcp', dport => 'ssh', jump => 'ACCEPT', }
+  firewall { '000 allow ssh': chain => 'INPUT', proto => 'tcp', dport => 'ssh', jump => 'ACCEPT', }
 
   # 2.
-  iptables { '998 ping unreachable': chain => 'INPUT', proto => 'icmp', icmp => 'destination-unreachable', jump => 'ACCEPT', }
-  iptables { '998 ping quence': chain => 'INPUT', proto => 'icmp', icmp => 'source-quence', jump => 'ACCEPT', }
-  iptables { '998 ping exceeded': chain => 'INPUT', proto => 'icmp', icmp => 'time-exceeded', jump => 'ACCEPT', }
+  firewall { '998 ping unreachable': chain => 'INPUT', proto => 'icmp', icmp => 'destination-unreachable', jump => 'ACCEPT', }
+  firewall { '998 ping quence': chain => 'INPUT', proto => 'icmp', icmp => 'source-quence', jump => 'ACCEPT', }
+  firewall { '998 ping exceeded': chain => 'INPUT', proto => 'icmp', icmp => 'time-exceeded', jump => 'ACCEPT', }
 
   # 3.
-  iptables { '998 allow private input': chain => 'INPUT', iniface => 'eth1', jump => 'ACCEPT', }
-  iptables { '998 allow private forward': chain => 'FORWARD', iniface => 'eth1', jump => 'ACCEPT' }
-  iptables { '998 allow lo input': chain => 'INPUT', iniface => 'lo', jump => 'ACCEPT', }
-  iptables { '998 allow lo forward': chain => 'FORWARD', iniface => 'lo', jump => 'ACCEPT' }
-  iptables { '998 allow public established input':
+  firewall { '998 allow private input': chain => 'INPUT', iniface => 'eth1', jump => 'ACCEPT', }
+  firewall { '998 allow private forward': chain => 'FORWARD', iniface => 'eth1', jump => 'ACCEPT' }
+  firewall { '998 allow lo input': chain => 'INPUT', iniface => 'lo', jump => 'ACCEPT', }
+  firewall { '998 allow lo forward': chain => 'FORWARD', iniface => 'lo', jump => 'ACCEPT' }
+  firewall { '998 allow public established input':
     chain => 'INPUT',
     iniface => 'eth0',
     state => ['ESTABLISHED', 'RELATED'],
@@ -68,11 +68,11 @@ node linuxnode inherits basenode {
   }
 
   # 4.
-  iptables { '999 allow base output': chain => 'OUTPUT', jump => 'ACCEPT' }
+  firewall { '999 allow base output': chain => 'OUTPUT', jump => 'ACCEPT' }
 
   # 5.
-  iptables { '999 block base input': chain => 'INPUT', jump => 'DROP' }
-  iptables { '999 block base forward': chain => 'FORWARD', jump => 'DROP' }
+  firewall { '999 block base input': chain => 'INPUT', jump => 'DROP' }
+  firewall { '999 block base forward': chain => 'FORWARD', jump => 'DROP' }
 
 }
 
