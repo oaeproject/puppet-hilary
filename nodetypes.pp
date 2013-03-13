@@ -37,42 +37,42 @@ node linuxnode inherits basenode {
   #   5. all incoming and forward traffic not white-listed above
   #
   # It is expected that any node that needs additional firewall rules opened will specify a rule with a
-  # "jump => 'ACCEPT'", with a resource name that is greater than 000 and less than 900. E.g.: to open
+  # "action => 'ACCEPT'", with a resource name that is greater than 000 and less than 900. E.g.: to open
   # https traffic on the elasticsearch public interface (for some reason), in your class manifest, include:
   #
   # firewall { '001 elasticsearch http':
   #   chain => 'INPUT',
   #   dport => 'https',
-  #   jump  => 'ACCEPT',
+  #   action  => 'ACCEPT',
   # }
   #
 
   # 1.
-  firewall { '000 allow ssh': chain => 'INPUT', proto => 'tcp', dport => 'ssh', jump => 'ACCEPT', }
+  firewall { '000 allow ssh': chain => 'INPUT', proto => 'tcp', dport => 'ssh', action => 'ACCEPT', }
 
   # 2.
-  firewall { '998 ping unreachable': chain => 'INPUT', proto => 'icmp', icmp => 'destination-unreachable', jump => 'ACCEPT', }
-  firewall { '998 ping quence': chain => 'INPUT', proto => 'icmp', icmp => 'source-quence', jump => 'ACCEPT', }
-  firewall { '998 ping exceeded': chain => 'INPUT', proto => 'icmp', icmp => 'time-exceeded', jump => 'ACCEPT', }
+  firewall { '998 ping unreachable': chain => 'INPUT', proto => 'icmp', icmp => 'destination-unreachable', action => 'ACCEPT', }
+  firewall { '998 ping quence': chain => 'INPUT', proto => 'icmp', icmp => 'source-quence', action => 'ACCEPT', }
+  firewall { '998 ping exceeded': chain => 'INPUT', proto => 'icmp', icmp => 'time-exceeded', action => 'ACCEPT', }
 
   # 3.
-  firewall { '998 allow private input': chain => 'INPUT', iniface => 'eth1', jump => 'ACCEPT', }
-  firewall { '998 allow private forward': chain => 'FORWARD', iniface => 'eth1', jump => 'ACCEPT' }
-  firewall { '998 allow lo input': chain => 'INPUT', iniface => 'lo', jump => 'ACCEPT', }
-  firewall { '998 allow lo forward': chain => 'FORWARD', iniface => 'lo', jump => 'ACCEPT' }
+  firewall { '998 allow private input': chain => 'INPUT', iniface => 'eth1', action => 'ACCEPT', }
+  firewall { '998 allow private forward': chain => 'FORWARD', iniface => 'eth1', action => 'ACCEPT' }
+  firewall { '998 allow lo input': chain => 'INPUT', iniface => 'lo', action => 'ACCEPT', }
+  firewall { '998 allow lo forward': chain => 'FORWARD', iniface => 'lo', action => 'ACCEPT' }
   firewall { '998 allow public established input':
-    chain => 'INPUT',
+    chain   => 'INPUT',
     iniface => 'eth0',
-    state => ['ESTABLISHED', 'RELATED'],
-    jump => 'ACCEPT',
+    state   => ['ESTABLISHED', 'RELATED'],
+    action  => 'ACCEPT',
   }
 
   # 4.
-  firewall { '999 allow base output': chain => 'OUTPUT', jump => 'ACCEPT' }
+  firewall { '999 allow base output': chain => 'OUTPUT', action => 'ACCEPT' }
 
   # 5.
-  firewall { '999 block base input': chain => 'INPUT', jump => 'DROP' }
-  firewall { '999 block base forward': chain => 'FORWARD', jump => 'DROP' }
+  firewall { '999 block base input': chain => 'INPUT', action => 'DROP' }
+  firewall { '999 block base forward': chain => 'FORWARD', action => 'DROP' }
 
 }
 

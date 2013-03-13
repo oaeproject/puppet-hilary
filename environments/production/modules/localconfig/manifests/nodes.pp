@@ -287,7 +287,7 @@ node 'bastion' inherits linuxnode {
     state     => 'NEW',
     dport     => [ 80, 443 ],
     limit     => '30000/min',
-    jump      => 'ACCEPT',
+    action    => 'ACCEPT',
   }
 
   ## After a burst of 900 packets per second, rate limit to 700 packets per second
@@ -299,6 +299,6 @@ node 'bastion' inherits linuxnode {
     dport     => [80, 443],
     limit     => '700/sec',
     burst     => 900,
-    jump      => 'ACCEPT',
+    action    => 'ACCEPT',
   }
 }
