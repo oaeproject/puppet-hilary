@@ -54,7 +54,7 @@ node linuxnode inherits basenode {
     dport => 'ssh',
     state => 'NEW',
     limit => '10/sec'
-    burst => 10
+    burst => 10,
     jump => 'ACCEPT',
   }
 
