@@ -51,9 +51,7 @@ node linuxnode inherits basenode {
   firewall { '000 allow ssh': chain => 'INPUT', proto => 'tcp', dport => 'ssh', action => 'accept', }
 
   # 2.
-  firewall { '998 ping unreachable': chain => 'INPUT', proto => 'icmp', icmp => 'destination-unreachable', action => 'accept', }
-  firewall { '998 ping quence': chain => 'INPUT', proto => 'icmp', icmp => 'source-quence', action => 'accept', }
-  firewall { '998 ping exceeded': chain => 'INPUT', proto => 'icmp', icmp => 'time-exceeded', action => 'accept', }
+  firewall { '998 allow icmp': chain => 'INPUT', proto => 'icmp', action => 'accept', }
 
   # 3.
   firewall { '998 allow private input': chain => 'INPUT', iniface => 'eth1', action => 'accept', }
