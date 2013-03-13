@@ -286,7 +286,7 @@ node 'bastion' inherits linuxnode {
     proto     => 'tcp',
     state     => 'NEW',
     dport     => [ 80, 443 ],
-    limit     => '30000/min',
+    #limit     => '30000/min',
     jump      => 'ACCEPT',
   }
 
@@ -297,8 +297,8 @@ node 'bastion' inherits linuxnode {
     proto     => 'tcp',
     state     => ['RELATED', 'ESTABLISHED'],
     dport     => [80, 443],
-    limit     => '700/sec',
-    burst     => 900,
+    #limit     => '700/sec',
+    #burst     => 900,
     jump      => 'ACCEPT',
   }
 }
