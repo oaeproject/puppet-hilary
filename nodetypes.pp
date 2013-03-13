@@ -48,6 +48,7 @@ node linuxnode inherits basenode {
   #
 
   # 1.
+  iptables { '000 allow new ssh': chain => 'INPUT', proto => 'tcp', dport => 'ssh', state => 'NEW', jump => 'ACCEPT', }
   iptables { '000 allow ssh': chain => 'INPUT', proto => 'tcp', dport => 'ssh', jump => 'ACCEPT', }
 
   # 2.
