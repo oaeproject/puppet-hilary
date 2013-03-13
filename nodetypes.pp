@@ -48,8 +48,15 @@ node linuxnode inherits basenode {
   #
 
   # 1.
-  iptables { '000 allow new ssh': chain => 'INPUT', proto => 'tcp', dport => 'ssh', state => 'NEW', jump => 'ACCEPT', }
-  iptables { '000 allow ssh': chain => 'INPUT', proto => 'tcp', dport => 'ssh', jump => 'ACCEPT', }
+  iptables { '000 allow new ssh':
+    chain => 'INPUT',
+    proto => 'tcp',
+    dport => 'ssh',
+    state => 'NEW',
+    limit => '10/sec'
+    burst => 10
+    jump => 'ACCEPT',
+  }
 
   # 2.
   iptables { '998 ping unreachable': chain => 'INPUT', proto => 'icmp', icmp => 'destination-unreachable', jump => 'ACCEPT', }
