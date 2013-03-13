@@ -53,7 +53,7 @@ node linuxnode inherits basenode {
     proto => 'tcp',
     dport => 'ssh',
     state => 'NEW',
-    limit => '10/sec'
+    limit => '10/sec',
     burst => 10,
     jump => 'ACCEPT',
   }
