@@ -275,7 +275,7 @@ node 'bastion' inherits linuxnode {
 
   # After a burst of 600 packets per second, rate limit to 500 packets per second
   iptables { '001 rate limit established web connections':
-    chain     => 'FORWARD',
+    chain     => 'INPUT',
     iniface   => 'eth0',
     proto     => 'tcp',
     state     => ['RELATED', 'ESTABLISHED'],
