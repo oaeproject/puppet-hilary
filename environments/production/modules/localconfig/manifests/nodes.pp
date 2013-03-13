@@ -259,30 +259,12 @@ node 'bastion' inherits linuxnode {
   ## WEB TRAFFIC HANDLING ##
   ##########################
 
-  # Route web traffic to web0
-  iptables { '001 route web :80 traffic to web0':
-    chain     => 'PREROUTING',
-    table     => 'nat',
-    iniface   => 'eth0',
-    proto     => 'tcp',
-    dport     => [ 80, 443 ],
-    jump      => 'DNAT',
-    todest    => $localconfig::web_hosts[0],
-  }
-
-  # Masquerade - scrub the internal interface ip from outbound packets
-  iptables { '001 route web masquerade':
-    chain     => 'POSTROUTING',
-    table     => 'nat',
-    outiface  => 'eth0',
-    jump      => 'MASQUERADE',
-  }
 
   # Accept forwarded web traffic with a rate limit
 
-  ## Limit new connections per minute
-  iptables { '001 rate limit new forwarded web connections':
-    chain     => 'FORWARD',
+  # Limit new connections per minute
+  iptables { '001 rate limit new web connections':
+    chain     => 'INPUT',
     iniface   => 'eth0',
     proto     => 'tcp',
     state     => 'NEW',
@@ -291,8 +273,8 @@ node 'bastion' inherits linuxnode {
     jump      => 'ACCEPT',
   }
 
-  ## After a burst of 600 packets per second, rate limit to 500 packets per second
-  iptables { '001 rate limit established forwarded web connections':
+  # After a burst of 600 packets per second, rate limit to 500 packets per second
+  iptables { '001 rate limit established web connections':
     chain     => 'FORWARD',
     iniface   => 'eth0',
     proto     => 'tcp',
