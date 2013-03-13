@@ -279,26 +279,26 @@ node 'bastion' inherits linuxnode {
 
   # Accept forwarded web traffic with a rate limit
 
-  ## Allos 30000 new connections per minute. 30000 / 60 = average of api 500 requests per second over a period of a minute
+  ## Limit new connections per minute
   iptables { '001 rate limit new forwarded web connections':
     chain     => 'FORWARD',
     iniface   => 'eth0',
     proto     => 'tcp',
     state     => 'NEW',
     dport     => [ 80, 443 ],
-    limit     => '60000/min',
+    limit     => '30000/min',
     jump      => 'ACCEPT',
   }
 
-  ## After a burst of 450 packets per second, rate limit to 350 packets per second
+  ## After a burst of 600 packets per second, rate limit to 500 packets per second
   iptables { '001 rate limit established forwarded web connections':
     chain     => 'FORWARD',
     iniface   => 'eth0',
     proto     => 'tcp',
     state     => ['RELATED', 'ESTABLISHED'],
     dport     => [80, 443],
-    limit     => '350/sec',
-    burst     => 450,
+    limit     => '500/sec',
+    burst     => 600,
     jump      => 'ACCEPT',
   }
 }
