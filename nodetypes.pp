@@ -82,6 +82,10 @@ node ppnode inherits basenode {
     ensure  => installed,
   }
 
+  package { 'phantomjs':
+    ensure  => installed,
+  }
+
   ###########################################
   ## INSTALL HILARY AND 3AKAI-UX CONTAINER ##
   ###########################################
