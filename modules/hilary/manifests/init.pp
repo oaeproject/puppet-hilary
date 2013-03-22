@@ -57,7 +57,6 @@ class hilary (
     mode    => "0644",
     owner   => $os_user,
     group   => $os_group,
-    recurse => true,
     require => Vcsrepo[$app_root_dir],
   }
 
@@ -70,6 +69,15 @@ class hilary (
     require     => [ File[$app_root_dir], Package[$packages], Vcsrepo[$app_root_dir] ],
   }
 
+  # chown the application root to the app user
+  exec { 'app_root_dir_chown':
+    cwd         => $app_root_dir,
+    command     => "chown -R $os_user:$os_group ."
+    logoutput   => "on_failure",
+    path        => $path,
+    require     => [ Exec["npm_install_dependencies"] ]
+  }
+
   # Directory for temp files
   file { $upload_files_dir:
     ensure  => directory,
@@ -80,6 +88,9 @@ class hilary (
   # config.js
   file { "${app_root_dir}/config.js":
     ensure  => present,
+    mode    => "0644",
+    owner   => $os_user,
+    group   => $os_group,
     content => template('localconfig/config.js.erb'),
     require => [ Vcsrepo[$app_root_dir], File[$upload_files_dir] ],
   }
