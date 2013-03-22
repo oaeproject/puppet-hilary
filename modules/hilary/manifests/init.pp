@@ -72,10 +72,10 @@ class hilary (
   # chown the application root to the app user
   exec { 'app_root_dir_chown':
     cwd         => $app_root_dir,
-    command     => "chown -R $os_user:$os_group ."
+    command     => "chown -R $os_user:$os_group .",
     logoutput   => "on_failure",
     path        => $path,
-    require     => [ Exec["npm_install_dependencies"] ]
+    require     => [ Exec["npm_install_dependencies"] ],
   }
 
   # Directory for temp files
