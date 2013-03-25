@@ -273,7 +273,7 @@ node 'bastion' inherits linuxnode {
     chain   => 'INPUT',
     iniface => 'eth0',
     proto   => 'tcp',
-    port    => 22,
+    dport   => 22,
     jump    => 'ACCEPT',
   }
 }
