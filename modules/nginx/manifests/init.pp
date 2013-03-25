@@ -38,7 +38,6 @@ class nginx(
     group   => $group,
     content => template('nginx/nginx.conf.erb'),
     require => Exec['nginx_install'],
-    notify  => Service['nginx'],
   }
 
   service { 'nginx':

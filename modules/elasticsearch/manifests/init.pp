@@ -60,14 +60,12 @@ class elasticsearch (
     ensure  => present,
     content => template('elasticsearch/elasticsearch.yml.erb'),
     require => Exec["mv ${extracted_foldername} /opt/elasticsearch"],
-    notify  => Service['elasticsearch'],
   }
 
   file { '/opt/elasticsearch/config/logging.yml':
     ensure  => present,
     content => template('elasticsearch/logging.yml.erb'),
     require => Exec["mv ${extracted_foldername} /opt/elasticsearch"],
-    notify  => Service['elasticsearch'],
   }
 
   service { 'elasticsearch':

@@ -14,7 +14,6 @@ class rabbitmq (
   package { 'rabbitmq-server': ensure  => installed, }
 
   file { '/etc/rabbitmq/rabbitmq.config':
-    notify  => Service['rabbitmq-server'],
     ensure  => present,
     mode    => 0640,
     owner   => $owner,

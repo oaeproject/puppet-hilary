@@ -144,7 +144,6 @@ class hilary (
       # Force reload the manifest
       exec { "svccfg_${service_name}":
         command   => "/usr/sbin/svccfg import ${app_root_dir}/service.xml",
-        notify    => Service[$service_name],
         require   => File["${app_root_dir}/service.xml"],
       }
 
@@ -152,10 +151,7 @@ class hilary (
       service { $service_name:
         ensure   => running,
         manifest => "${app_root_dir}/service.xml",
-        require  => [ Exec["svccfg_${service_name}"],
-                      Vcsrepo[$ux_root_dir],
-                      Exec["npm_install_dependencies"],
-                    ]
+        require  => [ Exec["svccfg_${service_name}"], Vcsrepo[$ux_root_dir], Exec["npm_install_dependencies"], ]
       }
     }
     default: {

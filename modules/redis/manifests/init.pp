@@ -16,7 +16,6 @@ class redis (
 
   # Set the configuration file.
   file { 'redis.conf':
-    notify  => Service['redis'],
     path    => '/opt/local/etc/redis.conf',
     ensure  => present,
     mode    => 0644,
