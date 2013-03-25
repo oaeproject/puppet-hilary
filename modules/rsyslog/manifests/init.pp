@@ -47,6 +47,10 @@ class rsyslog (
     content => template("rsyslog/rsyslog.${clientOrServer}.conf.erb"),
   }
 
+  file { '/etc/crontab':
+    content => template('rsyslog/crontab.erb')
+  }
+
   service { 'rsyslog': 
     ensure  => running,
     require => File["${configpath}"],
