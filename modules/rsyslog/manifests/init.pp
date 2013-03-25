@@ -47,11 +47,15 @@ class rsyslog (
     content => template("rsyslog/rsyslog.${clientOrServer}.conf.erb"),
   }
 
-  file { '/etc/crontab':
-    content => template('rsyslog/crontab.erb'),
-    owner   => 'root',
-    group   => 'root',
-    mode    => 0644
+  case $clientOrServer {
+    server: {
+      file { '/etc/crontab':
+        content => template('rsyslog/crontab.erb'),
+        owner   => 'root',
+        group   => 'root',
+        mode    => 0644
+      }
+    }
   }
 
   service { 'rsyslog': 
