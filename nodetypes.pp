@@ -2,6 +2,12 @@ node basenode {
   # The localconfig module is found in $environment/modules
   include epel
   class { 'localconfig': }
+
+  # Puppet agent should not be running after everything has been applied
+  service { 'puppet': 
+    ensure  => 'stopped',
+    stage   => 'post',
+  }
 }
 
 node drivernode inherits basenode {

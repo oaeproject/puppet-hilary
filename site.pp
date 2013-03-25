@@ -1,5 +1,18 @@
 
-## Set the path for exec resources
+################
+## RUN STAGES ##
+################
+
+## Adding this so that we can disable the puppet agent after everything has run.
+## Ensures servers don't take in updates from the puppet master at random times
+stage { 'pre': before => Stage['main'], }
+stage { 'post': }
+Stage['main'] -> Stage['post']
+
+##########
+## PATH ##
+##########
+
 case $operatingsystem {
   debian, ubuntu: {
     $defaultPath = ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin']
@@ -12,6 +25,11 @@ case $operatingsystem {
   }
 }
 Exec { path => $defaultPath }
+
+
+###############
+## EXECUTION ##
+###############
 
 import 'nodetypes'
 
