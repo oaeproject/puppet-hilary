@@ -2,6 +2,8 @@ node basenode {
   # The localconfig module is found in $environment/modules
   include epel
   class { 'localconfig': }
+
+
 }
 
 node drivernode inherits basenode {
@@ -28,14 +30,12 @@ node linuxnode inherits basenode {
   # By default, allow:
   #
   #   1.  Drop invalid packets
-  #   2.  SSH to all nodes
-  #   3.  pings to all nodes
-  #   4.  everything on private and loopback interfaces, and established input traffic
-  #   5.  all outgoing traffic
+  #   2.  everything on private and loopback interfaces, and established input traffic
+  #   3.  all outgoing traffic, including public interfaces
   #
   # By default, deny:
   #
-  #   5. all incoming and forward traffic not white-listed above
+  #   4. all incoming and forward traffic not white-listed above
   #
   # It is expected that any node that needs additional firewall rules opened will specify a rule with a
   # "jump => 'ACCEPT'", with a resource name that is greater than 000 and less than 900. E.g.: to open
@@ -71,22 +71,6 @@ node linuxnode inherits basenode {
   }
 
   # 2.
-  iptables { '001 allow new ssh':
-    chain => 'INPUT',
-    proto => 'tcp',
-    dport => 'ssh',
-    state => 'NEW',
-    limit => '10/sec',
-    burst => 10,
-    jump => 'ACCEPT',
-  }
-
-  # 3.
-  iptables { '998 ping unreachable': chain => 'INPUT', proto => 'icmp', icmp => 'destination-unreachable', jump => 'ACCEPT', }
-  iptables { '998 ping quence': chain => 'INPUT', proto => 'icmp', icmp => 'source-quence', jump => 'ACCEPT', }
-  iptables { '998 ping exceeded': chain => 'INPUT', proto => 'icmp', icmp => 'time-exceeded', jump => 'ACCEPT', }
-
-  # 4.
   iptables { '998 allow private input': chain => 'INPUT', iniface => 'eth1', jump => 'ACCEPT', }
   iptables { '998 allow private forward': chain => 'FORWARD', iniface => 'eth1', jump => 'ACCEPT' }
   iptables { '998 allow lo input': chain => 'INPUT', iniface => 'lo', jump => 'ACCEPT', }
@@ -98,10 +82,10 @@ node linuxnode inherits basenode {
     jump => 'ACCEPT',
   }
 
-  # 5.
+  # 3.
   iptables { '999 allow base output': chain => 'OUTPUT', jump => 'ACCEPT' }
 
-  # 6.
+  # 4.
   iptables { '999 block base input': chain => 'INPUT', jump => 'DROP' }
   iptables { '999 block base forward': chain => 'FORWARD', jump => 'DROP' }
 
@@ -263,7 +247,12 @@ node webnode inherits basenode {
     sourcedir  => $localconfig::nfs_sourcedir,
   }
 
-  class { 'ipfilter': }
+  # Allow web traffic into public interface on web node
+  class { 'ipfilter':
+    rules   => [
+      'pass in quick on net0 proto tcp from any to any port=80 keep state'
+    ]
+  }
 
   ## RSyslog: Manually crunch the log files using the rsyslog "imfile" plugin
   class { 'rsyslog':

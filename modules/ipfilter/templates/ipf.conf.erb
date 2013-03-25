@@ -1,24 +1,15 @@
 # IPF Configuration File
-#   1. Allow SSH on all nodes
-#   2. Allow pings
-#   3. Allow all traffic on private and loopback interfaces
-#   4. Allow outgoing on public interface
-#   5. Block all unhandled inbound traffic on public interface
-#
+#   1. Allow all traffic on private and loopback interfaces
+#   2. Allow outgoing on public interface
+#   3. Block all unhandled inbound traffic on public interface
 
 # 1.
-pass in quick on net0 proto tcp from any to any port=22 keep state
-
-# 2.
-pass in quick on net0 proto icmp all keep state
-
-# 3.
 pass in quick on net1 all
 pass out quick on net1 all
 pass in quick on lo0 all
 pass out quick on lo0 all
 
-# 4.
+# 2.
 pass out quick on net0 all keep state
 
 ## Custom application rules
@@ -28,5 +19,5 @@ pass out quick on net0 all keep state
     <% end -%>
 <% end -%>
 
-# 5.
+# 3.
 block in on net0 all

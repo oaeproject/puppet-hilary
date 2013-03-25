@@ -244,7 +244,6 @@ node 'bastion' inherits linuxnode {
 
   ## Allow forwarding with sysctl
   Exec { path => '/usr/bin:/usr/sbin/:/bin:/sbin' }
-
   sysctl::value {
     'net.ipv4.ip_forward': value => '1',
     notify => Exec['load-sysctl'],
@@ -256,32 +255,15 @@ node 'bastion' inherits linuxnode {
   }
 
   ##########################
-  ## WEB TRAFFIC HANDLING ##
+  ## SSH TRAFFIC HANDLING ##
   ##########################
 
-
-  # Accept forwarded web traffic with a rate limit
-
-  # Limit new connections per minute
-  iptables { '100 rate limit new web connections':
-    chain     => 'INPUT',
-    iniface   => 'eth0',
-    proto     => 'tcp',
-    state     => 'NEW',
-    dport     => [ 80 ],
-    limit     => '30000/min',
-    jump      => 'ACCEPT',
-  }
-
-  # After a burst of 600 packets per second, rate limit to 500 packets per second
-  iptables { '100 rate limit established web connections':
-    chain     => 'INPUT',
-    iniface   => 'eth0',
-    proto     => 'tcp',
-    state     => ['RELATED', 'ESTABLISHED'],
-    dport     => [ 80 ],
-    limit     => '500/sec',
-    burst     => 550,
-    jump      => 'ACCEPT',
+  # Accept SSH traffic on the public interface
+  iptables { '001 allow public ssh traffic':
+    chain   => 'INPUT',
+    iniface => 'eth0',
+    proto   => 'tcp',
+    port    => 22,
+    jump    => 'ACCEPT',
   }
 }
