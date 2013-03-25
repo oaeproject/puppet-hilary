@@ -1,5 +1,9 @@
 class ipfilter ($rules = 'null') {
 
+  exec { 'ipf_custom_config_policy':
+    cmd => 'svccfg -s network/ipfilter:default setprop firewall_config_default/policy = astring: custom',
+  }
+
   file { '/etc/ipf/ipf.conf':
     notify  => Service['ipfilter'],
     ensure  => present,
@@ -7,9 +11,14 @@ class ipfilter ($rules = 'null') {
     content => template('ipfilter/ipf.conf.erb'),
   }
 
+  exec { 'ipf_custom_config_file':
+    cmd     => 'svccfg -s network/ipfilter:default setprop firewall_config_default/custom_policy_file = astring: "/etc/ipf/ipf.conf"',
+    require => [ Exec['ipf_custom_config_policy'], File['/etc/ipf/ipf.conf'] ]
+  }
+
   service { 'ipfilter':
     ensure  => 'running',
     enable  => true,
-    require => File['/etc/ipf/ipf.conf'],
+    require => Exec['ipf_custom_config_file']
   }
 }
