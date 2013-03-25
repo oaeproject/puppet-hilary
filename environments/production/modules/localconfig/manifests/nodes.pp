@@ -22,13 +22,13 @@ node prodappnode inherits appnode {
   class { 'ipfilter': }
 }
 
-node 'app0' inherits appnode { }
+node 'app0' inherits prodappnode { }
 
-node 'app1' inherits appnode { }
+node 'app1' inherits prodappnode { }
 
-node 'app2' inherits appnode { }
+node 'app2' inherits prodappnode { }
 
-node 'app3' inherits appnode { }
+node 'app3' inherits prodappnode { }
 
 ####################
 ## ACTIVITY NODES ##
@@ -39,17 +39,17 @@ node prodactivitynode inherits activitynode {
   class { 'ipfilter': }
 }
 
-node 'activity0' inherits activitynode { }
+node 'activity0' inherits prodactivitynode { }
 
-node 'activity1' inherits activitynode { }
+node 'activity1' inherits prodactivitynode { }
 
-node 'activity2' inherits activitynode { }
+node 'activity2' inherits prodactivitynode { }
 
-node 'activity3' inherits activitynode { }
+node 'activity3' inherits prodactivitynode { }
 
-node 'activity4' inherits activitynode { }
+node 'activity4' inherits prodactivitynode { }
 
-node 'activity5' inherits activitynode { }
+node 'activity5' inherits prodactivitynode { }
 
 #####################
 ## CASSANDRA NODES ##
