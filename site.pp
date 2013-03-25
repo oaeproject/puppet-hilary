@@ -2,16 +2,16 @@
 ## Set the path for exec resources
 case $operatingsystem {
   debian, ubuntu: {
-    $path = ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin']
+    $defaultPath = ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin']
   }
   solaris, Solaris: {
-    $path = ['/opt/local/gnu/bin', '/opt/local/bin', '/opt/local/sbin', '/usr/bin', '/usr/sbin']
+    $defaultPath = ['/opt/local/gnu/bin', '/opt/local/bin', '/opt/local/sbin', '/usr/bin', '/usr/sbin']
   }
   default: {
-    $path = ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin']
+    $defaultPath = ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin']
   }
 }
-Exec { path => $path }
+Exec { path => $defaultPath }
 
 import 'nodetypes'
 
