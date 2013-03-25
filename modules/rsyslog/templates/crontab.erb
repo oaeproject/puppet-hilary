@@ -15,4 +15,4 @@ HOME=/
 # *  *  *  *  * user-name command to be executed
 
 # Automatically compress files that have not been modified in a day (i.e., yesterday's logs)
-59 11 * * * find /var/log/rsyslog -type f -mtime +1 -name "*.log" -exec gzip {} \;
+59 23 * * * find <%= '/var/log/rsyslog' %> -type f -mtime +1 -name "*.log" -exec gzip {} \;

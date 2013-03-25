@@ -48,7 +48,10 @@ class rsyslog (
   }
 
   file { '/etc/crontab':
-    content => template('rsyslog/crontab.erb')
+    content => template('rsyslog/crontab.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => 0644
   }
 
   service { 'rsyslog': 
