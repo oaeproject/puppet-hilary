@@ -1,7 +1,7 @@
 class ipfilter ($rules = 'null') {
 
   exec { 'ipf_custom_config_policy':
-    cmd => 'svccfg -s network/ipfilter:default setprop firewall_config_default/policy = astring: custom',
+    command => 'svccfg -s network/ipfilter:default setprop firewall_config_default/policy = astring: custom',
   }
 
   file { '/etc/ipf/ipf.conf':
@@ -12,7 +12,7 @@ class ipfilter ($rules = 'null') {
   }
 
   exec { 'ipf_custom_config_file':
-    cmd     => 'svccfg -s network/ipfilter:default setprop firewall_config_default/custom_policy_file = astring: "/etc/ipf/ipf.conf"',
+    command => 'svccfg -s network/ipfilter:default setprop firewall_config_default/custom_policy_file = astring: "/etc/ipf/ipf.conf"',
     require => [ Exec['ipf_custom_config_policy'], File['/etc/ipf/ipf.conf'] ]
   }
 
