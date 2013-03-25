@@ -3,14 +3,24 @@
 ## WEB PROXY ##
 ###############
 
-node 'web0' inherits webnode { }
+node prodwebnode inherits webnode {
+  # Allow web traffic into public interface on web node
+  class { 'ipfilter': rules => [ 'pass in quick on net0 proto tcp from any to any port=80 keep state' ] }
+}
 
-node 'web1' inherits webnode { }
+node 'web0' inherits prodwebnode { }
+
+node 'web1' inherits prodwebnode { }
 
 
 ###############
 ## APP NODES ##
 ###############
+
+node prodappnode inherits appnode {
+  # Apply firewall
+  class { 'ipfilter': }
+}
 
 node 'app0' inherits appnode { }
 
@@ -23,6 +33,11 @@ node 'app3' inherits appnode { }
 ####################
 ## ACTIVITY NODES ##
 ####################
+
+node prodactivitynode inherits activitynode {
+  # Apply firewall
+  class { 'ipfilter': }
+}
 
 node 'activity0' inherits activitynode { }
 
@@ -172,39 +187,34 @@ node 'search1' inherits linuxnode {
 ## REDIS NODES ##
 #################
 
-node 'cache-master' inherits basenode {
-  class { 'redis': }
+node prodcachenode inherits basenode {
   class { 'ipfilter': }
   class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
-node 'cache-slave' inherits basenode {
-  class { 'redis':
-    slave_of  => $localconfig::redis_hosts[0],
-  }
-  class {'ipfilter': }
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
+node 'cache-master' inherits prodcachenode {
+  class { 'redis': }
 }
 
-node 'activity-cache-master' inherits basenode {
+node 'cache-slave' inherits prodcachenode {
+  class { 'redis': slave_of  => $localconfig::redis_hosts[0], }
+}
+
+node 'activity-cache-master' inherits prodcachenode {
   class { 'redis':
     eviction_maxmemory  => 3758096384,
     eviction_policy     => 'volatile-ttl',
     eviction_samples    => 3
   }
-  class {'ipfilter': }
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
-node 'activity-cache-slave' inherits basenode {
+node 'activity-cache-slave' inherits prodcachenode {
   class { 'redis':
     eviction_maxmemory  => 3758096384,
     eviction_policy     => 'volatile-ttl',
     eviction_samples    => 3,
     slave_of            => $localconfig::activity_redis_hosts[0]
   }
-  class {'ipfilter': }
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 #####################

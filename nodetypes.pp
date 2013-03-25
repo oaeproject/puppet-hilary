@@ -116,7 +116,6 @@ node appnode inherits basenode {
     sourcedir  => $localconfig::nfs_sourcedir,
   }
 
-  class { 'ipfilter': }
   class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 
 }
@@ -147,7 +146,6 @@ node activitynode inherits basenode {
     before => Class['hilary']
   }
 
-  class { 'ipfilter': }
   class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 
 }
@@ -245,13 +243,6 @@ node webnode inherits basenode {
     mountpoint => '/shared',
     server     => $localconfig::nfs_server,
     sourcedir  => $localconfig::nfs_sourcedir,
-  }
-
-  # Allow web traffic into public interface on web node
-  class { 'ipfilter':
-    rules   => [
-      'pass in quick on net0 proto tcp from any to any port=80 keep state'
-    ]
   }
 
   ## RSyslog: Manually crunch the log files using the rsyslog "imfile" plugin
