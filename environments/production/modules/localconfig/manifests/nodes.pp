@@ -6,6 +6,43 @@
 node prodwebnode inherits webnode {
   # Allow web traffic into public interface on web node
   class { 'ipfilter': rules => [ 'pass in quick on net0 proto tcp from any to any port=80 keep state' ] }
+  
+  ## Rsyslog: Manually crunch the log files using the rsyslog "imfile" plugin
+  class { 'rsyslog':
+    server_host => $localconfig::rsyslog_host_internal,
+    imfiles     => [
+
+      # Access log
+      {
+        path                  => '/var/log/nginx/access.log',
+        tag                   => 'access',
+        state_file_name       => 'nginx_access',
+        severity              => 'info',
+        facility              => 'local0',
+        poll_interval_seconds => 10,
+      },
+
+      # Error log
+      {
+        path                  => '/var/log/nginx/error.log',
+        tag                   => 'error',
+        state_file_name       => 'nginx_error',
+        severity              => 'error',
+        facility              => 'local1',
+        poll_interval_seconds => 10,
+      },
+    ]
+  }
+
+  # Add a custom nginx log rotation entry into logadm
+  # Solaris by default already has a cronjob that executes logadm on a regular basis
+  file { '/etc/logadm.conf':
+    ensure  => present,
+    mode    => 0644,
+    owner   => 'root',
+    group   => 'root',
+    content => template('localconfig/logadm.web.config.erb'),
+  }
 }
 
 node 'web0' inherits prodwebnode { }
@@ -20,6 +57,7 @@ node 'web1' inherits prodwebnode { }
 node prodappnode inherits appnode {
   # Apply firewall
   class { 'ipfilter': }
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 node 'app0' inherits prodappnode { }
@@ -37,6 +75,7 @@ node 'app3' inherits prodappnode { }
 node prodactivitynode inherits activitynode {
   # Apply firewall
   class { 'ipfilter': }
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 node 'activity0' inherits prodactivitynode { }
@@ -55,7 +94,11 @@ node 'activity5' inherits prodactivitynode { }
 ## CASSANDRA NODES ##
 #####################
 
-node 'db0' inherits dbnode {
+node proddbnode inherits dbnode {
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
+}
+
+node 'db0' inherits proddbnode {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -75,7 +118,7 @@ node 'db0' inherits dbnode {
   }
 }
 
-node 'db1' inherits dbnode {
+node 'db1' inherits proddbnode {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -91,7 +134,7 @@ node 'db1' inherits dbnode {
   }
 }
 
-node 'db2' inherits dbnode {
+node 'db2' inherits proddbnode {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -107,7 +150,7 @@ node 'db2' inherits dbnode {
   }
 }
 
-node 'db3' inherits dbnode {
+node 'db3' inherits proddbnode {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -123,7 +166,7 @@ node 'db3' inherits dbnode {
   }
 }
 
-node 'db4' inherits dbnode {
+node 'db4' inherits proddbnode {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -139,7 +182,7 @@ node 'db4' inherits dbnode {
   }
 }
 
-node 'db5' inherits dbnode {
+node 'db5' inherits proddbnode {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -159,7 +202,11 @@ node 'db5' inherits dbnode {
 ## SEARCH NODES ##
 ##################
 
-node 'search0' inherits linuxnode {
+node prodsearchnode inherits linuxnode {
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
+}
+
+node 'search0' inherits prodsearchnode {
   class { 'elasticsearch':
     path_data     => $localconfig::search_path_data,
     host_address  => $localconfig::search_hosts_internal[0]['host'],
@@ -167,11 +214,9 @@ node 'search0' inherits linuxnode {
     max_memory_mb => 3072,
     min_memory_mb => 3072,
   }
-
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
-node 'search1' inherits linuxnode {
+node 'search1' inherits prodsearchnode {
   class { 'elasticsearch':
     path_data     => $localconfig::search_path_data,
     host_address  => $localconfig::search_hosts_internal[1]['host'],
@@ -179,8 +224,6 @@ node 'search1' inherits linuxnode {
     max_memory_mb => 3072,
     min_memory_mb => 3072,
   }
-
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 #################
@@ -221,24 +264,30 @@ node 'activity-cache-slave' inherits prodcachenode {
 ## MESSAGING NODES ##
 #####################
 
-node 'mq-master' inherits linuxnode {
+node prodmqnode inherits linuxnode {
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
+}
+
+node 'mq-master' inherits prodmqnode {
   class { 'rabbitmq':
     listen_address  => $localconfig::mq_hosts_internal[0]['host'],
     listen_port     => $localconfig::mq_hosts_internal[0]['port'],
   }
-
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 #############################
 ## PREVIEW PROCESSOR NODES ##
 #############################
 
-node 'pp0' inherits ppnode { }
+node prodppnode {
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
+}
 
-node 'pp1' inherits ppnode { }
+node 'pp0' inherits prodppnode { }
 
-node 'pp2' inherits ppnode { }
+node 'pp1' inherits prodppnode { }
+
+node 'pp2' inherits prodppnode { }
 
 #################
 ## SYSLOG NODE ##
@@ -276,4 +325,6 @@ node 'bastion' inherits linuxnode {
     dport   => 22,
     jump    => 'ACCEPT',
   }
+
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }

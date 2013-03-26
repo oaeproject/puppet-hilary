@@ -114,8 +114,6 @@ node appnode inherits basenode {
     sourcedir  => $localconfig::nfs_sourcedir,
   }
 
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
-
 }
 
 node activitynode inherits basenode {
@@ -143,8 +141,6 @@ node activitynode inherits basenode {
     ensure => 'directory',
     before => Class['hilary']
   }
-
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 
 }
 
@@ -187,7 +183,6 @@ node ppnode inherits linuxnode {
     before => Class['hilary']
   }
 
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 node webnode inherits basenode {
@@ -242,43 +237,6 @@ node webnode inherits basenode {
     server     => $localconfig::nfs_server,
     sourcedir  => $localconfig::nfs_sourcedir,
   }
-
-  ## RSyslog: Manually crunch the log files using the rsyslog "imfile" plugin
-  class { 'rsyslog':
-    server_host     => $localconfig::rsyslog_host_internal,
-    imfiles         => [
-
-      # Access log
-      {
-        path                  => '/var/log/nginx/access.log',
-        tag                   => 'access',
-        state_file_name       => 'nginx_access',
-        severity              => 'info',
-        facility              => 'local0',
-        poll_interval_seconds => 10,
-      },
-
-      # Error log
-      {
-        path                  => '/var/log/nginx/error.log',
-        tag                   => 'error',
-        state_file_name       => 'nginx_error',
-        severity              => 'error',
-        facility              => 'local1',
-        poll_interval_seconds => 10,
-      },
-    ]
-  }
-
-  # Add a custom nginx log rotation entry into logadm
-  # Solaris by default already has a cronjob that executes logadm on a regular basis
-  file { '/etc/logadm.conf':
-    ensure  => present,
-    mode    => 0644,
-    owner   => 'root',
-    group   => 'root',
-    content => template('localconfig/logadm.web.config.erb'),
-  }
 }
 
 node dbnode inherits linuxnode {
@@ -287,7 +245,6 @@ node dbnode inherits linuxnode {
     ensure  => installed,
   }
 
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 node syslognode inherits linuxnode {
