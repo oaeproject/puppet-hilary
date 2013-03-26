@@ -311,4 +311,44 @@ http {
             alias <%= files_home %>;
         }
     }
+
+    ####################
+    # Etherpad Servers #
+    ####################
+
+    # Generate upstream groups with 1 main server and 1 fallback server.
+    # The fallback server would be the main server of the next group.
+
+    <%
+    internal_etherpad_ips.each_with_index do |ip, index|
+        nextServer = (index + 1) % internal_etherpad_ips.size
+    %>
+    upstream ep-group-<%= index %> {
+        server <%= internal_etherpad_ips[index] %>:9001 fail_timeout=0;
+        server <%= internal_etherpad_ips[nextServer] %>:9001 backup;
+    }
+
+    server {
+        listen 80;
+        server_name <%=index %><%= scope.lookupvar("localconfig::etherpad_domain_suffix") %>;
+
+        location / {
+            expires 15m;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $http_host;
+            proxy_set_header X-NginX-Proxy true;
+            proxy_pass http://ep-group<%= index %>;
+            proxy_redirect off;
+            proxy_buffering off;
+        }
+
+        location /socket.io/1/websocket/ {
+            proxy_pass http://<%= ip %>:9001;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
+    }
+    <% end %>
 }

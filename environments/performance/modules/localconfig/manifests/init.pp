@@ -24,6 +24,7 @@ class localconfig {
     '165.225.136.163',
     '165.225.136.47',
   ]
+  $app_sign_key = 'Not the default signing key anymore.'
 
   $circonus_url = 'https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t'
 
@@ -74,6 +75,16 @@ class localconfig {
   ]
 
   # NFS
-  $nfs_server = 10.112.0.6
-  $nfs_sourcedir = /vol/joya62690cd_e032_45fc_84d8_c063dd34bcf0
+  $nfs_server = '10.112.0.6'
+  $nfs_sourcedir = '/vol/joya62690cd_e032_45fc_84d8_c063dd34bcf0'
+
+  # Etherpad
+  # TODO: Change these to the dedicated machines rather than the app servers.
+  $etherpad_hosts_internal = [
+    '10.112.5.18',
+    '10.112.4.244',
+  ]
+  $etherpad_session_key     = 'YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL'
+  $etherpad_api_key         = 'JgKlWx5YL5OeksEC1zJZTOiTVb5dDe2RiBdCDs9ZmcEazS2E4tHsH52ANvuuxuWpsETV6sX2hhFP83pgtKPzJRUEhoZaDsPsHwMq'
+  $etherpad_domain_suffix   = '.etherpad.oae-performance.sakaiproject.org'
 }

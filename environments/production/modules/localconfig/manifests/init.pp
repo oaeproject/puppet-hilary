@@ -14,6 +14,7 @@ class localconfig {
   # App servers
   $app_hosts_internal = ['10.224.14.27']
   $app_hosts_external = ['37.153.96.213']
+  $app_sign_key = 'Not the default signing key anymore.'
 
   $circonus_url = 'https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t'
 
@@ -65,4 +66,10 @@ class localconfig {
   # NFS
   $nfs_server = '10.224.14.126'
   $nfs_sourcedir = '/zones/nfs/a906ce30-37bb-480c-98a5-794981b27e01/sakai1'
+
+  # Etherpad
+  # TODO: Change these to the dedicated machines rather than the app servers.
+  $etherpad_hosts_internal  = ['10.224.14.27']
+  $etherpad_session_key     = 'YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL'
+  $etherpad_domain_suffix   = '.etherpad.oae-production.sakaiproject.org'
 }

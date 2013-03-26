@@ -1,0 +1,99 @@
+{
+  // Name your instance!
+  "title": "Sakai OAE Collaborative environment",
+
+  // favicon default name
+  // alternatively, set up a fully specified Url to your own favicon
+  "favicon": "favicon.ico",
+  
+  //IP and port which etherpad should bind at
+  "ip": "<%= listen_address %>",
+  "port" : 9001,
+
+  /*  
+  // Node native SSL support
+  // this is disabled by default
+  //
+  // make sure to have the minimum and correct file access permissions set
+  // so that the Etherpad server can access them
+
+  "ssl" : {
+            "key"  : "/path-to-your/epl-server.key",
+            "cert" : "/path-to-your/epl-server.crt"
+          },
+
+  */
+
+  //The Type of the database. You can choose between dirty, postgres, sqlite and mysql
+  //You shouldn't use "dirty" for for anything else than testing or development
+  "dbType" : "cassandra",
+  //the database specific settings
+  "dbSettings" : {
+                    "hosts": [
+                        <% scope.lookupvar("localconfig::db_hosts").each do |host| -%>"<%= host %>:9160",<% end %>
+                    ],
+                    "keyspace": "<%= scope.lookupvar("localconfig::db_keyspace") %>",
+                    "cfName": "Etherpad",
+                    "user": "",
+                    "pass": "",
+                    "timeout": 3000,
+                    "replication": "<%= scope.lookupvar("localconfig::db_replication") %>",
+                    "strategyClass": "<%= scope.lookupvar("localconfig::db_strategyClass") %>"
+                  },
+  
+  //the default text of a pad
+  "defaultPadText" : "",
+  
+  /* Users must have a session to access pads. This effectively allows only group pads to be accessed. */
+  "requireSession" : true,
+
+  /* Users may edit pads but not create new ones. Pad creation is only via the API. This applies both to group pads and regular pads. */
+  "editOnly" : true,
+  
+  /* if true, all css & js will be minified before sending to the client. This will improve the loading performance massivly, 
+     but makes it impossible to debug the javascript/css */
+  "minify" : true,
+
+  /* How long may clients use served javascript code (in seconds)? Without versioning this
+     may cause problems during deployment. Set to 0 to disable caching */
+  "maxAge" : 21600, // 60 * 60 * 6 = 6 hours
+  
+  /* This is the path to the Abiword executable. Setting it to null, disables abiword.
+     Abiword is needed to advanced import/export features of pads*/  
+  "abiword" : null,
+ 
+  /* This setting is used if you require authentication of all users.
+     Note: /admin always requires authentication. */
+  "requireAuthentication": false,
+
+  /* Require authorization by a module, or a user with is_admin set, see below. */
+  "requireAuthorization": false,
+
+  /* Users for basic authentication. is_admin = true gives access to /admin.
+     If you do not uncomment this, /admin will not be available!
+   */
+  /*
+  "users": {
+    "administrator": {
+      "password": "administrator",
+      "is_admin": true
+    },
+    "user": {
+      "password": "user",
+      "is_admin": false
+    }
+  },
+  */
+
+  /* The log level we are using, can be: DEBUG, INFO, WARN, ERROR */
+  "loglevel": "WARN",
+
+  // restrict socket.io transport methods
+  "socketTransportProtocols" : ['websocket', 'xhr-polling', 'jsonp-polling', 'htmlfile'],
+
+  "sessionKey": "<%= scope.lookupvar("localconfig::etherpad_session_key") %>",
+
+  "ep_oae": {
+    "signKey": "<%= scope.lookupvar("localconfig::app_sign_key") %>"
+  }
+}
