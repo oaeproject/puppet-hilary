@@ -1,10 +1,11 @@
 class etherpad (
         listen_address,
+        $api_key,
         $provider               = 'pkgin',
-        $etherpad_git_branch    = 'master',
-        $api_key                = 'rlfGwIPGisZirBjlWPWiavkL8sk4vi2rXsh1Kml5zWxJbiZ1zkWnKDBL1k6s',
+        $etherpad_git_revision  = 'master',
         $etherpad_dir           = '/opt/etherpad-lite',
-        $etherpad_oae_plugin    = '/opt/etherpad-lite/node_modules/ep_oae',
+        $ep_oae_path            = '/opt/etherpad-lite/node_modules/ep_oae',
+        $ep_oae_revision        = 'master'
         $etherpad_user          = 'admin',
         $etherpad_group         = 'staff',
         $service_name           = 'node-etherpad') {
@@ -24,7 +25,7 @@ class etherpad (
         ensure      =>  present,
         provider    =>  git,
         source      =>  'http://github.com/ether/etherpad-lite',
-        revision    =>  $etherpad_git_branch,
+        revision    =>  $etherpad_git_revision,
     }
 
     # Apply our custom settings.json file
@@ -43,11 +44,11 @@ class etherpad (
     }
 
     # Install the Sakai OAE etherpad plugin
-    vcsrepo { $etherpad_oae_plugin:
+    vcsrepo { $ep_oae_path:
         ensure      =>  present,
         provider    =>  git,
         source      =>  'http://github.com/sakaiproject/ep_oae',
-        revision    =>  'master',
+        revision    =>  $ep_oae_revision,
         require     =>  Exec['install_etherpad_dependencies'],
     }
 
@@ -56,7 +57,7 @@ class etherpad (
         ensure      =>  present,
         content     =>  $api_key,
         mode        =>  '0644',
-        require     =>  [ Vcsrepo[$etherpad_dir], Vcsrepo[$etherpad_oae_plugin] ]
+        require     =>  [ Vcsrepo[$etherpad_dir], Vcsrepo[$ep_oae_path] ]
     }
 
     exec { "chown_etherpad_dir": 
@@ -70,7 +71,7 @@ class etherpad (
         ensure      =>  present,
         content     =>  template('etherpad/node-etherpad-service-manifest.xml.erb'),
         notify      =>  Exec["svccfg_${service_name}"],
-        require     =>  [ Vcsrepo[$etherpad_dir], Vcsrepo[$etherpad_oae_plugin] ],
+        require     =>  [ Vcsrepo[$etherpad_dir], Vcsrepo[$ep_oae_path] ],
     }
 
     # Force reload the manifest
@@ -83,6 +84,6 @@ class etherpad (
     service { $service_name:
         ensure      =>  running,
         manifest    =>  "${app_root_dir}/service.xml",
-        require     =>  [ Vcsrepo[$etherpad_oae_plugin], Exec['install_etherpad_dependencies'], Exec["svccfg_${service_name}"] ]
+        require     =>  [ Vcsrepo[$ep_oae_path], Exec['install_etherpad_dependencies'], Exec["svccfg_${service_name}"] ]
     }
 }

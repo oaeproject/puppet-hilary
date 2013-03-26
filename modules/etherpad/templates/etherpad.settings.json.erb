@@ -42,7 +42,7 @@
                   },
   
   //the default text of a pad
-  "defaultPadText" : "Share the URL of this document to collaborate with a colleague or friend.",
+  "defaultPadText" : "",
   
   /* Users must have a session to access pads. This effectively allows only group pads to be accessed. */
   "requireSession" : true,
@@ -91,9 +91,9 @@
   // restrict socket.io transport methods
   "socketTransportProtocols" : ['websocket', 'xhr-polling', 'jsonp-polling', 'htmlfile'],
 
-  "sessionKey": "<%= scope.lookupvar("localconfig:etherpad_session_key") %>",
+  "sessionKey": "<%= scope.lookupvar("localconfig::etherpad_session_key") %>",
 
   "ep_oae": {
-    "signKey": "<%= scope.lookupvar("localconfig:app_sign_key") %>"
+    "signKey": "<%= scope.lookupvar("localconfig::app_sign_key") %>"
   }
 }
