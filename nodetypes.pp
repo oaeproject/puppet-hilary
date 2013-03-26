@@ -231,10 +231,11 @@ node webnode inherits basenode {
   }
 
   class { 'nginx':
-    internal_app_ips  => $localconfig::app_hosts_internal,
-    ux_home           => $localconfig::ux_root,
-    ux_admin_host     => $localconfig::ux_admin_host,
-    files_home        => $localconfig::app_files,
+    internal_app_ips      => $localconfig::app_hosts_internal,
+    internal_etherpad_ips => $localconfig::etherpad_hosts_internal,
+    ux_home               => $localconfig::ux_root,
+    ux_admin_host         => $localconfig::ux_admin_host,
+    files_home            => $localconfig::app_files,
   }
 
   class { 'smartosnfs':

@@ -201,3 +201,23 @@ node 'pp0' inherits ppnode { }
 node 'pp1' inherits ppnode { }
 
 node 'pp2' inherits ppnode { }
+
+####################
+## ETHERPAD NODES ##
+####################
+
+node 'ep0' inherits basenode {
+  class { 'etherpad':
+    listen_address      => $localconfig::etherpad_hosts_internal[0],
+    etherpad_git_branch => 'develop',
+    api_key             => $localconfig::etherpad_api_key,
+  }
+}
+
+node 'ep1' inherits basenode {
+  class { 'etherpad':
+    listen_address      => $localconfig::etherpad_hosts_internal[1],
+    etherpad_git_branch => 'develop',
+    api_key             => $localconfig::etherpad_api_key,
+  }
+}

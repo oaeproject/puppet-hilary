@@ -240,6 +240,27 @@ node 'pp1' inherits ppnode { }
 
 node 'pp2' inherits ppnode { }
 
+####################
+## ETHERPAD NODES ##
+####################
+
+node prodepnode inherits basenode {
+  # Apply firewall
+  class { 'ipfilter': }
+}
+
+node 'ep0' inherits prodepnode {
+  class { 'etherpad':
+    listen_address => $localconfig::etherpad_hosts_internal[0]
+  }
+}
+
+node 'ep1' inherits prodepnode {
+  class { 'etherpad':
+      listen_address => $localconfig::etherpad_hosts_internal[1]
+  }
+}
+
 #################
 ## SYSLOG NODE ##
 #################
