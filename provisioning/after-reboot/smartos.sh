@@ -1,3 +1,15 @@
+if [ "$1" = "" ]
+then
+  echo "Usage: $0 <hostname> <internal ip>"
+  exit
+fi
+
+if [ "$2" = "" ]
+then
+  echo "Usage: $0 <hostname> <internal ip>"
+  exit
+fi
+
 SCRIPT_HOST=$1
 SCRIPT_PUPPET_INTERNAL_IP=$2
 
