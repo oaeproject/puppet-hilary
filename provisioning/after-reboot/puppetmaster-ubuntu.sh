@@ -42,7 +42,10 @@ git checkout production
 
 ## Puppet Dashboard
 
-# Run this command alone, configure MySQL when prompted
+# Set root password to "root" for the upcoming mysql prompt
+echo "mysql-server mysql-server/root_password password root" | debconf-set-selections
+echo "mysql-server mysql-server/root_password_again password root" | debconf-set-selections
+
 apt-get install -y build-essential irb libmysql-ruby libmysqlclient-dev \
 libopenssl-ruby libreadline-ruby mysql-server rake rdoc ri ruby ruby-dev
 
@@ -59,29 +62,28 @@ ruby setup.rb
 update-alternatives --install /usr/bin/gem gem /usr/bin/gem1.8 1
 apt-get install -y puppet-dashboard
 
-# Create a 'dashboard' database in MySQL
-#   mysql -u root -p
-#   > CREATE DATABASE dashboard CHARACTER SET utf8;
-#   > CREATE USER 'dashboard'@'localhost' IDENTIFIED BY 'my_password';
-#   > GRANT ALL PRIVILEGES ON dashboard.* TO 'dashboard'@'localhost';
+# Create 'dashboard' user with password 'dashboard'
+mysql -u root -proot -e "CREATE DATABASE dashboard CHARACTER SET utf8;"
+mysql -u root -proot -e "CREATE USER 'dashboard'@'localhost' IDENTIFIED BY 'dashboard';"
+mysql -u root -proot -e "GRANT ALL PRIVILEGES ON dashboard.* TO 'dashboard'@'localhost';"
 
 cat > /usr/share/puppet-dashboard/config/database.yml <<EOF
 production:
-database: dashboard
-username: dashboard
-password: my_password
-encoding: utf8
-adapter: mysql
+    database: dashboard
+    username: dashboard
+    password: dashboard
+    encoding: utf8
+    adapter: mysql
 EOF
 chmod 660 /usr/share/puppet-dashboard/config/database.yml
 
 # Deploy the database
+cd /usr/share/puppet-dashboard
 sed -i 's/max_allowed_packet.*/max_allowed_packet = 32M/g' /etc/mysql/my.cnf
 service mysql restart
 rake RAILS_ENV=production db:migrate
 
 # Set up the apache configs for puppetmaster and dashboard
-# IMPORTANT: Replace <host> below with the host id of the machine (e.g., e45d901c-8fc4-4e87-b761-2195b14b067f, or whatever you changed it to)
 rm -f /etc/apache2/sites-enabled/*
 cat > /etc/apache2/sites-enabled/000-puppetmaster <<EOF
 PassengerHighPerformance on
@@ -99,8 +101,8 @@ SSLEngine on
 SSLProtocol -ALL +SSLv3 +TLSv1
 SSLCipherSuite ALL:!ADH:RC4+RSA:+HIGH:+MEDIUM:-LOW:-SSLv2:-EXP
 
-SSLCertificateFile      /var/lib/puppet/ssl/certs/<host>.pem
-SSLCertificateKeyFile   /var/lib/puppet/ssl/private_keys/<host>.pem
+SSLCertificateFile      /var/lib/puppet/ssl/certs/puppet.pem
+SSLCertificateKeyFile   /var/lib/puppet/ssl/private_keys/puppet.pem
 SSLCertificateChainFile /var/lib/puppet/ssl/certs/ca.pem
 SSLCACertificateFile    /var/lib/puppet/ssl/certs/ca.pem
 # If Apache complains about invalid signatures on the CRL, you can try disabling
@@ -144,6 +146,7 @@ service apache2 restart
 
 # Enable the dashboard workers
 sed -i 's/### START=no/START=yes/g' /etc/default/puppet-dashboard-workers
+touch /usr/share/puppet-dashboard/log/production.log
 chmod 0666 /usr/share/puppet-dashboard/log/production.log
 service puppet-dashboard-workers start
 
