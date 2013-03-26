@@ -62,7 +62,7 @@ class localconfig {
     '^75\.102\.43\.88$'    # Circonus - VA-b
   ]
 
-  # NFS
-  $nfs_server = '10.224.14.126'
-  $nfs_sourcedir = '/zones/nfs/a906ce30-37bb-480c-98a5-794981b27e01/sakai1'
+  # Files NFS Storage
+  $files_nfs_server = '10.224.14.126'
+  $files_nfs_sourcedir = '/zones/nfs/a906ce30-37bb-480c-98a5-794981b27e01/sakai1'
 }

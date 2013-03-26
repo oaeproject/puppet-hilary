@@ -110,8 +110,8 @@ node appnode inherits basenode {
 
   class { 'smartosnfs':
     mountpoint => '/shared',
-    server     => $localconfig::nfs_server,
-    sourcedir  => $localconfig::nfs_sourcedir,
+    server     => $localconfig::files_nfs_server,
+    sourcedir  => $localconfig::files_nfs_sourcedir,
   }
 
 }
@@ -234,8 +234,8 @@ node webnode inherits basenode {
 
   class { 'smartosnfs':
     mountpoint => '/shared',
-    server     => $localconfig::nfs_server,
-    sourcedir  => $localconfig::nfs_sourcedir,
+    server     => $localconfig::files_nfs_server,
+    sourcedir  => $localconfig::files_nfs_sourcedir,
   }
 }
 

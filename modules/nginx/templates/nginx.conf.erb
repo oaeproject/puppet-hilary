@@ -15,7 +15,12 @@ http {
     ssl_certificate_key  <%= cert_key %>;
     <% end -%>
 
+    # When the back-end server returns a 502, look to the next upstream server
     proxy_next_upstream error timeout http_502;
+
+    # Limit requests per second per remote address
+    limit_req_zone  $binary_remote_addr  zone=addr_api:10m      rate=20r/s;
+    limit_req_log_level error;
 
     ##################
     ##################
@@ -113,6 +118,8 @@ http {
         }
 
         location /api/ {
+            limit_req zone=addr_api burst=60;
+
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header Host $http_host;
@@ -286,6 +293,7 @@ http {
         }
 
         location /api/ {
+            limit_req zone=addr_api burst=60;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header Host $http_host;
