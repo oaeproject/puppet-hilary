@@ -1,4 +1,9 @@
 
+node openfirewalllinux {
+  iptables { '001 allow all input':   chain => 'INPUT',   iniface => 'eth0', jump => 'ACCEPT' }
+  iptables { '001 allow all forward': chain => 'FORWARD', iniface => 'eth0', jump => 'ACCEPT' }
+}
+
 ###############
 ## WEB PROXY ##
 ###############
@@ -34,6 +39,8 @@ node 'activity2' inherits activitynodecommon { }
 #####################
 
 node 'db0' inherits dbnodecommon {
+  include openfirewalllinux
+
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -54,6 +61,8 @@ node 'db0' inherits dbnodecommon {
 }
 
 node 'db1' inherits dbnodecommon {
+  include openfirewalllinux
+
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -70,6 +79,8 @@ node 'db1' inherits dbnodecommon {
 }
 
 node 'db2' inherits dbnodecommon {
+  include openfirewalllinux
+
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -86,6 +97,8 @@ node 'db2' inherits dbnodecommon {
 }
 
 node 'db3' inherits dbnodecommon {
+  include openfirewalllinux
+
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -102,6 +115,8 @@ node 'db3' inherits dbnodecommon {
 }
 
 node 'db4' inherits dbnodecommon {
+  include openfirewalllinux
+
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -118,6 +133,8 @@ node 'db4' inherits dbnodecommon {
 }
 
 node 'db5' inherits dbnodecommon {
+  include openfirewalllinux
+
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -137,14 +154,18 @@ node 'db5' inherits dbnodecommon {
 ## SEARCH NODES ##
 ##################
 
-node 'search0' inherits linuxnodecommon {
+node 'search0' inherits searchnodecommon {
+  include openfirewalllinux
+
   Class['elasticsearch'] {
     host_address  => $localconfig::search_hosts_internal[0]['host'],
     host_port     => $localconfig::search_hosts_internal[0]['port'],
   }
 }
 
-node 'search1' inherits linuxnodecommon {
+node 'search1' inherits searchnodecommon {
+  include openfirewalllinux
+
   Class['elasticsearch'] {
     host_address  => $localconfig::search_hosts_internal[1]['host'],
     host_port     => $localconfig::search_hosts_internal[1]['port'],
@@ -195,11 +216,11 @@ node 'mq-master' inherits linuxnodecommon {
 ## PREVIEW PROCESSOR NODES ##
 #############################
 
-node 'pp0' inherits ppnodecommon { }
+node 'pp0' inherits ppnodecommon { include openfirewalllinux }
 
-node 'pp1' inherits ppnodecommon { }
+node 'pp1' inherits ppnodecommon { include openfirewalllinux }
 
-node 'pp2' inherits ppnodecommon { }
+node 'pp2' inherits ppnodecommon { include openfirewalllinux }
 
 ####################
 ## ETHERPAD NODES ##
@@ -224,6 +245,7 @@ node 'syslog' inherits syslognodecommon { }
 #############
 
 node 'bastion' inherits linuxnodecommon {
+  include openfirewalllinux
 
   ## Allow forwarding with sysctl
   Exec { path => '/usr/bin:/usr/sbin/:/bin:/sbin' }
