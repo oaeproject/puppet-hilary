@@ -9,37 +9,32 @@ class localconfig {
   $pp_group   = 'root'
 
   # Web servers
-  $web_hosts = ['165.225.133.115']
+  $web_hosts = ['165.225.138.197']
 
   # App servers
   $app_hosts_internal = [
-    '10.112.4.121',
-    '10.112.4.122',
-    '10.112.5.18',
-    '10.112.4.244',
+    '10.112.5.119',
+    '10.112.6.140',
+    '10.112.2.120',
+    '10.112.6.226',
   ]
-  $app_hosts_external = [
-    '165.225.133.113',
-    '165.225.133.114',
-    '165.225.136.163',
-    '165.225.136.47',
-  ]
-  $app_sign_key = 'Not the default signing key anymore.'
+
+  $app_sign_key = 'A;SLDFJ984FJW398FJWP4GO5IJSLRTKGJ'
 
   $cookie_secret = 'SODIFJ984FJA984JAFP98WF4PAW984F984FJ9'
 
   $circonus_url = 'https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t'
 
   # Redis
-  $redis_hosts = ['10.112.2.103']
+  $redis_hosts = ['10.112.3.244']
 
   # ActivityRedis
-  $activity_redis_hosts = ['10.112.7.97']
+  $activity_redis_hosts = ['10.112.1.54']
 
   # Cassandra
   $db_cluster_name = 'Sakai OAE Performance Testing Cluster'
   $db_keyspace = 'oae'
-  $db_hosts = [ '10.112.2.44', '10.112.7.44', '10.112.7.215' ]
+  $db_hosts = [ '10.112.1.114', '10.112.6.110', '10.112.5.200' ]
   $db_initial_tokens = [ '0', '56713727820156410577229101238628035242', '113427455640312821154458202477256070484' ]
   $db_timeout = 5000
   $db_replication = 3
@@ -47,13 +42,13 @@ class localconfig {
 
   # Search
   $search_hosts_internal = [
-    { 'host' => '10.112.4.222', 'port' => 9200 },
-    { 'host' => '10.112.6.159', 'port' => 9200 },
+    { 'host' => '10.112.6.231', 'port' => 9200 },
+    { 'host' => '10.112.3.83', 'port' => 9200 },
   ]
   $search_path_data = '/var/lib/elasticsearch'
 
   # Messaging
-  $mq_hosts_internal = [ { 'host' => '10.112.5.189', 'port' => 5672 } ]
+  $mq_hosts_internal = [ { 'host' => '10.112.3.126', 'port' => 5672 } ]
 
   # Installation details
   $app_root = '/opt/oae'
