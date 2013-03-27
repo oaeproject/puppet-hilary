@@ -6,57 +6,19 @@
 ################
 
 node app inherits appnodecommon {
-
-  ###########################################
-  ## INSTALL HILARY AND 3AKAI-UX CONTAINER ##
-  ###########################################
-
-  class { 'hilary':
-    app_root_dir        => $localconfig::app_root,
-    app_git_user        => $localconfig::app_git_user,
-    app_git_branch      => $localconfig::app_git_branch,
-    ux_root_dir         => $localconfig::ux_root,
-    ux_git_user         => $localconfig::ux_git_user,
-    ux_git_branch       => $localconfig::ux_git_branch,
-    os_user             => $localconfig::app_user,
-    os_group            => $localconfig::app_group,
-    upload_files_dir    => $localconfig::app_files,
-
-    config_cassandra_hosts           => localconfig::db_hosts,
-    config_cassandra_keyspace        => localconfig::db_keyspace,
-    config_cassandra_timeout         => localconfig::db_timeout,
-    config_cassandra_replication     => localconfig::db_replication,
-    config_cassandra_strategy_class  => localconfig::db_strategyClass,
-    config_redis_hosts               => localconfig::redis_hosts[0],
-    config_servers_admin_host        => localconfig::ux_admin_host,
-    config_cookie_secret             => localconfig::cookie_secret,
-    config_telemetry_circonus_url    => localconfig::cironus_url,
-    config_search_hosts              => localconfig::search_hosts_internal,
-    config_mq_host                   => localconfig::mq_hosts_internal[0].host,
-    config_mq_port                   => localconfig::mq_hosts_internal[0].port,
-    config_signing_key               => localconfig::app_sign_key,
-    config_etherpad_hosts            => localconfig::etherpad_hosts_internal,
-    config_etherpad_api_key          => localconfig::etherpad_api_key,
-    config_etherpad_domain_suffix    => localconfig::ehterpad_domain_suffix,
-
-    require             => Class['files-nfs']
-  }
-
-  # These don't actually use the shared dir, but the hilary class needs it to exist
-  file { '/shared':
-    ensure => 'directory',
-    before => Class['hilary']
-  }
-
-
   class { 'ipfilter': }
   class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
+node activity inherits activitynodecommon {
+  # Apply firewall
+  class { 'ipfilter': }
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
+}
 
-###############
-## WEB PROXY ##
-###############
+node db inherits dbnodecommon {
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
+}
 
 node web inherits webnodecommon {
   # Allow web traffic into public interface on web node
@@ -100,18 +62,17 @@ node web inherits webnodecommon {
   }
 }
 
+###############
+## WEB PROXY ##
+###############
+
 node 'web0' inherits web { }
 
 node 'web1' inherits web { }
 
-
 ###############
 ## APP NODES ##
 ###############
-
-node app inherits appnodecommon {
-  
-}
 
 node 'app0' inherits app { }
 
@@ -124,12 +85,6 @@ node 'app3' inherits app { }
 ####################
 ## ACTIVITY NODES ##
 ####################
-
-node activity inherits activitynodecommon {
-  # Apply firewall
-  class { 'ipfilter': }
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
-}
 
 node 'activity0' inherits activity { }
 
@@ -146,10 +101,6 @@ node 'activity5' inherits activity { }
 #####################
 ## CASSANDRA NODES ##
 #####################
-
-node db inherits dbnodecommon {
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
-}
 
 node 'db0' inherits db {
   class { 'cassandra::common':
@@ -255,27 +206,21 @@ node 'db5' inherits db {
 ## SEARCH NODES ##
 ##################
 
-node search inherits linuxnodecommon {
+node search inherits searchnodecommon {
   class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
 node 'search0' inherits search {
-  class { 'elasticsearch':
-    path_data     => $localconfig::search_path_data,
+  Class['elasticsearch'] {
     host_address  => $localconfig::search_hosts_internal[0]['host'],
     host_port     => $localconfig::search_hosts_internal[0]['port'],
-    max_memory_mb => 3072,
-    min_memory_mb => 3072,
   }
 }
 
 node 'search1' inherits search {
-  class { 'elasticsearch':
-    path_data     => $localconfig::search_path_data,
+  Class['elasticsearch'] {
     host_address  => $localconfig::search_hosts_internal[1]['host'],
     host_port     => $localconfig::search_hosts_internal[1]['port'],
-    max_memory_mb => 3072,
-    min_memory_mb => 3072,
   }
 }
 
@@ -293,7 +238,7 @@ node 'cache-master' inherits cache {
 }
 
 node 'cache-slave' inherits cache {
-  class { 'redis': slave_of  => $localconfig::redis_hosts[0], }
+  class { 'redis': slave_of => $localconfig::redis_hosts[0], }
 }
 
 node 'activity-cache-master' inherits cache {
@@ -318,7 +263,7 @@ node 'activity-cache-slave' inherits cache {
 #####################
 
 node mq inherits linuxnodecommon {
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal }
 }
 
 node 'mq-master' inherits mq {
@@ -332,8 +277,8 @@ node 'mq-master' inherits mq {
 ## PREVIEW PROCESSOR NODES ##
 #############################
 
-node pp {
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
+node pp inherits ppnodecommon {
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal }
 }
 
 node 'pp0' inherits pp { }
@@ -346,27 +291,16 @@ node 'pp2' inherits pp { }
 ## ETHERPAD NODES ##
 ####################
 
-node ep inherits basenodecommon {
-  # Apply firewall
+node ep inherits epnodecommon {
   class { 'ipfilter': }
 }
 
 node 'ep0' inherits ep {
-  class { 'etherpad':
-    listen_address        => $localconfig::etherpad_hosts_internal[0]
-    etherpad_git_revision => '8b7db49f9c9f24ea7fe3554da42f335cfee33385',
-    ep_oae_revision       => 'c0206b72ba4c2f5344a84f6e6529cf218ac7bec5',
-    api_key               => $localconfig::etherpad_api_key,
-  }
+  Class['etherpad'] { listen_address => $localconfig::etherpad_hosts_internal[0] }
 }
 
 node 'ep1' inherits ep {
-  class { 'etherpad':
-    listen_address        => $localconfig::etherpad_hosts_internal[1],
-    etherpad_git_revision => '8b7db49f9c9f24ea7fe3554da42f335cfee33385',
-    ep_oae_revision       => 'c0206b72ba4c2f5344a84f6e6529cf218ac7bec5',
-    api_key               => $localconfig::etherpad_api_key,
-  }
+  Class['etherpad'] { listen_address => $localconfig::etherpad_hosts_internal[1] }
 }
 
 #################
@@ -406,5 +340,5 @@ node 'bastion' inherits linuxnodecommon {
     jump    => 'ACCEPT',
   }
 
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal }
 }
