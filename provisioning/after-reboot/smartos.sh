@@ -1,21 +1,22 @@
 if [ "$1" = "" ]
 then
-  echo "Usage: $0 <hostname> <internal ip>"
+  echo "Usage: $0 <hostname> <puppetmaster internal ip>"
   exit
 fi
 
 if [ "$2" = "" ]
 then
-  echo "Usage: $0 <hostname> <internal ip>"
+  echo "Usage: $0 <hostname> <puppetmaster internal ip>"
   exit
 fi
 
 SCRIPT_HOST=$1
 SCRIPT_PUPPET_INTERNAL_IP=$2
 
-sudo sed -i '$ a\
-$SCRIPT_PUPPET_INTERNAL_IP puppet' /etc/hosts
-sudo pkgin -y install ruby18-puppet
+sudo sed -i "$ a\
+$SCRIPT_PUPPET_INTERNAL_IP puppet" /etc/hosts
+
+sudo gem18 install puppet --version '2.7.18'
 
 cat > /tmp/puppetd.xml <<EOF
 <?xml version="1.0"?>
@@ -107,11 +108,14 @@ version='1'>
 
 </service_bundle>
 EOF
+
+sudo mkdir /var/lib
+sudo mkdir /opt/local/share/smf/ruby18-puppet
 sudo mv /tmp/puppetd.xml /opt/local/share/smf/ruby18-puppet/puppetd.xml
 
 svccfg import /opt/local/share/smf/ruby18-puppet/puppetd.xml
 sudo svcadm disable puppetd
-sudo bash -c 'echo -e [main]\\npluginsync=true\\n[agent]\\nreport=true > /etc/puppet/puppet.conf'
+sudo bash -c 'echo -e [main]\\npluginsync=true\\n[agent]\\nreport=true > /opt/local/etc/puppet/puppet.conf'
 sudo puppet agent --test
 
 echo "Setup complete and cert requested. Sign the cert on the puppet master using 'puppet cert sign', then come back to this machine and run 'sudo puppet agent -t' to apply the puppet config"

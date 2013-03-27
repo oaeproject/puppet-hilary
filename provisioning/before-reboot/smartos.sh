@@ -1,12 +1,12 @@
 if [ "$1" = "" ]
 then
-  echo "Usage: $0 <hostname> <internal ip>"
+  echo "Usage: $0 <hostname> <puppetmaster internal ip>"
   exit
 fi
 
 if [ "$2" = "" ]
 then
-  echo "Usage: $0 <hostname> <internal ip>"
+  echo "Usage: $0 <hostname> <puppetmaster internal ip>"
   exit
 fi
 

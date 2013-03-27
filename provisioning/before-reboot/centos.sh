@@ -1,12 +1,12 @@
 if [ "$1" = "" ]
 then
-  echo "Usage: $0 <hostname> <internal ip>"
+  echo "Usage: $0 <hostname> <puppetmaster internal ip>"
   exit
 fi
 
 if [ "$2" = "" ]
 then
-  echo "Usage: $0 <hostname> <internal ip>"
+  echo "Usage: $0 <hostname> <puppetmaster internal ip>"
   exit
 fi
 
@@ -14,8 +14,8 @@ SCRIPT_HOSTNAME=$1
 SCRIPT_PUPPET_INTERNAL_IP=$2
 
 # set HOSTNAME in /etc/sysconfig/network and /etc/hosts
-sed -i -e 's/localhost.localdomain/$SCRIPT_HOSTNAME/g' /etc/sysconfig/network
-sed -i 's/localhost /$SCRIPT_HOSTNAME localhost /g' /etc/hosts
+sed -i -e "s/localhost.localdomain/$SCRIPT_HOSTNAME/g" /etc/sysconfig/network
+sed -i "s/localhost /$SCRIPT_HOSTNAME localhost /g" /etc/hosts
 echo "$SCRIPT_HOSTNAME" > /etc/hostname
 echo "$SCRIPT_PUPPET_INTERNAL_IP puppet" /etc/hosts
 
