@@ -30,7 +30,7 @@ expect fork
 # Pass along some environment variables
 env NODE_ENV=production
 
-chdir <%= scope.lookupvar('localconfig::app_root') %>
+chdir <%= app_root_dir %>
 script
     exec /usr/bin/node app.js &
 end script

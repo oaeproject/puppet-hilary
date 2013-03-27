@@ -1,9 +1,64 @@
 
+################
+################
+## BLUEPRINTS ##
+################
+################
+
+node app inherits appnodecommon {
+
+  ###########################################
+  ## INSTALL HILARY AND 3AKAI-UX CONTAINER ##
+  ###########################################
+
+  class { 'hilary':
+    app_root_dir        => $localconfig::app_root,
+    app_git_user        => $localconfig::app_git_user,
+    app_git_branch      => $localconfig::app_git_branch,
+    ux_root_dir         => $localconfig::ux_root,
+    ux_git_user         => $localconfig::ux_git_user,
+    ux_git_branch       => $localconfig::ux_git_branch,
+    os_user             => $localconfig::app_user,
+    os_group            => $localconfig::app_group,
+    upload_files_dir    => $localconfig::app_files,
+
+    config_cassandra_hosts           => localconfig::db_hosts,
+    config_cassandra_keyspace        => localconfig::db_keyspace,
+    config_cassandra_timeout         => localconfig::db_timeout,
+    config_cassandra_replication     => localconfig::db_replication,
+    config_cassandra_strategy_class  => localconfig::db_strategyClass,
+    config_redis_hosts               => localconfig::redis_hosts[0],
+    config_servers_admin_host        => localconfig::ux_admin_host,
+    config_cookie_secret             => localconfig::cookie_secret,
+    config_telemetry_circonus_url    => localconfig::cironus_url,
+    config_search_hosts              => localconfig::search_hosts_internal,
+    config_mq_host                   => localconfig::mq_hosts_internal[0].host,
+    config_mq_port                   => localconfig::mq_hosts_internal[0].port,
+    config_signing_key               => localconfig::app_sign_key,
+    config_etherpad_hosts            => localconfig::etherpad_hosts_internal,
+    config_etherpad_api_key          => localconfig::etherpad_api_key,
+    config_etherpad_domain_suffix    => localconfig::ehterpad_domain_suffix,
+
+    require             => Class['files-nfs']
+  }
+
+  # These don't actually use the shared dir, but the hilary class needs it to exist
+  file { '/shared':
+    ensure => 'directory',
+    before => Class['hilary']
+  }
+
+
+  class { 'ipfilter': }
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
+}
+
+
 ###############
 ## WEB PROXY ##
 ###############
 
-node prodwebnode inherits webnode {
+node web inherits webnodecommon {
   # Allow web traffic into public interface on web node
   class { 'ipfilter': rules => [ 'pass in quick on net0 proto tcp from any to any port=80 keep state' ] }
   
@@ -45,60 +100,58 @@ node prodwebnode inherits webnode {
   }
 }
 
-node 'web0' inherits prodwebnode { }
+node 'web0' inherits web { }
 
-node 'web1' inherits prodwebnode { }
+node 'web1' inherits web { }
 
 
 ###############
 ## APP NODES ##
 ###############
 
-node prodappnode inherits appnode {
-  # Apply firewall
-  class { 'ipfilter': }
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
+node app inherits appnodecommon {
+  
 }
 
-node 'app0' inherits prodappnode { }
+node 'app0' inherits app { }
 
-node 'app1' inherits prodappnode { }
+node 'app1' inherits app { }
 
-node 'app2' inherits prodappnode { }
+node 'app2' inherits app { }
 
-node 'app3' inherits prodappnode { }
+node 'app3' inherits app { }
 
 ####################
 ## ACTIVITY NODES ##
 ####################
 
-node prodactivitynode inherits activitynode {
+node activity inherits activitynodecommon {
   # Apply firewall
   class { 'ipfilter': }
   class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
-node 'activity0' inherits prodactivitynode { }
+node 'activity0' inherits activity { }
 
-node 'activity1' inherits prodactivitynode { }
+node 'activity1' inherits activity { }
 
-node 'activity2' inherits prodactivitynode { }
+node 'activity2' inherits activity { }
 
-node 'activity3' inherits prodactivitynode { }
+node 'activity3' inherits activity { }
 
-node 'activity4' inherits prodactivitynode { }
+node 'activity4' inherits activity { }
 
-node 'activity5' inherits prodactivitynode { }
+node 'activity5' inherits activity { }
 
 #####################
 ## CASSANDRA NODES ##
 #####################
 
-node proddbnode inherits dbnode {
+node db inherits dbnodecommon {
   class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
-node 'db0' inherits proddbnode {
+node 'db0' inherits db {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -118,7 +171,7 @@ node 'db0' inherits proddbnode {
   }
 }
 
-node 'db1' inherits proddbnode {
+node 'db1' inherits db {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -134,7 +187,7 @@ node 'db1' inherits proddbnode {
   }
 }
 
-node 'db2' inherits proddbnode {
+node 'db2' inherits db {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -150,7 +203,7 @@ node 'db2' inherits proddbnode {
   }
 }
 
-node 'db3' inherits proddbnode {
+node 'db3' inherits db {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -166,7 +219,7 @@ node 'db3' inherits proddbnode {
   }
 }
 
-node 'db4' inherits proddbnode {
+node 'db4' inherits db {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -182,7 +235,7 @@ node 'db4' inherits proddbnode {
   }
 }
 
-node 'db5' inherits proddbnode {
+node 'db5' inherits db {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -202,11 +255,11 @@ node 'db5' inherits proddbnode {
 ## SEARCH NODES ##
 ##################
 
-node prodsearchnode inherits linuxnode {
+node search inherits linuxnodecommon {
   class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
-node 'search0' inherits prodsearchnode {
+node 'search0' inherits search {
   class { 'elasticsearch':
     path_data     => $localconfig::search_path_data,
     host_address  => $localconfig::search_hosts_internal[0]['host'],
@@ -216,7 +269,7 @@ node 'search0' inherits prodsearchnode {
   }
 }
 
-node 'search1' inherits prodsearchnode {
+node 'search1' inherits search {
   class { 'elasticsearch':
     path_data     => $localconfig::search_path_data,
     host_address  => $localconfig::search_hosts_internal[1]['host'],
@@ -230,20 +283,20 @@ node 'search1' inherits prodsearchnode {
 ## REDIS NODES ##
 #################
 
-node prodcachenode inherits basenode {
+node cache inherits basenodecommon {
   class { 'ipfilter': }
   class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
-node 'cache-master' inherits prodcachenode {
+node 'cache-master' inherits cache {
   class { 'redis': }
 }
 
-node 'cache-slave' inherits prodcachenode {
+node 'cache-slave' inherits cache {
   class { 'redis': slave_of  => $localconfig::redis_hosts[0], }
 }
 
-node 'activity-cache-master' inherits prodcachenode {
+node 'activity-cache-master' inherits cache {
   class { 'redis':
     eviction_maxmemory  => 3758096384,
     eviction_policy     => 'volatile-ttl',
@@ -251,7 +304,7 @@ node 'activity-cache-master' inherits prodcachenode {
   }
 }
 
-node 'activity-cache-slave' inherits prodcachenode {
+node 'activity-cache-slave' inherits cache {
   class { 'redis':
     eviction_maxmemory  => 3758096384,
     eviction_policy     => 'volatile-ttl',
@@ -264,11 +317,11 @@ node 'activity-cache-slave' inherits prodcachenode {
 ## MESSAGING NODES ##
 #####################
 
-node prodmqnode inherits linuxnode {
+node mq inherits linuxnodecommon {
   class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
-node 'mq-master' inherits prodmqnode {
+node 'mq-master' inherits mq {
   class { 'rabbitmq':
     listen_address  => $localconfig::mq_hosts_internal[0]['host'],
     listen_port     => $localconfig::mq_hosts_internal[0]['port'],
@@ -279,26 +332,26 @@ node 'mq-master' inherits prodmqnode {
 ## PREVIEW PROCESSOR NODES ##
 #############################
 
-node prodppnode {
+node pp {
   class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
 }
 
-node 'pp0' inherits prodppnode { }
+node 'pp0' inherits pp { }
 
-node 'pp1' inherits prodppnode { }
+node 'pp1' inherits pp { }
 
-node 'pp2' inherits prodppnode { }
+node 'pp2' inherits pp { }
 
 ####################
 ## ETHERPAD NODES ##
 ####################
 
-node prodepnode inherits basenode {
+node ep inherits basenodecommon {
   # Apply firewall
   class { 'ipfilter': }
 }
 
-node 'ep0' inherits prodepnode {
+node 'ep0' inherits ep {
   class { 'etherpad':
     listen_address        => $localconfig::etherpad_hosts_internal[0]
     etherpad_git_revision => '8b7db49f9c9f24ea7fe3554da42f335cfee33385',
@@ -307,7 +360,7 @@ node 'ep0' inherits prodepnode {
   }
 }
 
-node 'ep1' inherits prodepnode {
+node 'ep1' inherits ep {
   class { 'etherpad':
     listen_address        => $localconfig::etherpad_hosts_internal[1],
     etherpad_git_revision => '8b7db49f9c9f24ea7fe3554da42f335cfee33385',
@@ -320,13 +373,13 @@ node 'ep1' inherits prodepnode {
 ## SYSLOG NODE ##
 #################
 
-node 'syslog' inherits syslognode { }
+node 'syslog' inherits syslognodecommon { }
 
 #############
 ## BASTION ##
 #############
 
-node 'bastion' inherits linuxnode {
+node 'bastion' inherits linuxnodecommon {
 
   ## Allow forwarding with sysctl
   Exec { path => '/usr/bin:/usr/sbin/:/bin:/sbin' }

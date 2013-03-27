@@ -1,10 +1,10 @@
-node basenode {
+node basenodecommon {
   # The localconfig module is found in $environment/modules
   include epel
   class { 'localconfig': }
 }
 
-node drivernode inherits basenode {
+node drivernodecommon inherits basenodecommon {
   class { 'tsung': }
 
   package { 'nginx':
@@ -19,7 +19,7 @@ node drivernode inherits basenode {
   }
 }
 
-node linuxnode inherits basenode {
+node linuxnodecommon inherits basenodecommon {
   
   ####################
   ## FIREWALL SETUP ##
@@ -89,11 +89,13 @@ node linuxnode inherits basenode {
 
 }
 
-node appnode inherits basenode {
+node hilarynodecommon inherits basenodecommon {
 
-  ###########################################
-  ## INSTALL HILARY AND 3AKAI-UX CONTAINER ##
-  ###########################################
+  # Hilary always requires this directory
+  file { $localconfig::app_files_parent:
+    ensure => 'directory',
+    before => Class['hilary']
+  }
 
   class { 'hilary':
     app_root_dir        => $localconfig::app_root,
@@ -105,116 +107,68 @@ node appnode inherits basenode {
     os_user             => $localconfig::app_user,
     os_group            => $localconfig::app_group,
     upload_files_dir    => $localconfig::app_files,
-    require             => Class['smartosnfs']
-  }
 
-  class { 'smartosnfs':
-    mountpoint => '/shared',
-    server     => $localconfig::files_nfs_server,
-    sourcedir  => $localconfig::files_nfs_sourcedir,
+    config_cassandra_hosts           => localconfig::db_hosts,
+    config_cassandra_keyspace        => localconfig::db_keyspace,
+    config_cassandra_timeout         => localconfig::db_timeout,
+    config_cassandra_replication     => localconfig::db_replication,
+    config_cassandra_strategy_class  => localconfig::db_strategyClass,
+    config_redis_hosts               => localconfig::redis_hosts[0],
+    config_servers_admin_host        => localconfig::ux_admin_host,
+    config_cookie_secret             => localconfig::cookie_secret,
+    config_telemetry_circonus_url    => localconfig::cironus_url,
+    config_search_hosts              => localconfig::search_hosts_internal,
+    config_mq_host                   => localconfig::mq_hosts_internal[0].host,
+    config_mq_port                   => localconfig::mq_hosts_internal[0].port,
+    config_signing_key               => localconfig::app_sign_key,
+    config_etherpad_hosts            => localconfig::etherpad_hosts_internal,
+    config_etherpad_api_key          => localconfig::etherpad_api_key,
+    config_etherpad_domain_suffix    => localconfig::ehterpad_domain_suffix,
+  }
+}
+
+node appnodecommon inherits hilarynodecommon {
+  # App node needs to mount the files
+  class { 'files-nfs':
+    name        => 'smartosnfs',
+    mountpoint  => $localconfig::app_files_parent,
+    server      => $localconfig::files_nfs_server,
+    sourcedir   => $localconfig::files_nfs_sourcedir,
+    before      => Class['hilary'],
+    require     => File[$localconfig::app_files_parent],
+  }
+}
+
+node activitynodecommon inherits hilarynodecommon {
+  # Simply flick activities to be enabled
+  Class['hilary'] { config_activity_enabled => true }
+}
+
+node ppnodecommon inherits hilarynodecommon {
+  include linuxnodecommon
+
+  package { 'libreoffice': ensure => installed }
+  package { 'pdftk': ensure => installed }
+
+  # Enable previews
+  Class['hilary'] {
+    config_enable_previews  => true,
+    provider                => 'apt',
   }
 
 }
 
-node activitynode inherits basenode {
-
-  ###########################################
-  ## INSTALL HILARY AND 3AKAI-UX CONTAINER ##
-  ###########################################
-
-  class { 'hilary':
-    app_root_dir        => $localconfig::app_root,
-    app_git_user        => $localconfig::app_git_user,
-    app_git_branch      => $localconfig::app_git_branch,
-    ux_root_dir         => $localconfig::ux_root,
-    ux_git_user         => $localconfig::ux_git_user,
-    ux_git_branch       => $localconfig::ux_git_branch,
-    os_user             => $localconfig::app_user,
-    os_group            => $localconfig::app_group,
-    upload_files_dir    => $localconfig::app_files,
-    enable_activities   => true,
-    enable_previews     => false,
-  }
-
-  # These don't actually use the shared dir, but the hilary class needs it to exist
-  file { '/shared':
-    ensure => 'directory',
-    before => Class['hilary']
-  }
-
-}
-
-node ppnode inherits linuxnode {
-
-  ##########################
-  ## PACKAGE DEPENDENCIES ##
-  ##########################
-
-  package { 'libreoffice':
-    ensure  => installed,
-  }
-
-  package { 'pdftk':
-    ensure  => installed,
-  }
-
-  ###########################################
-  ## INSTALL HILARY AND 3AKAI-UX CONTAINER ##
-  ###########################################
-
-  class { 'hilary':
-    app_root_dir        => $localconfig::app_root,
-    app_git_user        => $localconfig::app_git_user,
-    app_git_branch      => $localconfig::app_git_branch,
-    ux_root_dir         => $localconfig::ux_root,
-    ux_git_user         => $localconfig::ux_git_user,
-    ux_git_branch       => $localconfig::ux_git_branch,
-    os_user             => $localconfig::pp_user,
-    os_group            => $localconfig::pp_group,
-    upload_files_dir    => $localconfig::app_files,
-    enable_activities   => false,
-    enable_previews     => true,
-    provider            => 'apt',
-  }
-
-  # These don't actually use the shared dir, but the hilary class needs it to exist
-  file { '/shared':
-    ensure => 'directory',
-    before => Class['hilary']
-  }
-
-}
-
-node webnode inherits basenode {
+node webnodecommon inherits basenodecommon {
 
   ##################################
   ## INSTALL PACKAGE DEPENDENCIES ##
   ##################################
 
-  package { 'gcc47':
-    ensure    => present,
-    provider  => pkgin,
-  }
-
-  package { 'gmake':
-    ensure    => present,
-    provider  => pkgin,
-  }
-
-  package { 'automake':
-    ensure    => present,
-    provider  => pkgin,
-  }
-
-  package { 'nodejs':
-    ensure    => present,
-    provider  => pkgin,
-  }
-
-  package { 'scmgit':
-    ensure    => present,
-    provider  => pkgin,
-  }
+  package { 'gcc47':    ensure => present, provider => pkgin }
+  package { 'gmake':    ensure => present, provider => pkgin }
+  package { 'automake': ensure => present, provider => pkgin }
+  package { 'nodejs':   ensure => present, provider => pkgin }
+  package { 'scmgit':   ensure => present, provider => pkgin }
 
   # git clone http://github.com/sakaiproject/3akai-ux
   vcsrepo { $localconfig::ux_root:
@@ -233,22 +187,30 @@ node webnode inherits basenode {
     files_home            => $localconfig::app_files,
   }
 
-  class { 'smartosnfs':
-    mountpoint => '/shared',
+  class { 'files-nfs':
+    name       => 'smartosnfs',
+    mountpoint => $localconfig::app_files_parent,
     server     => $localconfig::files_nfs_server,
     sourcedir  => $localconfig::files_nfs_sourcedir,
   }
 }
 
-node dbnode inherits linuxnode {
+node dbnodecommon inherits linuxnodecommon {
   # Use devel package so we actually get the JDK..
   package { 'java-1.6.0-openjdk-devel':
     ensure  => installed,
   }
-
 }
 
-node syslognode inherits linuxnode {
+node searchnodecommon inherits linuxnodecommon {
+  class { 'elasticsearch':
+    path_data     => $localconfig::search_path_data,
+    max_memory_mb => 3072,
+    min_memory_mb => 3072,
+  }
+}
+
+node syslognodecommon inherits linuxnodecommon {
   class { 'rsyslog':
     clientOrServer  => 'server',
     server_host     => $localconfig::rsyslog_host_internal,

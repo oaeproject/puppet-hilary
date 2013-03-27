@@ -26,6 +26,8 @@ class localconfig {
   ]
   $app_sign_key = 'Not the default signing key anymore.'
 
+  $cookie_secret = 'SODIFJ984FJA984JAFP98WF4PAW984F984FJ9'
+
   $circonus_url = 'https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t'
 
   # Redis
@@ -55,6 +57,7 @@ class localconfig {
 
   # Installation details
   $app_root = '/opt/oae'
+  $app_files_parent = '/shared'
   $app_files = '/shared/files'
   $app_git_user = 'sakaiproject'
   $app_git_branch = 'master'

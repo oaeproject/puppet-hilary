@@ -14,6 +14,9 @@
  */
 
 var bunyan = require('bunyan');
+<% if config_rsyslog_ip -%>
+var bsyslog = require('bunyan-syslog');
+<% end -%>
 
 var config = module.exports.config = {};
 
@@ -25,13 +28,13 @@ config.ui = {
 
 // Cassandra related config information.
 config.cassandra = {
-    'hosts': [ <% scope.lookupvar("localconfig::db_hosts").each_with_index do |ip, index| %>'<%= ip %>', <% end %> ],
-    'keyspace': '<%= scope.lookupvar("localconfig::db_keyspace") %>',
+    'hosts': [ <% config_cassandra_hosts.each_with_index do |ip, index| %>'<%= ip %>', <% end %> ],
+    'keyspace': '<%= config_cassandra_keyspace %>',
     'user': '', 
     'pass': '',
-    'timeout': <%= scope.lookupvar("localconfig::db_timeout") %>,
-    'replication': <%= scope.lookupvar("localconfig::db_replication") %>,
-    'strategyClass': '<%= scope.lookupvar("localconfig::db_strategyClass") %>'
+    'timeout': <%= config_cassandra_timeout %>,
+    'replication': <%= config_cassandra_replication %>,
+    'strategyClass': '<%= config_cassandra_strategy_class %>'
 };
 
 // The redis related configuration information.
@@ -42,7 +45,7 @@ config.cassandra = {
 //  0 = production
 //  1 = unit tests
 config.redis = {
-    'host': '<%= scope.lookupvar("localconfig::redis_hosts")[0] %>',
+    'host': '<%= config_redis_hosts[0] %>',
     'port': 6379,
     'pass': '',
     'dbIndex': 0
@@ -60,7 +63,7 @@ config.redis = {
  */
 config.servers = {
     'globalAdminAlias': 'admin',
-    'globalAdminHost': 'admin.oae-performance.sakaiproject.org',
+    'globalAdminHost': '<%= config_servers_admin_host %>',
     'globalAdminPort': 2000,
     'tenantPort': 2001
 };
@@ -78,15 +81,28 @@ config.files = {
 // It's strongly recommended that you change this value.
 // Make sure that this value is the same accross each app server.
 config.cookie = {
-    'secret': 'this secret will be used to sign your cookies, I totally changed it!'
+    'secret': '<%= config_cookie_secret %>'
 };
 
 config.log = {
     'streams': [
+        <% if !config_log_rsyslog_ip -%>
         {
             'level': 'info',
             'path': '/opt/oae/server.log'
         }
+        <% else -%>
+        {
+            'level': 'debug',
+            'type': 'raw',
+            'stream': bsyslog.createBunyanStream({
+                'type': 'udp',
+                'facility': bsyslog.local0,
+                'host': '<%= config_log_rsyslog_ip %>',
+                'port': 514
+            })
+        }
+        <% end -%>
     ],
     'serializers': {
         'err': bunyan.stdSerializers.err,
@@ -104,7 +120,7 @@ config.telemetry = {
     'enabled': true,
     'publisher': 'circonus',
     'circonus': {
-        'url': '<%= scope.lookupvar("localconfig::circonus_url") %>',
+        'url': '<%= config_telemetry_circonus_url %>',
         'circonusInterval': 30000,
         'redisInterval': 20000
     },
@@ -127,7 +143,7 @@ config.telemetry = {
  */
 config.search = {
     'hosts': [
-        <% scope.lookupvar("localconfig::search_hosts_internal").each do |host| -%>
+        <% config_search_hosts.each do |host| -%>
         { 'host': '<%= host["host"] %>', 'port': <%= host["port"] %> },
         <% end -%>
     ],
@@ -171,10 +187,9 @@ config.search = {
  */
 config.mq = {
     'connection': {
-        'host': '<%= scope.lookupvar("localconfig::mq_hosts_internal")[0]["host"] %>',
-        'port': <%= scope.lookupvar("localconfig::mq_hosts_internal")[0]["port"] %>
-    },
-    'prefetchCount': 15
+        'host': '<%= config_mq_host %>',
+        'port': <%= config_mq_port %>
+    }
 };
 
 /**
@@ -195,7 +210,7 @@ config.mq = {
  * @param {String}      credentials.password    The password to login with on the global admin server.
  */
 config.previews = {
-    'enabled': <%= enable_previews ? true : false %>,
+    'enabled': <%= config_previews_enabled ? true : false %>,
     'dir': '/tmp/previews',
     'office': {
         'binary': '/usr/bin/soffice',
@@ -220,7 +235,7 @@ config.previews = {
  * @param   {String}    key     This key will be used to sign URLs like profile pictures, content previews, etc.. . It's vital to the security of the system that you change this in production.
  */
 config.signing = {
-    'key': '<%= scope.lookupvar("localconfig:app_sign_key") %>'
+    'key': '<%= config_signing_key %>'
 };
 
 /**
@@ -245,7 +260,7 @@ config.signing = {
  * @param  {Number}     [redis.dbIndex]                 The index number of the dedicated redis server index
  */
 config.activity = {
-    'processActivityJobs': <%= enable_activities ? true : false %>,
+    'processActivityJobs': <%= config_activity_enabled ? true : false %>,
     'activityTtl': 2 * 7 * 24 * 60 * 60,
     'aggregateIdleExpiry': 3 * 60 * 60,
     'aggregateMaxExpiry': 24 * 60 * 60,
@@ -255,12 +270,16 @@ config.activity = {
     'maxConcurrentRouters': 5,
     'collectionPollingFrequency': 5,
     'collectionBatchSize': 1000,
+    <% if config_activity_redis_host -%>
     'redis': {
-        'host': '<%= scope.lookupvar("localconfig::activity_redis_hosts")[0] %>',
+        'host': '<%= config_activity_redis_host %>',
         'port': 6379,
         'pass': '',
         'dbIndex': 0
     }
+    <% else -%>
+    'redis': null
+    <% end -%>
 };
 
 /**
@@ -286,10 +305,10 @@ config.saml = {
  */
 config.etherpad = {
     'hosts': [
-        <% scope.lookupvar("localconfig::etherpad_hosts_internal").each_with_index do |ip, index| %>
+        <% config_etherpad_hosts.each_with_index do |ip, index| %>
             {
-                'apikey': '<%= scope.lookupvar("localconfig::etherpad_api_key") %>',
-                'host': '<%= index %><%= scope.lookupvar("localconfig::etherpad_domain_suffix") %>',
+                'apikey': '<%= config_etherpad_api_key %>',
+                'host': '<%= index %><%= config_etherpad_domain_suffix %>',
                 'port': 80
             },
         <% end %>

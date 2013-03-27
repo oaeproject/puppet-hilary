@@ -3,42 +3,37 @@
 ## WEB PROXY ##
 ###############
 
-node 'web0' inherits webnode { }
+node 'web0' inherits webnodecommon { }
 
+node 'web1' inherits webnodecommon { }
 
 ###############
 ## APP NODES ##
 ###############
 
-node 'app0' inherits appnode { }
+node 'app0' inherits appnodecommon { }
 
-node 'app1' inherits appnode { }
+node 'app1' inherits appnodecommon { }
 
-node 'app2' inherits appnode { }
+node 'app2' inherits appnodecommon { }
 
-node 'app3' inherits appnode { }
+node 'app3' inherits appnodecommon { }
 
 ####################
 ## ACTIVITY NODES ##
 ####################
 
-node 'activity0' inherits activitynode { }
+node 'activity0' inherits activitynodecommon { }
 
-node 'activity1' inherits activitynode { }
+node 'activity1' inherits activitynodecommon { }
 
-node 'activity2' inherits activitynode { }
-
-node 'activity3' inherits activitynode { }
-
-node 'activity4' inherits activitynode { }
-
-node 'activity5' inherits activitynode { }
+node 'activity2' inherits activitynodecommon { }
 
 #####################
 ## CASSANDRA NODES ##
 #####################
 
-node 'db0' inherits dbnode {
+node 'db0' inherits dbnodecommon {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -58,7 +53,7 @@ node 'db0' inherits dbnode {
   }
 }
 
-node 'db1' inherits dbnode {
+node 'db1' inherits dbnodecommon {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -74,7 +69,7 @@ node 'db1' inherits dbnode {
   }
 }
 
-node 'db2' inherits dbnode {
+node 'db2' inherits dbnodecommon {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -90,7 +85,7 @@ node 'db2' inherits dbnode {
   }
 }
 
-node 'db3' inherits dbnode {
+node 'db3' inherits dbnodecommon {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -106,7 +101,7 @@ node 'db3' inherits dbnode {
   }
 }
 
-node 'db4' inherits dbnode {
+node 'db4' inherits dbnodecommon {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -122,7 +117,7 @@ node 'db4' inherits dbnode {
   }
 }
 
-node 'db5' inherits dbnode {
+node 'db5' inherits dbnodecommon {
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
@@ -142,23 +137,17 @@ node 'db5' inherits dbnode {
 ## SEARCH NODES ##
 ##################
 
-node 'search0' inherits basenode {
-  class { 'elasticsearch':
-    path_data     => $localconfig::search_path_data,
+node 'search0' inherits linuxnodecommon {
+  Class['elasticsearch'] {
     host_address  => $localconfig::search_hosts_internal[0]['host'],
     host_port     => $localconfig::search_hosts_internal[0]['port'],
-    max_memory_mb => 3072,
-    min_memory_mb => 3072,
   }
 }
 
-node 'search1' inherits basenode {
-  class { 'elasticsearch':
-    path_data     => $localconfig::search_path_data,
+node 'search1' inherits linuxnodecommon {
+  Class['elasticsearch'] {
     host_address  => $localconfig::search_hosts_internal[1]['host'],
     host_port     => $localconfig::search_hosts_internal[1]['port'],
-    max_memory_mb => 3072,
-    min_memory_mb => 3072,
   }
 }
 
@@ -166,11 +155,15 @@ node 'search1' inherits basenode {
 ## REDIS NODES ##
 #################
 
-node 'cache0' inherits basenode {
+node 'cache-master' inherits basenodecommon {
   class { 'redis': }
 }
 
-node 'activity-cache' inherits basenode {
+node 'cache-slave' inherits basenodecommon {
+  class { 'redis': slave_of => $localconfig::redis_hosts[0] }
+}
+
+node 'activity-cache-master' inherits basenodecommon {
   class { 'redis':
     eviction_maxmemory  => 3758096384,
     eviction_policy     => 'volatile-ttl',
@@ -178,48 +171,92 @@ node 'activity-cache' inherits basenode {
   }
 }
 
-#################
-## LOAD DRIVER ##
-#################
-
-node 'driver0' inherits drivernode {
+node 'activity-cache-slave' inherits basenodecommon {
+  class { 'redis':
+    eviction_maxmemory  => 3758096384,
+    eviction_policy     => 'volatile-ttl',
+    eviction_samples    => 3,
+    slave_of            => $localconfig::activity_redis_hosts[0]
+  }
 }
 
 #####################
 ## MESSAGING NODES ##
 #####################
 
-node 'mq0' inherits mqnode {
+node 'mq-master' inherits linuxnodecommon {
+  class { 'rabbitmq':
+    listen_address  => $localconfig::mq_hosts_internal[0]['host'],
+    listen_port     => $localconfig::mq_hosts_internal[0]['port'],
+  }
 }
 
 #############################
 ## PREVIEW PROCESSOR NODES ##
 #############################
 
-node 'pp0' inherits ppnode { }
+node 'pp0' inherits ppnodecommon { }
 
-node 'pp1' inherits ppnode { }
+node 'pp1' inherits ppnodecommon { }
 
-node 'pp2' inherits ppnode { }
+node 'pp2' inherits ppnodecommon { }
 
 ####################
 ## ETHERPAD NODES ##
 ####################
 
-node 'ep0' inherits basenode {
+node 'ep0' inherits basenodecommon {
   class { 'etherpad':
-    listen_address        => $localconfig::etherpad_hosts_internal[0],
+    listen_address        => $localconfig::etherpad_hosts_internal[0]
     etherpad_git_revision => '8b7db49f9c9f24ea7fe3554da42f335cfee33385',
     ep_oae_revision       => 'c0206b72ba4c2f5344a84f6e6529cf218ac7bec5',
     api_key               => $localconfig::etherpad_api_key,
   }
 }
 
-node 'ep1' inherits basenode {
+node 'ep1' inherits basenodecommon {
   class { 'etherpad':
     listen_address        => $localconfig::etherpad_hosts_internal[1],
     etherpad_git_revision => '8b7db49f9c9f24ea7fe3554da42f335cfee33385',
     ep_oae_revision       => 'c0206b72ba4c2f5344a84f6e6529cf218ac7bec5',
     api_key               => $localconfig::etherpad_api_key,
+  }
+}
+
+#################
+## SYSLOG NODE ##
+#################
+
+node 'syslog' inherits syslognodecommon { }
+
+#############
+## BASTION ##
+#############
+
+node 'bastion' inherits linuxnodecommon {
+
+  ## Allow forwarding with sysctl
+  Exec { path => '/usr/bin:/usr/sbin/:/bin:/sbin' }
+  sysctl::value {
+    'net.ipv4.ip_forward': value => '1',
+    notify => Exec['load-sysctl'],
+  }
+
+  exec { 'load-sysctl':
+    command => 'sysctl -p /etc/sysctl.conf',
+    refreshonly => true,
+  }
+
+  ##########################
+  ## SSH TRAFFIC HANDLING ##
+  ##########################
+
+  # Accept SSH traffic on the public interface
+  iptables { '001 allow public ssh traffic':
+    chain   => 'INPUT',
+    iniface => 'eth0',
+    proto   => 'tcp',
+    dport   => 22,
+    jump    => 'ACCEPT',
   }
 }

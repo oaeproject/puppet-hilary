@@ -8,10 +8,58 @@ class hilary (
     $os_user,
     $os_group,
     $upload_files_dir,
-    $enable_activities = false,
-    $enable_previews   = false,
-    $provider          = 'pkgin',
-    $service_name      = 'node-sakai-oae') {
+    $provider           = 'pkgin',
+    $service_name       = 'node-sakai-oae',
+
+    ############
+    ## Config ##
+    ############
+
+    # Cassandra
+    $config_cassandra_hosts,
+    $config_cassandra_keyspace        = 'oae',
+    $config_cassandra_timeout         = 3000,
+    $config_cassandra_relication      = 1,
+    $config_cassandra_strategy_class  = 'SimpleStrategy',
+
+    # Redis
+    $config_redis_hosts,
+
+    # Servers
+    $config_servers_admin_host,
+
+    # Cookie
+    $config_cookie_secret,
+
+    # Logging
+    $config_log_rsyslog_ip            = false,
+
+    # Telemetry
+    $config_telemetry_circonus_url,
+
+    # Search
+    $config_search_hosts,
+
+    # RabbitMQ
+    $config_mq_host,
+    $config_mq_port,
+
+    # Previews
+    $config_previews_enabled          = false,
+
+    # Signing
+    $config_signing_key,
+
+    # Activity
+    $config_activity_enabled          = false,
+    $config_activity_redis_host       = false,
+
+    # Etherpad
+    $config_etherpad_hosts,
+    $config_etherpad_api_key,
+    $config_etherpad_domain_suffix) {
+
+
 
   ##########################
   ## PACKAGE DEPENDENCIES ##
@@ -83,7 +131,7 @@ class hilary (
     mode    => "0644",
     owner   => $os_user,
     group   => $os_group,
-    content => template('localconfig/config.js.erb'),
+    content => template('hilary/config.js.erb'),
     require => [ Vcsrepo[$app_root_dir], File[$upload_files_dir] ],
   }
 
@@ -112,7 +160,7 @@ class hilary (
 
       file { "/etc/init/hilary.conf":
         ensure  =>  present,
-        content =>  template('localconfig/upstart_hilary.conf.erb'),
+        content =>  template('hilary/upstart_hilary.conf.erb'),
         require =>  Vcsrepo[$app_root_dir],
       }
 
@@ -136,7 +184,7 @@ class hilary (
       # Daemon script needed for SMF to manage the application
       file { "${app_root_dir}/service.xml":
         ensure  =>  present,
-        content =>  template('localconfig/node-oae-service-manifest.xml.erb'),
+        content =>  template('hilary/node-oae-service-manifest.xml.erb'),
         notify  =>  Exec["svccfg_${service_name}"],
         require =>  Vcsrepo[$app_root_dir],
       }

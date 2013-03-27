@@ -46,6 +46,7 @@ class localconfig {
 
   # Installation details
   $app_root = '/opt/oae'
+  $app_files_parent = '/shared'
   $app_files = '/shared/files'
   $app_git_user = 'sakaiproject'
   $app_git_branch = 'master'
