@@ -39,6 +39,7 @@ git clone git://github.com/sakaiproject/puppet-hilary /etc/puppet/puppet-hilary
 cd /etc/puppet/puppet-hilary
 git fetch origin
 git checkout production
+bin/pull.sh
 
 ## Puppet Dashboard
 
@@ -46,8 +47,7 @@ git checkout production
 echo "mysql-server mysql-server/root_password password root" | debconf-set-selections
 echo "mysql-server mysql-server/root_password_again password root" | debconf-set-selections
 
-apt-get install -y build-essential irb libmysql-ruby libmysqlclient-dev \
-libopenssl-ruby libreadline-ruby mysql-server rake rdoc ri ruby ruby-dev
+apt-get install -y build-essential irb libmysql-ruby libmysqlclient-dev libopenssl-ruby libreadline-ruby mysql-server rake rdoc ri ruby ruby-dev
 
 # Install rubygems (do not use the installation that came w/ OS)
 URL="http://production.cf.rubygems.org/rubygems/rubygems-1.3.7.tgz"

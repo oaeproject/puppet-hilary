@@ -74,6 +74,6 @@ class localconfig {
   ]
 
   # NFS
-  $files_nfs_server = 10.112.0.6
-  $files_nfs_sourcedir = /vol/joya62690cd_e032_45fc_84d8_c063dd34bcf0
+  $files_nfs_server = '10.112.0.6'
+  $files_nfs_sourcedir = '/vol/joya62690cd_e032_45fc_84d8_c063dd34bcf0'
 }
