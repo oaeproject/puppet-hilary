@@ -51,6 +51,7 @@ classfile = $vardir/classes.txt
 # The default value is '$confdir/localconfig'.
 localconfig = $vardir/localconfig
 report=true
+environment=$SCRIPT_ENVIRONMENT
 EOF
 
 puppet agent --test

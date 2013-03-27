@@ -32,6 +32,7 @@ ssl_client_verify_header = SSL_CLIENT_VERIFY
 
 [agent]
 report=true
+environment=$SCRIPT_ENVIRONMENT
 EOF
 
 cat > /etc/default/puppet <<EOF
