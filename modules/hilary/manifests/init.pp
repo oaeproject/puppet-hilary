@@ -19,7 +19,7 @@ class hilary (
     $config_cassandra_hosts,
     $config_cassandra_keyspace        = 'oae',
     $config_cassandra_timeout         = 3000,
-    $config_cassandra_relication      = 1,
+    $config_cassandra_replication      = 1,
     $config_cassandra_strategy_class  = 'SimpleStrategy',
 
     # Redis
