@@ -205,22 +205,12 @@ node 'pp2' inherits ppnodecommon { }
 ## ETHERPAD NODES ##
 ####################
 
-node 'ep0' inherits basenodecommon {
-  class { 'etherpad':
-    listen_address        => $localconfig::etherpad_hosts_internal[0]
-    etherpad_git_revision => '8b7db49f9c9f24ea7fe3554da42f335cfee33385',
-    ep_oae_revision       => 'c0206b72ba4c2f5344a84f6e6529cf218ac7bec5',
-    api_key               => $localconfig::etherpad_api_key,
-  }
+node 'ep0' inherits epnodecommon {
+  Class['etherpad'] { listen_address => $localconfig::etherpad_hosts_internal[0] }
 }
 
-node 'ep1' inherits basenodecommon {
-  class { 'etherpad':
-    listen_address        => $localconfig::etherpad_hosts_internal[1],
-    etherpad_git_revision => '8b7db49f9c9f24ea7fe3554da42f335cfee33385',
-    ep_oae_revision       => 'c0206b72ba4c2f5344a84f6e6529cf218ac7bec5',
-    api_key               => $localconfig::etherpad_api_key,
-  }
+node 'ep1' inherits epnodecommon {
+  Class['etherpad'] { listen_address => $localconfig::etherpad_hosts_internal[1] }
 }
 
 #################

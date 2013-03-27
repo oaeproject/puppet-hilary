@@ -210,6 +210,14 @@ node searchnodecommon inherits linuxnodecommon {
   }
 }
 
+node epnodecommon inherits basenodecommon {
+  class { 'etherpad':
+    etherpad_git_revision => '8b7db49f9c9f24ea7fe3554da42f335cfee33385',
+    ep_oae_revision       => 'c0206b72ba4c2f5344a84f6e6529cf218ac7bec5',
+    api_key               => $localconfig::etherpad_api_key,
+  }
+}
+
 node syslognodecommon inherits linuxnodecommon {
   class { 'rsyslog':
     clientOrServer  => 'server',
