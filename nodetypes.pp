@@ -116,7 +116,7 @@ node hilarynodecommon inherits basenodecommon {
     config_redis_hosts               => $localconfig::redis_hosts[0],
     config_servers_admin_host        => $localconfig::ux_admin_host,
     config_cookie_secret             => $localconfig::cookie_secret,
-    config_telemetry_circonus_url    => $localconfig::cironus_url,
+    config_telemetry_circonus_url    => $localconfig::circonus_url,
     config_search_hosts              => $localconfig::search_hosts_internal,
     config_mq_host                   => $localconfig::mq_hosts_internal[0]['host'],
     config_mq_port                   => $localconfig::mq_hosts_internal[0]['port'],
