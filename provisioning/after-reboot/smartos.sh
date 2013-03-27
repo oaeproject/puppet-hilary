@@ -13,7 +13,10 @@ PUPPET_VERSION="3.1.1"
 sudo sed -i "$ a\
 $SCRIPT_PUPPET_INTERNAL_IP puppet" /etc/hosts
 
-sudo pkgin -y install ruby18-rubygems ruby18-facter ruby18-base
+# We're going to downgrade to nodejs 0.8
+sudo pkgin -y remove nodejs
+
+sudo pkgin -y install nodejs-0.8 ruby18-rubygems ruby18-facter ruby18-base
 sudo gem18 install puppet --version "$PUPPET_VERSION"
 
 sudo mkdir /var/lib
