@@ -8,5 +8,5 @@ SCRIPT_ENVIRONMENT=$1
 SCRIPT_HOST=$2
 SCRIPT_PUPPET_INTERNAL_IP=$3
 
-sudo sm-set-hostname $SCRIPT_HOSTNAME
+sudo sm-set-hostname $SCRIPT_HOST
 echo "Pre-reboot setup complete. Please reboot the machine VIA the Joyent admin UI, then run the after-reboot script."
