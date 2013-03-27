@@ -14,7 +14,7 @@
  */
 
 var bunyan = require('bunyan');
-<% if config_rsyslog_ip -%>
+<% if config_log_syslog_ip -%>
 var bsyslog = require('bunyan-syslog');
 <% end -%>
 
@@ -86,7 +86,7 @@ config.cookie = {
 
 config.log = {
     'streams': [
-        <% if !config_log_rsyslog_ip -%>
+        <% if !config_log_syslog_ip -%>
         {
             'level': 'info',
             'path': '/opt/oae/server.log'
@@ -98,7 +98,7 @@ config.log = {
             'stream': bsyslog.createBunyanStream({
                 'type': 'udp',
                 'facility': bsyslog.local0,
-                'host': '<%= config_log_rsyslog_ip %>',
+                'host': '<%= config_log_syslog_ip %>',
                 'port': 514
             })
         }

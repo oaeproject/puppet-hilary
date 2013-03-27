@@ -19,7 +19,7 @@ class hilary (
     $config_cassandra_hosts,
     $config_cassandra_keyspace        = 'oae',
     $config_cassandra_timeout         = 3000,
-    $config_cassandra_replication      = 1,
+    $config_cassandra_replication     = 1,
     $config_cassandra_strategy_class  = 'SimpleStrategy',
 
     # Redis
@@ -32,7 +32,7 @@ class hilary (
     $config_cookie_secret,
 
     # Logging
-    $config_log_rsyslog_ip            = false,
+    $config_log_syslog_ip             = false,
 
     # Telemetry
     $config_telemetry_circonus_url,

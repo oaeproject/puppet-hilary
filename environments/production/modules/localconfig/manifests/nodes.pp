@@ -7,13 +7,16 @@
 
 node app inherits appnodecommon {
   class { 'ipfilter': }
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal }
+
+  Class['hilary'] { config_log_syslog_ip => $localconfig::rsyslog_host_internal }
 }
 
 node activity inherits activitynodecommon {
-  # Apply firewall
   class { 'ipfilter': }
   class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
+
+  Class['hilary'] { config_log_syslog_ip => $localconfig::rsyslog_host_internal }
 }
 
 node db inherits dbnodecommon {
@@ -284,6 +287,7 @@ node 'mq-master' inherits mq {
 
 node pp inherits ppnodecommon {
   class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal }
+  Class['hilary'] { config_log_syslog_ip => $localconfig::rsyslog_host_internal }
 }
 
 node 'pp0' inherits pp { }
