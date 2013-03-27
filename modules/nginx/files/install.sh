@@ -4,7 +4,7 @@
 
 
 BINARY='/opt/local/sbin/nginx'
-REQUIRED_VERSION='1.3.11'
+REQUIRED_VERSION='1.3.14'
 
 function installNginx {
     echo "Installing NGINX"

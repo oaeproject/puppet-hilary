@@ -220,7 +220,7 @@ config.previews = {
  * @param   {String}    key     This key will be used to sign URLs like profile pictures, content previews, etc.. . It's vital to the security of the system that you change this in production.
  */
 config.signing = {
-    'key': 'Not the default signing key anymore.'
+    'key': '<%= scope.lookupvar("localconfig:app_sign_key") %>'
 };
 
 /**
@@ -261,4 +261,37 @@ config.activity = {
         'pass': '',
         'dbIndex': 0
     }
+};
+
+/**
+ * `config.saml`
+ *
+ * Configuration namespace for the saml logic
+ *
+ * @param  {String}    SAMLParserJarPath     The path towards the Java binary that can be used to decrypt SAML messages. This only needs to be configured if you want to enable the Shibboleth strategy. Se
+ */
+config.saml = {
+    'SAMLParserJarPath': ''
+};
+
+/**
+ * `config.etherpad`
+ *
+ * Configuration namespace for the etherpad logic
+ *
+ * @param  {Object[]}   hosts               The hosts where etherpad instances can be found.
+ * @param  {String}     hosts[i].apikey     The key that can be used to communicate with etherpad.
+ * @param  {String}     hosts[i].host       The hostname or IP address where the etherpad API can be reached. It's recommended that you proxy your etherpad instance which allows you to do failover without restarting all the app nodes.
+ * @param  {Number}     hosts[i].port       The port number where etherpad can be reached.
+ */
+config.etherpad = {
+    'hosts': [
+        <% scope.lookupvar("localconfig::etherpad_hosts_internal").each_with_index do |ip, index| %>
+            {
+                'apikey': '<%= scope.lookupvar("localconfig::etherpad_api_key") %>',
+                'host': '<%= index %><%= scope.lookupvar("localconfig::etherpad_domain_suffix") %>',
+                'port': 80
+            },
+        <% end %>
+    ]
 };
