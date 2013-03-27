@@ -123,7 +123,7 @@ node hilarynodecommon inherits basenodecommon {
     config_signing_key               => $localconfig::app_sign_key,
     config_etherpad_hosts            => $localconfig::etherpad_hosts_internal,
     config_etherpad_api_key          => $localconfig::etherpad_api_key,
-    config_etherpad_domain_suffix    => $localconfig::ehterpad_domain_suffix,
+    config_etherpad_domain_suffix    => $localconfig::etherpad_domain_suffix,
   }
 }
 
