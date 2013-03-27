@@ -22,7 +22,7 @@ sudo mkdir /etc/puppet
 svccfg import /opt/local/lib/ruby/gems/1.8/gems/puppet-$PUPPET_VERSION/ext/solaris/smf/puppetd.xml
 svcadm disable puppetd
 
-sudo bash -c "echo -e [main]\\npluginsync=true\\n[agent]\\nreport=true\\nenvironment=$SCRIPT_ENVIRONMENT > /etc/puppet/puppet.conf"
+sudo bash -c "echo -e [main]\\\npluginsync=true\\\n[agent]\\\nreport=true\\\nenvironment=$SCRIPT_ENVIRONMENT > /etc/puppet/puppet.conf"
 sudo puppet agent --test
 
 echo "Setup complete and cert requested. Sign the cert on the puppet master using 'puppet cert sign', then come back to this machine and run 'sudo puppet agent -t' to apply the puppet config"

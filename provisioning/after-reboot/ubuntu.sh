@@ -1,17 +1,12 @@
-if [ "$1" = "" ]
+if [ "$1" = "" -o "$2" = "" -o "$3" = "" ]
 then
-  echo "Usage: $0 <hostname> <puppetmaster internal ip>"
+  echo "Usage: $0 <environment (production, performance)> <hostname> <puppetmaster internal ip>"
   exit
 fi
 
-if [ "$2" = "" ]
-then
-  echo "Usage: $0 <hostname> <puppetmaster internal ip>"
-  exit
-fi
-
-SCRIPT_HOSTNAME=$1
-SCRIPT_PUPPET_INTERNAL_IP=$2
+SCRIPT_ENVIRONMENT=$1
+SCRIPT_HOST=$2
+SCRIPT_PUPPET_INTERNAL_IP=$3
 
 mkdir /var/lib/apt/lists/
 aptitude update
