@@ -230,19 +230,23 @@ node 'search1' inherits search {
 
 node cache inherits basenodecommon {
   class { 'ipfilter': }
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
+  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal }
 }
 
 node 'cache-master' inherits cache {
-  class { 'redis': }
+  class { 'redis': syslog_enabled => true }
 }
 
 node 'cache-slave' inherits cache {
-  class { 'redis': slave_of => $localconfig::redis_hosts[0], }
+  class { 'redis':
+    syslog_enabled => true,
+    slave_of => $localconfig::redis_hosts[0]
+  }
 }
 
 node 'activity-cache-master' inherits cache {
   class { 'redis':
+    syslog_enabled      => true,
     eviction_maxmemory  => 3758096384,
     eviction_policy     => 'volatile-ttl',
     eviction_samples    => 3
@@ -251,6 +255,7 @@ node 'activity-cache-master' inherits cache {
 
 node 'activity-cache-slave' inherits cache {
   class { 'redis':
+    syslog_enabled      => true,
     eviction_maxmemory  => 3758096384,
     eviction_policy     => 'volatile-ttl',
     eviction_samples    => 3,

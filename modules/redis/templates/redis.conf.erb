@@ -52,6 +52,7 @@ loglevel notice
 # output for logging but daemonize, logs will be sent to /dev/null
 logfile /var/log/redis/redis.log
 
+<% if syslog_enabled -%>
 # To enable logging to the system logger, just set 'syslog-enabled' to yes,
 # and optionally update the other syslog parameters to suit your needs.
 syslog-enabled yes
@@ -61,6 +62,7 @@ syslog-ident redis
 
 # Specify the syslog facility.  Must be USER or between LOCAL0-LOCAL7.
 syslog-facility local0
+<% end -%>
 
 # Set the number of databases. The default database is DB 0, you can select
 # a different one on a per-connection basis using SELECT <dbid> where

@@ -1,8 +1,9 @@
 class redis (
-    $eviction_maxmemory   = 'null',
-    $eviction_policy      = 'null',
-    $eviction_samples     = 'null',
-    $slave_of             = 'null',) {
+    $eviction_maxmemory   = false,
+    $eviction_policy      = false,
+    $eviction_samples     = false,
+    $slave_of             = false,
+    $syslog_enabled       = false,) {
 
   package { 'redis':
     ensure    => present,
@@ -29,7 +30,7 @@ class redis (
   service { 'redis':
     ensure    => 'running',
     enable    => 'true',
-    require   => [ File['redis.conf'], Class['rsyslog'] ],
+    require   => [ File['redis.conf'] ],
   }
 
 }
