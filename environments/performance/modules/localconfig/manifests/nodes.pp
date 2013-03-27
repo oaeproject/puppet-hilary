@@ -1,5 +1,5 @@
 
-node openfirewalllinux {
+class openfirewalllinux {
   iptables { '001 allow all input':   chain => 'INPUT',   iniface => 'eth0', jump => 'ACCEPT' }
   iptables { '001 allow all forward': chain => 'FORWARD', iniface => 'eth0', jump => 'ACCEPT' }
 }
@@ -40,7 +40,7 @@ node 'activity2' inherits activitynodecommon { }
 
 node 'db0' inherits dbnodecommon {
   include openfirewalllinux
-  
+
   class { 'cassandra::common':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,

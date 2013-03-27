@@ -1,26 +1,11 @@
-node basenodecommon {
-  # The localconfig module is found in $environment/modules
-  include epel
-  class { 'localconfig': }
-}
 
-node drivernodecommon inherits basenodecommon {
-  class { 'tsung': }
+#######################
+## BLUEPRING CLASSES ##
+#######################
 
-  package { 'nginx':
-    ensure    => present,
-    provider  => pkgin,
-  }
 
-  service { 'nginx':
-    ensure  => running,
-    enable  => true,
-    require => Package['nginx'],
-  }
-}
+class baseiptables {
 
-node linuxnodecommon inherits basenodecommon {
-  
   ####################
   ## FIREWALL SETUP ##
   ####################
@@ -86,7 +71,36 @@ node linuxnodecommon inherits basenodecommon {
   # 4.
   iptables { '999 block base input': chain => 'INPUT', jump => 'DROP' }
   iptables { '999 block base forward': chain => 'FORWARD', jump => 'DROP' }
+}
 
+
+###########################
+## BASE NODE DEFINITIONS ##
+###########################
+
+node basenodecommon {
+  # The localconfig module is found in $environment/modules
+  include epel
+  class { 'localconfig': }
+}
+
+node drivernodecommon inherits basenodecommon {
+  class { 'tsung': }
+
+  package { 'nginx':
+    ensure    => present,
+    provider  => pkgin,
+  }
+
+  service { 'nginx':
+    ensure  => running,
+    enable  => true,
+    require => Package['nginx'],
+  }
+}
+
+node linuxnodecommon inherits basenodecommon {
+  include baseiptables
 }
 
 node hilarynodecommon inherits basenodecommon {
@@ -145,7 +159,7 @@ node activitynodecommon inherits hilarynodecommon {
 }
 
 node ppnodecommon inherits hilarynodecommon {
-  include linuxnodecommon
+  include baseiptables
 
   package { 'libreoffice': ensure => installed }
   package { 'pdftk': ensure => installed }
