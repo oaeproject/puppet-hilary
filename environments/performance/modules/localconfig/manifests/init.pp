@@ -48,7 +48,7 @@ class localconfig {
   $search_path_data = '/var/lib/elasticsearch'
 
   # Messaging
-  $mq_hosts_internal = [ { 'host' => '10.112.3.126', 'port' => 5672 } ]
+  $mq_hosts_internal = [ { 'host' => '10.112.6.254', 'port' => 5672 } ]
 
   # Installation details
   $app_root = '/opt/oae'
