@@ -60,7 +60,7 @@ class hilary (
 
 
   case $operatingsystem {
-    debuan, ubuntu: {
+    debian, ubuntu: {
       # Crazy exact apt versioning
       $node_version = '0.8.22-1chl1~precise1'
     }
@@ -78,12 +78,12 @@ class hilary (
 
   case $operatingsystem {
     debian, ubuntu: {
-      $packages   = [ 'gcc', 'automake', "nodejs=$node_version", 'npm', 'graphicsmagick', 'git' ],
-      $provider   = 'apt',
+      $packages   = [ 'gcc', 'automake', "nodejs=$node_version", 'npm', 'graphicsmagick', 'git' ]
+      $provider   = 'apt'
     }
     solaris, Solaris: {
-      $packages   = [ 'gcc47', 'automake', 'gmake', "nodejs-$node_version", 'GraphicsMagick', 'scmgit' ],
-      $provider   = 'pkgin',
+      $packages   = [ 'gcc47', 'automake', 'gmake', "nodejs-$node_version", 'GraphicsMagick', 'scmgit' ]
+      $provider   = 'pkgin'
     }
     default: {
       $packages   = [ 'gcc', 'automake', 'gmake', "nodejs-$node_version", 'npm', 'GraphicsMagick', 'git' ]
