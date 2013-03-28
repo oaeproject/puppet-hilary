@@ -9,8 +9,18 @@ SCRIPT_HOSTNAME=$2
 SCRIPT_PUPPET_INTERNAL_IP=$3
 
 mkdir /var/lib/apt/lists/
-aptitude update
-aptitude install -y puppet
+apt-get update
+
+# First include the puppet apt repo
+cd /tmp
+wget http://apt.puppetlabs.com/puppetlabs-release-precise.deb
+dpkg -i puppetlabs-release-precise.deb
+apt-get update
+
+# install 3.1.1
+apt-get -y install puppet=3.1.1-1puppetlabs1
+
+# Now install puppet
 
 cat > /etc/puppet/puppet.conf <<EOF
 [main]
