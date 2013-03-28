@@ -160,22 +160,14 @@ node activitynodecommon inherits hilarynodecommon {
 node ppnodecommon inherits hilarynodecommon {
   include baseiptables
 
-  package { 'python-software-properties': ensure => installed }
   package { 'libreoffice': ensure => installed }
   package { 'pdftk': ensure => installed }
 
-  pparepo { 'chris-lea/node.js-legacy':
-    apt_key   => 'C7917B12',
-    require   => Package['python-software-properties'],
-    before    => Class['hilary'],
-  }
-
-  pparepo { 'chris-lea/node.js':
-    apt_key   => 'C7917B12',
-    require   => Package['python-software-properties'],
-    before    => Class['hilary'],
-  }
-
+  class { 'apt': }
+  apt::key { 'chris-lea': key => '4BD6EC30', before => Class['hilary'] }
+  apt::ppa { 'ppa:chris-lea/node.js': before => Class['hilary'] }
+  apt::ppa { 'ppa:chris-lea/node.js-legacy': before => Class['hilary'] }
+  
   # Simply flick preview processing to be enabled
   Class['hilary'] { config_enable_previews => true }
 
