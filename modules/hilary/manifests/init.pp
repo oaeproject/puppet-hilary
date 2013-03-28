@@ -63,6 +63,7 @@ class hilary (
     debian, ubuntu: {
       # Crazy exact apt versioning
       $node_version = '0.8.22-1chl1~precise1'
+      $npm_version = '1.2.14-1chl1~precise1'
     }
     default: {
       # SmartOS, at least. Not tested on centos
@@ -78,7 +79,7 @@ class hilary (
 
   case $operatingsystem {
     debian, ubuntu: {
-      $packages   = [ 'gcc', 'automake', "nodejs=$node_version", 'graphicsmagick', 'git' ]
+      $packages   = [ 'gcc', 'automake', "nodejs=$node_version", "npm=$npm_version", 'graphicsmagick', 'git' ]
       $provider   = 'apt'
     }
     solaris, Solaris: {
