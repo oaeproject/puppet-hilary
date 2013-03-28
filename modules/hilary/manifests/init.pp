@@ -78,7 +78,7 @@ class hilary (
 
   case $operatingsystem {
     debian, ubuntu: {
-      $packages   = [ 'gcc', 'automake', "nodejs=$node_version", 'npm', 'graphicsmagick', 'git' ]
+      $packages   = [ 'gcc', 'automake', "nodejs=$node_version", 'graphicsmagick', 'git' ]
       $provider   = 'apt'
     }
     solaris, Solaris: {

@@ -169,7 +169,11 @@ node ppnodecommon inherits hilarynodecommon {
   apt::ppa { 'ppa:chris-lea/node.js-legacy': before => Class['hilary'] }
   
   # Simply flick preview processing to be enabled
-  Class['hilary'] { config_enable_previews => true }
+  Class['hilary'] {
+    config_enable_previews  => true,
+    os_user                 => 'root',
+    os_group                => 'root',
+  }
 
 }
 
