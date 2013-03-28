@@ -115,7 +115,7 @@ class hilary (
     cwd         => $app_root_dir,
 
     # Forcing CFLAGS for std=c99 for hiredis, until https://github.com/pietern/hiredis-node/pull/33 is resolved
-    environment => 'CFLAGS="-std=c99"'
+    environment => 'CFLAGS="-std=c99"',
     command     => 'npm install -d',
     logoutput   => 'on_failure',
     require     => [ File[$app_root_dir], Package[$packages], Vcsrepo[$app_root_dir], Exec['npm_reinstall_nodegyp'] ],
