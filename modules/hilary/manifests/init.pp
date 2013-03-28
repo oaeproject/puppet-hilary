@@ -113,7 +113,9 @@ class hilary (
   # npm install -d
   exec { "npm_install_dependencies":
     cwd         => $app_root_dir,
-    command     => "npm install -d",
+
+    # Forcing CFLAGS for std=c99 for hiredis, until https://github.com/pietern/hiredis-node/pull/33 is resolved
+    command     => "CFLAGS=\"-std=c99\" npm install -d",
     logoutput   => "on_failure",
     require     => [ File[$app_root_dir], Package[$packages], Vcsrepo[$app_root_dir], Exec['npm_reinstall_nodegyp'] ],
   }
