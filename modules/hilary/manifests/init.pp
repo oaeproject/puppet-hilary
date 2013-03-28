@@ -60,6 +60,8 @@ class hilary (
     $config_etherpad_domain_suffix) {
 
 
+  $node_version = '0.8.22'
+  $nodegyp_version = '0.9.3'
 
   ##########################
   ## PACKAGE DEPENDENCIES ##
@@ -67,13 +69,13 @@ class hilary (
 
   case $operatingsystem {
     debian, ubuntu: {
-      $packages   = [ 'gcc', 'automake', 'nodejs', 'npm', 'graphicsmagick', 'git' ]
+      $packages   = [ 'gcc', 'automake', "nodejs-$node_version", 'npm', 'graphicsmagick', 'git' ]
     }
     solaris, Solaris: {
-      $packages   = [ 'gcc47', 'automake', 'gmake', 'nodejs', 'GraphicsMagick', 'scmgit' ]
+      $packages   = [ 'gcc47', 'automake', 'gmake', "nodejs-$node_version", 'GraphicsMagick', 'scmgit' ]
     }
     default: {
-      $packages   = [ 'gcc', 'automake', 'gmake', 'nodejs', 'npm', 'GraphicsMagick', 'git' ]
+      $packages   = [ 'gcc', 'automake', 'gmake', "nodejs-$node_version", 'npm', 'GraphicsMagick', 'git' ]
     }
   }
 
@@ -102,12 +104,18 @@ class hilary (
     require => Vcsrepo[$app_root_dir],
   }
 
+  # Force the npm bundled version of node-gyp to upgrade node-gyp. Needed to build node-expat and hiredis
+  exec { 'npm_reinstall_nodegyp':
+    command   => "npm explore npm -g -- npm install node-gyp@$nodegyp_version",
+    logoutput => 'on_failure',
+  }
+
   # npm install -d
   exec { "npm_install_dependencies":
     cwd         => $app_root_dir,
     command     => "npm install -d",
     logoutput   => "on_failure",
-    require     => [ File[$app_root_dir], Package[$packages], Vcsrepo[$app_root_dir] ],
+    require     => [ File[$app_root_dir], Package[$packages], Vcsrepo[$app_root_dir], Exec['npm_reinstall_nodegyp'] ],
   }
 
   # chown the application root to the app user
