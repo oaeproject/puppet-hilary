@@ -8,7 +8,6 @@ class hilary (
     $os_user,
     $os_group,
     $upload_files_dir,
-    $provider           = 'pkgin',
     $service_name       = 'node-sakai-oae',
 
     ############
@@ -60,7 +59,17 @@ class hilary (
     $config_etherpad_domain_suffix) {
 
 
-  $node_version = '0.8.22'
+  case $operatingsystem {
+    debuan, ubuntu: {
+      # Crazy exact apt versioning
+      $node_version = '0.8.22-1chl1~precise1'
+    }
+    default: {
+      # SmartOS, at least. Not tested on centos
+      $node_version = '0.8.22'
+    }
+  }
+
   $nodegyp_version = '0.9.3'
 
   ##########################
@@ -69,13 +78,16 @@ class hilary (
 
   case $operatingsystem {
     debian, ubuntu: {
-      $packages   = [ 'gcc', 'automake', "nodejs-$node_version", 'npm', 'graphicsmagick', 'git' ]
+      $packages   = [ 'gcc', 'automake', "nodejs=$node_version", 'npm', 'graphicsmagick', 'git' ],
+      $provider   = 'apt',
     }
     solaris, Solaris: {
-      $packages   = [ 'gcc47', 'automake', 'gmake', "nodejs-$node_version", 'GraphicsMagick', 'scmgit' ]
+      $packages   = [ 'gcc47', 'automake', 'gmake', "nodejs-$node_version", 'GraphicsMagick', 'scmgit' ],
+      $provider   = 'pkgin',
     }
     default: {
       $packages   = [ 'gcc', 'automake', 'gmake', "nodejs-$node_version", 'npm', 'GraphicsMagick', 'git' ]
+      $provider   = 'yum'
     }
   }
 
