@@ -5,7 +5,7 @@ then
 fi
 
 SCRIPT_ENVIRONMENT=$1
-SCRIPT_HOST=$2
+SCRIPT_HOSTNAME=$2
 SCRIPT_PUPPET_INTERNAL_IP=$3
 
 mkdir /var/lib/apt/lists/
