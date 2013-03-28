@@ -127,7 +127,7 @@ node hilarynodecommon inherits basenodecommon {
     config_cassandra_timeout         => $localconfig::db_timeout,
     config_cassandra_replication     => $localconfig::db_replication,
     config_cassandra_strategy_class  => $localconfig::db_strategyClass,
-    config_redis_hosts               => $localconfig::redis_hosts[0],
+    config_redis_hosts               => $localconfig::redis_hosts,
     config_servers_admin_host        => $localconfig::ux_admin_host,
     config_cookie_secret             => $localconfig::cookie_secret,
     config_telemetry_circonus_url    => $localconfig::circonus_url,
