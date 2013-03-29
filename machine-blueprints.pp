@@ -21,12 +21,11 @@
 ##################
 
 class machine::base {
-  class { 'service::munin::client': }
   class { 'service::rsyslog::client': }
 }
 
 class machine ($type_code, $suffix) inherits machine::base {
-  Class['service::munin::client'] { type_code => $type_code, suffix => $suffix }
+  class { 'service::munin::client': type_code => $type_code, suffix => $suffix }
 }
 
 
