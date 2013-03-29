@@ -58,7 +58,7 @@ class service::hilary {
   }
 }
 
-class service::hilary::activity ($dedicated_redis_host => false) inherits service::hilary {
+class service::hilary::activity ($dedicated_redis_host = false) inherits service::hilary {
   Class['hilary'] {
     config_activity_enabled => true,
     dedicated_redis_host    => $dedicated_redis_host,
