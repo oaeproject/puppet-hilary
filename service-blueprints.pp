@@ -271,8 +271,8 @@ class service::firewall::open {
 
 class service::rsyslog::base {
   class { 'rsyslog::base':
-      server_host   = $localconfig::rsyslog_host_internal,
-      server_logdir = $localconfig::rsyslog_server_logdir,
+      server_host   => $localconfig::rsyslog_host_internal,
+      server_logdir => $localconfig::rsyslog_server_logdir,
   }
 }
 
