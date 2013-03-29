@@ -270,18 +270,18 @@ class service::firewall::open {
 ########################
 
 class service::rsyslog::base {
-  class { 'rsyslog::base':
+  class { 'rsyslog':
       server_host   => $localconfig::rsyslog_host_internal,
       server_logdir => $localconfig::rsyslog_server_logdir,
   }
 }
 
 class service::rsyslog::server inherits service::rsyslog::base {
-  Class['rsyslog::base'] { clientOrServer => 'server' }
+  Class['rsyslog'] { clientOrServer => 'server' }
 }
 
 class service::rsyslog::client ($imfiles = false) inherits service::rsyslog::base {
-  Class['rsyslog::base'] { clientOrServer => 'client' }
+  Class['rsyslog'] { clientOrServer => 'client' }
 }
 
 
