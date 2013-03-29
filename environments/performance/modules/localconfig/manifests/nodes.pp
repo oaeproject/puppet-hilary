@@ -71,28 +71,28 @@ node 'activity2' {
 ## CASSANDRA NODES ##
 #####################
 
-node 'db0' inherits baselinuxnode {
+node 'db0' {
   class { 'machine::db': index => 0 }
   class { 'opscenter': require => Class['cassandra::base'] }
 }
 
-node 'db1' inherits baselinuxnode {
+node 'db1' {
   class { 'machine::db': index => 1 }
 }
 
-node 'db2' inherits baselinuxnode {
+node 'db2' {
   class { 'machine::db': index => 2 }
 }
 
-node 'db3' inherits baselinuxnode {
+node 'db3' {
   class { 'machine::db': index => 3 }
 }
 
-node 'db4' inherits baselinuxnode {
+node 'db4' {
   class { 'machine::db': index => 4 }
 }
 
-node 'db5' inherits baselinuxnode {
+node 'db5' {
   class { 'machine::db': index => 5 }
 }
 
@@ -102,11 +102,11 @@ node 'db5' inherits baselinuxnode {
 ## SEARCH NODES ##
 ##################
 
-node 'search0' inherits baselinuxnode {
+node 'search0' {
   class { 'machine::elasticsearch': index => 0 }
 }
 
-node 'search1' inherits baselinuxnode {
+node 'search1' {
   class { 'machine::elasticsearch': index => 1 }
 }
 
@@ -163,15 +163,15 @@ node 'mq-master' {
 ## PREVIEW PROCESSOR NODES ##
 #############################
 
-node 'pp0' inherits baselinuxnode {
+node 'pp0' {
   class { 'machine::pp': index => 0 }
 }
 
-node 'pp1' inherits baselinuxnode {
+node 'pp1' {
   class { 'machine::pp': index => 1 }
 }
 
-node 'pp2' inherits baselinuxnode {
+node 'pp2' {
   class { 'machine::pp': index => 2 }
 }
 
@@ -195,7 +195,7 @@ node 'ep1' {
 ## SYSLOG NODE ##
 #################
 
-node 'syslog' inherits baselinuxnode {
+node 'syslog' {
   class { 'machine::syslog': }
 }
 
@@ -205,7 +205,7 @@ node 'syslog' inherits baselinuxnode {
 ## BASTION ##
 #############
 
-node 'bastion' inherits baselinuxnode {
+node 'bastion' {
   class { 'machine::bastion': }
 }
 
