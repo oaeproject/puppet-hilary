@@ -3,7 +3,7 @@
 ## CUSTOM MACHINE DEFINITIONS ##
 ################################
 
-node baselinuxnode {
+node baselinuxnode inherits basenode {
   class { 'service::firewall::open': }
 }
 
@@ -17,11 +17,11 @@ class machine::activity::performance ($index) inherits machine::activity::base {
 ## WEB PROXY ##
 ###############
 
-node 'web0' {
+node 'web0' inherits basenode {
   class { 'machine::nginx': index => 0 }
 }
 
-node 'web1' {
+node 'web1' inherits basenode {
   class { 'machine::nginx': index => 1 }
 }
 
@@ -31,19 +31,19 @@ node 'web1' {
 ## APP NODES ##
 ###############
 
-node 'app0' {
+node 'app0' inherits basenode {
   class { 'machine::app': index => 0 }
 }
 
-node 'app1' {
+node 'app1' inherits basenode {
   class { 'machine::app': index => 1 }
 }
 
-node 'app2' {
+node 'app2' inherits basenode {
   class { 'machine::app': index => 2 }
 }
 
-node 'app3' {
+node 'app3' inherits basenode {
   class { 'machine::app': index => 3 }
 }
 
@@ -53,15 +53,15 @@ node 'app3' {
 ## ACTIVITY NODES ##
 ####################
 
-node 'activity0' {
+node 'activity0' inherits basenode {
   class { 'machine::activity::performance': index => 0 }
 }
 
-node 'activity1' {
+node 'activity1' inherits basenode {
   class { 'machine::activity::performance': index => 1 }
 }
 
-node 'activity2' {
+node 'activity2' inherits basenode {
   class { 'machine::activity::performance': index => 2 }
 }
 
@@ -71,28 +71,28 @@ node 'activity2' {
 ## CASSANDRA NODES ##
 #####################
 
-node 'db0' {
+node 'db0' inherits baselinuxnode {
   class { 'machine::db': index => 0 }
   class { 'opscenter': require => Class['cassandra::base'] }
 }
 
-node 'db1' {
+node 'db1' inherits baselinuxnode {
   class { 'machine::db': index => 1 }
 }
 
-node 'db2' {
+node 'db2' inherits baselinuxnode {
   class { 'machine::db': index => 2 }
 }
 
-node 'db3' {
+node 'db3' inherits baselinuxnode {
   class { 'machine::db': index => 3 }
 }
 
-node 'db4' {
+node 'db4' inherits baselinuxnode {
   class { 'machine::db': index => 4 }
 }
 
-node 'db5' {
+node 'db5' inherits baselinuxnode {
   class { 'machine::db': index => 5 }
 }
 
@@ -102,11 +102,11 @@ node 'db5' {
 ## SEARCH NODES ##
 ##################
 
-node 'search0' {
+node 'search0' inherits baselinuxnode {
   class { 'machine::elasticsearch': index => 0 }
 }
 
-node 'search1' {
+node 'search1' inherits baselinuxnode {
   class { 'machine::elasticsearch': index => 1 }
 }
 
@@ -116,17 +116,17 @@ node 'search1' {
 ## REDIS NODES ##
 #################
 
-node 'cache-master' {
+node 'cache-master' inherits basenode {
   class { 'machine': type_code => 'cache', suffix => '-master' }
   class { 'redis': }
 }
 
-node 'cache-slave' {
+node 'cache-slave' inherits basenode {
   class { 'machine': type_code => 'cache', suffix => '-slave' }
   class { 'redis': slave_of => $localconfig::redis_hosts[0] }
 }
 
-node 'activity-cache-master' {
+node 'activity-cache-master' inherits basenode {
   class { 'machine': type_code => 'activity-cache', suffix => '-master' }
   class { 'redis':
     eviction_maxmemory  => 3758096384,
@@ -135,7 +135,7 @@ node 'activity-cache-master' {
   }
 }
 
-node 'activity-cache-slave' {
+node 'activity-cache-slave' inherits basenode {
   class { 'machine': type_code => 'activity-cache', suffix => '-slave' }
   class { 'redis':
     eviction_maxmemory  => 3758096384,
@@ -149,7 +149,7 @@ node 'activity-cache-slave' {
 ## MESSAGING NODES ##
 #####################
 
-node 'mq-master' {
+node 'mq-master' inherits basenode {
   class { 'machine': type_code => 'mq', suffix => '-master' }
   class { 'rabbitmq':
     listen_address  => $localconfig::mq_hosts_internal[0]['host'],
@@ -163,15 +163,15 @@ node 'mq-master' {
 ## PREVIEW PROCESSOR NODES ##
 #############################
 
-node 'pp0' {
+node 'pp0' inherits baselinuxnode {
   class { 'machine::pp': index => 0 }
 }
 
-node 'pp1' {
+node 'pp1' inherits baselinuxnode {
   class { 'machine::pp': index => 1 }
 }
 
-node 'pp2' {
+node 'pp2' inherits baselinuxnode {
   class { 'machine::pp': index => 2 }
 }
 
@@ -181,11 +181,11 @@ node 'pp2' {
 ## ETHERPAD NODES ##
 ####################
 
-node 'ep0' {
+node 'ep0' inherits basenode {
   class { 'machine::ep': index => 0 }
 }
 
-node 'ep1' {
+node 'ep1' inherits basenode {
   class { 'machine::ep': index => 1 }
 }
 
@@ -195,7 +195,7 @@ node 'ep1' {
 ## SYSLOG NODE ##
 #################
 
-node 'syslog' {
+node 'syslog' inherits baselinuxnode {
   class { 'machine::syslog': }
 }
 
@@ -205,7 +205,7 @@ node 'syslog' {
 ## BASTION ##
 #############
 
-node 'bastion' {
+node 'bastion' inherits baselinuxnode {
   class { 'machine::bastion': }
 }
 
