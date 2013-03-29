@@ -325,7 +325,6 @@ node 'syslog' inherits syslognodecommon { }
 node 'bastion' inherits linuxnodecommon {
 
   ## Allow forwarding with sysctl
-  Exec { path => '/usr/bin:/usr/sbin/:/bin:/sbin' }
   sysctl::value {
     'net.ipv4.ip_forward': value => '1',
     notify => Exec['load-sysctl'],
@@ -348,6 +347,4 @@ node 'bastion' inherits linuxnodecommon {
     dport   => 22,
     jump    => 'ACCEPT',
   }
-
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal }
 }

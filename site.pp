@@ -21,6 +21,8 @@ Exec { path => $defaultPath }
 ## EXECUTION ##
 ###############
 
+import 'service-blueprints'
+import 'machine-blueprints'
 import 'nodetypes'
 
 ## Import the nodes.pp of the configured environment.

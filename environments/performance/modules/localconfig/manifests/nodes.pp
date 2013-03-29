@@ -1,190 +1,133 @@
 
-class openfirewalllinux {
-  iptables { '001 allow all input':   chain => 'INPUT',   iniface => 'eth0', jump => 'ACCEPT' }
-  iptables { '001 allow all forward': chain => 'FORWARD', iniface => 'eth0', jump => 'ACCEPT' }
+################################
+## CUSTOM MACHINE DEFINITIONS ##
+################################
+
+node baselinuxnode {
+  class { 'service::firewall::open': }
 }
+
+class machine::activity::performance ($index) inherits machine::activity::base {
+  Class['service::munin::client'] { suffix => $index }
+  Class['service::hilary::activity'] { dedicated_redis_host => $localconfig::activity_redis_hosts[0] }
+}
+
 
 ###############
 ## WEB PROXY ##
 ###############
 
-node 'web0' inherits webnodecommon { }
+node 'web0' {
+  class { 'machine::nginx': index => 0 }
+}
 
-node 'web1' inherits webnodecommon { }
+node 'web1' {
+  class { 'machine::nginx': index => 1 }
+}
+
+
 
 ###############
 ## APP NODES ##
 ###############
 
-node 'app0' inherits appnodecommon { }
+node 'app0' {
+  class { 'machine::app': index => 0 }
+}
 
-node 'app1' inherits appnodecommon { }
+node 'app1' {
+  class { 'machine::app': index => 1 }
+}
 
-node 'app2' inherits appnodecommon { }
+node 'app2' {
+  class { 'machine::app': index => 2 }
+}
 
-node 'app3' inherits appnodecommon { }
+node 'app3' {
+  class { 'machine::app': index => 3 }
+}
+
+
 
 ####################
 ## ACTIVITY NODES ##
 ####################
 
-node 'activity0' inherits activitynodecommon { }
+node 'activity0' {
+  class { 'machine::activity::performance': index => 0 }
+}
 
-node 'activity1' inherits activitynodecommon { }
+node 'activity1' {
+  class { 'machine::activity::performance': index => 1 }
+}
 
-node 'activity2' inherits activitynodecommon { }
+node 'activity2' {
+  class { 'machine::activity::performance': index => 2 }
+}
+
+
 
 #####################
 ## CASSANDRA NODES ##
 #####################
 
-node 'db0' inherits dbnodecommon {
-  include openfirewalllinux
-
-  class { 'cassandra::common':
-    owner           => $localconfig::db_user,
-    group           => $localconfig::db_group,
-    hosts           => $localconfig::db_hosts,
-    listen_address  => $localconfig::db_hosts[0],
-    cluster_name    => $localconfig::db_cluster_name,
-    initial_token   => $localconfig::db_initial_tokens[0],
-  }
-
-  class { 'opscenter':
-    require => Class['cassandra::common'],
-  }
-
-  class { 'munin::client':
-    hostname => 'db0',
-    require  => Class['cassandra::common'],
-  }
+node 'db0' inherits baselinuxnode {
+  class { 'machine::db': index => 0 }
+  class { 'opscenter': require => Class['cassandra::base'] }
 }
 
-node 'db1' inherits dbnodecommon {
-  include openfirewalllinux
-
-  class { 'cassandra::common':
-    owner           => $localconfig::db_user,
-    group           => $localconfig::db_group,
-    hosts           => $localconfig::db_hosts,
-    listen_address  => $localconfig::db_hosts[1],
-    cluster_name    => $localconfig::db_cluster_name,
-    initial_token   => $localconfig::db_initial_tokens[1],
-  }
-
-  class { 'munin::client':
-    hostname => 'db1',
-    require  => Class['cassandra::common'],
-  }
+node 'db1' inherits baselinuxnode {
+  class { 'machine::db': index => 1 }
 }
 
-node 'db2' inherits dbnodecommon {
-  include openfirewalllinux
-
-  class { 'cassandra::common':
-    owner           => $localconfig::db_user,
-    group           => $localconfig::db_group,
-    hosts           => $localconfig::db_hosts,
-    listen_address  => $localconfig::db_hosts[2],
-    cluster_name    => $localconfig::db_cluster_name,
-    initial_token   => $localconfig::db_initial_tokens[2],
-  }
-
-  class { 'munin::client':
-    hostname => 'db2',
-    require  => Class['cassandra::common'],
-  }
+node 'db2' inherits baselinuxnode {
+  class { 'machine::db': index => 2 }
 }
 
-node 'db3' inherits dbnodecommon {
-  include openfirewalllinux
-
-  class { 'cassandra::common':
-    owner           => $localconfig::db_user,
-    group           => $localconfig::db_group,
-    hosts           => $localconfig::db_hosts,
-    listen_address  => $localconfig::db_hosts[3],
-    cluster_name    => $localconfig::db_cluster_name,
-    initial_token   => $localconfig::db_initial_tokens[3],
-  }
-
-  class { 'munin::client':
-    hostname => 'db3',
-    require  => Class['cassandra::common'],
-  }
+node 'db3' inherits baselinuxnode {
+  class { 'machine::db': index => 3 }
 }
 
-node 'db4' inherits dbnodecommon {
-  include openfirewalllinux
-
-  class { 'cassandra::common':
-    owner           => $localconfig::db_user,
-    group           => $localconfig::db_group,
-    hosts           => $localconfig::db_hosts,
-    listen_address  => $localconfig::db_hosts[4],
-    cluster_name    => $localconfig::db_cluster_name,
-    initial_token   => $localconfig::db_initial_tokens[4],
-  }
-
-  class { 'munin::client':
-    hostname => 'db4',
-    require  => Class['cassandra::common'],
-  }
+node 'db4' inherits baselinuxnode {
+  class { 'machine::db': index => 4 }
 }
 
-node 'db5' inherits dbnodecommon {
-  include openfirewalllinux
-
-  class { 'cassandra::common':
-    owner           => $localconfig::db_user,
-    group           => $localconfig::db_group,
-    hosts           => $localconfig::db_hosts,
-    listen_address  => $localconfig::db_hosts[5],
-    cluster_name    => $localconfig::db_cluster_name,
-    initial_token   => $localconfig::db_initial_tokens[5],
-  }
-
-  class { 'munin::client':
-    hostname => 'db5',
-    require  => Class['cassandra::common'],
-  }
+node 'db5' inherits baselinuxnode {
+  class { 'machine::db': index => 5 }
 }
+
+
 
 ##################
 ## SEARCH NODES ##
 ##################
 
-node 'search0' inherits searchnodecommon {
-  include openfirewalllinux
-
-  Class['elasticsearch'] {
-    host_address  => $localconfig::search_hosts_internal[0]['host'],
-    host_port     => $localconfig::search_hosts_internal[0]['port'],
-  }
+node 'search0' inherits baselinuxnode {
+  class { 'machine::elasticsearch': index => 0 }
 }
 
-node 'search1' inherits searchnodecommon {
-  include openfirewalllinux
-
-  Class['elasticsearch'] {
-    host_address  => $localconfig::search_hosts_internal[1]['host'],
-    host_port     => $localconfig::search_hosts_internal[1]['port'],
-  }
+node 'search1' inherits baselinuxnode {
+  class { 'machine::elasticsearch': index => 1 }
 }
+
+
 
 #################
 ## REDIS NODES ##
 #################
 
-node 'cache-master' inherits basenodecommon {
+node 'cache-master' {
+  class { 'machine': type_code => 'cache', suffix => '-master' }
   class { 'redis': }
 }
 
-node 'cache-slave' inherits basenodecommon {
+node 'cache-slave' {
+  class { 'machine': type_code => 'cache', suffix => '-slave' }
   class { 'redis': slave_of => $localconfig::redis_hosts[0] }
 }
 
-node 'activity-cache-master' inherits basenodecommon {
+node 'activity-cache-master' {
+  class { 'machine': type_code => 'activity-cache', suffix => '-master' }
   class { 'redis':
     eviction_maxmemory  => 3758096384,
     eviction_policy     => 'volatile-ttl',
@@ -192,7 +135,8 @@ node 'activity-cache-master' inherits basenodecommon {
   }
 }
 
-node 'activity-cache-slave' inherits basenodecommon {
+node 'activity-cache-slave' {
+  class { 'machine': type_code => 'activity-cache', suffix => '-slave' }
   class { 'redis':
     eviction_maxmemory  => 3758096384,
     eviction_policy     => 'volatile-ttl',
@@ -205,70 +149,65 @@ node 'activity-cache-slave' inherits basenodecommon {
 ## MESSAGING NODES ##
 #####################
 
-node 'mq-master' inherits linuxnodecommon {
+node 'mq-master' {
+  class { 'machine': type_code => 'mq', suffix => '-master' }
   class { 'rabbitmq':
     listen_address  => $localconfig::mq_hosts_internal[0]['host'],
     listen_port     => $localconfig::mq_hosts_internal[0]['port'],
   }
 }
 
+
+
 #############################
 ## PREVIEW PROCESSOR NODES ##
 #############################
 
-node 'pp0' inherits ppnodecommon { include openfirewalllinux }
+node 'pp0' inherits baselinuxnode {
+  class { 'machine::pp': index => 0 }
+}
 
-node 'pp1' inherits ppnodecommon { include openfirewalllinux }
+node 'pp1' inherits baselinuxnode {
+  class { 'machine::pp': index => 1 }
+}
 
-node 'pp2' inherits ppnodecommon { include openfirewalllinux }
+node 'pp2' inherits baselinuxnode {
+  class { 'machine::pp': index => 2 }
+}
+
+
 
 ####################
 ## ETHERPAD NODES ##
 ####################
 
-node 'ep0' inherits epnodecommon {
-  Class['etherpad'] { listen_address => $localconfig::etherpad_hosts_internal[0] }
+node 'ep0' {
+  class { 'machine::ep': index => 0 }
 }
 
-node 'ep1' inherits epnodecommon {
-  Class['etherpad'] { listen_address => $localconfig::etherpad_hosts_internal[1] }
+node 'ep1' {
+  class { 'machine::ep': index => 1 }
 }
+
+
 
 #################
 ## SYSLOG NODE ##
 #################
 
-node 'syslog' inherits syslognodecommon { }
+node 'syslog' inherits baselinuxnode {
+  class { 'machine::syslog': }
+}
+
+
 
 #############
 ## BASTION ##
 #############
 
-node 'bastion' inherits linuxnodecommon {
-  include openfirewalllinux
-
-  ## Allow forwarding with sysctl
-  Exec { path => '/usr/bin:/usr/sbin/:/bin:/sbin' }
-  sysctl::value {
-    'net.ipv4.ip_forward': value => '1',
-    notify => Exec['load-sysctl'],
-  }
-
-  exec { 'load-sysctl':
-    command => 'sysctl -p /etc/sysctl.conf',
-    refreshonly => true,
-  }
-
-  ##########################
-  ## SSH TRAFFIC HANDLING ##
-  ##########################
-
-  # Accept SSH traffic on the public interface
-  iptables { '001 allow public ssh traffic':
-    chain   => 'INPUT',
-    iniface => 'eth0',
-    proto   => 'tcp',
-    dport   => 22,
-    jump    => 'ACCEPT',
-  }
+node 'bastion' inherits baselinuxnode {
+  class { 'machine::bastion': }
 }
+
+
+

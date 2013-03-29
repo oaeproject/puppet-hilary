@@ -59,6 +59,8 @@ class hilary (
     $config_etherpad_domain_suffix) {
 
 
+  $nodegyp_version = '0.9.3'
+
   case $operatingsystem {
     debian, ubuntu: {
       # Crazy exact apt versioning
@@ -71,8 +73,6 @@ class hilary (
     }
   }
 
-  $nodegyp_version = '0.9.3'
-
   ##########################
   ## PACKAGE DEPENDENCIES ##
   ##########################
@@ -81,6 +81,25 @@ class hilary (
     debian, ubuntu: {
       $packages   = [ 'gcc', 'automake', "nodejs=$node_version", "npm=$npm_version", 'graphicsmagick', 'git' ]
       $provider   = 'apt'
+
+      # Apply apt configuration, which should be executed before these packages are installed
+      class { 'apt': }
+
+      apt::key { 'chris-lea':
+        key       => '4BD6EC30',
+        requires  => Class['apt'],
+        before    => Package[$packages],
+      }
+
+      apt::ppa { 'ppa:chris-lea/node.js':
+        requires  => Class['apt'],
+        before    => Package[$packages],
+      }
+      
+      apt::ppa { 'ppa:chris-lea/node.js-legacy':
+        requires  => Class['apt'],
+        before    => Package[$packages],
+      }
     }
     solaris, Solaris: {
       $packages   = [ 'gcc47', 'automake', 'gmake', "nodejs-$node_version", 'GraphicsMagick', 'scmgit' ]
@@ -91,7 +110,7 @@ class hilary (
       $provider   = 'yum'
     }
   }
-
+  
   package { $packages:
     ensure    => present,
     provider  => $provider,

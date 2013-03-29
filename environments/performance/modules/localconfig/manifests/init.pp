@@ -46,6 +46,7 @@ class localconfig {
     { 'host' => '10.112.3.83', 'port' => 9200 },
   ]
   $search_path_data = '/var/lib/elasticsearch'
+  $search_memory_mb = 3072
 
   # Messaging
   $mq_hosts_internal = [ { 'host' => '10.112.6.254', 'port' => 5672 } ]
