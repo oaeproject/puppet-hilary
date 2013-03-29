@@ -280,7 +280,7 @@ class service::rsyslog::server inherits service::rsyslog::base {
   Class['rsyslog::base'] { clientOrServer => 'server' }
 }
 
-class service::rsyslog::client ($imfiles => false) inherits service::rsyslog::base {
+class service::rsyslog::client ($imfiles = false) inherits service::rsyslog::base {
   Class['rsyslog::base'] { clientOrServer => 'client' }
 }
 
