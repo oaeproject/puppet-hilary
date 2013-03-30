@@ -15,11 +15,14 @@
 # as stand-alone service. Then you add service::nginx or service::hilary to make it useful.
 ##
 
+class service { }
 
 
 #######################
 ## HILARY BLUEPRINTS ##
 #######################
+
+class service::hilary { }
 
 class service::hilary::base {
   hilary { 'hilary':
@@ -264,6 +267,8 @@ class service::firewall::open {
 ## RSYSLOG BLUEPRINTS ##
 ########################
 
+class service::rsyslog { }
+
 define service::rsyslog::server {
   rsyslog { 'rsyslog':
     clientOrServer  => 'server',
@@ -287,10 +292,12 @@ define service::rsyslog::client ($imfiles = false) {
 ## MUNIN BLUEPRINTS ##
 ######################
 
+class service::munin { }
+
 define service::munin::client ($type_code, $suffix = '') {
   notify { "Type code: ${type_code}; Suffix: ${suffix}":
     before => Munin::Client['munin-client']
   }
-  
+
   munin::client { 'munin-client': hostname => "${type_code}${suffix}" }
 }
