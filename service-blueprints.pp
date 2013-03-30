@@ -22,8 +22,6 @@ class service { }
 ## HILARY BLUEPRINTS ##
 #######################
 
-class service::hilary { }
-
 class service::hilary::base {
   hilary { 'hilary':
     app_root_dir        => $localconfig::app_root,
