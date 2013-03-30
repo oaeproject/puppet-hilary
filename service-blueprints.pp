@@ -15,8 +15,6 @@
 # as stand-alone service. Then you add service::nginx or service::hilary to make it useful.
 ##
 
-include munin
-
 class service { }
 
 #######################
