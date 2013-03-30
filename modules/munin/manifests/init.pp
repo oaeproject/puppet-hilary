@@ -1,4 +1,4 @@
-define muninclient ($hostname) {
+define munin::muninclient ($hostname) {
 
   package { 'munin-node': ensure => installed }
 
