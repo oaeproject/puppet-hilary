@@ -296,5 +296,5 @@ define service::munin::client ($type_code, $suffix = '') {
     before => Munin::Client['munin-client']
   }
 
-  muninclient { 'munin-client': hostname => "${type_code}${suffix}" }
+  munin::muninclient { 'munin-client': hostname => "${type_code}${suffix}" }
 }
