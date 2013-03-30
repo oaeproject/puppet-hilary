@@ -15,8 +15,6 @@
 # as stand-alone service. Then you add service::nginx or service::hilary to make it useful.
 ##
 
-class service { }
-
 #######################
 ## HILARY BLUEPRINTS ##
 #######################
@@ -289,9 +287,7 @@ define service::rsyslog::client ($imfiles = false) {
 ## MUNIN BLUEPRINTS ##
 ######################
 
-class service::munin { }
-
-define service::munin::client ($type_code, $suffix = '') {
+define service-munin-client ($type_code, $suffix = '') {
   notify { "Type code: ${type_code}; Suffix: ${suffix}":
     before => Munin::Client['munin-client']
   }

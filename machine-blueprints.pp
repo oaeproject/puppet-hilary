@@ -25,7 +25,7 @@ class machine::base {
 }
 
 class machine ($type_code, $suffix) inherits machine::base {
-  service::munin::client { 'service-munin-client': type_code => $type_code, suffix => $suffix }
+  service-munin-client { 'service-munin-client': type_code => $type_code, suffix => $suffix }
 }
 
 
@@ -35,12 +35,12 @@ class machine ($type_code, $suffix) inherits machine::base {
 #################
 
 class machine::app::base inherits machine::base {
-  Service::Munin::Client['service-munin-client'] { type_code => 'app' }
+  Service-munun-client['service-munin-client'] { type_code => 'app' }
   class { 'service::hilary::app': }
 }
 
 class machine::app ($index) inherits machine::app::base {
-  Service::Munin::Client['service-munin-client'] { suffix => $index }
+  Service-munun-client['service-munin-client'] { suffix => $index }
 }
 
 
@@ -50,12 +50,12 @@ class machine::app ($index) inherits machine::app::base {
 ###############################
 
 class machine::pp::base inherits machine::base {
-  Service::Munin::Client['service-munin-client'] { type_code => 'pp' }
+  Service-munun-client['service-munin-client'] { type_code => 'pp' }
   class { 'service::hilary::pp': }
 }
 
 class machine::pp ($index) inherits machine::pp::base {
-  Service::Munin::Client['service-munin-client'] { suffix => $index }
+  Service-munun-client['service-munin-client'] { suffix => $index }
 }
 
 
@@ -65,12 +65,12 @@ class machine::pp ($index) inherits machine::pp::base {
 ######################
 
 class machine::activity::base inherits machine::base {
-  Service::Munin::Client['service-munin-client'] { type_code => 'activity' }
+  Service-munun-client['service-munin-client'] { type_code => 'activity' }
   class { 'service::hilary::activity': }
 }
 
 class machine::activity ($index) inherits machine::activity::base {
-  Service::Munin::Client['service-munin-client'] { suffix => $index }
+  Service-munun-client['service-munin-client'] { suffix => $index }
 }
 
 
@@ -81,12 +81,12 @@ class machine::activity ($index) inherits machine::activity::base {
 
 class machine::db::base inherits machine::base {
   include service::firewall
-  Service::Munin::Client['service-munin-client'] { type_code => 'db' }
+  Service-munun-client['service-munin-client'] { type_code => 'db' }
   service::cassandra { 'service-cassandra': }
 }
 
 class machine::db ($index) inherits machine::db::base {
-  Service::Munin::Client['service-munin-client'] { suffix => $index }
+  Service-munun-client['service-munin-client'] { suffix => $index }
   Service::Cassandra['service-cassandra'] { index => $index }
 }
 
@@ -99,12 +99,12 @@ class machine::db ($index) inherits machine::db::base {
 class machine::search::base inherits machine::base {
   include service::firewall
 
-  Service::Munin::Client['service-munin-client'] { type_code => 'search' }
+  Service-munun-client['service-munin-client'] { type_code => 'search' }
   service::elasticsearch { 'service-elasticsearch': }
 }
 
 class machine::search ($index) inherits machine::search::base {
-    Service::Munin::Client['service-munin-client'] { suffix => $index }
+    Service-munun-client['service-munin-client'] { suffix => $index }
     Service::Elasticsearch['service-elasticsearch'] { index => $index }
 }
 
@@ -115,12 +115,12 @@ class machine::search ($index) inherits machine::search::base {
 ######################
 
 class machine::ep::base inherits machine::base {
-  Service::Munin::Client['service-munin-client'] { type_code => 'ep' }
+  Service-munun-client['service-munin-client'] { type_code => 'ep' }
   service::etherpad { 'service-etherpad': }
 }
 
 class machine::ep ($index) inherits machine::ep::base {
-  Service::Munin::Client['service-munin-client'] { suffix => $index }
+  Service-munun-client['service-munin-client'] { suffix => $index }
   Service::Etherpad['service-etherpad'] { index => $index }
 }
 
@@ -152,7 +152,7 @@ class machine::driver {
 #################
 
 class machine::web::base inherits machine::base {
-  Service::Munin::Client['service-munin-client'] { type_code => 'web' }
+  Service-munun-client['service-munin-client'] { type_code => 'web' }
   Service::Rsyslog::Client['service-rsyslog-client'] {
     imfiles => [
       # Access log
@@ -180,7 +180,7 @@ class machine::web::base inherits machine::base {
 }
 
 class machine::web ($index) inherits machine::web::base {
-  Service::Munin::Client['service-munin-client'] { suffix => $index }
+  Service-munun-client['service-munin-client'] { suffix => $index }
 }
 
 
