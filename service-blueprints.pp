@@ -288,5 +288,9 @@ define service::rsyslog::client ($imfiles = false) {
 ######################
 
 define service::munin::client ($type_code, $suffix = '') {
+  notify { "Type code: ${type_code}; Suffix: ${suffix}":
+    before => Munin::Client['munin-client']
+  }
+  
   munin::client { 'munin-client': hostname => "${type_code}${suffix}" }
 }
