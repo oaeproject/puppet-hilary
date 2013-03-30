@@ -290,6 +290,6 @@ class service::rsyslog::client ($imfiles = false) inherits service::rsyslog::bas
 ## MUNIN BLUEPRINTS ##
 ######################
 
-class service::munin::client ($type_code, $suffix = '') {
+define service::munin::client ($type_code, $suffix = '') {
   class { 'munin::client': hostname => "${type_code}${suffix}" }
 }
