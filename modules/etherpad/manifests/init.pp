@@ -1,4 +1,4 @@
-class etherpad (
+define etherpad (
         listen_address,
         $api_key,
         $provider               = 'pkgin',
@@ -11,8 +11,6 @@ class etherpad (
         $service_name           = 'node-etherpad') {
 
     $packages = ['nodejs', 'npm', 'scmgit']
-
-
 
     # Ensure that the required OS dependencies are installed.
     package { $packages:

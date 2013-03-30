@@ -1,4 +1,4 @@
-class elasticsearch (
+define elasticsearch (
     $host_address,
     $path_data,
     $host_port      = 9200,

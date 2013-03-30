@@ -21,8 +21,8 @@
 ## HILARY BLUEPRINTS ##
 #######################
 
-class service::hilary {
-  class { 'hilary':
+class service::hilary::base {
+  hilary { 'hilary':
     app_root_dir        => $localconfig::app_root,
     app_git_user        => $localconfig::app_git_user,
     app_git_branch      => $localconfig::app_git_branch,
@@ -54,28 +54,21 @@ class service::hilary {
   ## Any node that has hilary is going to need this directory
   file { $localconfig::app_files_parent:
     ensure => 'directory',
-    before => Class['hilary']
+    before => Hilary['hilary']
   }
 }
 
-class service::hilary::activity ($dedicated_redis_host = false) inherits service::hilary {
-  Class['hilary'] {
+class service::hilary::activity inherits service::hilary::base {
+  Hilary['hilary'] {
     config_activity_enabled => true,
-    dedicated_redis_host    => $dedicated_redis_host,
   }
 }
 
-class service::hilary::pp inherits service::hilary {
-
-  ## PP Service Spec only works on ubuntu, I think
-
-  ## Install PP dependencies
-
+class service::hilary::pp inherits service::hilary::base {
   package { 'libreoffice': ensure => installed }
   package { 'pdftk': ensure => installed }
 
-  ## Override the necessary hilary module properties
-  Class['hilary'] {
+  Hilary['hilary'] {
     config_enable_previews  => true,
     os_user                 => 'root',
     os_group                => 'root',
@@ -83,13 +76,15 @@ class service::hilary::pp inherits service::hilary {
   }
 }
 
-class service::hilary::app inherits service::hilary {
-  class { 'files-nfs':
-    name       => 'smartosnfs',
-    mountpoint => $localconfig::app_files_parent,
+class service::hilary::app inherits service::hilary::base {
+  smartosnfs { $localconfig::app_files_parent:
     server     => $localconfig::files_nfs_server,
     sourcedir  => $localconfig::files_nfs_sourcedir,
   }
+}
+
+define service::hilary {
+  include service::hilary::base
 }
 
 
@@ -98,8 +93,8 @@ class service::hilary::app inherits service::hilary {
 ## ELASTICSEARCH BLUEPRINTS ##
 ##############################
 
-class service::elasticsearch ($index) {
-  class { 'elasticsearch':
+define service::elasticsearch ($index) {
+  elasticsearch { 'elasticsearch':
     host_address  => $localconfig::search_hosts_internal[$index]['host'],
     host_port     => $localconfig::search_hosts_internal[$index]['port'],
     path_data     => $localconfig::search_path_data,
@@ -114,10 +109,10 @@ class service::elasticsearch ($index) {
 ## CASSANDRA BLUEPRINTS ##
 ##########################
 
-class service::cassandra ($index) {
+define service::cassandra ($index) {
   package { 'java-1.6.0-openjdk-devel': ensure => installed }
 
-  class { 'cassandra::common':
+  cassandra { 'cassandra':
     owner           => $localconfig::db_user,
     group           => $localconfig::db_group,
     hosts           => $localconfig::db_hosts,
@@ -135,8 +130,8 @@ class service::cassandra ($index) {
 ## ETHERPAD BLUEPRINTS ##
 #########################
 
-class service::etherpad ($index) {
-  class { 'etherpad':
+define service::etherpad ($index) {
+  etherpad { 'etherpad':
     listen_address        => $localconfig::etherpad_hosts_internal[$index],
     etherpad_git_revision => $localconfig::etherpad_git_revision,
     etherpad_oae_revision => $localconfig::etherpad_oae_revision,
@@ -150,7 +145,7 @@ class service::etherpad ($index) {
 ## NGINX BLUEPRINTS ##
 ######################
 
-class service::nginx {
+define service::nginx {
   
   package { 'gcc47':    ensure => present, provider => pkgin }
   package { 'gmake':    ensure => present, provider => pkgin }
@@ -167,7 +162,7 @@ class service::nginx {
     require   => Package['scmgit'],
   }
 
-  class { 'nginx':
+  nginx { 'nginx':
     internal_app_ips      => $localconfig::app_hosts_internal,
     internal_etherpad_ips => $localconfig::etherpad_hosts_internal,
     ux_home               => $localconfig::ux_root,
@@ -175,13 +170,13 @@ class service::nginx {
     files_home            => $localconfig::app_files,
   }
 
-  class { 'files-nfs':
-    name       => 'smartosnfs',
-    mountpoint => $localconfig::app_files_parent,
+  smartosnfs { $localconfig::app_files_parent:
     server     => $localconfig::files_nfs_server,
     sourcedir  => $localconfig::files_nfs_sourcedir,
   }
 }
+
+
 
 #########################
 ## FIREWALL BLUEPRINTS ##
@@ -269,19 +264,21 @@ class service::firewall::open {
 ## RSYSLOG BLUEPRINTS ##
 ########################
 
-class service::rsyslog::base {
-  class { 'rsyslog':
-      server_host   => $localconfig::rsyslog_host_internal,
-      server_logdir => $localconfig::rsyslog_server_logdir,
+define service::rsyslog::server {
+  rsyslog { 'rsyslog':
+    clientOrServer  => 'server',
+    server_host     => $localconfig::rsyslog_host_internal,
+    server_logdir   => $localconfig::rsyslog_server_logdir,
   }
 }
 
-class service::rsyslog::server inherits service::rsyslog::base {
-  Class['rsyslog'] { clientOrServer => 'server' }
-}
-
-class service::rsyslog::client ($imfiles = false) inherits service::rsyslog::base {
-  Class['rsyslog'] { clientOrServer => 'client' }
+define service::rsyslog::client ($imfiles = false) {
+  rsyslog { 'rsyslog':
+    clientOrServer  => 'client',
+    server_host     => $localconfig::rsyslog_host_internal,
+    server_logdir   => $localconfig::rsyslog_server_logdir,
+    imfiles         => $imfiles,
+  }
 }
 
 
@@ -291,5 +288,5 @@ class service::rsyslog::client ($imfiles = false) inherits service::rsyslog::bas
 ######################
 
 define service::munin::client ($type_code, $suffix = '') {
-  class { 'munin::client': hostname => "${type_code}${suffix}" }
+  munin::client { 'munin-client': hostname => "${type_code}${suffix}" }
 }

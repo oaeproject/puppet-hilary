@@ -1,4 +1,4 @@
-class ipfilter ($rules = 'null') {
+define ipfilter ($rules = 'null') {
 
   exec { 'ipf_custom_config_policy':
     command => 'svccfg -s network/ipfilter:default setprop firewall_config_default/policy = astring: custom',

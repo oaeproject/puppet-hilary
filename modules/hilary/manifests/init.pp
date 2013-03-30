@@ -1,4 +1,4 @@
-class hilary (
+define hilary (
     $app_root_dir,
     $app_git_user,
     $app_git_branch,

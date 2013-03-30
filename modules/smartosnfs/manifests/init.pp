@@ -1,5 +1,5 @@
-class smartosnfs (
-    $mountpoint,
+define smartosnfs (
+    $mountpoint = $title,
     $server,
     $sourcedir) {
 

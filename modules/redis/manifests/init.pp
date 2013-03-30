@@ -1,4 +1,4 @@
-class redis (
+define redis (
     $eviction_maxmemory   = false,
     $eviction_policy      = false,
     $eviction_samples     = false,

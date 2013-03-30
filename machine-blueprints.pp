@@ -21,7 +21,7 @@
 ##################
 
 class machine::base {
-  class { 'service::rsyslog::client': }
+  service::rsyslog::client { 'service-rsyslog-client': }
 }
 
 class machine ($type_code, $suffix) inherits machine::base {
@@ -80,14 +80,14 @@ class machine::activity ($index) inherits machine::activity::base {
 ################
 
 class machine::db::base inherits machine::base {
+  include service::firewall
   Service::Munin::Client['service-munin-client'] { type_code => 'db' }
-  class { 'service::firewall': }
-  class { 'service::cassandra': }
+  service::cassandra { 'service-cassandra': }
 }
 
 class machine::db ($index) inherits machine::db::base {
   Service::Munin::Client['service-munin-client'] { suffix => $index }
-  Class['service::cassandra'] { index => $index }
+  Service::Cassandra['service-cassandra'] { index => $index }
 }
 
 
@@ -97,14 +97,15 @@ class machine::db ($index) inherits machine::db::base {
 ####################
 
 class machine::search::base inherits machine::base {
+  include service::firewall
+
   Service::Munin::Client['service-munin-client'] { type_code => 'search' }
-  class { 'service::firewall': }
-  class { 'service::elasticsearch': }
+  service::elasticsearch { 'service-elasticsearch': }
 }
 
 class machine::search ($index) inherits machine::search::base {
     Service::Munin::Client['service-munin-client'] { suffix => $index }
-    Class['service::elasticsearch'] { index => $index }
+    Service::Elasticsearch['service-elasticsearch'] { index => $index }
 }
 
 
@@ -115,12 +116,12 @@ class machine::search ($index) inherits machine::search::base {
 
 class machine::ep::base inherits machine::base {
   Service::Munin::Client['service-munin-client'] { type_code => 'ep' }
-  class { 'service::etherpad': }
+  service::etherpad { 'service-etherpad': }
 }
 
 class machine::ep ($index) inherits machine::ep::base {
   Service::Munin::Client['service-munin-client'] { suffix => $index }
-  Class['service::etherpad'] { index => $index }
+  Service::Etherpad['service-etherpad'] { index => $index }
 }
 
 
@@ -152,7 +153,7 @@ class machine::driver {
 
 class machine::web::base inherits machine::base {
   Service::Munin::Client['service-munin-client'] { type_code => 'web' }
-  Class['service::rsyslog::client'] {
+  Service::Rsyslog::Client['service-rsyslog-client'] {
     imfiles => [
       # Access log
       {
@@ -175,7 +176,7 @@ class machine::web::base inherits machine::base {
     ]
   }
 
-  class { 'service::nginx': }
+  service::nginx { 'service-nginx': }
 }
 
 class machine::web ($index) inherits machine::web::base {
@@ -189,8 +190,8 @@ class machine::web ($index) inherits machine::web::base {
 ####################
 
 class machine::syslog {
-  class { 'service::munin::client': type_code => 'syslog' }
-  class { 'service::rsyslog::server': }
+  service::munin::client { 'service-munin-client': type_code => 'syslog' }
+  service::rsyslog::server { 'service-rsyslog-server': }
 }
 
 

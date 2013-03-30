@@ -2,7 +2,7 @@
 # = Class cassandra::common
 #
 
-class cassandra::common (
+define cassandra (
     $owner              = 'cassandra',
     $group              = 'cassandra',
     $hosts              = [ '127.0.0.1' ],

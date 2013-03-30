@@ -4,12 +4,12 @@
 ################################
 
 node baselinuxnode inherits basenode {
-  class { 'service::firewall::open': }
+  include service::firewall::open
 }
 
 class machine::activity::performance ($index) inherits machine::activity::base {
-  Class['service::munin::client'] { suffix => $index }
-  Class['service::hilary::activity'] { dedicated_redis_host => $localconfig::activity_redis_hosts[0] }
+  Service::Munin::Client['service::munin::client'] { suffix => $index }
+  Hilary['hilary'] { config_activity_redis_host => $localconfig::activity_redis_hosts[0] }
 }
 
 
@@ -73,7 +73,7 @@ node 'activity2' inherits basenode {
 
 node 'db0' inherits baselinuxnode {
   class { 'machine::db': index => 0 }
-  class { 'opscenter': require => Class['cassandra::base'] }
+  opscenter { 'opscenter': require => Class['machine::db'] }
 }
 
 node 'db1' inherits baselinuxnode {
@@ -118,17 +118,17 @@ node 'search1' inherits baselinuxnode {
 
 node 'cache-master' inherits basenode {
   class { 'machine': type_code => 'cache', suffix => '-master' }
-  class { 'redis': }
+  redis { 'redis': }
 }
 
 node 'cache-slave' inherits basenode {
   class { 'machine': type_code => 'cache', suffix => '-slave' }
-  class { 'redis': slave_of => $localconfig::redis_hosts[0] }
+  redis { 'redis': slave_of => $localconfig::redis_hosts[0] }
 }
 
 node 'activity-cache-master' inherits basenode {
   class { 'machine': type_code => 'activity-cache', suffix => '-master' }
-  class { 'redis':
+  redis { 'redis':
     eviction_maxmemory  => 3758096384,
     eviction_policy     => 'volatile-ttl',
     eviction_samples    => 3
@@ -137,7 +137,7 @@ node 'activity-cache-master' inherits basenode {
 
 node 'activity-cache-slave' inherits basenode {
   class { 'machine': type_code => 'activity-cache', suffix => '-slave' }
-  class { 'redis':
+  redis { 'redis':
     eviction_maxmemory  => 3758096384,
     eviction_policy     => 'volatile-ttl',
     eviction_samples    => 3,
@@ -151,7 +151,7 @@ node 'activity-cache-slave' inherits basenode {
 
 node 'mq-master' inherits basenode {
   class { 'machine': type_code => 'mq', suffix => '-master' }
-  class { 'rabbitmq':
+  rabbitmq { 'rabbitmq':
     listen_address  => $localconfig::mq_hosts_internal[0]['host'],
     listen_port     => $localconfig::mq_hosts_internal[0]['port'],
   }
