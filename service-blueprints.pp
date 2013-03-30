@@ -15,8 +15,9 @@
 # as stand-alone service. Then you add service::nginx or service::hilary to make it useful.
 ##
 
-class service { }
+include munin
 
+class service { }
 
 #######################
 ## HILARY BLUEPRINTS ##
