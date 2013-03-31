@@ -149,10 +149,6 @@ node 'db5' inherits db {
 ## SEARCH NODES ##
 ##################
 
-node search inherits searchnodecommon {
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
-}
-
 node 'search0' inherits search {
   Class['elasticsearch'] {
     host_address  => $localconfig::search_hosts_internal[0]['host'],
@@ -170,11 +166,6 @@ node 'search1' inherits search {
 #################
 ## REDIS NODES ##
 #################
-
-node cache inherits basenodecommon {
-  class { 'ipfilter': }
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal }
-}
 
 node 'cache-master' inherits cache {
   class { 'redis': syslog_enabled => true }
@@ -210,10 +201,6 @@ node 'activity-cache-slave' inherits cache {
 ## MESSAGING NODES ##
 #####################
 
-node mq inherits linuxnodecommon {
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal }
-}
-
 node 'mq-master' inherits mq {
   class { 'rabbitmq':
     listen_address  => $localconfig::mq_hosts_internal[0]['host'],
@@ -225,11 +212,6 @@ node 'mq-master' inherits mq {
 ## PREVIEW PROCESSOR NODES ##
 #############################
 
-node pp inherits ppnodecommon {
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal }
-  Class['hilary'] { config_log_syslog_ip => $localconfig::rsyslog_host_internal }
-}
-
 node 'pp0' inherits pp { }
 
 node 'pp1' inherits pp { }
@@ -239,10 +221,6 @@ node 'pp2' inherits pp { }
 ####################
 ## ETHERPAD NODES ##
 ####################
-
-node ep inherits epnodecommon {
-  class { 'ipfilter': }
-}
 
 node 'ep0' inherits ep {
   Class['etherpad'] { listen_address => $localconfig::etherpad_hosts_internal[0] }
