@@ -1,6 +1,13 @@
 class munin::client ($hostname) {
 
-  package { 'munin-node': ensure => installed }
+  $provider = undef
+  case $operatingsystem {
+    solaris, Solaris: {
+      $provider = 'pkgin'
+    }
+  }
+
+  package { 'munin-node': ensure => installed, provider => $provider }
 
   user { 'munin':
     ensure  => 'present',
