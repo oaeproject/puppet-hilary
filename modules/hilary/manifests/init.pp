@@ -77,10 +77,11 @@ class hilary (
   ## PACKAGE DEPENDENCIES ##
   ##########################
 
+  $provider = undef
+
   case $operatingsystem {
     debian, ubuntu: {
       $packages   = [ 'gcc', 'automake', "nodejs=$node_version", "npm=$npm_version", 'graphicsmagick', 'git' ]
-      $provider   = 'apt'
 
       # Apply apt configuration, which should be executed before these packages are installed
       class { 'apt': }
@@ -107,7 +108,6 @@ class hilary (
     }
     default: {
       $packages   = [ 'gcc', 'automake', 'gmake', "nodejs-$node_version", 'npm', 'GraphicsMagick', 'git' ]
-      $provider   = 'yum'
     }
   }
   
