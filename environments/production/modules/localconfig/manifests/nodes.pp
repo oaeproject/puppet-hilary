@@ -5,66 +5,6 @@
 ################
 ################
 
-node app inherits appnodecommon {
-  class { 'ipfilter': }
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal }
-
-  Class['hilary'] { config_log_syslog_ip => $localconfig::rsyslog_host_internal }
-}
-
-node activity inherits activitynodecommon {
-  class { 'ipfilter': }
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
-
-  Class['hilary'] { config_log_syslog_ip => $localconfig::rsyslog_host_internal }
-}
-
-node db inherits dbnodecommon {
-  class { 'rsyslog': server_host => $localconfig::rsyslog_host_internal, }
-}
-
-node web inherits webnodecommon {
-  # Allow web traffic into public interface on web node
-  class { 'ipfilter': rules => [ 'pass in quick on net0 proto tcp from any to any port=80 keep state' ] }
-  
-  ## Rsyslog: Manually crunch the log files using the rsyslog "imfile" plugin
-  class { 'rsyslog':
-    server_host => $localconfig::rsyslog_host_internal,
-    imfiles     => [
-
-      # Access log
-      {
-        path                  => '/var/log/nginx/access.log',
-        tag                   => 'access',
-        state_file_name       => 'nginx_access',
-        severity              => 'info',
-        facility              => 'local0',
-        poll_interval_seconds => 10,
-      },
-
-      # Error log
-      {
-        path                  => '/var/log/nginx/error.log',
-        tag                   => 'error',
-        state_file_name       => 'nginx_error',
-        severity              => 'error',
-        facility              => 'local1',
-        poll_interval_seconds => 10,
-      },
-    ]
-  }
-
-  # Add a custom nginx log rotation entry into logadm
-  # Solaris by default already has a cronjob that executes logadm on a regular basis
-  file { '/etc/logadm.conf':
-    ensure  => present,
-    mode    => 0644,
-    owner   => 'root',
-    group   => 'root',
-    content => template('localconfig/logadm.web.config.erb'),
-  }
-}
-
 ###############
 ## WEB PROXY ##
 ###############
