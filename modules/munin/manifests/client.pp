@@ -12,7 +12,7 @@ class munin::client ($hostname) {
   package { 'munin-node': ensure => installed, provider => $provider }
 
   file { '/etc/munin/munin-node.conf':
-    ensure  => file,
+    ensure  => present,
     mode    => '0644',
     content => template('munin/munin-node.conf.erb'),
     require => Package['munin-node'],
