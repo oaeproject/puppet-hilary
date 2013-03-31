@@ -1,10 +1,13 @@
-define elasticsearch (
+class elasticsearch (
+    $search_hosts,
     $host_address,
     $path_data,
-    $host_port      = 9200,
-    $max_memory_mb  = 384,
-    $min_memory_mb  = 384,
-    $version        = '0.20.2') {
+    $host_port        = 9200,
+    $max_memory_mb    = 384,
+    $min_memory_mb    = 384,
+    $version          = '0.20.2',
+    $rsyslog_enabled  = false,
+    $rsyslog_host     = '127.0.0.1') {
 
   ##########################
   ## PACKAGE DEPENDENCIES ##

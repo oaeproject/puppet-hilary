@@ -1,4 +1,4 @@
-define nginx (
+class nginx (
     $internal_app_ips,
     $internal_etherpad_ips,
     $ux_home        = '/opt/3akai-ux',

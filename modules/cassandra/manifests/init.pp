@@ -2,7 +2,7 @@
 # = Class cassandra::common
 #
 
-define cassandra (
+class cassandra (
     $owner              = 'cassandra',
     $group              = 'cassandra',
     $hosts              = [ '127.0.0.1' ],
@@ -10,7 +10,9 @@ define cassandra (
     $cluster_name       = 'Cassandra Cluster',
     $cassandra_home     = '/usr/share/cassandra',
     $cassandra_data_dir = '/data/cassandra',
-    $initial_token      = '') {
+    $initial_token      = '',
+    $rsyslog_enabled    = false,
+    $rsyslog_host       = '127.0.0.1') {
 
   $release = $operatingsystem ? {
     /CentOS|RedHat/ => $lsbmajdistrelease,
@@ -28,6 +30,8 @@ define cassandra (
     ensure => installed,
     require => Yumrepo['datastax'],
   }
+
+  package { 'java-1.6.0-openjdk-devel': ensure => installed }
 
   file { 'cassandra.yaml':
     path => '/etc/cassandra/conf/cassandra.yaml',

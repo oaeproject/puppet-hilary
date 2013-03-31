@@ -1,7 +1,6 @@
-define etherpad (
+class etherpad (
         listen_address,
         $api_key,
-        $provider               = 'pkgin',
         $etherpad_git_revision  = 'master',
         $etherpad_dir           = '/opt/etherpad-lite',
         $ep_oae_path            = '/opt/etherpad-lite/node_modules/ep_oae',
@@ -15,7 +14,7 @@ define etherpad (
     # Ensure that the required OS dependencies are installed.
     package { $packages:
         ensure      =>  installed,
-        provider    =>  $provider,
+        provider    =>  'pkgin',
     }
 
     # Get the etherpad source

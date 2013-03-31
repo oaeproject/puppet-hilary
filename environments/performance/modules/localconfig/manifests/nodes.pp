@@ -1,18 +1,4 @@
 
-################################
-## CUSTOM MACHINE DEFINITIONS ##
-################################
-
-node baselinuxnode inherits basenode {
-  include service::firewall::open
-}
-
-class machine::activity::performance ($index) inherits machine::activity::base {
-  Service::Munin::Client['service::munin::client'] { suffix => $index }
-  Hilary['hilary'] { config_activity_redis_host => $localconfig::activity_redis_hosts[0] }
-}
-
-
 ###############
 ## WEB PROXY ##
 ###############
@@ -126,13 +112,10 @@ node 'cache-slave' inherits basenode {
   redis { 'redis': slave_of => $localconfig::redis_hosts[0] }
 }
 
-node 'activity-cache-master' inherits basenode {
-  class { 'machine': type_code => 'activity-cache', suffix => '-master' }
-  redis { 'redis':
-    eviction_maxmemory  => 3758096384,
-    eviction_policy     => 'volatile-ttl',
-    eviction_samples    => 3
-  }
+node 'activity-cache-master' {
+  $nodetype = 'activity-cache'
+  $nodesuffix = '-master'
+  hiera_include('classes')
 }
 
 node 'activity-cache-slave' inherits basenode {

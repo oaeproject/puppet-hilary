@@ -1,4 +1,4 @@
-define rabbitmq (
+class rabbitmq (
     $listen_address,
     $listen_port      = '5672',
     $owner            = 'rabbitmq',

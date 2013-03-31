@@ -1,4 +1,4 @@
-define opscenter (
+class opscenter (
     $listen_address = '0.0.0.0',
     $port = 8888) {
 

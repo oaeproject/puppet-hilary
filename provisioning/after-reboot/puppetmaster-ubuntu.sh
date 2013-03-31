@@ -28,11 +28,25 @@ pluginsync=true
 ssl_client_header = SSL_CLIENT_S_DN 
 ssl_client_verify_header = SSL_CLIENT_VERIFY
 
-# Use puppet-hilary checkout 
+# Use puppet-hilary checkout
 modulepath = \$confdir/puppet-hilary/environments/\$environment/modules:\$confdir/puppet-hilary/modules:\$confdir/modules
 manifest = \$confdir/puppet-hilary/site.pp
 reports = store, http
 reporturl = http://puppet/reports/upload
+EOF
+
+cat > /etc/puppet/hiera.yaml <<EOF
+:backends:
+  - json
+:json:
+  :datadir: /etc/puppet/puppet-hilary/environments/%{::environment}/hiera
+:hierarchy:
+  - %{::clientcert}_hiera_secure
+  - %{::clientcert}
+  - %{nodetype}_hiera_secure
+  - %{nodetype}
+  - common_hiera_secure
+  - common
 EOF
 
 git clone git://github.com/sakaiproject/puppet-hilary /etc/puppet/puppet-hilary

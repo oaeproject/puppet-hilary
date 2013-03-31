@@ -26,16 +26,14 @@ ignore_file \.pod$
 # Set this if the client doesn't report the correct hostname when
 # telnetting to localhost, port 4949
 #
-host_name <%= hostname %>.oae-performance.sakaiproject.org
+host_name <%= hostname %>
 
 # A list of addresses that are allowed to connect.  This must be a
 # regular expression, since Net::Server does not understand CIDR-style
 # network notation unless the perl module Net::CIDR is installed.  You
 # may repeat the allow line as many times as you'd like
 
-<% scope.lookupvar('localconfig::munin_allowedRegexes').each do |regex| -%>
-allow <%= regex %>
-<% end -%>
+allow .*
 
 
 # If you have installed the Net::CIDR perl module, you can use one or more
@@ -51,7 +49,6 @@ allow <%= regex %>
 
 # Which address to bind to;
 host *
-# host 127.0.0.1
 
 # And which port
 port 4949

@@ -22,12 +22,22 @@ log4j.appender.stdout=org.apache.log4j.ConsoleAppender
 log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
 log4j.appender.stdout.layout.ConversionPattern=%5p %d{HH:mm:ss,SSS} %m%n
 
+<% if rsyslog_enabled -%>
 log4j.appender.SYSLOG=org.apache.log4j.net.SyslogAppender
-log4j.appender.SYSLOG.syslogHost=<%= scope.lookupvar("localconfig::rsyslog_host_internal") %>
+log4j.appender.SYSLOG.syslogHost=<%= rsyslog_host %>
 log4j.appender.SYSLOG.layout=org.apache.log4j.PatternLayout
 log4j.appender.SYSLOG.layout.ConversionPattern=%-4r [%t] %-5p %c %x - %m%n
 log4j.appender.SYSLOG.Header=true
 log4j.appender.SYSLOG.Facility=LOCAL0
+<% else -%>
+log4j.appender.R=org.apache.log4j.RollingFileAppender
+log4j.appender.R.maxFileSize=10MB
+log4j.appender.R.maxBackupIndex=50
+log4j.appender.R.layout=org.apache.log4j.PatternLayout
+log4j.appender.R.layout.ConversionPattern=%5p [%t] %d{ISO8601} %F (line %L) %m%n
+# Edit the next line to point to your logs directory
+log4j.appender.R.File=/var/log/cassandra/system.log
+<% end -%>
 
 # Application logging options
 #log4j.logger.org.apache.cassandra=DEBUG

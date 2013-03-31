@@ -1,2 +1,3 @@
 .environment
 .node
+*_hiera_secure.*
