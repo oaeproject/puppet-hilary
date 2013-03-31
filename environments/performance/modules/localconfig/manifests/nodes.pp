@@ -17,11 +17,7 @@ node 'web1' inherits basenode {
 ## APP NODES ##
 ###############
 
-node 'app0' inherits app {
-  $nodetype = 'app'
-  $nodesuffix = 0
-
-}
+node 'app0' inherits app { $nodesuffix = 0 }
 
 node 'app1' inherits basenode {
   class { 'machine::app': index => 1 }
@@ -114,9 +110,7 @@ node 'cache-slave' inherits basenode {
   redis { 'redis': slave_of => $localconfig::redis_hosts[0] }
 }
 
-node 'activity-cache-master' inherits activity-cache {
-  $nodesuffix = '-master'
-}
+node 'activity-cache-master' inherits activity-cache { $nodesuffix = '-master' }
 
 node 'activity-cache-slave' inherits basenode {
   class { 'machine': type_code => 'activity-cache', suffix => '-slave' }
