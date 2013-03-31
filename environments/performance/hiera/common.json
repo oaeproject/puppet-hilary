@@ -2,7 +2,7 @@
     "classes": [
         "::oaeservice::firewall::open",
         "::oaeservice::munin::client",
-        "::oaeservice::rsyslog",
+        "::oaeservice::rsyslog"
     ],
 
     "nodetype": "%{nodetype}",
@@ -70,5 +70,5 @@
     "driver_tsung_version": "1.4.2",
 
 
-    "::rsyslog::clientOrServier": "client",
+    "::rsyslog::clientOrServier": "client"
 }
