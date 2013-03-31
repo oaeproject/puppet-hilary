@@ -1,4 +1,12 @@
 
+node base {
+  hiera_include(classes)
+}
+
+node activity-cache inherits base {
+  $nodetype = 'activity-cache'
+}
+
 ###############
 ## WEB PROXY ##
 ###############
@@ -18,7 +26,9 @@ node 'web1' inherits basenode {
 ###############
 
 node 'app0' inherits basenode {
-  class { 'machine::app': index => 0 }
+  $nodetype = 'app'
+  $nodesuffix = 0
+
 }
 
 node 'app1' inherits basenode {
@@ -112,10 +122,8 @@ node 'cache-slave' inherits basenode {
   redis { 'redis': slave_of => $localconfig::redis_hosts[0] }
 }
 
-node 'activity-cache-master' {
-  $nodetype = 'activity-cache'
+node 'activity-cache-master' inherits activity-cache {
   $nodesuffix = '-master'
-  hiera_include(classes)
 }
 
 node 'activity-cache-slave' inherits basenode {
