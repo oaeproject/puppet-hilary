@@ -115,7 +115,7 @@ node 'cache-slave' inherits basenode {
 node 'activity-cache-master' {
   $nodetype = 'activity-cache'
   $nodesuffix = '-master'
-  hiera_include('classes')
+  hiera_include(classes)
 }
 
 node 'activity-cache-slave' inherits basenode {
