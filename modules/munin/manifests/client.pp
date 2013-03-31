@@ -1,9 +1,11 @@
 class munin::client ($hostname) {
 
-  $provider = undef
   case $operatingsystem {
     solaris, Solaris: {
       $provider = 'pkgin'
+    }
+    default: {
+      $provider = undef
     }
   }
 
