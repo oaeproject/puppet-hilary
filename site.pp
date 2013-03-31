@@ -21,10 +21,7 @@ Exec { path => $defaultPath }
 ## EXECUTION ##
 ###############
 
-import 'service-blueprints'
-import 'machine-blueprints'
-import 'nodetypes'
+include epel
 
 ## Import the nodes.pp of the configured environment.
-import 'cassandra/common.pp'
 import 'localconfig/nodes.pp'
