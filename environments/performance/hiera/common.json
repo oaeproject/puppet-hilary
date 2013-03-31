@@ -1,7 +1,6 @@
 {
     "classes": [
         "::oaeservice::firewall::open",
-        "::oaeservice::munin::client",
         "::oaeservice::rsyslog"
     ],
 
