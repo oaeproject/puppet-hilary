@@ -1,12 +1,4 @@
 
-node base {
-  hiera_include(classes)
-}
-
-node activity-cache inherits base {
-  $nodetype = 'activity-cache'
-}
-
 ###############
 ## WEB PROXY ##
 ###############
@@ -25,7 +17,7 @@ node 'web1' inherits basenode {
 ## APP NODES ##
 ###############
 
-node 'app0' inherits basenode {
+node 'app0' inherits app {
   $nodetype = 'app'
   $nodesuffix = 0
 

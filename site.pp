@@ -23,5 +23,6 @@ Exec { path => $defaultPath }
 
 include epel
 
-## Import the nodes.pp of the configured environment.
+# Instantiate the nodetypes and the environment-specific node config
+import 'nodetypes.pp'
 import 'localconfig/nodes.pp'
