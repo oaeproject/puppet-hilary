@@ -4,6 +4,6 @@ class oaeservice::hilary::files {
 
   smartosnfs { $app_files_parent:
     server     => $hilary_files['server'],
-    sourcedir  => $hilary_files['sourcedir']
+    sourcedir  => $hilary_files['source_dir']
   }
 }
