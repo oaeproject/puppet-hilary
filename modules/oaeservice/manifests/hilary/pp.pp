@@ -25,7 +25,7 @@ class oaeservice::hilary::pp {
     command     => './build.sh',
     unless      => 'test -x /usr/local/bin/phantomjs',
     require     => [ Package[$pp_packages], Package['build-essential'], Package['git'], Exec['checkout_phantomjs'] ],
-    before      => Class['::hilary'],
+    before      => Service['hilary'],
   }
 
   include oaeservice::hilary
