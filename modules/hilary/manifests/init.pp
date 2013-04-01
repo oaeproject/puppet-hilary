@@ -41,7 +41,7 @@ class hilary (
 
     # RabbitMQ
     $config_mq_host,
-    $config_mq_port,
+    $config_mq_port                   = 5672,
 
     # Previews
     $config_previews_enabled          = false,
