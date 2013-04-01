@@ -79,8 +79,9 @@ class hilary (
 
   case $operatingsystem {
     debian, ubuntu: {
-      $packages   = [ 'gcc', 'automake', "nodejs=$node_version", "npm=$npm_version", 'graphicsmagick', 'git' ]
-      $provider   = undef
+      $packages = [ 'gcc', 'automake', "nodejs=$node_version", "npm=$npm_version", 'graphicsmagick', 'git' ]
+      $provider = undef
+      $npm_dir  = '/usr/lib/nodejs/npm'
 
       # Apply apt configuration, which should be executed before these packages are installed
       class { 'apt': }
@@ -99,12 +100,14 @@ class hilary (
       }
     }
     solaris, Solaris: {
-      $packages   = [ 'gcc47', 'automake', 'gmake', "nodejs-$node_version", 'GraphicsMagick', 'scmgit' ]
-      $provider   = 'pkgin'
+      $packages = [ 'gcc47', 'automake', 'gmake', "nodejs-$node_version", 'GraphicsMagick', 'scmgit' ]
+      $provider = 'pkgin'
+      $npm_dir  = '/opt/local/lib/node_modules/npm'
     }
     default: {
-      $packages   = [ 'gcc', 'automake', 'gmake', "nodejs-$node_version", 'npm', 'GraphicsMagick', 'git' ]
-      $provider   = undef
+      $packages = [ 'gcc', 'automake', 'gmake', "nodejs-$node_version", 'npm', 'GraphicsMagick', 'git' ]
+      $provider = undef
+      $npm_dir  = '/usr/lib/nodejs/npm'
     }
   }
   
@@ -135,7 +138,8 @@ class hilary (
 
   # Force the npm bundled version of node-gyp to upgrade node-gyp. Needed to build node-expat and hiredis
   exec { 'npm_reinstall_nodegyp':
-    command   => "npm explore npm -g -- npm install node-gyp@$nodegyp_version",
+    command   => "npm install node-gyp@$nodegyp_version",
+    cwd       => $npm_dir,
     logoutput => 'on_failure',
   }
 
