@@ -45,6 +45,7 @@
     "pp_os_group": "root",
 
     "search_hosts": [ "10.112.6.231", "10.112.3.83" ],
+    "search_port": 9200,
     "search_data_dir": "/var/lib/elasticsearch",
     "search_memory_mb": 3072,
     "search_version": "0.20.2",

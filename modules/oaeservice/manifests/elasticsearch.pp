@@ -12,7 +12,7 @@ class oaeservice::elasticsearch {
   class { '::elasticsearch':
     search_hosts      => $search_hosts,
     host_address      => $search_hosts[$index],
-    host_port         => hiera('search_port'),
+    host_port         => hiera('search_port', 9200),
     max_memory_mb     => hiera('search_memory_mb'),
     min_memory_mb     => hiera('search_memory_mb'),
     version           => hiera('search_version'),
