@@ -17,7 +17,7 @@ class oaeservice::hilary::pp {
   exec { '/tmp/phantomjs/build.sh':
     cwd         => '/tmp/phantomjs',
     command     => './build.sh',
-    unless      => 'test -x /usr/local/bin/phantomjs'
+    unless      => 'test -x /usr/local/bin/phantomjs',
     require     => [ Package[$pp_packages], Vcsrepo['/tmp/phantomjs'] ],
     before      => Class['::hilary'],
   }
