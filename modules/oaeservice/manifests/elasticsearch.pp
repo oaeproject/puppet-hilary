@@ -15,6 +15,7 @@ class oaeservice::elasticsearch {
     host_port         => hiera('search_port', 9200),
     max_memory_mb     => hiera('search_memory_mb'),
     min_memory_mb     => hiera('search_memory_mb'),
+    path_data         => hiera('search_data_dir'),
     version           => hiera('search_version'),
     rsyslog_enabled   => $rsyslog_enabled,
     rsyslog_host      => $rsyslog_host,
