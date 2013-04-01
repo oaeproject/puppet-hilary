@@ -3,7 +3,7 @@ class oaeservice::firewall {
   case $operatingsystem {
     solaris, Solaris: {
       class { 'ipfilter': }
-    },
+    }
     default: {
 
       ####################
