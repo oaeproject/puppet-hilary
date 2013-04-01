@@ -156,18 +156,20 @@ node 'mq-master' inherits basenode {
 ## PREVIEW PROCESSOR NODES ##
 #############################
 
-node 'pp0' inherits baselinuxnode {
-  class { 'machine::pp': index => 0 }
+node 'pp0' inherits pp {
+  $nodesuffix = 0
+  hiera_include(classes)
 }
 
-node 'pp1' inherits baselinuxnode {
-  class { 'machine::pp': index => 1 }
+node 'pp1' inherits pp {
+  $nodesuffix = 1
+  hiera_include(classes)
 }
 
-node 'pp2' inherits baselinuxnode {
-  class { 'machine::pp': index => 2 }
+node 'pp2' inherits pp {
+  $nodesuffix = 2
+  hiera_include(classes)
 }
-
 
 
 ####################
