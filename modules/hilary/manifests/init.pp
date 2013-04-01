@@ -87,17 +87,17 @@ class hilary (
 
       apt::key { 'chris-lea':
         key       => '4BD6EC30',
-        requires  => Class['apt'],
+        require Class['apt'],
         before    => Package[$packages],
       }
 
       apt::ppa { 'ppa:chris-lea/node.js':
-        requires  => Class['apt'],
+        require  => Class['apt'],
         before    => Package[$packages],
       }
       
       apt::ppa { 'ppa:chris-lea/node.js-legacy':
-        requires  => Class['apt'],
+        require  => Class['apt'],
         before    => Package[$packages],
       }
     }
