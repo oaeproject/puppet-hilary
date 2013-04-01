@@ -68,19 +68,15 @@ config.servers = {
     'tenantPort': 2001
 };
 
-var tmpDir = process.env.TMP || process.env.TMPDIR || process.env.TEMP || '/tmp' || process.cwd();
-tmpDir += '/oae';
-
-
 // Configuration regarding file uploads.
 // The `uploadDir` key determines where upload files can be buffered before
 // moving them over to the configured storage backend.
 // The storage backend can be configured in the Admin UI and can be changed
 // at runtime.
 config.files = {
-    'localStorageDirectory': '../files',
-    'tmpDir': tmpDir,
-    'uploadDir': '<%= upload_files_dir %>',
+    'localStorageDirectory': '<%= upload_files_dir %>',
+    'tmpDir': <%= tmp_dir %>,
+    'uploadDir': '<%= tmp_upload_dir %>',
     'cleaner': {
         'enabled': true,
         'interval': 2*60*60

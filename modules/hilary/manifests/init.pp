@@ -14,6 +14,10 @@ class hilary (
     ## Config ##
     ############
 
+    # Files
+    $config_files_tmp_dir             = '/tmp',
+    $config_files_tmp_upload_dir      = "${config_files_tmp_dir}/uploads"
+
     # Cassandra
     $config_cassandra_hosts,
     $config_cassandra_keyspace        = 'oae',
@@ -153,11 +157,24 @@ class hilary (
     require     => [ Exec["npm_install_dependencies"] ],
   }
 
-  # Directory for temp files
+  # Directory for user files
   file { $upload_files_dir:
     ensure  => directory,
     owner   => $os_user,
     group   => $os_group,
+  }
+
+  # Temp file directories
+  file { $config_files_tmp_dir:
+    ensure  => directory,
+    owner   => $os_user,
+    group   => $os_group
+  }
+
+  file { $config_files_tmp_upload_dir:
+    ensure  => directory,
+    owner   => $os_user,
+    group   => $os_group
   }
 
   # config.js
@@ -209,10 +226,7 @@ class hilary (
       service { 'hilary':
         ensure   => running,
         provider => 'upstart',
-        require  => [ File['/etc/init.d/hilary'],
-                      Vcsrepo[$ux_root_dir],
-                      Exec["npm_install_dependencies"],
-                    ]
+        require  => [ File['/etc/init.d/hilary'], Vcsrepo[$ux_root_dir], Exec["npm_install_dependencies"] ]
       }
     }
     solaris, Solaris: {
@@ -226,7 +240,7 @@ class hilary (
 
       # Force reload the manifest
       exec { "svccfg_${service_name}":
-        command   => "/usr/sbin/svccfg import ${app_root_dir}/service.xml",
+        command   => "svccfg import ${app_root_dir}/service.xml",
         require   => File["${app_root_dir}/service.xml"],
       }
 
