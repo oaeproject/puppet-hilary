@@ -184,7 +184,8 @@ class hilary (
     owner   => $os_user,
     group   => $os_group,
     content => template('hilary/config.js.erb'),
-    require => [ Vcsrepo[$app_root_dir], File[$upload_files_dir] ],
+    require => [ Vcsrepo[$app_root_dir], File[$upload_files_dir], File[$config_files_tmp_dir],
+        File[$config_files_tmp_upload_dir] ]
   }
 
 
