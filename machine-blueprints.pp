@@ -59,22 +59,6 @@ class machine::pp ($index) inherits machine::pp::base {
 }
 
 
-
-######################
-## ACTIVITY MACHINE ##
-######################
-
-class machine::activity::base inherits machine::base {
-  Service-munun-client['service-munin-client'] { type_code => 'activity' }
-  class { 'service::hilary::activity': }
-}
-
-class machine::activity ($index) inherits machine::activity::base {
-  Service-munun-client['service-munin-client'] { suffix => $index }
-}
-
-
-
 ################
 ## DB MACHINE ##
 ################
