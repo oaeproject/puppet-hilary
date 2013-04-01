@@ -1,12 +1,5 @@
 
 #
-# The base node includes the classes configured for it through hiera
-#
-node base { hiera_include(classes) }
-
-
-
-#
 # Simply define the nodetypes, setting the $nodetype variable, which is used by the hiera data
 #
 

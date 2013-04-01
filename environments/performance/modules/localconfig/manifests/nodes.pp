@@ -23,7 +23,11 @@ node 'app3' inherits app { $nodesuffix = 3 }
 ## ACTIVITY NODES ##
 ####################
 
-node 'activity0' inherits activity { $nodesuffix = 0 }
+node 'activity0' inherits activity {
+  $nodesuffix = 0
+  hiera_include(classes)
+}
+
 node 'activity1' inherits activity { $nodesuffix = 1 }
 node 'activity2' inherits activity { $nodesuffix = 2 }
 
