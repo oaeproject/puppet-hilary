@@ -24,6 +24,6 @@ class oaeservice::nginx {
     internal_etherpad_ips => hiera('etherpad_hosts'),
     ux_home               => $ux_root,
     ux_admin_host         => hiera('app_admin_host'),
-    files_home            => hiera('app_files'),
+    files_home            => hiera('app_files_dir'),
   }
 }
