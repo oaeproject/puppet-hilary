@@ -22,7 +22,7 @@ class hilary (
     $config_cassandra_strategy_class  = 'SimpleStrategy',
 
     # Redis
-    $config_redis_hosts,
+    $config_redis_host_master,
 
     # Servers
     $config_servers_admin_host,
