@@ -71,27 +71,27 @@ node 'db0' inherits db {
   hiera_include(classes)
 }
 
-node 'db0' inherits db {
+node 'db1' inherits db {
   $nodesuffix = 1
   hiera_include(classes)
 }
 
-node 'db0' inherits db {
+node 'db2' inherits db {
   $nodesuffix = 2
   hiera_include(classes)
 }
 
-node 'db0' inherits db {
+node 'db3' inherits db {
   $nodesuffix = 3
   hiera_include(classes)
 }
 
-node 'db0' inherits db {
+node 'db4' inherits db {
   $nodesuffix = 4
   hiera_include(classes)
 }
 
-node 'db0' inherits db {
+node 'db5' inherits db {
   $nodesuffix = 5
   hiera_include(classes)
 }
