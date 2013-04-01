@@ -26,7 +26,18 @@ class oaeservice::hilary {
     os_user                       => hiera('app_os_user'),
     os_group                      => hiera('app_os_user'),
     upload_files_dir              => hiera('app_files_dir'),
-    config_cassandra_hosts        => hiera('db_hosts'),
+
+    config_cookie_secret          => hiera('app_cookie_secret'),
+    config_signing_key            => hiera('app_signing_key'),
+    config_telemetry_circonus_url => hiera('circonus_url'),
+    config_servers_admin_host     => hiera('app_admin_host'),
+
+    config_cassandra_hosts          => hiera('db_hosts'),
+    config_cassandra_keyspace       => hiera('db_keyspace'),
+    config_cassandra_timeout        => hiera('db_timeout'),
+    config_cassandra_replication    => hiera('db_replication'),
+    config_cassandra_strategy_class => hiera('db_strategy_class'),
+
     config_redis_host_master      => hiera('cache_host_master'),
     config_search_hosts           => hiera('search_hosts'),
     config_mq_host                => hiera('mq_host_master'),
@@ -35,6 +46,5 @@ class oaeservice::hilary {
     config_etherpad_domain_suffix => hiera('etherpad_domain_suffix'),
     config_log_syslog_ip          => $rsyslog_host,
     config_activity_redis_host    => $activitycache_host_master,
-    config_signing_key            => hiera('app_signing_key')
   }
 }
