@@ -3,6 +3,8 @@
 # Simply define the nodetypes, setting the $nodetype variable, which is used by the hiera data
 #
 
+node base { }
+
 # Hilary nodes
 node activity inherits base         { $nodetype = 'activity' }
 node app inherits base              { $nodetype = 'app' }
