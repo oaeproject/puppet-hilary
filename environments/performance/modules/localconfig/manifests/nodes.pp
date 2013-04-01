@@ -102,12 +102,14 @@ node 'db5' inherits db {
 ## SEARCH NODES ##
 ##################
 
-node 'search0' inherits baselinuxnode {
-  class { 'machine::elasticsearch': index => 0 }
+node 'search0' inherits search {
+  $nodesuffix = 0
+  hiera_include(classes)
 }
 
-node 'search1' inherits baselinuxnode {
-  class { 'machine::elasticsearch': index => 1 }
+node 'search1' inherits search {
+  $nodesuffix = 1
+  hiera_include(classes)
 }
 
 
