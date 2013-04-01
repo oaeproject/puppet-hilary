@@ -11,8 +11,8 @@ class oaeservice::elasticsearch {
 
   class { '::elasticsearch':
     search_hosts      => $search_hosts,
-    host_address      => $search_hosts[$index],
-    host_port         => hiera('search_port', 9200),
+    host_address      => $search_hosts[$index]['host'],
+    host_port         => $search_hosts[$index]['port'],
     max_memory_mb     => hiera('search_memory_mb'),
     min_memory_mb     => hiera('search_memory_mb'),
     path_data         => hiera('search_data_dir'),
