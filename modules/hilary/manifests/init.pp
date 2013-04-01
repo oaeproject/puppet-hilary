@@ -16,7 +16,6 @@ class hilary (
 
     # Files
     $config_files_tmp_dir             = '/tmp',
-    $config_files_tmp_upload_dir      = "${config_files_tmp_dir}/uploads",
 
     # Cassandra
     $config_cassandra_hosts,
@@ -62,6 +61,7 @@ class hilary (
     $config_etherpad_api_key,
     $config_etherpad_domain_suffix) {
 
+  $config_files_tmp_upload_dir = "${config_files_tmp_dir}/uploads"
 
   $nodegyp_version = '0.9.3'
 
