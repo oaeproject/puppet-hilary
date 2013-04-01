@@ -1,5 +1,5 @@
 class rabbitmq (
-    $listen_address,
+    $listen_address   = false,
     $listen_port      = '5672',
     $owner            = 'rabbitmq',
     $group            = 'rabbitmq',
@@ -26,5 +26,4 @@ class rabbitmq (
     ensure  => running,
     require => File['/etc/rabbitmq/rabbitmq.config'],
   }
-
 }

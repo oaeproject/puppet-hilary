@@ -79,25 +79,16 @@ class hilary (
 
   case $operatingsystem {
     debian, ubuntu: {
-      $packages = [ 'gcc', 'automake', "nodejs=$node_version", "npm=$npm_version", 'graphicsmagick', 'git' ]
+      $packages = [ 'build-essential', 'automake', "nodejs=$node_version", "npm=$npm_version", 'graphicsmagick', 'git' ]
       $provider = undef
       $npm_dir  = '/usr/lib/nodejs/npm'
 
       # Apply apt configuration, which should be executed before these packages are installed
       class { 'apt': }
 
-      apt::key { 'chris-lea':
-        key       => '4BD6EC30',
-        before    => Package[$packages],
-      }
-
-      apt::ppa { 'ppa:chris-lea/node.js':
-        before    => Package[$packages],
-      }
-      
-      apt::ppa { 'ppa:chris-lea/node.js-legacy':
-        before    => Package[$packages],
-      }
+      apt::key { 'chris-lea': key => '4BD6EC30', before => Package[$packages] }
+      apt::ppa { 'ppa:chris-lea/node.js': before => Package[$packages] }
+      apt::ppa { 'ppa:chris-lea/node.js-legacy': before => Package[$packages] }
     }
     solaris, Solaris: {
       $packages = [ 'gcc47', 'automake', 'gmake', "nodejs-$node_version", 'GraphicsMagick', 'scmgit' ]

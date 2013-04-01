@@ -142,15 +142,15 @@ node 'activity-cache-slave' inherits activity-cache {
 ## MESSAGING NODES ##
 #####################
 
-node 'mq-master' inherits basenode {
-  class { 'machine': type_code => 'mq', suffix => '-master' }
-  rabbitmq { 'rabbitmq':
-    listen_address  => $localconfig::mq_hosts_internal[0]['host'],
-    listen_port     => $localconfig::mq_hosts_internal[0]['port'],
-  }
+node 'mq-master' inherits mq {
+  $nodesuffix = '-master'
+  hiera_include(classes)
 }
 
-
+node 'mq-slave' inherits mq {
+  $nodesuffix = '-slave'
+  hiera_include(classes)
+}
 
 #############################
 ## PREVIEW PROCESSOR NODES ##

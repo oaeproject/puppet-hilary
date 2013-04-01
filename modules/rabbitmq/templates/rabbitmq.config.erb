@@ -1,3 +1,7 @@
 [
+  <% if listen_address -%>
   {rabbit, [{tcp_listeners, [{'<%= listen_address %>', <%= listen_port %>}]}]}
+  <% else -%>
+  {rabbit, [{tcp_listeners, [<%= listen_port %>]}]}
+  <% end -%>
 ].
