@@ -118,26 +118,24 @@ node 'search1' inherits search {
 ## REDIS NODES ##
 #################
 
-node 'cache-master' inherits basenode {
-  class { 'machine': type_code => 'cache', suffix => '-master' }
-  redis { 'redis': }
+node 'cache-master' inherits cache {
+  $nodesuffix = '-master'
+  hiera_include(classes)
 }
 
-node 'cache-slave' inherits basenode {
-  class { 'machine': type_code => 'cache', suffix => '-slave' }
-  redis { 'redis': slave_of => $localconfig::redis_hosts[0] }
+node 'cache-slave' inherits cache {
+  $nodesuffix = '-slave'
+  hiera_include(classes)
 }
 
-node 'activity-cache-master' inherits activity-cache { $nodesuffix = '-master' }
+node 'activity-cache-master' inherits activity-cache {
+  $nodesuffix = '-master'
+  hiera_include(classes)
+}
 
-node 'activity-cache-slave' inherits basenode {
-  class { 'machine': type_code => 'activity-cache', suffix => '-slave' }
-  redis { 'redis':
-    eviction_maxmemory  => 3758096384,
-    eviction_policy     => 'volatile-ttl',
-    eviction_samples    => 3,
-    slave_of            => $localconfig::activity_redis_hosts[0]
-  }
+node 'activity-cache-slave' inherits activity-cache {
+  $nodesuffix = '-slave'
+  hiera_include(classes)
 }
 
 #####################

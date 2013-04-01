@@ -59,41 +59,6 @@ class machine::pp ($index) inherits machine::pp::base {
 }
 
 
-################
-## DB MACHINE ##
-################
-
-class machine::db::base inherits machine::base {
-  include service::firewall
-  Service-munun-client['service-munin-client'] { type_code => 'db' }
-  service::cassandra { 'service-cassandra': }
-}
-
-class machine::db ($index) inherits machine::db::base {
-  Service-munun-client['service-munin-client'] { suffix => $index }
-  Service::Cassandra['service-cassandra'] { index => $index }
-}
-
-
-
-####################
-## SEARCH MACHINE ##
-####################
-
-class machine::search::base inherits machine::base {
-  include service::firewall
-
-  Service-munun-client['service-munin-client'] { type_code => 'search' }
-  service::elasticsearch { 'service-elasticsearch': }
-}
-
-class machine::search ($index) inherits machine::search::base {
-    Service-munun-client['service-munin-client'] { suffix => $index }
-    Service::Elasticsearch['service-elasticsearch'] { index => $index }
-}
-
-
-
 ######################
 ## ETHERPAD MACHINE ##
 ######################
