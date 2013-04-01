@@ -84,6 +84,7 @@ class hilary (
 
   case $operatingsystem {
     debian, ubuntu: {
+      ## Includes a bunch of stuff needed for preview-processor
       $packages = [ 'build-essential', 'automake', "nodejs=$node_version", "npm=$npm_version", 'graphicsmagick', 'git' ]
       $provider = undef
       $npm_dir  = '/usr/lib/nodejs/npm'
