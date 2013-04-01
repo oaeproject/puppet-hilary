@@ -35,7 +35,7 @@ class oaeservice::hilary {
     config_cassandra_hosts          => hiera('db_hosts'),
     config_cassandra_keyspace       => hiera('db_keyspace'),
     config_cassandra_timeout        => hiera('db_timeout'),
-    config_cassandra_replication    => hiera('db_replication'),
+    config_cassandra_replication    => hiera('db_replication_factor'),
     config_cassandra_strategy_class => hiera('db_strategy_class'),
 
     config_redis_host_master      => hiera('cache_host_master'),
