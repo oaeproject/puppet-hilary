@@ -19,3 +19,5 @@ node mq             { $nodetype = 'mq' }
 node search         { $nodetype = 'search' }
 
 node ep             { $nodetype = 'ep' }
+
+node web            { $nodetype = 'web' }
