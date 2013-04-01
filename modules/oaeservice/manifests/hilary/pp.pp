@@ -1,7 +1,7 @@
 class oaeservice::hilary::pp {
 
   # Necessary packages for phantomjs and other PP functionality
-  $pp_packages = [ 'build-essential', 'git-core', 'libreoffice', 'pdftk', 'chrpath', 'libssl-dev', 'libfontconfig1-dev' ]
+  $pp_packages = [ 'libreoffice', 'pdftk', 'chrpath', 'libssl-dev', 'libfontconfig1-dev' ]
 
   package { $pp_packages: ensure => installed }
 
@@ -18,7 +18,7 @@ class oaeservice::hilary::pp {
     cwd         => '/tmp/phantomjs',
     command     => './build.sh',
     unless      => 'test -x /usr/local/bin/phantomjs',
-    require     => [ Package[$pp_packages], Vcsrepo['/tmp/phantomjs'] ],
+    require     => [ Package[$pp_packages], Package['build-essential'], Package['git'], Vcsrepo['/tmp/phantomjs'] ],
     before      => Class['::hilary'],
   }
 
