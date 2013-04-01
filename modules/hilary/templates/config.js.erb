@@ -217,7 +217,7 @@ config.mq = {
  */
 config.previews = {
     'enabled': <%= config_previews_enabled ? true : false %>,
-    'dir': '/tmp/previews',
+    'dir': '<%= config_previews_tmp_dir %>',
     'office': {
         'binary': '/usr/bin/soffice',
         'timeout': 120000

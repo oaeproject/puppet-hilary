@@ -62,6 +62,7 @@ class hilary (
     $config_etherpad_domain_suffix) {
 
   $config_files_tmp_upload_dir = "${config_files_tmp_dir}/uploads"
+  $config_previews_tmp_dir = "${config_files_tmp_dir}/previews"
 
   $nodegyp_version = '0.9.3'
 
@@ -157,28 +158,30 @@ class hilary (
     require     => [ Exec["npm_install_dependencies"] ],
   }
 
-  # Directory for user files
-  file { $upload_files_dir:
-    ensure  => directory,
-    owner   => $os_user,
-    group   => $os_group,
-  }
+  file {
 
-  # Temp file directories
-  file { $config_files_tmp_dir:
-    ensure  => directory,
-    owner   => $os_user,
-    group   => $os_group
-  }
+    # User uploaded files
+    $upload_files_dir:
+      ensure  => directory,
+      owner   => $os_user,
+      group   => $os_group;
 
-  file { $config_files_tmp_upload_dir:
-    ensure  => directory,
-    owner   => $os_user,
-    group   => $os_group
-  }
+    # Temp files
+    $config_files_tmp_dir:
+      ensure  => directory,
+      owner   => $os_user,
+      group   => $os_group;
+    $config_files_tmp_upload_dir:
+      ensure  => directory,
+      owner   => $os_user,
+      group   => $os_group;
+    config_previews_tmp_dir:
+      ensure  => directory,
+      owner   => $os_user,
+      group   => $os_group;
 
-  # config.js
-  file { "${app_root_dir}/config.js":
+    # Hilary config file
+    "${app_root_dir}/config.js":
     ensure  => present,
     mode    => "0644",
     owner   => $os_user,
@@ -187,7 +190,6 @@ class hilary (
     require => [ Vcsrepo[$app_root_dir], File[$upload_files_dir], File[$config_files_tmp_dir],
         File[$config_files_tmp_upload_dir] ]
   }
-
 
 
   ####################
