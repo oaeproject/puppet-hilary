@@ -3,13 +3,8 @@
 ## WEB PROXY ##
 ###############
 
-node 'web0' inherits basenode {
-  class { 'machine::nginx': index => 0 }
-}
-
-node 'web1' inherits basenode {
-  class { 'machine::nginx': index => 1 }
-}
+node 'web0' inherits web { $nodesuffix = 0 }
+node 'web1' inherits web { $nodesuffix = 1 }
 
 
 
@@ -18,18 +13,9 @@ node 'web1' inherits basenode {
 ###############
 
 node 'app0' inherits app { $nodesuffix = 0 }
-
-node 'app1' inherits basenode {
-  class { 'machine::app': index => 1 }
-}
-
-node 'app2' inherits basenode {
-  class { 'machine::app': index => 2 }
-}
-
-node 'app3' inherits basenode {
-  class { 'machine::app': index => 3 }
-}
+node 'app1' inherits app { $nodesuffix = 1 }
+node 'app2' inherits app { $nodesuffix = 2 }
+node 'app3' inherits app { $nodesuffix = 3 }
 
 
 
@@ -37,17 +23,9 @@ node 'app3' inherits basenode {
 ## ACTIVITY NODES ##
 ####################
 
-node 'activity0' inherits basenode {
-  class { 'machine::activity::performance': index => 0 }
-}
-
-node 'activity1' inherits basenode {
-  class { 'machine::activity::performance': index => 1 }
-}
-
-node 'activity2' inherits basenode {
-  class { 'machine::activity::performance': index => 2 }
-}
+node 'activity0' inherits activity { $nodesuffix = 0 }
+node 'activity1' inherits activity { $nodesuffix = 1 }
+node 'activity2' inherits activity { $nodesuffix = 2 }
 
 
 
