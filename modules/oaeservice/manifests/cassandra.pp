@@ -4,6 +4,13 @@ class oaeservice::cassandra {
   $tokens = hiera('db_tokens')
   $index = hiera('nodesuffix')
 
+  $rsyslog_enabled = hiera('rsyslog_enabled', false)
+  if $rsyslog_enabled {
+    $rsyslog_host = hiera('rsyslog_host')
+  } else {
+    $rsyslog_host = false
+  }
+
   class { '::cassandra':
     owner               => hiera('db_os_user'),
     group               => hiera('db_os_group'),
@@ -11,7 +18,7 @@ class oaeservice::cassandra {
     hosts               => $hosts,
     listen_address      => $hosts[$index],
     initial_token       => $tokens[$index],
-    rsyslog_enabled     => hiera('rsyslog_enabled', false),
-    rsyslog_host        => hiera('rsyslog_hosts'),
+    rsyslog_enabled     => $rsyslog_enabled,
+    rsyslog_host        => $rsyslog_host,
   }
 }
