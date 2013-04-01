@@ -1,4 +1,5 @@
 class oaeservice::elasticsearch {
+
   $search_hosts = hiera('search_hosts')
   $index = hiera('nodesuffix')
   
