@@ -175,7 +175,7 @@ class hilary (
       ensure  => directory,
       owner   => $os_user,
       group   => $os_group;
-    config_previews_tmp_dir:
+    $config_previews_tmp_dir:
       ensure  => directory,
       owner   => $os_user,
       group   => $os_group;
