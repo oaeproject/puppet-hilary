@@ -8,6 +8,8 @@ class oaeservice::hilary::pp {
     ensure      => present,
     url         => 'https://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux-x86_64.tar.bz2',
     target      => '/opt',
+    extension   => 'tar.bz2',
+    src_target  => '/opt',
   }
 
   include oaeservice::hilary
