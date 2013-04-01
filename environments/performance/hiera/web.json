@@ -1,0 +1,21 @@
+{
+    "classes": [ "::oaeservice::nginx" ],
+    "rsyslog::imfiles": [
+        {
+            "path": "/var/log/nginx/access.log",
+            "tag": "access",
+            "state_file_name": "nginx_access",
+            "severity": "info",
+            "facility": "local0",
+            "poll_interval_seconds": 10,
+        },
+        {
+            "path": "/var/log/nginx/error.log",
+            "tag": "error",
+            "state_file_name": "nginx_error",
+            "severity": "error",
+            "facility": "local1",
+            "poll_interval_seconds": 10,
+        }
+    ]
+}

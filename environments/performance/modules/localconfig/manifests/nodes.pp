@@ -176,12 +176,14 @@ node 'pp2' inherits pp {
 ## ETHERPAD NODES ##
 ####################
 
-node 'ep0' inherits basenode {
-  class { 'machine::ep': index => 0 }
+node 'ep0' inherits ep {
+  $nodesuffix = 0
+  hiera_include(classes)
 }
 
-node 'ep1' inherits basenode {
-  class { 'machine::ep': index => 1 }
+node 'ep1' inherits ep {
+  $nodesuffix = 1
+  hiera_include(classes)
 }
 
 
@@ -190,8 +192,9 @@ node 'ep1' inherits basenode {
 ## SYSLOG NODE ##
 #################
 
-node 'syslog' inherits baselinuxnode {
-  class { 'machine::syslog': }
+node 'syslog' {
+  $nodetype = 'syslog'
+  hiera_include(classes)
 }
 
 
@@ -200,8 +203,9 @@ node 'syslog' inherits baselinuxnode {
 ## BASTION ##
 #############
 
-node 'bastion' inherits baselinuxnode {
-  class { 'machine::bastion': }
+node 'bastion' {
+  $nodetype = 'bastion'
+  hiera_include(classes)
 }
 
 
