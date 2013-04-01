@@ -3,8 +3,15 @@
 ## WEB PROXY ##
 ###############
 
-node 'web0' inherits web { $nodesuffix = 0 }
-node 'web1' inherits web { $nodesuffix = 1 }
+node 'web0' inherits web {
+  $nodesuffix = 0
+  hiera_include(classes)
+}
+
+node 'web1' inherits web {
+  $nodesuffix = 1
+  hiera_include(classes)
+}
 
 
 
@@ -12,10 +19,25 @@ node 'web1' inherits web { $nodesuffix = 1 }
 ## APP NODES ##
 ###############
 
-node 'app0' inherits app { $nodesuffix = 0 }
-node 'app1' inherits app { $nodesuffix = 1 }
-node 'app2' inherits app { $nodesuffix = 2 }
-node 'app3' inherits app { $nodesuffix = 3 }
+node 'app0' inherits app {
+  $nodesuffix = 0
+  hiera_include(classes)
+}
+
+node 'app1' inherits app {
+  $nodesuffix = 1
+  hiera_include(classes)
+}
+
+node 'app2' inherits app {
+  $nodesuffix = 2
+  hiera_include(classes)
+}
+
+node 'app3' inherits app {
+  $nodesuffix = 3
+  hiera_include(classes)
+}
 
 
 
@@ -28,8 +50,15 @@ node 'activity0' inherits activity {
   hiera_include(classes)
 }
 
-node 'activity1' inherits activity { $nodesuffix = 1 }
-node 'activity2' inherits activity { $nodesuffix = 2 }
+node 'activity1' inherits activity {
+  $nodesuffix = 1
+  hiera_include(classes)
+}
+
+node 'activity2' inherits activity {
+  $nodesuffix = 2
+  hiera_include(classes)
+}
 
 
 
@@ -37,29 +66,34 @@ node 'activity2' inherits activity { $nodesuffix = 2 }
 ## CASSANDRA NODES ##
 #####################
 
-node 'db0' inherits baselinuxnode {
-  class { 'machine::db': index => 0 }
-  opscenter { 'opscenter': require => Class['machine::db'] }
+node 'db0' inherits db {
+  $nodesuffix = 0
+  hiera_include(classes)
 }
 
-node 'db1' inherits baselinuxnode {
-  class { 'machine::db': index => 1 }
+node 'db0' inherits db {
+  $nodesuffix = 1
+  hiera_include(classes)
 }
 
-node 'db2' inherits baselinuxnode {
-  class { 'machine::db': index => 2 }
+node 'db0' inherits db {
+  $nodesuffix = 2
+  hiera_include(classes)
 }
 
-node 'db3' inherits baselinuxnode {
-  class { 'machine::db': index => 3 }
+node 'db0' inherits db {
+  $nodesuffix = 3
+  hiera_include(classes)
 }
 
-node 'db4' inherits baselinuxnode {
-  class { 'machine::db': index => 4 }
+node 'db0' inherits db {
+  $nodesuffix = 4
+  hiera_include(classes)
 }
 
-node 'db5' inherits baselinuxnode {
-  class { 'machine::db': index => 5 }
+node 'db0' inherits db {
+  $nodesuffix = 5
+  hiera_include(classes)
 }
 
 
