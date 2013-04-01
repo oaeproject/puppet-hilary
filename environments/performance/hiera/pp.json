@@ -1,6 +1,6 @@
 {
     "classes": [ "::oaeservice::hilary::pp" ],
     "hilary::config_previews_enabled": true,
-    "hilary::app_os_user": "root",
-    "hilary::app_os_group": "root"
+    "hilary::os_user": "root",
+    "hilary::os_group": "root"
 }
