@@ -1,5 +1,5 @@
 class oaeservice::elasticsearch {
-  $search_hosts = hiera('search_hosts');
+  $search_hosts = hiera('search_hosts')
   $index = hiera('nodesuffix')
   
   $rsyslog_enabled = hiera('rsyslog_enabled', false)
