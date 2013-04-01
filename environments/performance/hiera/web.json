@@ -17,5 +17,8 @@
             "facility": "local1",
             "poll_interval_seconds": 10
         }
-    ]
+    ],
+
+    "nginx::owner": "admin",
+    "nginx::group": "group"
 }
