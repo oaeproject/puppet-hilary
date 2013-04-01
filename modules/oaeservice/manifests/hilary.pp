@@ -34,6 +34,7 @@ class oaeservice::hilary {
     config_etherpad_api_key       => hiera('etherpad_api_key'),
     config_etherpad_domain_suffix => hiera('etherpad_domain_suffix'),
     config_log_syslog_ip          => $rsyslog_host,
-    config_activity_redis_host    => $activitycache_host_master
+    config_activity_redis_host    => $activitycache_host_master,
+    config_signing_key            => hiera('app_signing_key')
   }
 }
