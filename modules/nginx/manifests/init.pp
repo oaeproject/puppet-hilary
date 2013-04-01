@@ -21,7 +21,7 @@ class nginx (
     mode    => 0700,
     owner   => root,
     group   => root,
-    source  => 'puppet:///modules/nginx/install.sh',
+    content  => template('nginx/install.sh.erb'),
     require => Exec['installdir']
   }
 
@@ -41,10 +41,24 @@ class nginx (
     require => Exec['nginx_install'],
   }
 
+  file { '/var/svc/manifest/nginx.xml':
+    path    => '/var/svc/manifest/nginx.xml',
+    ensure  => present,
+    mode    => 0644,
+    owner   => $owner,
+    group   => $group,
+    content => template('nginx/nginx.xml.erb')
+  }
+
+  exec { 'svccfg import /var/svc/manifest/nginx.xml':
+    command => 'svccfg import /var/svc/manifest/nginx.xml',
+    require => File['/var/svc/manifest/nginx.xml']
+  }
+
   service { 'nginx':
     ensure  => running,
     enable  => 'true',
-    require => File['nginx_config'],
+    require => [ File['nginx_config'], Exec['svccfg import /var/svc/manifest/nginx.xml'] ]
   }
 
 }
