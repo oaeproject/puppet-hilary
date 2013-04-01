@@ -26,7 +26,7 @@ class oaeservice::hilary {
     os_user                       => hiera('app_os_user'),
     os_group                      => hiera('app_os_user'),
     upload_files_dir              => hiera('app_files_dir'),
-    config_cassandra_hosts        => hiera('cassandra_hosts'),
+    config_cassandra_hosts        => hiera('db_hosts'),
     config_redis_host_master      => hiera('cache_host_master'),
     config_search_hosts           => hiera('search_hosts'),
     config_mq_host                => hiera('mq_host_master'),
