@@ -11,8 +11,8 @@ class nginx (
     $installer_path = '/home/admin/nginx/scripts') {
 
   exec { 'installdir':
-    command => "/opt/local/gnu/bin/mkdir -p ${installer_path}",
-    unless  => "/opt/local/gnu/bin/test -d ${installer_path}",
+    command => "mkdir -p ${installer_path}",
+    unless  => "test -d ${installer_path}",
   }
 
   file { 'nginx_script':
