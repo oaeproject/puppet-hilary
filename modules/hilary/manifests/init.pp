@@ -196,7 +196,7 @@ class hilary (
 
   # git clone http://github.com/sakaiproject/3akai-ux
   vcsrepo { $ux_root_dir:
-    ensure    => present,
+    ensure    => latest,
     provider  => git,
     source    => "http://github.com/${ux_git_user}/3akai-ux",
     revision  => $ux_git_branch,
