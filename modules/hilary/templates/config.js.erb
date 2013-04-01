@@ -75,8 +75,8 @@ config.servers = {
 // at runtime.
 config.files = {
     'localStorageDirectory': '<%= upload_files_dir %>',
-    'tmpDir': <%= tmp_dir %>,
-    'uploadDir': '<%= tmp_upload_dir %>',
+    'tmpDir': '<%= config_files_tmp_dir %>',
+    'uploadDir': '<%= config_files_tmp_upload_dir %>',
     'cleaner': {
         'enabled': true,
         'interval': 2*60*60
