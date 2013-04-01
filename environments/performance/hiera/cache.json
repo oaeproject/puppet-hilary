@@ -1,0 +1,4 @@
+{
+    "classes": [ "::redis" ],
+    "redis::syslog_enabled": true,
+}
