@@ -6,7 +6,7 @@ class oaeservice::nginx {
   package { 'nodejs':   ensure => present, provider => pkgin }
   package { 'scmgit':   ensure => present, provider => pkgin }
 
-  $ux_root = hiera('ux_root')
+  $ux_root = hiera('ux_root_dir')
   $ux_git_user = hiera('ux_git_user')
   $ux_git_branch = hiera('ux_git_branch')
 
@@ -22,7 +22,7 @@ class oaeservice::nginx {
   class { '::nginx':
     internal_app_ips      => hiera('app_hosts'),
     internal_etherpad_ips => hiera('etherpad_hosts'),
-    ux_home               => hiera('ux_root'),
+    ux_home               => $ux_root,
     ux_admin_host         => hiera('ux_admin_host'),
     files_home            => hiera('app_files'),
   }
