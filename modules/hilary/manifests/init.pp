@@ -16,7 +16,7 @@ class hilary (
 
     # Files
     $config_files_tmp_dir             = '/tmp',
-    $config_files_tmp_upload_dir      = "${config_files_tmp_dir}/uploads"
+    $config_files_tmp_upload_dir      = "${config_files_tmp_dir}/uploads",
 
     # Cassandra
     $config_cassandra_hosts,
