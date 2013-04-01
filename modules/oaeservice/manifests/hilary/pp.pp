@@ -9,6 +9,7 @@ class oaeservice::hilary::pp {
   exec { 'clone_phantomjs':
     cwd     => '/tmp',
     command => 'git clone https://github.com/ariya/phantomjs.git',
+    creates => '/tmp/phantomjs',
     unless  => 'test -x /usr/bin/phantomjs',
     require => Package['git'],
   }
