@@ -24,7 +24,7 @@ class oaeservice::hilary {
     ux_git_user                   => hiera('ux_git_user'),
     ux_git_branch                 => hiera('ux_git_branch'),
     os_user                       => hiera('app_os_user'),
-    os_group                      => hiera('app_os_user'),
+    os_group                      => hiera('app_os_group'),
     upload_files_dir              => hiera('app_files_dir'),
 
     config_cookie_secret          => hiera('app_cookie_secret'),
