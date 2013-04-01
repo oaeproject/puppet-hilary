@@ -1,17 +1,19 @@
 class oaeservice::hilary {
 
   $rsyslog_enabled = hiera('rsyslog_enabled', false)
-  $rsyslog_host = false
   if $rsyslog_enabled {
-    $rsyslog_host = $rsyslog['host']
+    $rsyslog_host = hiera('rsyslog_host')
+  } else {
+    $rsyslog_host = false
   }
 
   $activitycache_enabled = hiera('activitycache_enabled', false)
-  $activitycache_host_master = false
-  $activitycache_host_slave = false
   if $activitycache_enabled {
-    $activitycache_host_master = hiera('activitycache_host_master')
+    $activitycache_host_master = hiera('activitycache_host_master', false)
     $activitycache_host_slave = hiera('activitycache_host_slave')
+  } else {
+    $activitycache_host_master = false
+    $activitycache_host_slave = false
   }
 
   class { '::hilary':
