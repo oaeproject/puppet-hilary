@@ -6,7 +6,7 @@ class oaeservice::hilary::pp {
 
   archive { 'phantomjs.tar.bz2':
     ensure      => present,
-    url         => 'https://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux-x86_64.tar.bz2',
+    url         => 'https://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux-x86_64',
     target      => '/opt',
     extension   => 'tar.bz2',
     src_target  => '/opt',
