@@ -1,5 +1,8 @@
 {
-    "classes": [ "::oaeservice::nginx" ],
+    "classes": [
+        "::oaeservice::nginx",
+        "::oaeservice::hilary::files"
+    ],
     "rsyslog::imfiles": [
         {
             "path": "/var/log/nginx/access.log",
