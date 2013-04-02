@@ -16,6 +16,8 @@ class oaeservice::hilary {
     $activitycache_host_slave = false
   }
 
+  $phantomjs_version = hiera('phantomjs_version')
+
   class { '::hilary':
     app_root_dir                  => hiera('app_root_dir'),
     app_git_user                  => hiera('app_git_user'),
@@ -38,13 +40,14 @@ class oaeservice::hilary {
     config_cassandra_replication    => hiera('db_replication_factor'),
     config_cassandra_strategy_class => hiera('db_strategy_class'),
 
-    config_redis_host_master        => hiera('cache_host_master'),
-    config_search_hosts             => hiera('search_hosts'),
-    config_mq_host                  => hiera('mq_host_master'),
-    config_etherpad_hosts           => hiera('etherpad_hosts'),
-    config_etherpad_api_key         => hiera('etherpad_api_key'),
-    config_etherpad_domain_suffix   => hiera('etherpad_domain_suffix'),
-    config_log_syslog_ip            => $rsyslog_host,
-    config_activity_redis_host      => $activitycache_host_master,
+    config_redis_host_master          => hiera('cache_host_master'),
+    config_search_hosts               => hiera('search_hosts'),
+    config_mq_host                    => hiera('mq_host_master'),
+    config_etherpad_hosts             => hiera('etherpad_hosts'),
+    config_etherpad_api_key           => hiera('etherpad_api_key'),
+    config_etherpad_domain_suffix     => hiera('etherpad_domain_suffix'),
+    config_log_syslog_ip              => $rsyslog_host,
+    config_activity_redis_host        => $activitycache_host_master,
+    config_previews_phantomjs_binary  => "/opt/phantomjs-${phantomjs_version}-linux-x86_64/bin/phantomjs"
   }
 }

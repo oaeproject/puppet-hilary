@@ -43,6 +43,8 @@
 
     "pp_os_user": "root",
     "pp_os_group": "root",
+    "phantomjs_version": "1.9.0",
+    "phantomjs_checksum": "8075fa873d8741c7ae9093c80a589a1f",
 
     "search_hosts": [
         {"host": "10.112.6.231", "port": 9200},

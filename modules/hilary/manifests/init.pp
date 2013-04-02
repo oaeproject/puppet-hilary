@@ -48,6 +48,7 @@ class hilary (
 
     # Previews
     $config_previews_enabled          = false,
+    $config_previews_phantomjs_binary = 'phantomjs',
 
     # Signing
     $config_signing_key,
