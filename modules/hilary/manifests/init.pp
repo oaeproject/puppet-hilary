@@ -124,6 +124,7 @@ class hilary (
     provider  => git,
     source    => "http://github.com/${app_git_user}/Hilary",
     revision  => $app_git_branch,
+    require   => Package[$packages],
   }
 
   file { $app_root_dir:
@@ -139,6 +140,7 @@ class hilary (
     command   => "npm install node-gyp@$nodegyp_version",
     cwd       => $npm_dir,
     logoutput => 'on_failure',
+    require   => Package[$packages],
   }
 
   # npm install -d
@@ -160,37 +162,47 @@ class hilary (
     require     => [ Exec["npm_install_dependencies"] ],
   }
 
+  # recursively create all tmp directories
+  exec { 'mkdir_upload_files_dir': command => "mkdir -p $upload_files_dir" }
+  exec { 'mkdir_config_files_tmp_dir': command => "mkdir -p $config_files_tmp_dir" }
+  exec { 'mkdir_config_files_tmp_upload_dir': command => "mkdir -p $config_files_tmp_upload_dir" }
+  exec { 'mkdir_config_previews_tmp_dir': command => "mkdir -p $config_previews_tmp_dir" }
+
   file {
 
     # User uploaded files
     $upload_files_dir:
       ensure  => directory,
       owner   => $os_user,
-      group   => $os_group;
+      group   => $os_group,
+      require => Exec['mkdir_upload_files_dir'];
 
     # Temp files
     $config_files_tmp_dir:
       ensure  => directory,
       owner   => $os_user,
-      group   => $os_group;
+      group   => $os_group,
+      require => Exec['mkdir_config_files_tmp_dir'];
     $config_files_tmp_upload_dir:
       ensure  => directory,
       owner   => $os_user,
-      group   => $os_group;
+      group   => $os_group,
+      require => Exec['mkdir_config_files_tmp_upload_dir'];
     $config_previews_tmp_dir:
       ensure  => directory,
       owner   => $os_user,
-      group   => $os_group;
+      group   => $os_group,
+      require => Exec['mkdir_config_previews_tmp_dir'];
 
     # Hilary config file
     "${app_root_dir}/config.js":
-    ensure  => present,
-    mode    => "0644",
-    owner   => $os_user,
-    group   => $os_group,
-    content => template('hilary/config.js.erb'),
-    require => [ Vcsrepo[$app_root_dir], File[$upload_files_dir], File[$config_files_tmp_dir],
-        File[$config_files_tmp_upload_dir] ]
+      ensure  => present,
+      mode    => "0644",
+      owner   => $os_user,
+      group   => $os_group,
+      content => template('hilary/config.js.erb'),
+      require => [ Vcsrepo[$app_root_dir], File[$upload_files_dir], File[$config_files_tmp_dir],
+          File[$config_files_tmp_upload_dir] ]
   }
 
 
@@ -204,6 +216,7 @@ class hilary (
     provider  => git,
     source    => "http://github.com/${ux_git_user}/3akai-ux",
     revision  => $ux_git_branch,
+    require   => Package[$packages],
   }
 
 
