@@ -18,7 +18,7 @@ class nginx (
 
   case $operatingsystem {
     solaris, Solaris: {
-      $nginx_ld_param = '--with-ld-opt='-L/opt/local/lib -Wl,-R/opt/local/lib'
+      $nginx_ld_param = "--with-ld-opt='-L/opt/local/lib -Wl,-R/opt/local/lib'""
     }
     default: {
       $nginx_ld_param = ''
