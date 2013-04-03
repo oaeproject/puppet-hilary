@@ -79,5 +79,7 @@
     "driver_tsung_version": "1.4.2",
 
     "nginx::owner": "root",
-    "nginx::group": "root"
+    "nginx::group": "root",
+    "redis::owner": "root",
+    "redis::group": "root"
 }

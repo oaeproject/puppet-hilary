@@ -15,7 +15,11 @@
 # limitations under the License.
 
 # output messages into a rolling log file as well as stdout
+<% if rsyslog_enabled -%>
 log4j.rootLogger=INFO,stdout,SYSLOG
+<% else -%>
+log4j.rootLogger=INFO,stdout,R
+<% end -%>
 
 # stdout
 log4j.appender.stdout=org.apache.log4j.ConsoleAppender
