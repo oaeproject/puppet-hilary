@@ -26,8 +26,6 @@ class oaeservice::hilary {
     app_git_user                  => hiera('app_git_user'),
     app_git_branch                => hiera('app_git_branch'),
     ux_root_dir                   => hiera('ux_root_dir'),
-    ux_git_user                   => hiera('ux_git_user'),
-    ux_git_branch                 => hiera('ux_git_branch'),
     os_user                       => hiera('app_os_user'),
     os_group                      => hiera('app_os_group'),
     upload_files_dir              => hiera('app_files_dir'),
