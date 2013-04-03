@@ -5,7 +5,7 @@ class oaeservice::hilary {
   require oaeservice::deps::package::graphicsmagick
 
   Class['::oaeservice::deps::common']                   -> Class['::hilary']
-  Class['::oaeservice::deps::git']                      -> Class['::hilary']
+  Class['::oaeservice::deps::package::git']             -> Class['::hilary']
   Class['::oaeservice::deps::package::nodejs']          -> Class['::hilary']
   Class['::oaeservice::deps::package::graphicsmagick']  -> Class['::hilary']
 
