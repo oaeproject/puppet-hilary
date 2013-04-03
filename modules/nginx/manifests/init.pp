@@ -11,11 +11,6 @@ class nginx (
     $nginx_dir      = '/opt/nginx',
     $installer_path = '/home/admin/nginx/scripts') {
 
-  exec { 'installdir':
-    command => "mkdir -p ${installer_path}",
-    unless  => "test -d ${installer_path}",
-  }
-
   case $operatingsystem {
     solaris, Solaris: {
       $nginx_ld_param = "--with-ld-opt='-L/opt/local/lib -Wl,-R/opt/local/lib'""
@@ -25,8 +20,13 @@ class nginx (
     }
   }
 
+  exec { 'installdir':
+    command => "mkdir -p ${installer_path}",
+    unless  => "test -d ${installer_path}",
+  }
+
   file { 'nginx_script':
-    path    => '/home/admin/nginx/scripts/install.sh',
+    path    => "${installer_path}/install.sh",
     ensure  => present,
     mode    => 0700,
     owner   => root,
