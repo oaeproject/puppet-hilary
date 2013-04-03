@@ -40,7 +40,7 @@ class redis (
 
   # Set the configuration file.
   file { 'redis.conf':
-    path    => '/opt/local/etc/redis.conf',
+    path    => $redis_config_path,
     ensure  => present,
     mode    => 0644,
     owner   => $owner,

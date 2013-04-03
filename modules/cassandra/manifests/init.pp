@@ -18,6 +18,9 @@ class cassandra (
 
   case $operatingsystem {
     CentOS, RedHat: {
+      $cassandra_conf_dir = '/etc/cassandra/conf'
+
+
       yumrepo { "datastax":
         name => "datastax",
         baseurl => "http://rpm.datastax.com/community",
@@ -32,8 +35,9 @@ class cassandra (
       }
     }
     ubuntu, debian: {
-      include apt
+      $cassandra_conf_dir = '/etc/cassandra'
 
+      include apt
       apt::source { 'datastax':
         location    => 'http://debian.datastax.com/community',
         repos       => 'stable main',
@@ -64,7 +68,7 @@ class cassandra (
   }
 
   file { 'cassandra.yaml':
-    path => '/etc/cassandra/conf/cassandra.yaml',
+    path => "${cassandra_conf_dir}/cassandra.yaml",
     ensure => present,
     mode => 0640,
     owner => $owner,
@@ -74,7 +78,7 @@ class cassandra (
   }
 
   file { 'cassandra-env.sh':
-    path => '/etc/cassandra/conf/cassandra-env.sh',
+    path => "${cassandra_conf_dir}/cassandra-env.sh",
     ensure => present,
     mode => 0755,
     owner => $owner,
@@ -84,7 +88,7 @@ class cassandra (
   }
 
   file { 'log4j-server.properties':
-    path    => '/etc/cassandra/conf/log4j-server.properties',
+    path    => "${cassandra_conf_dir}/log4j-server.properties",
     ensure  => present,
     mode    => 0755,
     owner   => $owner,
