@@ -42,7 +42,7 @@ class nginx (
   }
 
   file { 'nginx_config':
-    path    => "<%= nginx_dir %>/conf/nginx.conf",
+    path    => "${nginx_dir}/conf/nginx.conf",
     ensure  => present,
     mode    => 0640,
     owner   => $owner,
