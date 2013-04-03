@@ -12,11 +12,7 @@ class oaeservice::elasticsearch {
   }
   
   $rsyslog_enabled = hiera('rsyslog_enabled', false)
-  if $rsyslog_enabled {
-    $rsyslog_host = hiera('rsyslog_host')
-  } else {
-    $rsyslog_host = false
-  }
+  $rsyslog_host = hiera('rsyslog_host', '127.0.0.1')
 
   class { '::elasticsearch':
     search_hosts      => $search_hosts,

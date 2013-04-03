@@ -1,4 +1,10 @@
+
+<% if rsyslog_enabled -%>
 rootLogger: INFO, console, syslog_info
+<% else -%>
+rootLogger: INFO, console, file
+<% end -%>
+
 logger:
   # log action execution errors for easier debugging
   action: DEBUG
@@ -15,8 +21,13 @@ logger:
   # discovery
   #discovery: TRACE
 
+<% if rsyslog_enabled -%>
   index.search.slowlog: TRACE, syslog_search_slow
   index.indexing.slowlog: TRACE, syslog_index_slow
+<% else -%>
+  index.search.slowlog: TRACE, index_search_slow_log_file
+  index.indexing.slowlog: TRACE, index_indexing_slow_log_file
+<% end -%>
 
 additivity:
   index.search.slowlog: false
@@ -27,6 +38,30 @@ appender:
     type: console
     layout:
       type: consolePattern
+      conversionPattern: "[%d{ISO8601}][%-5p][%-25c] %m%n"
+
+  file:
+    type: dailyRollingFile
+    file: ${path.logs}/${cluster.name}.log
+    datePattern: "'.'yyyy-MM-dd"
+    layout:
+      type: pattern
+      conversionPattern: "[%d{ISO8601}][%-5p][%-25c] %m%n"
+
+  index_search_slow_log_file:
+    type: dailyRollingFile
+    file: ${path.logs}/${cluster.name}_index_search_slowlog.log
+    datePattern: "'.'yyyy-MM-dd"
+    layout:
+      type: pattern
+      conversionPattern: "[%d{ISO8601}][%-5p][%-25c] %m%n"
+
+  index_indexing_slow_log_file:
+    type: dailyRollingFile
+    file: ${path.logs}/${cluster.name}_index_indexing_slowlog.log
+    datePattern: "'.'yyyy-MM-dd"
+    layout:
+      type: pattern
       conversionPattern: "[%d{ISO8601}][%-5p][%-25c] %m%n"
 
   syslog_info:
