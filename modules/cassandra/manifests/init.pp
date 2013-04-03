@@ -37,6 +37,7 @@ class cassandra (
       apt::source { 'datastax':
         location    => 'http://debian.datastax.com/community',
         repos       => 'stable main',
+        release     => '',
         key         => 'B999A372',
         key_source  => 'http://debian.datastax.com/debian/repo_key',
       }
