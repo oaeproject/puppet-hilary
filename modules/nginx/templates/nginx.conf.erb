@@ -10,6 +10,8 @@ http {
     include       <%= nginx_dir %>/conf/mime.types;
     default_type  application/octet-stream;
 
+    server_names_hash_bucket_size  64;
+    
     <% if cert != 'null' -%>
     ssl_certificate      <%= cert %>;
     ssl_certificate_key  <%= cert_key %>;
