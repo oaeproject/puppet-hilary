@@ -1,13 +1,13 @@
 class oaeservice::deps::package::graphicsmagick {
   case $operatingsystem {
     debian, ubuntu: {
-      package { 'graphicsmagick': ensure => present }
+      package { 'graphicsmagick': ensure => installed }
     }
     solaris, Solaris: {
-      package { 'GraphicsMagick': ensure => present, provider => 'pkgin' }
+      package { 'GraphicsMagick': ensure => installed, provider => 'pkgin' }
     }
     default: {
-      package { 'GraphicsMagick': ensure => present }
+      package { 'GraphicsMagick': ensure => installed }
     }
   }
 }

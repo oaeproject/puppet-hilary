@@ -19,22 +19,22 @@ class oaeservice::deps::package::nodejs {
       apt::ppa { 'ppa:chris-lea/node.js': }
       apt::ppa { 'ppa:chris-lea/node.js-legacy': }
 
-      package { "nodejs=$nodejs_ubuntu_version": ensure => present, require => Class['apt'] }
-      package { "npm=$npm_ubuntu_version": ensure => present, require => Class['apt'] }
+      package { "nodejs=$nodejs_ubuntu_version": ensure => installed, require => Class['apt'] }
+      package { "npm=$npm_ubuntu_version": ensure => installed, require => Class['apt'] }
     }
     solaris, Solaris: {
       $npm_dir = '/opt/local/lib/node_modules/npm'
       $npm_require = "nodejs-$node_version"
 
       ## npm installs by default in the pkgin repos
-      package { "nodejs-$node_version": ensure => present, provider => 'pkgin' }
+      package { "nodejs-$node_version": ensure => installed, provider => 'pkgin' }
     }
     default: {
       $npm_dir = '/usr/lib/nodejs/npm'
       $npm_require = "npm-$npm_version"
 
-      package { "nodejs-$node_version": ensure => present }
-      package { "npm-$npm_version": ensure => present }
+      package { "nodejs-$node_version": ensure => installed }
+      package { "npm-$npm_version": ensure => installed }
     }
   }
 
