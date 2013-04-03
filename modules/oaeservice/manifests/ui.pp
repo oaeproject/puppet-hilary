@@ -1,5 +1,5 @@
 class oaeservice::ui {
-  include ::oaeservice::deps::common
+  require ::oaeservice::deps::common
 
   # TODO: This can probably be pushed down to a low-level module which handles distinction between a tarball
   # deployment and a git deployment
@@ -13,7 +13,6 @@ class oaeservice::ui {
     ensure    => latest,
     provider  => git,
     source    => "http://github.com/${ux_git_user}/3akai-ux",
-    revision  => $ux_git_branch,
-    require   => Class['::Oaeservice::Deps::Common'],
+    revision  => $ux_git_branch
   }
 }

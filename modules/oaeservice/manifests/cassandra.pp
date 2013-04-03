@@ -1,5 +1,5 @@
 class oaeservice::cassandra {
-  include oaeservice::deps::package::java6
+  require oaeservice::deps::package::java6
 
   $hosts = hiera('db_hosts')
   $tokens = hiera('db_tokens')
@@ -29,7 +29,6 @@ class oaeservice::cassandra {
     listen_address      => $hosts[$index],
     initial_token       => $tokens[$index],
     rsyslog_enabled     => $rsyslog_enabled,
-    rsyslog_host        => $rsyslog_host,
-    require             => [ Class['::Oaeservice::Deps::Package::Java6'] ]
+    rsyslog_host        => $rsyslog_host
   }
 }

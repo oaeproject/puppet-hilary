@@ -1,7 +1,7 @@
 class oaeservice::hilary {
-  include oaeservice::deps::common
-  include oaeservice::deps::package::nodejs
-  include oaeservice::deps::package::graphicsmagick
+  require oaeservice::deps::common
+  require oaeservice::deps::package::nodejs
+  require oaeservice::deps::package::graphicsmagick
 
   $rsyslog_enabled = hiera('rsyslog_enabled', false)
   if $rsyslog_enabled {
@@ -49,9 +49,6 @@ class oaeservice::hilary {
     config_etherpad_domain_suffix     => hiera('etherpad_domain_suffix'),
     config_log_syslog_ip              => $rsyslog_host,
     config_activity_redis_host        => $activitycache_host_master,
-    config_previews_phantomjs_binary  => "/opt/phantomjs-${phantomjs_version}-linux-x86_64/bin/phantomjs",
-
-    require   => [ Class['::Oaeservice::Deps::Common'], Class['::Oaeservice::Deps::Package::Nodejs'],
-        Class['::Oaeservice::Deps::Package::Graphicsmagick'] ],
+    config_previews_phantomjs_binary  => "/opt/phantomjs-${phantomjs_version}-linux-x86_64/bin/phantomjs"
   }
 }
