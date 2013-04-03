@@ -6,7 +6,8 @@
         "::redis",
         "::oaeservice::elasticsearch",
         "::oaeservice::nginx",
-        "::oaeservice::cassandra"
+        "::oaeservice::cassandra",
+        "::oaeservice::mq"
     ],
 
     "nodetype": "%{nodetype}",
