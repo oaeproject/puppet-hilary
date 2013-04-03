@@ -7,14 +7,35 @@ class redis (
     $slave_of             = false,
     $syslog_enabled       = false,) {
 
-  package { 'redis':
-    ensure    => present,
-    provider  => pkgin,
-  }
+  case $operatingsystem {
+    solaris, Solaris: {
+      $redis_name = 'redis'
+      $redis_config_path = '/opt/local/etc/redis.conf'
 
-  exec { 'svccfg import redis.xml':
-    command => '/usr/sbin/svccfg import /opt/local/share/smf/redis/manifest.xml',
-    require => Package['redis'],
+      package { $redis_name: ensure => present, provider => $provider }
+      exec { 'svccfg import redis.xml':
+        command => '/usr/sbin/svccfg import /opt/local/share/smf/redis/manifest.xml',
+        require => Package['redis'],
+      }
+    }
+    debian, ubuntu: {
+      $redis_name = 'redis-server'
+      $redis_config_path = '/etc/redis/redis.conf'
+
+      include apt
+      apt::source { 'dotdeb':
+        location    => 'http://packages.dotdeb.org',
+        repos       => 'stable redis',
+        release     => '',
+        key         => '89DF5277',
+        key_source  => 'http://www.dotdeb.org/dotdeb.gpg',
+      }
+
+      package { $redis_name: ensure => installed, require => Class['apt'] }
+    }
+    default: {
+      exec { "redis_notsupported": command => fail("Redis not supported yet for ${::operatingsystem}") }
+    }
   }
 
   # Set the configuration file.
@@ -25,14 +46,14 @@ class redis (
     owner   => $owner,
     group   => $group,
     content => template('redis/redis.conf.erb'),
-    require => Package['redis']
+    require => Package[$redis_name]
   }
 
   # define the service to restart
-  service { 'redis':
+  service { $redis_name:
     ensure    => 'running',
     enable    => 'true',
-    require   => [ File['redis.conf'] ],
+    require   => File['redis.conf'],
   }
 
 }
