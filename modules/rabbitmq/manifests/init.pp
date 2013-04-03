@@ -9,7 +9,14 @@ class rabbitmq (
   ## PACKAGE DEPENDENCIES ##
   ##########################
 
-  package { 'rabbitmq-server': ensure  => installed, }
+  case $operatingsystem {
+    debian, ubuntu: {
+      package { 'rabbitmq-server=2.7.1-0ubuntu4': ensure  => installed }
+    }
+    CentOS, RedHat: {
+      package { 'rabbitmq-server-2.6.1': ensure => installed }
+    }
+  }
 
   file { '/etc/rabbitmq/rabbitmq.config':
     ensure  => present,

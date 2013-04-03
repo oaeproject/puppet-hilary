@@ -1,11 +1,5 @@
 class oaeservice::nginx {
   include ::oaeservice::deps::common
-  
-  package { 'gcc47':    ensure => present, provider => pkgin }
-  package { 'gmake':    ensure => present, provider => pkgin }
-  package { 'automake': ensure => present, provider => pkgin }
-  package { 'nodejs':   ensure => present, provider => pkgin }
-  package { 'scmgit':   ensure => present, provider => pkgin }
 
   class { '::nginx':
     internal_app_ips      => hiera('app_hosts'),

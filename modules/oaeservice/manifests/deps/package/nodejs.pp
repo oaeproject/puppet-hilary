@@ -14,10 +14,10 @@ class oaeservice::deps::package::nodejs {
       $npm_require = "npm=$npm_ubuntu_version"
 
       # Apply apt configuration, which should be executed before these packages are installed
-      class { 'apt': }
-      apt::key { 'chris-lea': key => '4BD6EC30', before => Package[$packages] }
-      apt::ppa { 'ppa:chris-lea/node.js': before => Package[$packages] }
-      apt::ppa { 'ppa:chris-lea/node.js-legacy': before => Package[$packages] }
+      include apt
+      apt::key { 'chris-lea': key => '4BD6EC30' }
+      apt::ppa { 'ppa:chris-lea/node.js': }
+      apt::ppa { 'ppa:chris-lea/node.js-legacy': }
 
       package { "nodejs=$nodejs_ubuntu_version": ensure => present, require => Class['apt'] }
       package { "npm=$npm_ubuntu_version": ensure => present, require => Class['apt'] }

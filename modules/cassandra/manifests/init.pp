@@ -14,21 +14,40 @@ class cassandra (
     $rsyslog_enabled    = false,
     $rsyslog_host       = '127.0.0.1') {
 
-  $release = $operatingsystem ? {
-    /CentOS|RedHat/ => $lsbmajdistrelease,
-    /Amazon|Linux/ => '6'
-  }
 
-  yumrepo { "datastax":
-    name => "datastax",
-    baseurl => "http://rpm.datastax.com/community",
-    enabled => '1',
-    gpgcheck => '0',
-  }
+  $dsc_version = '1.1'
 
-  package { 'dsc1.1':
-    ensure => installed,
-    require => Yumrepo['datastax'],
+  case $operatingsystem {
+    CentOS, RedHat: {
+      yumrepo { "datastax":
+        name => "datastax",
+        baseurl => "http://rpm.datastax.com/community",
+        enabled => '1',
+        gpgcheck => '0',
+      }
+
+      package { "dsc${dsc_version}":
+        ensure  => installed,
+        alias   => 'cassandra',
+        require => Yumrepo['datastax'],
+      }
+    }
+    ubuntu, debian: {
+      include apt
+
+      apt::source { 'datastax':
+        location    => 'http://debian.datastax.com/community',
+        repos       => 'stable main',
+        key         => 'B999A372',
+        key_source  => 'http://debian.datastax.com/debian/repo_key',
+      }
+
+      package { "dsc=${dsc_version}":
+        ensure  => installed,
+        alias   => 'cassandra',
+        require => Class['apt'],
+      }
+    }
   }
 
   package { 'java-1.6.0-openjdk-devel': ensure => installed }
@@ -40,7 +59,7 @@ class cassandra (
     owner => $owner,
     group => $group,
     content => template('cassandra/cassandra.yaml.erb'),
-    require => Package['dsc1.1'],
+    require => Package['cassandra'],
   }
 
   file { 'cassandra-env.sh':
@@ -50,7 +69,7 @@ class cassandra (
     owner => $owner,
     group => $group,
     content => template('cassandra/cassandra-env.sh.erb'),
-    require => Package['dsc1.1'],
+    require => Package['cassandra'],
   }
 
   file { 'log4j-server.properties':
@@ -60,7 +79,7 @@ class cassandra (
     owner   => $owner,
     group   => $group,
     content => template('cassandra/log4j-server.properties.erb'),
-    require => Package['dsc1.1'],
+    require => Package['cassandra'],
   }
 
   file { '/etc/security/limits.conf':
@@ -86,7 +105,7 @@ class cassandra (
 
   exec { "chown_cassandra_data":
     command => "/bin/chown -R cassandra:cassandra ${cassandra_data_dir}",
-    require => [ Exec["mkdir_p_${cassandra_data_dir}"], Package['dsc1.1'] ],
+    require => [ Exec["mkdir_p_${cassandra_data_dir}"], Package['cassandra'] ],
   }
 
   # Start it.
