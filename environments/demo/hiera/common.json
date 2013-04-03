@@ -82,5 +82,8 @@
     "nginx::owner": "root",
     "nginx::group": "root",
     "redis::owner": "root",
-    "redis::group": "root"
+    "redis::group": "root",
+
+    "hilary::config_activity_enabled": true,
+    "hilary::config_previews_enabled": true
 }
