@@ -17,5 +17,5 @@ class oaeservice::deps::common {
     }
   }
 
-  include ::oaeservice::deps::package::git
+  require ::oaeservice::deps::package::git
 }
