@@ -9,7 +9,7 @@ class nginx (
     $owner          = 'www',
     $group          = 'www',
     $nginx_dir      = '/opt/nginx',
-    $installer_path = '/home/admin/nginx/scripts') {
+    $installer_path = '/tmp') {
 
   case $operatingsystem {
     solaris, Solaris: {
