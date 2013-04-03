@@ -21,6 +21,6 @@ class oaeservice::elasticsearch {
     version           => hiera('search_version'),
     rsyslog_enabled   => $rsyslog_enabled,
     rsyslog_host      => $rsyslog_host,
-    require           => [ Class['::Oaeservice::Deps::Package::Java'] ],
+    require           => [ Class['::Oaeservice::Deps::Package::Java6'] ],
   }
 }

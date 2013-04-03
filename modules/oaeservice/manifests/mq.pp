@@ -4,7 +4,7 @@ class oaeservice::mq {
   include oaeservice::deps::package::erlang
 
   class { 'rabbitmq':
-    require => [ Class['::Oaeservice::Deps::Common'], Class['::Oaeservice::Deps::Package::Java'],
+    require => [ Class['::Oaeservice::Deps::Common'], Class['::Oaeservice::Deps::Package::Java6'],
         Class['::Oaeservice::Deps::Package::Erlang'] ],
   }
 }
