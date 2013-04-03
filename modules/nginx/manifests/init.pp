@@ -8,11 +8,21 @@ class nginx (
     $cert_key       = 'null',
     $owner          = 'www',
     $group          = 'www',
+    $nginx_dir      = '/opt/nginx',
     $installer_path = '/home/admin/nginx/scripts') {
 
   exec { 'installdir':
     command => "mkdir -p ${installer_path}",
     unless  => "test -d ${installer_path}",
+  }
+
+  case $operatingsystem {
+    solaris, Solaris: {
+      $nginx_ld_param = '--with-ld-opt='-L/opt/local/lib -Wl,-R/opt/local/lib'
+    }
+    default: {
+      $nginx_ld_param = ''
+    }
   }
 
   file { 'nginx_script':
@@ -32,7 +42,7 @@ class nginx (
   }
 
   file { 'nginx_config':
-    path    => '/opt/local/etc/nginx/nginx.conf',
+    path    => "<%= nginx_dir %>/conf/nginx.conf",
     ensure  => present,
     mode    => 0640,
     owner   => $owner,
@@ -41,24 +51,43 @@ class nginx (
     require => Exec['nginx_install'],
   }
 
-  file { '/var/svc/manifest/nginx.xml':
-    path    => '/var/svc/manifest/nginx.xml',
-    ensure  => present,
-    mode    => 0644,
-    owner   => $owner,
-    group   => $group,
-    content => template('nginx/nginx.xml.erb')
-  }
+  case $operatingsystem {
+    solaris, Solaris: {
+      file { '/var/svc/manifest/nginx.xml':
+        path    => '/var/svc/manifest/nginx.xml',
+        ensure  => present,
+        mode    => 0644,
+        owner   => $owner,
+        group   => $group,
+        content => template('nginx/nginx.xml.erb')
+      }
 
-  exec { 'svccfg import /var/svc/manifest/nginx.xml':
-    command => 'svccfg import /var/svc/manifest/nginx.xml',
-    require => File['/var/svc/manifest/nginx.xml']
+      exec { 'svccfg import /var/svc/manifest/nginx.xml':
+        command => 'svccfg import /var/svc/manifest/nginx.xml',
+        require => File['/var/svc/manifest/nginx.xml']
+      }
+
+      $nginx_require = Exec['svccfg import /var/svc/manifest/nginx.xml']
+    }
+    debian, ubuntu: {
+      file { '/etc/init.d/nginx':
+        ensure  => present,
+        mode    => 0744,
+        owner   => $owner,
+        group   => $group,
+        content => template('nginx/nginx-init-ubuntu.erb')
+      }
+
+      $nginx_require = File['/etc/init.d/nginx']
+    }
+    default: {
+      exec { 'nginx_notsupported': command => fail("No support yet for ${::operatingsystem}") }
+    }
   }
 
   service { 'nginx':
     ensure  => running,
     enable  => 'true',
-    require => [ File['nginx_config'], Exec['svccfg import /var/svc/manifest/nginx.xml'] ]
+    require => [ File['nginx_config'], $nginx_require ]
   }
-
 }
