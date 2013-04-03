@@ -42,7 +42,8 @@ class cassandra (
         key_source  => 'http://debian.datastax.com/debian/repo_key',
       }
 
-      package { "dsc=${dsc_version}":
+      ## Sorry for the versioning garbage, should be improved, but how?
+      package { "dsc1.1=1.1.4":
         ensure  => installed,
         alias   => 'cassandra',
         require => Class['apt'],
