@@ -29,6 +29,7 @@ class redis (
         release     => '',
         key         => '89DF5277',
         key_source  => 'http://www.dotdeb.org/dotdeb.gpg',
+        include_src => false,
       }
 
       package { $redis_name: ensure => installed, require => Class['apt'] }
