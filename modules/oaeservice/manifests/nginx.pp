@@ -1,6 +1,6 @@
 class oaeservice::nginx {
   require ::oaeservice::deps::common
-  require ::oaeservice::deps::package:pcre
+  require ::oaeservice::deps::package::pcre
 
   Class['::oaeservice::deps::common'] -> Class['::nginx']
   Class['::oaeservice::deps::package:pcre'] -> Class['::nginx']
