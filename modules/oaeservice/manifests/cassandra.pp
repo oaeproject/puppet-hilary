@@ -1,6 +1,8 @@
 class oaeservice::cassandra {
   require oaeservice::deps::package::java6
 
+  Class['::oaeservice::deps::package::java6']   -> Class['::cassandra']
+
   $hosts = hiera('db_hosts')
   $tokens = hiera('db_tokens')
   $suffix = hiera('nodesuffix')

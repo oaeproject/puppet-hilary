@@ -1,11 +1,13 @@
 class oaeservice::hilary {
   require oaeservice::deps::common
+  require oaeservice::deps::package::git
   require oaeservice::deps::package::nodejs
   require oaeservice::deps::package::graphicsmagick
 
-  Class['::Oaeservice::Deps::Common'] -> Class['::hilary']
-  Class['::Oaeservice::Deps::Package::Nodejs'] -> Class['::hilary']
-  Class['::Oaeservice::Deps::Package::Graphicsmagick'] -> Class['::hilary']
+  Class['::oaeservice::deps::common']                   -> Class['::hilary']
+  Class['::oaeservice::deps::git']                      -> Class['::hilary']
+  Class['::oaeservice::deps::package::nodejs']          -> Class['::hilary']
+  Class['::oaeservice::deps::package::graphicsmagick']  -> Class['::hilary']
 
   $rsyslog_enabled = hiera('rsyslog_enabled', false)
   if $rsyslog_enabled {

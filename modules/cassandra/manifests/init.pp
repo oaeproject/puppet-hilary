@@ -14,7 +14,6 @@ class cassandra (
     $rsyslog_enabled    = false,
     $rsyslog_host       = '127.0.0.1') {
 
-
   $dsc_version = '1.1'
 
   case $operatingsystem {

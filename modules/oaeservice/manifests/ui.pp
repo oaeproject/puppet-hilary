@@ -8,6 +8,8 @@ class oaeservice::ui {
   $ux_git_user = hiera('ux_git_user')
   $ux_git_branch = hiera('ux_git_branch')
 
+  Class['::oaeservice::deps::common'] -> Vcsrepo[$ux_root_dir]
+
   # git clone http://github.com/sakaiproject/3akai-ux
   vcsrepo { $ux_root_dir:
     ensure    => latest,
