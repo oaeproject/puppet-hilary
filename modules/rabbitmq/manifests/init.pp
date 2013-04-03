@@ -11,10 +11,10 @@ class rabbitmq (
 
   case $operatingsystem {
     debian, ubuntu: {
-      package { 'rabbitmq-server=2.7.1-0ubuntu4': ensure  => installed }
+      package { 'rabbitmq-server=2.7.1-0ubuntu4': ensure => installed, alias => 'rabbitmq-server' }
     }
     CentOS, RedHat: {
-      package { 'rabbitmq-server-2.6.1': ensure => installed }
+      package { 'rabbitmq-server-2.6.1': ensure => installed, alias => 'rabbitmq-server' }
     }
   }
 
