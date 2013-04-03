@@ -3,6 +3,10 @@ class oaeservice::hilary {
   require oaeservice::deps::package::nodejs
   require oaeservice::deps::package::graphicsmagick
 
+  Class['::Oaeservice::Deps::Common'] -> Class['::hilary']
+  Class['::Oaeservice::Deps::Package::Nodejs'] -> Class['::hilary']
+  Class['::Oaeservice::Deps::Package::Graphicsmagick'] -> Class['::hilary']
+
   $rsyslog_enabled = hiera('rsyslog_enabled', false)
   if $rsyslog_enabled {
     $rsyslog_host = hiera('rsyslog_host')
