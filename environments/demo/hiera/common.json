@@ -76,5 +76,5 @@
     "rsyslog_enabled": false,
     "rsyslog_host": "127.0.0.1",
 
-    "driver_tsung_version": "1.4.2",
+    "driver_tsung_version": "1.4.2"
 }
