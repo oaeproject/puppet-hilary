@@ -53,6 +53,8 @@ class nginx (
 
   case $operatingsystem {
     solaris, Solaris: {
+
+      # Service manifest for svcadm
       file { '/var/svc/manifest/nginx.xml':
         path    => '/var/svc/manifest/nginx.xml',
         ensure  => present,
@@ -70,6 +72,8 @@ class nginx (
       $nginx_require = Exec['svccfg import /var/svc/manifest/nginx.xml']
     }
     debian, ubuntu: {
+
+      # Init script for ubuntu
       file { '/etc/init.d/nginx':
         ensure  => present,
         mode    => 0744,

@@ -7,7 +7,7 @@ events {
 }
 
 http {
-    include       /opt/local/etc/nginx/mime.types;
+    include       <%= nginx_dir %>/conf/mime.types;
     default_type  application/octet-stream;
 
     <% if cert != 'null' -%>
