@@ -1,15 +1,15 @@
-# Install git
-apt-get install -y git
+
+# Open up the devel repos
+sed -i 's/# deb /deb /g' /etc/apt/sources.list.d/puppetlabs.list
+apt-get update
 
 # Install the puppetlabs repos
 cd /tmp
 wget http://apt.puppetlabs.com/puppetlabs-release-precise.deb
 dpkg -i puppetlabs-release-precise.deb
 
-# Open up the devel repos
-sed -i 's/# deb /deb /g' /etc/apt/sources.list.d/puppetlabs.list
-apt-get update
-apt-get install -y puppetmaster-passenger
+# Install git and puppetmaster
+apt-get install -y git puppetmaster-passenger
 
 # Configure PuppetMaster
 cat > /etc/puppet/puppet.conf <<EOF

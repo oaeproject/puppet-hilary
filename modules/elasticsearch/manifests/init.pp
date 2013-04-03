@@ -9,17 +9,9 @@ class elasticsearch (
     $rsyslog_enabled  = false,
     $rsyslog_host     = '127.0.0.1') {
 
-  ##########################
-  ## PACKAGE DEPENDENCIES ##
-  ##########################
-
-  package { 'java-1.6.0-openjdk-devel':
-    ensure  => installed,
-  }
-
-  ################################
-  ## DOWNLOAD AND COMPILE TSUNG ##
-  ################################
+  ########################################
+  ## DOWNLOAD AND COMPILE ELASTICSEARCH ##
+  ########################################
 
   $dl_filename          = "elasticsearch-${version}.tar.gz"
   $extracted_foldername = "elasticsearch-${version}"

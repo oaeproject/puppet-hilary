@@ -9,14 +9,6 @@ class etherpad (
         $etherpad_group         = 'staff',
         $service_name           = 'node-etherpad') {
 
-    $packages = ['nodejs', 'npm', 'scmgit']
-
-    # Ensure that the required OS dependencies are installed.
-    package { $packages:
-        ensure      =>  installed,
-        provider    =>  'pkgin',
-    }
-
     # Get the etherpad source
     vcsrepo { $etherpad_dir:
         ensure      =>  present,

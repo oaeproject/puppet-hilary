@@ -1,4 +1,5 @@
 class oaeservice::cassandra {
+  include oaeservice::deps::package::java
 
   $hosts = hiera('db_hosts')
   $tokens = hiera('db_tokens')
@@ -20,5 +21,6 @@ class oaeservice::cassandra {
     initial_token       => $tokens[$index],
     rsyslog_enabled     => $rsyslog_enabled,
     rsyslog_host        => $rsyslog_host,
+    require             => [ Class['::Oaeservice::Deps::Java'] ]
   }
 }

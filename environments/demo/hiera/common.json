@@ -1,0 +1,80 @@
+{
+    "classes": [
+        "::oaeservice::firewall::open",
+        "::oaeservice::hilary",
+        "::oaeservice::ui",
+        "::redis",
+        "::oaeservice::elasticsearch",
+        "::oaeservice::nginx",
+        "::oaeservice::cassandra"
+    ],
+
+    "nodetype": "%{nodetype}",
+    "nodesuffix": "%{nodesuffix}",
+
+    "app_os_user": "root",
+    "app_os_group": "root",
+    "app_hosts": [ "127.0.0.1" ],
+    "app_root_dir": "/opt/oae",
+    "app_git_user": "sakaiproject",
+    "app_git_branch": "master",
+    
+    "app_signing_key": "A;SLDFJ984FJW398FJWP4GO5IJSLRTKGJ",
+    "app_cookie_secret": "SODIFJ984FJA984JAFP98WF4PAW984F984FJ9",
+    "app_admin_host": "admin.oae-demo.sakaiproject.org",
+
+    "app_files_parent": "/shared",
+    "app_files_dir": "/shared/files",
+    "app_files_nfs": {
+        "server": "127.0.0.1",
+        "source_dir": "/vol/notinstalled"
+    },
+
+    "circonus_url": "https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t",
+
+    "ux_root_dir": "/opt/3akai-ux",
+    "ux_git_user": "sakaiproject",
+    "ux_git_branch": "newframework",
+
+    "db_cluster_name": "Sakai OAE Demo Cluster",
+    "db_keyspace": "oae",
+    "db_hosts": [ "127.0.0.1" ],
+    "db_tokens": [ "0" ],
+    "db_timeout": 5000,
+    "db_replication_factor": 1,
+    "db_strategy_class": "SimpleStrategy",
+    "db_os_user": "root",
+    "db_os_group": "root",
+
+    "pp_os_user": "root",
+    "pp_os_group": "root",
+    "phantomjs_version": "1.9.0",
+    "phantomjs_checksum": "8075fa873d8741c7ae9093c80a589a1f",
+
+    "search_hosts": [{"host": "127.0.0.1", "port": 9200}],
+    "search_data_dir": "/var/lib/elasticsearch",
+    "search_memory_mb": 512,
+    "search_version": "0.20.2",
+
+    "etherpad_hosts": [ "127.0.0.1" ],
+    "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
+    "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
+    "etherpad_domain_suffix": ".etherpad.oae-performance.sakaiproject.org",
+
+    "cache_host_master": "127.0.0.1",
+    "cache_host_slave": "127.0.0.1",
+
+    "activitycache_enabled": false,
+    "activitycache_host_master": "127.0.0.1",
+    "activitycache_host_slave": "127.0.0.1",
+
+    "mq_host_master": "127.0.0.1",
+    "mq_host_slave": "127.0.0.1",
+
+    "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
+
+    "rsyslog_enabled": false,
+    "rsyslog_host": "127.0.0.1",
+
+    "driver_tsung_version": "1.4.2",
+}

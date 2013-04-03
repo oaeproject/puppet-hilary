@@ -1,7 +1,7 @@
 class nginx (
     $internal_app_ips,
     $internal_etherpad_ips,
-    $ux_home        = '/opt/3akai-ux',
+    $ux_root_dir    = '/opt/3akai-ux',
     $ux_admin_host  = 'admin.oae-performance.sakaiproject.org',
     $files_home     = '/opt/files',
     $cert           = 'null',

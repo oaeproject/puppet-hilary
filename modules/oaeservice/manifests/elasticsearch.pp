@@ -1,4 +1,5 @@
 class oaeservice::elasticsearch {
+  include oaeservice::deps::package::java
 
   $search_hosts = hiera('search_hosts')
   $index = hiera('nodesuffix')
@@ -20,5 +21,6 @@ class oaeservice::elasticsearch {
     version           => hiera('search_version'),
     rsyslog_enabled   => $rsyslog_enabled,
     rsyslog_host      => $rsyslog_host,
+    require           => [ Class['::Oaeservice::Deps::Package::Java'] ],
   }
 }

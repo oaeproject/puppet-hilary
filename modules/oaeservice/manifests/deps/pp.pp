@@ -1,4 +1,5 @@
-class oaeservice::hilary::pp {
+class oaeservice::deps::pp {
+  include oaeservice::deps::common
 
   $phantomjs_version = hiera('phantomjs_version')
   $phantomjs_checksum = hiera('phantomjs_checksum')
@@ -14,7 +15,7 @@ class oaeservice::hilary::pp {
     target        => '/opt',
     extension     => 'tar.bz2',
     src_target    => '/opt',
+    require       => [ Class['::Oaeservice::Deps::Common'], Package[$pp_packages] ]
   }
 
-  include oaeservice::hilary
 }

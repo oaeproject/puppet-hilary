@@ -3,8 +3,6 @@ class hilary (
     $app_git_user,
     $app_git_branch,
     $ux_root_dir,
-    $ux_git_user,
-    $ux_git_branch,
     $os_user,
     $os_group,
     $upload_files_dir,
@@ -65,54 +63,6 @@ class hilary (
   $config_files_tmp_upload_dir = "${config_files_tmp_dir}/uploads"
   $config_previews_tmp_dir = "${config_files_tmp_dir}/previews"
 
-  $nodegyp_version = '0.9.3'
-
-  case $operatingsystem {
-    debian, ubuntu: {
-      # Crazy exact apt versioning
-      $node_version = '0.8.22-1chl1~precise1'
-      $npm_version = '1.2.14-1chl1~precise1'
-    }
-    default: {
-      # SmartOS, at least. Not tested on centos
-      $node_version = '0.8.22'
-    }
-  }
-
-  ##########################
-  ## PACKAGE DEPENDENCIES ##
-  ##########################
-
-  case $operatingsystem {
-    debian, ubuntu: {
-      ## Includes a bunch of stuff needed for preview-processor
-      $packages = [ 'build-essential', 'automake', "nodejs=$node_version", "npm=$npm_version", 'graphicsmagick', 'git' ]
-      $provider = undef
-      $npm_dir  = '/usr/lib/nodejs/npm'
-
-      # Apply apt configuration, which should be executed before these packages are installed
-      class { 'apt': }
-
-      apt::key { 'chris-lea': key => '4BD6EC30', before => Package[$packages] }
-      apt::ppa { 'ppa:chris-lea/node.js': before => Package[$packages] }
-      apt::ppa { 'ppa:chris-lea/node.js-legacy': before => Package[$packages] }
-    }
-    solaris, Solaris: {
-      $packages = [ 'gcc47', 'automake', 'gmake', "nodejs-$node_version", 'GraphicsMagick', 'scmgit' ]
-      $provider = 'pkgin'
-      $npm_dir  = '/opt/local/lib/node_modules/npm'
-    }
-    default: {
-      $packages = [ 'gcc', 'automake', 'gmake', "nodejs-$node_version", 'npm', 'GraphicsMagick', 'git' ]
-      $provider = undef
-      $npm_dir  = '/usr/lib/nodejs/npm'
-    }
-  }
-  
-  package { $packages:
-    ensure    => present,
-    provider  => $provider,
-  }
 
   ########################
   ## DEPLOY APPLICATION ##
@@ -123,8 +73,7 @@ class hilary (
     ensure    => latest,
     provider  => git,
     source    => "http://github.com/${app_git_user}/Hilary",
-    revision  => $app_git_branch,
-    require   => Package[$packages],
+    revision  => $app_git_branch
   }
 
   file { $app_root_dir:
@@ -135,14 +84,6 @@ class hilary (
     require => Vcsrepo[$app_root_dir],
   }
 
-  # Force the npm bundled version of node-gyp to upgrade node-gyp. Needed to build node-expat and hiredis
-  exec { 'npm_reinstall_nodegyp':
-    command   => "npm install node-gyp@$nodegyp_version",
-    cwd       => $npm_dir,
-    logoutput => 'on_failure',
-    require   => Package[$packages],
-  }
-
   # npm install -d
   exec { "npm_install_dependencies":
     cwd         => $app_root_dir,
@@ -151,7 +92,9 @@ class hilary (
     environment => 'CFLAGS="-std=c99"',
     command     => 'npm install -d',
     logoutput   => 'on_failure',
-    require     => [ File[$app_root_dir], Package[$packages], Vcsrepo[$app_root_dir], Exec['npm_reinstall_nodegyp'] ],
+
+    # Exec['npm_reinstall_nodegyp'] is a dependency currently in oaeservice::deps::package::nodejs which ensures nodegyp is the proper version. It's put here because if the dependencies are not assembled properly this failure would be hard to track down
+    require     => [ File[$app_root_dir], Vcsrepo[$app_root_dir], Exec['npm_reinstall_nodegyp'] ],
   }
 
   # chown the application root to the app user
@@ -203,20 +146,6 @@ class hilary (
       content => template('hilary/config.js.erb'),
       require => [ Vcsrepo[$app_root_dir], File[$upload_files_dir], File[$config_files_tmp_dir],
           File[$config_files_tmp_upload_dir] ]
-  }
-
-
-  ####################
-  ## CLONE 3AKAI-UX ##
-  ####################
-
-  # git clone http://github.com/sakaiproject/3akai-ux
-  vcsrepo { $ux_root_dir:
-    ensure    => latest,
-    provider  => git,
-    source    => "http://github.com/${ux_git_user}/3akai-ux",
-    revision  => $ux_git_branch,
-    require   => Package[$packages],
   }
 
 

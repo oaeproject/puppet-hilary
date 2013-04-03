@@ -1,5 +1,4 @@
 class oaeservice::firewall::open {
-
   case $operatingsystem {
     solaris, Solaris: {
       class { 'ipfilter': rules => [ 'pass in quick', 'pass out quick' ] }

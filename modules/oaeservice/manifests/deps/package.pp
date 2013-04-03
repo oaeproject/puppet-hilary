@@ -1,0 +1,1 @@
+class oaeservice::deps::package { }
