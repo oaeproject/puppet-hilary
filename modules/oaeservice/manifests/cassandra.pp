@@ -1,5 +1,5 @@
 class oaeservice::cassandra {
-  include oaeservice::deps::package::java
+  include oaeservice::deps::package::java6
 
   $hosts = hiera('db_hosts')
   $tokens = hiera('db_tokens')

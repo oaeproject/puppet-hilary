@@ -1,5 +1,5 @@
 class oaeservice::elasticsearch {
-  include oaeservice::deps::package::java
+  include oaeservice::deps::package::java6
 
   $search_hosts = hiera('search_hosts')
   $index = hiera('nodesuffix')

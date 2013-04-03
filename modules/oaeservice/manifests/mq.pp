@@ -1,6 +1,6 @@
 class oaeservice::mq {
   include oaeservice::deps::common
-  include oaeservice::deps::package::java
+  include oaeservice::deps::package::java6
   include oaeservice::deps::package::erlang
 
   class { 'rabbitmq':

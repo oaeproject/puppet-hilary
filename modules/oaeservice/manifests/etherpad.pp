@@ -1,6 +1,6 @@
 class oaeservice::etherpad {
   include oaeservice::deps::common
-  include oaeservice::deps::package::java
+  include oaeservice::deps::package::java6
   
   $index = hiera('nodesuffix')
 
