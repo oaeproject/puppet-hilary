@@ -50,8 +50,6 @@ class cassandra (
     }
   }
 
-  package { 'java-1.6.0-openjdk-devel': ensure => installed }
-
   file { 'cassandra.yaml':
     path => '/etc/cassandra/conf/cassandra.yaml',
     ensure => present,
