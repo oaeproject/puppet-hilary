@@ -11,6 +11,8 @@ class redis (
     solaris, Solaris: {
       $redis_name = 'redis'
       $redis_config_path = '/opt/local/etc/redis.conf'
+      $redis_db_dir = '/var/db/redis'
+      $redis_run_dir = $redis_db_dir
 
       package { $redis_name: ensure => present, provider => $provider }
       exec { 'svccfg import redis.xml':
@@ -21,6 +23,8 @@ class redis (
     debian, ubuntu: {
       $redis_name = 'redis-server'
       $redis_config_path = '/etc/redis/redis.conf'
+      $redis_db_dir = '/usr/lib/redis'
+      $redis_run_dir = '/var/run/redis'
 
       include apt
       apt::source { 'dotdeb':
