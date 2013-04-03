@@ -2,7 +2,12 @@ class oaeservice::elasticsearch {
   include oaeservice::deps::package::java6
 
   $search_hosts = hiera('search_hosts')
-  $index = hiera('nodesuffix')
+  $suffix = hiera('nodesuffix')
+
+  case $suffix {
+    undef, false, '': { $index = 0 }
+    default: { $index = $suffix }
+  }
   
   $rsyslog_enabled = hiera('rsyslog_enabled', false)
   if $rsyslog_enabled {
