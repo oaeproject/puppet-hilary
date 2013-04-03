@@ -27,7 +27,7 @@ class cassandra (
 
       package { "dsc${dsc_version}":
         ensure  => installed,
-        alias   => 'cassandra',
+        alias   => 'dsc',
         require => Yumrepo['datastax'],
       }
     }
@@ -43,10 +43,22 @@ class cassandra (
       }
 
       ## Sorry for the versioning garbage, should be improved, but how?
-      package { "dsc1.1=1.1.4":
+      package { 'cassandra=1.1.4':
         ensure  => installed,
         alias   => 'cassandra',
-        require => Class['apt'],
+        require => Class['apt']
+      }
+
+      package { 'python-cql=1.4.0-1':
+        ensure  => installed,
+        alias   => 'python-cql',
+        require => Class['apt']
+      }
+
+      package { "dsc1.1=1.1.4":
+        ensure  => installed,
+        alias   => 'dsc',
+        require => [ Package['cassandra'], Package['python-cql'] ],
       }
     }
   }
@@ -58,7 +70,7 @@ class cassandra (
     owner => $owner,
     group => $group,
     content => template('cassandra/cassandra.yaml.erb'),
-    require => Package['cassandra'],
+    require => Package['dsc'],
   }
 
   file { 'cassandra-env.sh':
@@ -68,7 +80,7 @@ class cassandra (
     owner => $owner,
     group => $group,
     content => template('cassandra/cassandra-env.sh.erb'),
-    require => Package['cassandra'],
+    require => Package['dsc'],
   }
 
   file { 'log4j-server.properties':
@@ -78,7 +90,7 @@ class cassandra (
     owner   => $owner,
     group   => $group,
     content => template('cassandra/log4j-server.properties.erb'),
-    require => Package['cassandra'],
+    require => Package['dsc'],
   }
 
   file { '/etc/security/limits.conf':
@@ -104,7 +116,7 @@ class cassandra (
 
   exec { "chown_cassandra_data":
     command => "/bin/chown -R cassandra:cassandra ${cassandra_data_dir}",
-    require => [ Exec["mkdir_p_${cassandra_data_dir}"], Package['cassandra'] ],
+    require => [ Exec["mkdir_p_${cassandra_data_dir}"], Package['dsc'] ],
   }
 
   # Start it.
