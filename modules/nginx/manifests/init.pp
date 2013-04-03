@@ -28,7 +28,7 @@ class nginx (
   file { 'nginx_script':
     path    => "${installer_path}/install.sh",
     ensure  => present,
-    mode    => 0700,
+    mode    => 0755,
     owner   => root,
     group   => root,
     content  => template('nginx/install.sh.erb'),
