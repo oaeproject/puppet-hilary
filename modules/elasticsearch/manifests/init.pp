@@ -16,15 +16,16 @@ class elasticsearch (
 
   $filename = "elasticsearch-${version}"
   $url      = "http://download.elasticsearch.org/elasticsearch/elasticsearch/${filename}"
+  $ext      = 'tar.gz'
 
   file { "${path_data}": ensure  => 'directory' }
 
   archive { 'elasticsearch':
     ensure        => present,
     url           => $url,
-    extension     => 'tar.gz',
+    extension     => $ext,
     target        => '/opt',
-    digest_string => $checksum,
+    digest_string => "${checksum} ${filename}.${ext}",
     digest_type   => 'sha1',
   }
 
