@@ -23,8 +23,8 @@ class redis (
     debian, ubuntu: {
       $redis_name = 'redis-server'
       $redis_config_path = '/etc/redis/redis.conf'
-      $redis_db_dir = '/usr/lib/redis'
-      $redis_run_dir = '/var/run/redis'
+      $redis_db_dir = '/var/run/redis'
+      $redis_run_dir = $redis_db_dir
 
       include apt
       apt::source { 'dotdeb':
