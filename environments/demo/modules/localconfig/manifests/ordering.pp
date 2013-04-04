@@ -6,7 +6,7 @@ class localconfig::ordering {
     Class['::redis']                        -> Class['::hilary']
     Class['::elasticsearch']                -> Class['::hilary']
     Class['::cassandra']                    -> Class['::hilary']
-    Class['::mq']                           -> Class['::hilary']
+    Class['::rabbitmq']                     -> Class['::hilary']
 
     ## After the app server is installed and ready, then setup nginx
     Class['::hilary']                       -> Class['::nginx']
