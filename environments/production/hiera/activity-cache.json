@@ -1,0 +1,8 @@
+{
+    "classes": [ "::redis" ],
+
+    "redis::syslog_enabled": true,
+    "redis::eviction_maxmemory": 3758096384,
+    "redis::eviction_policy": "volatile-ttl",
+    "redis::eviction_samples": 3
+}
