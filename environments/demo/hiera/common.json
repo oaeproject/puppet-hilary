@@ -87,5 +87,8 @@
     "redis::group": "root",
 
     "hilary::config_activity_enabled": true,
-    "hilary::config_previews_enabled": true
+    "hilary::config_previews_enabled": true,
+
+    "elasticsearch::version": "0.20.6",
+    "elasticsearch::checksum": "f66a778ad94ea1dd69d18f8f89ce32c2383898eb"
 }

@@ -2,10 +2,11 @@ class elasticsearch (
     $search_hosts,
     $host_address,
     $path_data,
+    $version,
+    $checksum,
     $host_port        = 9200,
     $max_memory_mb    = 384,
     $min_memory_mb    = 384,
-    $version          = '0.20.2',
     $rsyslog_enabled  = false,
     $rsyslog_host     = '127.0.0.1') {
 
@@ -13,33 +14,24 @@ class elasticsearch (
   ## DOWNLOAD AND COMPILE ELASTICSEARCH ##
   ########################################
 
-  $dl_filename          = "elasticsearch-${version}.tar.gz"
-  $extracted_foldername = "elasticsearch-${version}"
-  $local_filename       = "${dl_filename}"
-  $url                  = "http://download.elasticsearch.org/elasticsearch/elasticsearch/${dl_filename}"
+  $filename = "elasticsearch-${version}"
+  $url      = "http://download.elasticsearch.org/elasticsearch/elasticsearch/${filename}"
 
-  file { "${path_data}":
-    ensure  => 'directory',
+  file { "${path_data}": ensure  => 'directory' }
+
+  archive { 'elasticsearch':
+    ensure        => present,
+    url           => $url,
+    extension     => 'tar.giz',
+    target        => '/opt',
+    digest_string => $checksum,
+    digest_type   => 'sha1',
   }
 
-  exec { "wget ${url}":
-    command =>  "/usr/bin/wget ${url} -O /tmp/${local_filename}",
-    unless  =>  '/usr/bin/test -d /opt/elasticsearch',
-    creates =>  "/tmp/${local_filename}",
-    timeout =>  0,
-  }
-
-  exec { "tar zxvf /tmp/${local_filename}":
-    command =>  "/bin/tar -zxvf ${local_filename} -C /tmp",
-    unless  =>  '/usr/bin/test -d /opt/elasticsearch',
-    require =>  Exec["wget ${url}"],
-  }
-
-  exec { "mv ${extracted_foldername} /opt/elasticsearch":
-    command =>  "/bin/mv /tmp/${extracted_foldername} /opt/elasticsearch",
-    unless  =>  '/usr/bin/test -d /opt/elasticsearch',
-    creates =>  '/opt/elasticsearch',
-    require =>  Exec["tar zxvf /tmp/${local_filename}"],
+  exec { 'rename_elasticsearch':
+    command => "mv /opt/${filename} /opt/elasticsearch",
+    unless  => "test -d /opt/elasticsearch",
+    require => Archive['elasticsearch'],
   }
 
   file { '/etc/init.d/elasticsearch':
@@ -51,19 +43,19 @@ class elasticsearch (
   file { '/opt/elasticsearch/config/elasticsearch.yml':
     ensure  => present,
     content => template('elasticsearch/elasticsearch.yml.erb'),
-    require => Exec["mv ${extracted_foldername} /opt/elasticsearch"],
+    require => Exec['rename_elasticsearch'],
   }
 
   file { '/opt/elasticsearch/config/logging.yml':
     ensure  => present,
     content => template('elasticsearch/logging.yml.erb'),
-    require => Exec["mv ${extracted_foldername} /opt/elasticsearch"],
+    require => Exec['rename_elasticsearch'],
   }
 
   service { 'elasticsearch':
     ensure  => 'running',
     enable  => true,
-    require => [ Exec["mv ${extracted_foldername} /opt/elasticsearch"], File['/opt/elasticsearch/config/elasticsearch.yml'],
+    require => [ Exec['rename_elasticsearch'], File['/opt/elasticsearch/config/elasticsearch.yml'],
       File['/opt/elasticsearch/config/logging.yml'], File['/etc/init.d/elasticsearch'], File["${path_data}"] ],
   }
 
