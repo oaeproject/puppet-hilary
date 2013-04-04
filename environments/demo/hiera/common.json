@@ -7,7 +7,8 @@
         "::oaeservice::elasticsearch",
         "::oaeservice::nginx",
         "::oaeservice::cassandra",
-        "::oaeservice::mq"
+        "::oaeservice::mq",
+        "::localconfig::ordering"
     ],
 
     "nodetype": "%{nodetype}",
