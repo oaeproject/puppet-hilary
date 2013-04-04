@@ -27,7 +27,7 @@ class oaeservice::deps::package::nodejs {
       $npm_require = "nodejs-$node_version"
 
       ## npm installs by default in the pkgin repos
-      package { "nodejs-$node_version": ensure => installed, provider => 'pkgin' }
+      package { "nodejs-$nodejs_version": ensure => installed, provider => 'pkgin' }
     }
     default: {
       $npm_dir = '/usr/lib/nodejs/npm'
