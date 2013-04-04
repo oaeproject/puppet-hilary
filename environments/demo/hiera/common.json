@@ -1,6 +1,7 @@
 {
     "classes": [
         "::oaeservice::firewall::open",
+        "::oaeservice::deps::pp",
         "::oaeservice::hilary",
         "::oaeservice::ui",
         "::redis",

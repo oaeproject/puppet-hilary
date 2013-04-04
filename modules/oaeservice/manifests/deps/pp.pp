@@ -1,8 +1,6 @@
 class oaeservice::deps::pp {
   include oaeservice::deps::common
 
-  Class['::oaeservice::deps::common']                   -> Archive['phantomjs']
-
   $phantomjs_version = hiera('phantomjs_version')
   $phantomjs_checksum = hiera('phantomjs_checksum')
 
@@ -17,7 +15,7 @@ class oaeservice::deps::pp {
     target        => '/opt',
     extension     => 'tar.bz2',
     src_target    => '/opt',
-    require       => [ Package[$pp_packages] ]
+    require       => [ Package[$pp_packages], Class['::oaeservice::deps::common'] ]
   }
 
 }
