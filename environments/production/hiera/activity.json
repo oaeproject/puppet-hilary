@@ -1,6 +1,7 @@
 {
     "classes": [
-        "::oaeservice::hilary"
+        "::oaeservice::hilary",
+        "::oaeservice::ui"
     ],
 
     "hilary::config_activity_enabled": true
