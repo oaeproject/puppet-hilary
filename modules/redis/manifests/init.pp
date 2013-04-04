@@ -14,7 +14,7 @@ class redis (
       $redis_db_dir = '/var/db/redis'
       $redis_run_dir = $redis_db_dir
 
-      package { $redis_name: ensure => present, provider => $provider }
+      package { $redis_name: ensure => present, provider => 'pkgin' }
       exec { 'svccfg import redis.xml':
         command => '/usr/sbin/svccfg import /opt/local/share/smf/redis/manifest.xml',
         require => Package['redis'],
