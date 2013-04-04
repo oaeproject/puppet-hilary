@@ -23,23 +23,20 @@ class elasticsearch (
   }
 
   exec { "wget ${url}":
-    cwd     =>  '/tmp',
-    command =>  "/usr/bin/wget ${url} -O ${local_filename}",
+    command =>  "/usr/bin/wget ${url} -O /tmp/${local_filename}",
     unless  =>  '/usr/bin/test -d /opt/elasticsearch',
     creates =>  "/tmp/${local_filename}",
     timeout =>  0,
   }
 
   exec { "tar zxvf /tmp/${local_filename}":
-    cwd     =>  '/tmp',
-    command =>  "/bin/tar -zxvf ${local_filename}",
+    command =>  "/bin/tar -zxvf ${local_filename} -C /tmp",
     unless  =>  '/usr/bin/test -d /opt/elasticsearch',
     require =>  Exec["wget ${url}"],
   }
 
   exec { "mv ${extracted_foldername} /opt/elasticsearch":
-    cwd     =>  '/tmp',
-    command =>  "/bin/mv ${extracted_foldername} /opt/elasticsearch",
+    command =>  "/bin/mv /tmp/${extracted_foldername} /opt/elasticsearch",
     unless  =>  '/usr/bin/test -d /opt/elasticsearch',
     creates =>  '/opt/elasticsearch',
     require =>  Exec["tar zxvf /tmp/${local_filename}"],
