@@ -69,7 +69,7 @@ class nginx (
         require => File['/var/svc/manifest/nginx.xml']
       }
 
-      $nginx_require = Exec['svccfg import /var/svc/manifest/nginx.xml']
+      service { 'nginx': ensure => running, require => Exec['svccfg import /var/svc/manifest/nginx.xml'] }
     }
     debian, ubuntu: {
 
@@ -82,15 +82,10 @@ class nginx (
         content => template('nginx/nginx-init-ubuntu.erb')
       }
 
-      $nginx_require = File['/etc/init.d/nginx']
+      service { 'nginx': ensure => running, require => File['/etc/init.d/nginx'] }
     }
     default: {
       exec { 'nginx_notsupported': command => fail("No support yet for ${::operatingsystem}") }
     }
-  }
-
-  service { 'nginx':
-    ensure  => running,
-    require => [ File['nginx_config'], $nginx_require ]
   }
 }
