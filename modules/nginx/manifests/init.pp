@@ -48,8 +48,7 @@ class nginx (
     owner   => $owner,
     group   => $group,
     content => template('nginx/nginx.conf.erb'),
-    require => Exec['nginx_install'],
-    notify  => Service['nginx'],
+    require => Exec['nginx_install']
   }
 
   case $operatingsystem {
