@@ -22,7 +22,7 @@ class elasticsearch (
   archive { 'elasticsearch':
     ensure        => present,
     url           => $url,
-    extension     => 'tar.giz',
+    extension     => 'tar.gz',
     target        => '/opt',
     digest_string => $checksum,
     digest_type   => 'sha1',
