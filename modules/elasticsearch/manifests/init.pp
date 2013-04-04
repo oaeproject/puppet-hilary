@@ -15,8 +15,8 @@ class elasticsearch (
   ########################################
 
   $filename = "elasticsearch-${version}"
-  $url      = "http://download.elasticsearch.org/elasticsearch/elasticsearch/${filename}.${ext}"
   $ext      = 'tar.gz'
+  $url      = "http://download.elasticsearch.org/elasticsearch/elasticsearch/${filename}.${ext}"
 
   file { "${path_data}": ensure  => 'directory' }
 
