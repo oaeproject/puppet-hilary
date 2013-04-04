@@ -22,6 +22,7 @@ class oaeservice::elasticsearch {
     min_memory_mb     => hiera('search_memory_mb'),
     path_data         => hiera('search_data_dir'),
     version           => hiera('search_version'),
+    checksum          => hiera('search_checksum'),
     rsyslog_enabled   => $rsyslog_enabled,
     rsyslog_host      => $rsyslog_host,
   }

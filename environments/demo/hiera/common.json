@@ -58,6 +58,7 @@
     "search_data_dir": "/var/lib/elasticsearch",
     "search_memory_mb": 512,
     "search_version": "0.20.2",
+    "search_checksum": "f66a778ad94ea1dd69d18f8f89ce32c2383898eb",
 
     "etherpad_hosts": [ "127.0.0.1" ],
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
@@ -87,8 +88,5 @@
     "redis::group": "root",
 
     "hilary::config_activity_enabled": true,
-    "hilary::config_previews_enabled": true,
-
-    "elasticsearch::version": "0.20.6",
-    "elasticsearch::checksum": "f66a778ad94ea1dd69d18f8f89ce32c2383898eb"
+    "hilary::config_previews_enabled": true
 }
