@@ -71,8 +71,8 @@ class nginx (
       }
 
       service { 'nginx':
-        ensure => running,
-        enabled => true,
+        ensure  => running,
+        enable  => true,
         require => Exec['svccfg import /var/svc/manifest/nginx.xml']
       }
     }
@@ -88,7 +88,8 @@ class nginx (
       }
 
       service { 'nginx':
-        ensure => running,
+        ensure  => running,
+        enable  => true,
         require => File['/etc/init.d/nginx']
       }
     }
