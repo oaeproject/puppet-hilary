@@ -25,7 +25,7 @@ class elasticsearch (
     url           => $url,
     extension     => $ext,
     target        => '/opt',
-    digest_string => "${checksum} ${filename}.${ext}",
+    digest_string => "${checksum}",
     digest_type   => 'sha1',
   }
 
