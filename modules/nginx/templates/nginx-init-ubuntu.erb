@@ -178,6 +178,7 @@ status(){
                 echo "$PIDNAME found running with processes:  `pidof $PS`"
         else
                 echo "$PIDNAME is NOT running."
+                exit 1
         fi
  
  
