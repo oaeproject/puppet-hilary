@@ -46,6 +46,7 @@
     "db_timeout": 5000,
     "db_replication_factor": 1,
     "db_strategy_class": "SimpleStrategy",
+    "db_index": "0",
     "db_os_user": "root",
     "db_os_group": "root",
 
@@ -55,12 +56,14 @@
     "phantomjs_checksum": "8075fa873d8741c7ae9093c80a589a1f",
 
     "search_hosts": [{"host": "127.0.0.1", "port": 9200}],
+    "search_index": "0",
     "search_data_dir": "/var/lib/elasticsearch",
     "search_memory_mb": 512,
     "search_version": "0.20.6",
     "search_checksum": "f66a778ad94ea1dd69d18f8f89ce32c2383898eb",
 
     "etherpad_hosts": [ "127.0.0.1" ],
+    "etherpad_index": "0",
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_domain_suffix": ".etherpad.oae-performance.sakaiproject.org",

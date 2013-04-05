@@ -13,9 +13,11 @@ class nginx (
 
   case $operatingsystem {
     solaris, Solaris: {
+      $make = 'gmake'
       $nginx_ld_param = "--with-ld-opt='-L/opt/local/lib -Wl,-R/opt/local/lib'"
     }
     default: {
+      $make = 'make'
       $nginx_ld_param = ''
     }
   }

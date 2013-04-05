@@ -29,8 +29,8 @@ function installNginx {
         --with-ipv6 \
         --with-http_stub_status_module
 
-    gmake
-    sudo gmake install
+    <%= make %>
+    <%= make %> install
 }
 
 mkdir -p <%= nginx_dir %>/run

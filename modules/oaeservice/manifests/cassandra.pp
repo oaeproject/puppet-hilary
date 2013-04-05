@@ -5,16 +5,7 @@ class oaeservice::cassandra {
 
   $hosts = hiera('db_hosts')
   $tokens = hiera('db_tokens')
-  $suffix = hiera('nodesuffix')
-
-  case $suffix {
-    undef, false, '': {
-      $index = 0
-    }
-    default: {
-      $index = $suffix
-    }
-  }
+  $index = hiera('db_index', 0)
 
   $rsyslog_enabled = hiera('rsyslog_enabled', false)
   if $rsyslog_enabled {
