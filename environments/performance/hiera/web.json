@@ -1,6 +1,7 @@
 {
     "classes": [
         "::oaeservice::nginx",
+        "::oaeservice::ui",
         "::oaeservice::hilary::files",
         "::localconfig::ordering::web"
     ],
