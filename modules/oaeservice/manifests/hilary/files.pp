@@ -10,6 +10,7 @@ class oaeservice::hilary::files {
       }
     }
     default: {
+      include nfs::client
       nfs::mount { $app_files_parent:
         ensure      => present,
         mountpoint  => $app_files_parent,
