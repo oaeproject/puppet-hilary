@@ -13,6 +13,7 @@ function installNginx {
     cd nginx-${REQUIRED_VERSION}
     ./configure --user=<%= owner %> --group=<%= group %> --prefix=<%= nginx_dir %> <%= nginx_ld_param %> \
     
+        --with-debug \
         --pid-path=<%= nginx_dir %>/run/nginx.pid \
         --lock-path=<%= nginx_dir %>/run/nginx.lock \
         --error-log-path=/var/log/nginx/error.log \
@@ -28,8 +29,8 @@ function installNginx {
         --with-ipv6 \
         --with-http_stub_status_module
 
-    make
-    sudo make install
+    gmake
+    sudo gmake install
 }
 
 mkdir -p <%= nginx_dir %>/run

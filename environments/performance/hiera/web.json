@@ -22,6 +22,6 @@
         }
     ],
 
-    "nginx::owner": "admin",
-    "nginx::group": "staff"
+    "nginx::owner": "root",
+    "nginx::group": "root"
 }
