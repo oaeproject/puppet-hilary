@@ -5,7 +5,7 @@ node 'demo' {
 }
 
 node 'qa0' {
-    $nodetype = 'qa',
+    $nodetype = 'qa'
     $nodesuffix = 0
     hiera_include(classes)
 }
