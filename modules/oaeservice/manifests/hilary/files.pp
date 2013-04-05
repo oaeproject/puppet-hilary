@@ -16,7 +16,7 @@ class oaeservice::hilary::files {
         mountpoint  => $app_files_parent,
         server      => $hilary_files['server'],
         share       => $hilary_files['source_dir'],
-        requires    => Class['::nfs::client'],
+        require     => Class['::nfs::client'],
       }
     }
   }
