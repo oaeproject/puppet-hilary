@@ -11,11 +11,15 @@ class oaeservice::hilary::files {
     }
     default: {
       include nfs::client
+
+      package { 'nfs-common': ensure => present }
+
       nfs::mount { $app_files_parent:
         ensure      => present,
         mountpoint  => $app_files_parent,
         server      => $hilary_files['server'],
         share       => $hilary_files['source_dir'],
+        requires    => Package['nfs-common'],
       }
     }
   }
