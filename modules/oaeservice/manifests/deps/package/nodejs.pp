@@ -24,7 +24,7 @@ class oaeservice::deps::package::nodejs {
     }
     solaris, Solaris: {
       $npm_dir = '/opt/local/lib/node_modules/npm'
-      $npm_require = "nodejs-$node_version"
+      $npm_require = "nodejs-$nodejs_version"
 
       ## npm installs by default in the pkgin repos
       package { "nodejs-$nodejs_version": ensure => installed, provider => 'pkgin' }
@@ -33,7 +33,7 @@ class oaeservice::deps::package::nodejs {
       $npm_dir = '/usr/lib/nodejs/npm'
       $npm_require = "npm-$npm_version"
 
-      package { "nodejs-$node_version": ensure => installed }
+      package { "nodejs-$nodejs_version": ensure => installed }
       package { "npm-$npm_version": ensure => installed }
     }
   }

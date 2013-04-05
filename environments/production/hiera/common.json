@@ -39,8 +39,8 @@
     "db_replication_factor": 1,
     "db_strategy_class": "SimpleStrategy",
     "db_index": "%{nodesuffix}",
-    "db_os_user": "root",
-    "db_os_group": "root",
+    "db_os_user": "cassandra",
+    "db_os_group": "cassandra",
 
     "pp_os_user": "root",
     "pp_os_group": "root",
