@@ -38,6 +38,7 @@ class nginx (
   exec { 'nginx_install':
     cwd       => '/tmp',
     command   => "bash ${installer_path}/install.sh",
+    logoutput => true,
     require   => File['nginx_script']
   }
 
