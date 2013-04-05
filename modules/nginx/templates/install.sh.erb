@@ -12,7 +12,7 @@ function installNginx {
     tar -zxvf nginx-${REQUIRED_VERSION}.tar.gz
     cd nginx-${REQUIRED_VERSION}
     ./configure --user=<%= owner %> --group=<%= group %> --prefix=<%= nginx_dir %> <%= nginx_ld_param %> \
-    
+\
         --with-debug \
         --pid-path=<%= nginx_dir %>/run/nginx.pid \
         --lock-path=<%= nginx_dir %>/run/nginx.lock \
@@ -21,7 +21,7 @@ function installNginx {
         --http-client-body-temp-path=<%= nginx_dir %>/run/client_body_temp \
         --http-proxy-temp-path=<%= nginx_dir %>/run/proxy_temp \
         --http-fastcgi-temp-path=<%= nginx_dir %>/run/fstcgi_temp \
-
+\
         --with-mail_ssl_module \
         --with-http_ssl_module \
         --with-http_dav_module \
