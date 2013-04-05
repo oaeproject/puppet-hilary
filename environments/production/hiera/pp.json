@@ -1,9 +1,12 @@
 {
     "classes": [
-        "::oaeservice::hilary::pp",
+        "::oaeservice::deps::pp",
+        "::oaeservice::hilary",
         "::oaeservice::ui"
     ],
+
     "hilary::config_previews_enabled": true,
+    
     "app_os_user": "root",
     "app_os_group": "root"
 }

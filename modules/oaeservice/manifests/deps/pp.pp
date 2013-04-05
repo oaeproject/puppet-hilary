@@ -5,7 +5,7 @@ class oaeservice::deps::pp {
   $phantomjs_checksum = hiera('phantomjs_checksum')
 
   # Necessary packages for phantomjs and other PP functionality
-  $pp_packages = [ 'libreoffice', 'pdftk', 'chrpath', 'libssl-dev', 'libfontconfig1-dev' ]
+  $pp_packages = [ 'libreoffice', 'pdftk', 'chrpath', 'libfontconfig1-dev' ]
   package { $pp_packages: ensure => installed }
 
   archive { 'phantomjs':
