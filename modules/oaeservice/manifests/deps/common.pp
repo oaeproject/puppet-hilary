@@ -4,7 +4,7 @@ class oaeservice::deps::common {
     debian, ubuntu: {
       package { 'build-essential': ensure => installed }
       package { 'automake': ensure => installed }
-      package { 'zlibc': ensure => installed }
+      package { 'libssl-dev': ensure => installed }
     }
     solaris, Solaris: {
       package { 'gcc47': ensure => installed, provider => 'pkgin' }
