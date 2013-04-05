@@ -1,7 +1,8 @@
 {
     "classes": [
         "::oaeservice::nginx",
-        "::oaeservice::hilary::files"
+        "::oaeservice::hilary::files",
+        "::localconfig::ordering::nginx"
     ],
     "rsyslog::imfiles": [
         {

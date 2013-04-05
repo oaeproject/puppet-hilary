@@ -1,6 +1,7 @@
 {
     "classes": [
         "::oaeservice::hilary",
-        "::oaeservice::hilary::files"
+        "::oaeservice::hilary::files",
+        "::localconfig::ordering::app"
     ]
 }
