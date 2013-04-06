@@ -7,6 +7,7 @@ class oaeqaautomation {
     $user_files_dir = hiera('app_files_dir')
     $app_root_dir = hiera('app_root_dir')
     $ux_root_dir = hiera('ux_root_dir')
+    $admin_host = hiera('app_admin_host')
 
     exec { 'mkdir_scripts': command => "mkdir -p ${scripts_dir}", unless => "test -d ${scripts_dir}" }
 
