@@ -25,7 +25,6 @@ puppet agent -t >> /var/log/nightly.log
 echo "" >> /var/log/nightly.log
 echo "Re-building search index >> /var/log/nightly.log
 
-ADMIN_COOKIE=\
-    $(curl -s -e "/" --cookie-jar - -d"username=administrator" -d"password=administrator" \
+ADMIN_COOKIE=$(curl -s -e "/" --cookie-jar - -d"username=administrator" -d"password=administrator" \
         http://<%= admin_host %>/api/auth/login | grep connect.sid | cut -f 7)
-curl -XPOST -e "/" --cookie connect.sid=${ADMIN_COOKIE} http://<%= admin_host%>/api/search/reindexAll
+curl -XPOST -e "/" --cookie connect.sid=${ADMIN_COOKIE} http://<%= admin_host%>/api/search/reindexAll  >> /var/log/nightly.log
