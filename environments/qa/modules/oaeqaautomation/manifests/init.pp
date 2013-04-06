@@ -1,4 +1,7 @@
-class oaeqaautomation ($backup_dir, $scripts_dir) {
+class oaeqaautomation {
+
+    $backup_dir = hiera('automation_backup_dir')
+    $scripts_dir = hiera('automation_scripts_dir')
     $cassandra_data_dir = hiera('db_data_dir')
     $elasticsearch_data_dir = hiera('search_data_dir')
     $user_files_dir = hiera('app_files_dir')

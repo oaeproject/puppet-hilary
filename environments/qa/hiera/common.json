@@ -94,5 +94,7 @@
     "redis::group": "root",
 
     "hilary::config_activity_enabled": true,
-    "hilary::config_previews_enabled": true
+    "hilary::config_previews_enabled": true,
+    "automation_scripts_dir": "/opt/scripts",
+    "automation_backup_dir": "/opt/backup"
 }
