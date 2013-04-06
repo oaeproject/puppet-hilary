@@ -8,6 +8,8 @@ class oaeqaautomation {
     $app_root_dir = hiera('app_root_dir')
     $ux_root_dir = hiera('ux_root_dir')
 
+    exec { 'mkdir_scripts': command => "mkdir -p ${scripts_dir}", unless => "test -d ${scripts_dir}" }
+
     file { 'deletedata.sh':
         path => "${scripts_dir}/deletedata.sh",
         mode => 0755,
@@ -17,19 +19,22 @@ class oaeqaautomation {
     file { 'nightly.sh':
         path => "${scripts_dir}/nightly.sh",
         mode => 0755,
-        content => template('oaeqaautomation/nightly.sh.erb')
+        content => template('oaeqaautomation/nightly.sh.erb'),
+        require => Exec['mkdir_scripts']
     }
 
     file { 'restoredata.sh':
         path => "${scripts_dir}/restoredata.sh",
         mode => 0755,
-        content => template('oaeqaautomation/restoredata.sh.erb')
+        content => template('oaeqaautomation/restoredata.sh.erb'),
+        require => Exec['mkdir_scripts']
     }
 
     file { 'shutdown.sh':
         path => "${scripts_dir}/shutdown.sh",
         mode => 0755,
-        content => template('oaeqaautomation/shutdown.sh.erb')
+        content => template('oaeqaautomation/shutdown.sh.erb'),
+        require => Exec['mkdir_scripts']
     }
 
     cron { 'nightly-backup':
