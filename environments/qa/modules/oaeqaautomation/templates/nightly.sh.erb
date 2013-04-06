@@ -5,9 +5,19 @@ echo "" >> /var/log/nightly.log
 echo "" >> /var/log/nightly.log
 echo "Nightly Run: `date`" >> /var/log/nightly.log
 echo "=========================================================" >> /var/log/nightly.log
+echo "" >> /var/log/nightly.log
 
+echo "Shutting down services..." >> /var/log/nightly.log
 <%= scripts_dir %>/shutdown.sh >> /var/log/nightly.log
+
+echo "" >> /var/log/nightly.log
+echo "Deleting data..." >> /var/log/nightly.log
 <%= scripts_dir %>/deletedata.sh >> /var/log/nightly.log
+
+echo "" >> /var/log/nightly.log
+echo "Restoring data..." >> /var/log/nightly.log
 <%= scripts_dir %>/restoredata.sh >> /var/log/nightly.log
 
+echo "" >> /var/log/nightly.log
+echo "Restoring services with puppet" >> /var/log/nightly.log
 puppet agent -t >> /var/log/nightly.log

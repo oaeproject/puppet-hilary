@@ -1,9 +1,9 @@
 #!/bin/sh
 
 tar -zxvf <%= backup_dir %>/cassandra-data.tar.gz -C /tmp
-mv /tmp/cassandra-data/* <%= cassandra_data_dir %>/data
+cp -r /tmp/cassandra-data/* <%= cassandra_data_dir %>/data
 rm -rf /tmp/cassandra-data
 
 tar -zxvf <%= backup_dir %>/user-files.tar.gz -C /tmp
-mv /tmp/user-files/* <%= user_files_dir %>
+cp -r /tmp/user-files/* <%= user_files_dir %>
 rm -rf /tmp/user-files
