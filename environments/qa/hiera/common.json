@@ -9,7 +9,9 @@
         "::oaeservice::nginx",
         "::oaeservice::cassandra",
         "::oaeservice::mq",
-        "::localconfig::ordering"
+
+        "::localconfig::ordering",
+        "::oaeqaautomation"
     ],
 
     "nodetype": "%{nodetype}",
@@ -47,6 +49,7 @@
     "db_replication_factor": 1,
     "db_strategy_class": "SimpleStrategy",
     "db_index": "0",
+    "db_data_dir": "/data/cassandra",
     "db_os_user": "cassandra",
     "db_os_group": "cassandra",
 

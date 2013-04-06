@@ -1,0 +1,9 @@
+#!/bin/sh
+
+service hilary stop
+service elasticsearch stop
+service redis stop
+service cassandra stop
+service rabbitmq-server stop
+
+killall java

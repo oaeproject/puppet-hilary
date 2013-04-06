@@ -20,7 +20,6 @@ class cassandra (
     CentOS, RedHat: {
       $cassandra_conf_dir = '/etc/cassandra/conf'
 
-
       yumrepo { "datastax":
         name => "datastax",
         baseurl => "http://rpm.datastax.com/community",
