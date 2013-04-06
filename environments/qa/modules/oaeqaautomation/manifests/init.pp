@@ -43,6 +43,6 @@ class oaeqaautomation {
         command => "${scripts_dir}/nightly.sh",
         user    => 'root',
         target  => 'root',
-        hour    =>  23
+        hour    =>  4
     }
 }
