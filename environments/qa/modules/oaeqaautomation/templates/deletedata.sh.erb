@@ -1,11 +1,19 @@
 #!/bin/sh
 
+# User-uploaded files
 rm -rf <%= user_files_dir %>/*
-rm -rf <%= cassandra_data_dir %>/data/oae/*
+
+# Search index
 rm -rf <%= elasticsearch_data_dir %>/*
 
+# Cassandra data
+rm -rf <%= cassandra_data_dir %>/data/*
+rm -rf <%= cassandra_data_dir %>/saved_caches/*
 rm -rf /var/lib/cassandra/commitlog/*
+
+# Redis db
 rm -rf /var/lib/redis/*
 
+# Code. Might as well
 rm -rf <%= app_root_dir %>
 rm -rf <%= ux_root_dir %>
