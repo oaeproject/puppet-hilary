@@ -16,7 +16,7 @@ http {
     server_names_hash_bucket_size  64;
     
     <% if ssl_path -%>
-    ssl_certificate      <%= ssl_path %>/server.crt;
+    ssl_certificate      <%= ssl_path %>/server.csr;
     ssl_certificate_key  <%= ssl_path %>/server.key;
     <% end -%>
 

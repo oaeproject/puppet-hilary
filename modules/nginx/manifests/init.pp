@@ -102,7 +102,7 @@ class nginx (
 
     file { "${ssl_path}/server.csr":
       ensure  => present,
-      mode    => 0600,
+      mode    => 0400,
       owner   => $owner,
       group   => $group,
       source  => $cert_source,
@@ -112,7 +112,7 @@ class nginx (
 
     file { "${ssl_path}/server.key":
       ensure  => present,
-      mode    => 0600,
+      mode    => 0400,
       owner   => $owner,
       group   => $group,
       source  => $cert_key_source,
