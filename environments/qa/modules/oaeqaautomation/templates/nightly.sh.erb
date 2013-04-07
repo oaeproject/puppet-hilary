@@ -16,7 +16,7 @@ echo "Deleting data..." >> /var/log/nightly.log
 
 echo "" >> /var/log/nightly.log
 echo "Restoring data..." >> /var/log/nightly.log
-<%= scripts_dir %>/restoredata.sh >> /var/log/nightly.log 2>> /var/log/nightly.log
+<%= scripts_dir %>/restoredata.sh 2>> /var/log/nightly.log
 
 echo "" >> /var/log/nightly.log
 echo "Restoring services with puppet" >> /var/log/nightly.log
