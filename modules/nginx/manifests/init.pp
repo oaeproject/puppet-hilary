@@ -1,15 +1,16 @@
 class nginx (
     $internal_app_ips,
     $internal_etherpad_ips,
-    $ux_root_dir    = '/opt/3akai-ux',
-    $ux_admin_host  = 'admin.oae-performance.sakaiproject.org',
-    $files_home     = '/opt/files',
-    $cert           = 'null',
-    $cert_key       = 'null',
-    $owner          = 'www',
-    $group          = 'www',
-    $nginx_dir      = '/opt/nginx',
-    $installer_path = '/tmp') {
+    $ux_root_dir      = '/opt/3akai-ux',
+    $ux_admin_host    = 'admin.oae-performance.sakaiproject.org',
+    $files_home       = '/opt/files',
+    $ssl_path         = false,
+    $cert_source      = 'puppet://localconfig/server.csr',
+    $cert_key_source  = 'puppet://localconfig/server.key',
+    $owner            = 'www',
+    $group            = 'www',
+    $nginx_dir        = '/opt/nginx',
+    $installer_path   = '/tmp') {
 
   case $operatingsystem {
     solaris, Solaris: {
@@ -88,9 +89,38 @@ class nginx (
       $nginx_require = File['/etc/init.d/nginx']
     }
     default: {
-      exec { 'nginx_notsupported': command => fail("No support yet for ${::operatingsystem}") }
+      exec { 'nginx_notsupported': command => fail("No Nginx support yet for ${::operatingsystem}") }
     }
   }
+
+  if ($ssl_path) {
+
+    exec { 'mkdir_ssl_path':
+      command => "mkdir -p ${ssl_path}",
+      unless  => "test -d ${ssl_path}",
+    }
+
+    file { "${ssl_path}/server.csr":
+      ensure  => present,
+      mode    => 0600,
+      owner   => $owner,
+      group   => $group,
+      source  => $cert_source,
+      require => Exec['mkdir_ssl_path'],
+      before  => Service['nginx'],
+    }
+
+    file { "${ssl_path}/server.key":
+      ensure  => present,
+      mode    => 0600,
+      owner   => $owner,
+      group   => $group,
+      source  => $cert_key_source,
+      require => Exec['mkdir_ssl_path'],
+      before  => Service['nginx'],
+    }
+  }
+
 
   service { 'nginx':
     ensure  => running,

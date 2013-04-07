@@ -15,9 +15,9 @@ http {
 
     server_names_hash_bucket_size  64;
     
-    <% if cert != 'null' -%>
-    ssl_certificate      <%= cert %>;
-    ssl_certificate_key  <%= cert_key %>;
+    <% if ssl_path -%>
+    ssl_certificate      <%= ssl_path %>/server.crt;
+    ssl_certificate_key  <%= ssl_path %>/server.key;
     <% end -%>
 
     # When the back-end server returns a 502, look to the next upstream server
@@ -45,7 +45,7 @@ http {
     
     server {
         listen       80;
-        <% if cert != 'null' -%>
+        <% if ssl_path -%>
         listen       443 ssl;
         <% end -%>
         server_name  <%= ux_admin_host %>;
@@ -154,7 +154,7 @@ http {
 
     server {
         listen   80 default_server;
-        <% if cert != 'null' -%>
+        <% if ssl_path -%>
         listen   443 default_server ssl;
         <% end -%>
 

@@ -95,6 +95,9 @@
 
     "hilary::config_activity_enabled": true,
     "hilary::config_previews_enabled": true,
+
+    "nginx::ssl_path": "/opt/nginx/ssl",
+
     "automation_scripts_dir": "/opt/scripts",
     "automation_backup_dir": "/opt/backup"
 }
