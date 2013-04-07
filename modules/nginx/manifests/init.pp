@@ -5,7 +5,7 @@ class nginx (
     $ux_admin_host    = 'admin.oae-performance.sakaiproject.org',
     $files_home       = '/opt/files',
     $ssl_path         = false,
-    $cert_source      = 'puppet:///modules/localconfig/server.csr',
+    $cert_source      = 'puppet:///modules/localconfig/server.crt',
     $cert_key_source  = 'puppet:///modules/localconfig/server.key',
     $owner            = 'www',
     $group            = 'www',
