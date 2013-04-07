@@ -100,7 +100,7 @@ class nginx (
       unless  => "test -d ${ssl_path}",
     }
 
-    file { "${ssl_path}/server.csr":
+    file { "${ssl_path}/server.crt":
       ensure  => present,
       mode    => 0400,
       owner   => $owner,
