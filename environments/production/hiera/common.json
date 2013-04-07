@@ -79,5 +79,7 @@
     "driver_tsung_version": "1.4.2",
 
     "rsyslog::clientOrServer": "client",
-    "rsyslog::server_logdir": "/var/log/rsyslog"
+    "rsyslog::server_logdir": "/var/log/rsyslog",
+
+    "nginx::ssl_path": "/opt/nginx/ssl"
 }
