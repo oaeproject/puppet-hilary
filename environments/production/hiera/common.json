@@ -74,12 +74,11 @@
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
 
     "rsyslog_enabled": true,
-    "rsyslog_host": "10.224.14.32",
+    "rsyslog_host": "10.224.14.37",
 
     "driver_tsung_version": "1.4.2",
 
     "rsyslog::clientOrServer": "client",
     "rsyslog::server_logdir": "/var/log/rsyslog",
-
     "nginx::ssl_path": "/opt/nginx/ssl"
 }

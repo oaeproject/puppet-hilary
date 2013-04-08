@@ -81,7 +81,7 @@
 
     "driver_tsung_version": "1.4.2",
 
-    "::rsyslog::clientOrServer": "client",
+    "rsyslog::clientOrServer": "client",
 
     "nginx::ssl_path": "/opt/nginx/ssl"
 }
