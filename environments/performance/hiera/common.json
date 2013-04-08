@@ -11,8 +11,8 @@
     "app_os_group": "staff",
     "app_hosts": [ "10.112.5.119", "10.112.6.140", "10.112.2.120", "10.112.6.226" ],
     "app_root_dir": "/opt/oae",
-    "app_git_user": "mrvisser",
-    "app_git_branch": "optional-webshot",
+    "app_git_user": "sakaiproject",
+    "app_git_branch": "master",
     
     "app_signing_key": "A;SLDFJ984FJW398FJWP4GO5IJSLRTKGJ",
     "app_cookie_secret": "SODIFJ984FJA984JAFP98WF4PAW984F984FJ9",
