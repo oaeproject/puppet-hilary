@@ -1,5 +1,7 @@
 {
     "classes": [
+        "::oaeservice::deps::package::java6",
+        "::oaeservice::deps::package::samlparser",
         "::oaeservice::hilary",
         "::oaeservice::hilary::files",
         "::oaeservice::ui",

@@ -280,16 +280,16 @@ config.activity = {
     'maxConcurrentRouters': 5,
     'collectionPollingFrequency': 5,
     'collectionBatchSize': 1000,
-    <% if config_activity_redis_host -%>
+<% if config_activity_redis_host -%>
     'redis': {
         'host': '<%= config_activity_redis_host %>',
         'port': 6379,
         'pass': '',
         'dbIndex': 0
     }
-    <% else -%>
+<% else -%>
     'redis': null
-    <% end -%>
+<% end -%>
 };
 
 /**
@@ -300,7 +300,7 @@ config.activity = {
  * @param  {String}    SAMLParserJarPath     The path towards the Java binary that can be used to decrypt SAML messages. This only needs to be configured if you want to enable the Shibboleth strategy. Se
  */
 config.saml = {
-    'SAMLParserJarPath': ''
+    'SAMLParserJarPath': '/opt/org.sakaiproject.Hilary.SAMLParser-1.0-SNAPSHOT-jar-with-dependencies.jar'
 };
 
 /**
