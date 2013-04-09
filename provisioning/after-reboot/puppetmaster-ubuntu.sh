@@ -315,11 +315,9 @@ EOF
 ln -s /opt/activemq/bin/linux-x86-64/activemq /etc/init.d/activemq
 
 # mcollective packages
-gem install stomp
-
 MCOLLECTIVE_VERSION=2.2.3-1
-
 apt-get -y install mcollective=$MCOLLECTIVE_VERSION mcollective-client=$MCOLLECTIVE_VERSION
+gem install stomp
 
 # mcollective plugins
 apt-get -y install mcollective-puppet-client=1.5.1-1 mcollective-package-client=4.2.0-1

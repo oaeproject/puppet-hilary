@@ -54,8 +54,8 @@ DAEMON_OPTS=""
 EOF
 
 # MCollective server (i.e., on each of the cluster nodes)
-gem install stomp
 apt-get -y install mcollective=2.2.3-1
+gem install stomp
 
 # Agent plugins
 apt-get -y install mcollective-puppet-agent=1.5.1-1 mcollective-package-agent=4.2.0-1
