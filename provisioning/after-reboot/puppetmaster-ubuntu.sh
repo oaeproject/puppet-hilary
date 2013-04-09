@@ -315,7 +315,7 @@ EOF
 ln -s /opt/activemq/bin/linux-x86-64/activemq /etc/init.d/activemq
 
 # mcollective packages
-MCOLLECTIVE_VERSION=2.2.3-1
+MCOLLECTIVE_VERSION=2.3.1-2
 apt-get -y install mcollective=$MCOLLECTIVE_VERSION mcollective-client=$MCOLLECTIVE_VERSION
 gem install stomp
 
