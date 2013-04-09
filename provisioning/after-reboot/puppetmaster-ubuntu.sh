@@ -1,15 +1,17 @@
 
-# Open up the devel repos
-sed -i 's/# deb /deb /g' /etc/apt/sources.list.d/puppetlabs.list
-apt-get update
-
 # Install the puppetlabs repos
 cd /tmp
 wget http://apt.puppetlabs.com/puppetlabs-release-precise.deb
 dpkg -i puppetlabs-release-precise.deb
 
+# Open up the puppet devel repos
+sed -i 's/# deb /deb /g' /etc/apt/sources.list.d/puppetlabs.list
+
+# Pull in packages from the puppetlabs repos
+apt-get update
+
 # Install git and puppetmaster
-apt-get install -y git puppetmaster-passenger
+apt-get install -y git puppetmaster-passenger=3.1.1-1puppetlabs1
 
 # Configure PuppetMaster
 cat > /etc/puppet/puppet.conf <<EOF
@@ -74,7 +76,7 @@ cd $PACKAGE && \
 ruby setup.rb
 
 update-alternatives --install /usr/bin/gem gem /usr/bin/gem1.8 1
-apt-get install -y puppet-dashboard
+apt-get install -y puppet-dashboard=1.2.23-1puppetlabs1
 
 # Create 'dashboard' user with password 'dashboard'
 mysql -u root -proot -e "CREATE DATABASE dashboard CHARACTER SET utf8;"
@@ -314,7 +316,10 @@ ln -s /opt/activemq/bin/linux-x86-64/activemq /etc/init.d/activemq
 
 # mcollective packages
 gem install stomp
-apt-get -y install mcollective=2.2.3-1 mcollective-client
+
+MCOLLECTIVE_VERSION=2.2.3-1
+
+apt-get -y install mcollective=$MCOLLECTIVE_VERSION mcollective-client=$MCOLLECTIVE_VERSION
 
 # mcollective plugins
 apt-get -y install mcollective-puppet-client=1.5.1-1 mcollective-package-client=4.2.0-1
