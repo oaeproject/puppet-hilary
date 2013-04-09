@@ -91,6 +91,4 @@ EOF
 
 service mcollective restart
 
-puppet agent --test
-
-echo "Setup complete and cert requested. Sign the cert on the puppet master using 'puppet cert sign', then come back to this machine and run 'sudo puppet agent -t' to apply the puppet config"
+echo "Setup complete."
