@@ -1,6 +1,6 @@
 class redis (
-    $owner                = 'admin',
-    $group                = 'staff',
+    $owner                = 'root',
+    $group                = 'root',
     $eviction_maxmemory   = false,
     $eviction_policy      = false,
     $eviction_samples     = false,
