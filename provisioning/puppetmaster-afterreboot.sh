@@ -1,8 +1,4 @@
 
-# Set the host
-echo puppet >/etc/hostname
-sed -i 's/^127\.0\.1\.1[[:space:]]*localhost/127.0.1.1 localhost puppet/' /etc/hosts
-
 # Install the puppetlabs repos
 cd /tmp
 wget http://apt.puppetlabs.com/puppetlabs-release-precise.deb
