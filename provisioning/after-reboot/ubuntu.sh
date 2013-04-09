@@ -17,7 +17,7 @@ wget http://apt.puppetlabs.com/puppetlabs-release-precise.deb
 dpkg -i puppetlabs-release-precise.deb
 apt-get update
 
-# install 3.1.1
+# install puppet 3.1.1
 apt-get -y install puppet=3.1.1-1puppetlabs1
 
 # Now install puppet
@@ -51,6 +51,42 @@ START=yes
 
 # Startup options
 DAEMON_OPTS=""
+EOF
+
+# MCollective server (i.e., on each of the cluster nodes)
+gem install stomp
+apt-get -y install mcollective=2.2.3-1
+
+# Agent plugins
+apt-get -y install mcollective-puppet-agent=1.5.1-1 mcollective-package-agent=4.2.0-1
+
+# MCollective config
+cat > /etc/mcollective/server.cfg <<EOF
+# main config
+libdir = /usr/share/mcollective/plugins
+logfile = /var/log/mcollective.log
+daemonize = 1
+keeplogs = 0
+max_log_size = 10240
+loglevel = debug
+identity = $SCRIPT_HOSTNAME
+registerinterval = 300
+
+# connector plugin config
+connector = activemq
+plugin.activemq.pool.size = 1
+plugin.activemq.pool.1.host = puppet
+plugin.activemq.pool.1.port = 61613
+plugin.activemq.pool.1.user = mcollective
+plugin.activemq.pool.1.password = marionette
+
+# facts
+factsource = yaml
+plugin.yaml = /etc/mcollective/facts.yaml
+
+# security plugin config
+securityprovider = psk
+plugin.psk = abcdefghj
 EOF
 
 puppet agent --test

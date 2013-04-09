@@ -164,4 +164,205 @@ touch /usr/share/puppet-dashboard/log/production.log
 chmod 0666 /usr/share/puppet-dashboard/log/production.log
 service puppet-dashboard-workers start
 
+
+# Install mcollective server *AND CLIENT* (Client is the one that communicates with all the other nodes)
+apt-get -y install openjdk-6-jre
+
+cd /opt
+wget http://apache.mirror.vexxhost.com/activemq/apache-activemq/5.8.0/apache-activemq-5.8.0-bin.tar.gz
+tar -zxvf apache-activemq-5.8.0-bin.tar.gz
+mv apache-activemq-5.8.0 activemq
+
+cat > activemq/conf/activemq.xml <<EOF
+<beans
+  xmlns="http://www.springframework.org/schema/beans"
+  xmlns:amq="http://activemq.apache.org/schema/core"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+  http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
+  http://activemq.apache.org/camel/schema/spring http://activemq.apache.org/camel/schema/spring/camel-spring.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <value>file:\${activemq.base}/conf/credentials.properties</value>
+        </property>
+    </bean>
+
+    <!--
+      For more information about what MCollective requires in this file,
+      see http://docs.puppetlabs.com/mcollective/deploy/middleware/activemq.html
+    -->
+
+    <!--
+      WARNING: The elements that are direct children of <broker> MUST BE IN
+      ALPHABETICAL ORDER. This is fixed in ActiveMQ 5.6.0, but affects
+      previous versions back to 5.4.
+      https://issues.apache.org/jira/browse/AMQ-3570
+    -->
+    <broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" useJmx="true" schedulePeriodForDestinationPurge="60000">
+        <!--
+          MCollective generally expects producer flow control to be turned off.
+          It will also generate a limitless number of single-use reply queues,
+          which should be garbage-collected after about five minutes to conserve
+          memory.
+
+          For more information, see:
+          http://activemq.apache.org/producer-flow-control.html
+        -->
+        <destinationPolicy>
+          <policyMap>
+            <policyEntries>
+              <policyEntry topic=">" producerFlowControl="false"/>
+              <policyEntry queue="*.reply.>" gcInactiveDestinations="true" inactiveTimoutBeforeGC="300000" />
+            </policyEntries>
+          </policyMap>
+        </destinationPolicy>
+
+        <managementContext>
+            <managementContext createConnector="false"/>
+        </managementContext>
+
+        <plugins>
+          <statisticsBrokerPlugin/>
+
+          <!--
+            This configures the users and groups used by this broker. Groups
+            are referenced below, in the write/read/admin attributes
+            of each authorizationEntry element.
+          -->
+          <simpleAuthenticationPlugin>
+            <users>
+              <authenticationUser username="mcollective" password="marionette" groups="mcollective,everyone"/>
+              <authenticationUser username="admin" password="secret" groups="mcollective,admins,everyone"/>
+            </users>
+          </simpleAuthenticationPlugin>
+
+          <!--
+            Configure which users are allowed to read and write where. Permissions
+            are organized by group; groups are configured above, in the
+            authentication plugin.
+
+            With the rules below, both servers and admin users belong to group
+            mcollective, which can both issue and respond to commands. For an
+            example that splits permissions and doesn't allow servers to issue
+            commands, see:
+            http://docs.puppetlabs.com/mcollective/deploy/middleware/activemq.html#detailed-restrictions
+          -->
+          <authorizationPlugin>
+            <map>
+              <authorizationMap>
+                <authorizationEntries>
+                  <authorizationEntry queue=">" write="admins" read="admins" admin="admins" />
+                  <authorizationEntry topic=">" write="admins" read="admins" admin="admins" />
+                  <authorizationEntry topic="mcollective.>" write="mcollective" read="mcollective" admin="mcollective" />
+                  <authorizationEntry queue="mcollective.>" write="mcollective" read="mcollective" admin="mcollective" />
+                  <!--
+                    The advisory topics are part of ActiveMQ, and all users need access to them.
+                    The "everyone" group is not special; you need to ensure every user is a member.
+                  -->
+                  <authorizationEntry topic="ActiveMQ.Advisory.>" read="everyone" write="everyone" admin="everyone"/>
+                </authorizationEntries>
+              </authorizationMap>
+            </map>
+          </authorizationPlugin>
+        </plugins>
+
+        <!--
+          The systemUsage controls the maximum amount of space the broker will
+          use for messages. For more information, see:
+          http://docs.puppetlabs.com/mcollective/deploy/middleware/activemq.html#memory-and-temp-usage-for-messages-systemusage
+        -->
+        <systemUsage>
+            <systemUsage>
+                <memoryUsage>
+                    <memoryUsage limit="20 mb"/>
+                </memoryUsage>
+                <storeUsage>
+                    <storeUsage limit="1 gb" name="foo"/>
+                </storeUsage>
+                <tempUsage>
+                    <tempUsage limit="100 mb"/>
+                </tempUsage>
+            </systemUsage>
+        </systemUsage>
+
+        <!--
+          The transport connectors allow ActiveMQ to listen for connections over
+          a given protocol. MCollective uses Stomp, and other ActiveMQ brokers
+          use OpenWire. You'll need different URLs depending on whether you are
+          using TLS. For more information, see:
+
+          http://docs.puppetlabs.com/mcollective/deploy/middleware/activemq.html#transport-connectors
+        -->
+        <transportConnectors>
+            <transportConnector name="openwire" uri="tcp://0.0.0.0:61616"/>
+            <transportConnector name="stomp" uri="stomp://0.0.0.0:61613"/>
+        </transportConnectors>
+    </broker>
+
+    <!--
+      Enable web consoles, REST and Ajax APIs and demos.
+      It also includes Camel (with its web console); see \${ACTIVEMQ_HOME}/conf/camel.xml for more info.
+
+      See \${ACTIVEMQ_HOME}/conf/jetty.xml for more details.
+    -->
+    <import resource="jetty.xml"/>
+</beans>
+EOF
+
+ln -s /opt/activemq/bin/linux-x86-64/activemq /etc/init.d/activemq
+
+# mcollective packages
+gem install stomp
+apt-get -y install mcollective=2.2.3-1 mcollective-client
+
+# mcollective plugins
+apt-get -y install mcollective-puppet-client=1.5.1-1 mcollective-package-client=4.2.0-1
+
+cat > /etc/mcollective/client.cfg <<EOF
+# main config
+libdir = /usr/share/mcollective/plugins
+logfile = /dev/null
+loglevel = error
+
+# connector plugin config
+connector = activemq
+plugin.activemq.pool.size = 1
+plugin.activemq.pool.1.host = puppet
+plugin.activemq.pool.1.port = 61613
+plugin.activemq.pool.1.user = mcollective
+plugin.activemq.pool.1.password = marionette
+
+# security plugin config
+securityprovider = psk
+plugin.psk = abcdefghj
+EOF
+
+cat > /etc/mcollective/server.cfg <<EOF
+# main config
+libdir = /usr/share/mcollective/plugins
+logfile = /var/log/mcollective.log
+daemonize = 1
+loglevel = info
+
+# connector plugin config
+connector = activemq
+plugin.activemq.pool.size = 1
+plugin.activemq.pool.1.host = puppet
+plugin.activemq.pool.1.port = 61613
+plugin.activemq.pool.1.user = mcollective
+plugin.activemq.pool.1.password = marionette
+
+# facts
+factsource = yaml
+plugin.yaml = /etc/mcollective/facts.yaml
+
+# security plugin config
+securityprovider = psk
+plugin.psk = abcdefghj
+EOF
+
+service activemq start
+service mcollective restart
+
 echo "Puppet master setup complete. Hilary puppet config is found in /etc/puppet/puppet-hilary"

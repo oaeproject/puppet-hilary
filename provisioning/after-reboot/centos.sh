@@ -54,6 +54,42 @@ report=true
 environment=$SCRIPT_ENVIRONMENT
 EOF
 
+# MCollective
+yum install -y --enablerepo=puppetlabs mcollective-2.2.3
+
+# MCollective Plugins
+yum install -y --enablerepo=puppetlabs mcollective-puppet-agent-1.5.1-1 mcollective-package-agent-4.2.0-1
+
+cat > /etc/mcollective/server.cfg <<EOF
+# main config
+libdir = /usr/libexec/mcollective
+logfile = /var/log/mcollective.log
+daemonize = 1
+keeplogs = 0
+max_log_size = 10240
+loglevel = debug
+identity = $SCRIPT_HOSTNAME
+registerinterval = 300
+
+# connector plugin config
+connector = activemq
+plugin.activemq.pool.size = 1
+plugin.activemq.pool.1.host = puppet
+plugin.activemq.pool.1.port = 61613
+plugin.activemq.pool.1.user = mcollective
+plugin.activemq.pool.1.password = marionette
+
+# facts
+factsource = yaml
+plugin.yaml = /etc/mcollective/facts.yaml
+
+# security plugin config
+securityprovider = psk
+plugin.psk = abcdefghj
+EOF
+
+service mcollective restart
+
 puppet agent --test
 
 echo "Setup complete and cert requested. Sign the cert on the puppet master using 'puppet cert sign', then come back to this machine and run 'sudo puppet agent -t' to apply the puppet config"
