@@ -54,7 +54,6 @@ EOF
 git clone git://github.com/sakaiproject/puppet-hilary /etc/puppet/puppet-hilary
 cd /etc/puppet/puppet-hilary
 git fetch origin
-git checkout production
 bin/pull.sh
 
 ## Puppet Dashboard
