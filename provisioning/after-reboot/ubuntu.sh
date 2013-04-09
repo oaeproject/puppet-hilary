@@ -57,8 +57,6 @@ EOF
 apt-get -y install mcollective=2.2.3-1
 gem install stomp
 
-service mcollective stop
-
 # Agent plugins
 apt-get -y install mcollective-puppet-agent=1.5.1-1 mcollective-package-agent=4.2.0-1
 
@@ -91,7 +89,7 @@ securityprovider = psk
 plugin.psk = abcdefghj
 EOF
 
-service mcollective start
+service mcollective restart
 
 puppet agent --test
 
