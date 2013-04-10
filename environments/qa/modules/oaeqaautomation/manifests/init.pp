@@ -1,4 +1,4 @@
-class oaeqaautomation {
+class oaeqaautomation ($log_file_path = '/var/log/nightly.log') {
 
     $backup_dir = hiera('automation_backup_dir')
     $scripts_dir = hiera('automation_scripts_dir')
@@ -40,7 +40,7 @@ class oaeqaautomation {
 
     cron { 'nightly-backup':
         ensure  => present,
-        command => "${scripts_dir}/nightly.sh",
+        command => "${scripts_dir}/nightly.sh >> ${log_file_path} 2>> ${log_file_path}",
         user    => 'root',
         target  => 'root',
         hour    => 4,
