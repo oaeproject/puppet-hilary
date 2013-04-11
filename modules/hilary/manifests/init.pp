@@ -6,7 +6,6 @@ class hilary (
     $os_user,
     $os_group,
     $upload_files_dir,
-    $service_name       = 'node-sakai-oae',
 
     ############
     ## Config ##
@@ -154,54 +153,23 @@ class hilary (
   ## START APPLICATION ##
   #######################
 
-  case $operatingsystem {
-    debian, ubuntu: {
-
-      file { "/etc/init/hilary.conf":
-        ensure  =>  present,
-        content =>  template('hilary/upstart_hilary.conf.erb'),
-        require =>  Vcsrepo[$app_root_dir],
-      }
-
-      # Create a symlink to /etc/init/*.conf in /etc/init.d, because Puppet 2.7 looks there incorrectly (see: http://projects.puppetlabs.com/issues/14297)
-      file { '/etc/init.d/hilary':
-        ensure => link,
-        target => '/lib/init/hilary',
-        require =>  File["/etc/init/hilary.conf"],
-      }
-
-      service { 'hilary':
-        ensure   => running,
-        provider => 'upstart',
-        require  => [ File['/etc/init.d/hilary'], Vcsrepo[$ux_root_dir], Exec["npm_install_dependencies"] ]
-      }
-    }
-    solaris, Solaris: {
-      # Daemon script needed for SMF to manage the application
-      file { "${app_root_dir}/service.xml":
-        ensure  =>  present,
-        content =>  template('hilary/node-oae-service-manifest.xml.erb'),
-        notify  =>  Exec["svccfg_${service_name}"],
-        require =>  Vcsrepo[$app_root_dir],
-      }
-
-      # Force reload the manifest
-      exec { "svccfg_${service_name}":
-        command   => "svccfg import ${app_root_dir}/service.xml",
-        require   => File["${app_root_dir}/service.xml"],
-      }
-
-      # Start the app server
-      service { $service_name:
-        ensure   => running,
-        manifest => "${app_root_dir}/service.xml",
-        require  => [ Exec["svccfg_${service_name}"], Vcsrepo[$ux_root_dir], Exec["npm_install_dependencies"], ]
-      }
-    }
-    default: {
-      exec { "notsupported":
-        command   => fail("No support yet for ${::operatingsystem}")
-      }
-    }
+  file { "/etc/init/hilary.conf":
+    ensure  =>  present,
+    content =>  template('hilary/upstart_hilary.conf.erb'),
+    require =>  Vcsrepo[$app_root_dir],
   }
+
+  # Create a symlink to /etc/init/*.conf in /etc/init.d, because Puppet 2.7 looks there incorrectly (see: http://projects.puppetlabs.com/issues/14297)
+  file { '/etc/init.d/hilary':
+    ensure => link,
+    target => '/lib/init/hilary',
+    require =>  File["/etc/init/hilary.conf"],
+  }
+
+  service { 'hilary':
+    ensure   => running,
+    provider => 'upstart',
+    require  => [ File['/etc/init.d/hilary'], Vcsrepo[$ux_root_dir], Exec["npm_install_dependencies"] ]
+  }
+
 }

@@ -12,17 +12,6 @@ class nginx (
     $nginx_dir        = '/opt/nginx',
     $installer_path   = '/tmp') {
 
-  case $operatingsystem {
-    solaris, Solaris: {
-      $make = 'gmake'
-      $nginx_ld_param = "--with-ld-opt='-L/opt/local/lib -Wl,-R/opt/local/lib'"
-    }
-    default: {
-      $make = 'make'
-      $nginx_ld_param = ''
-    }
-  }
-
   exec { 'installdir':
     command => "mkdir -p ${installer_path}",
     unless  => "test -d ${installer_path}",
@@ -55,46 +44,16 @@ class nginx (
     require => Exec['nginx_install']
   }
 
-  case $operatingsystem {
-    solaris, Solaris: {
-
-      # Service manifest for svcadm
-      file { '/var/svc/manifest/nginx.xml':
-        path    => '/var/svc/manifest/nginx.xml',
-        ensure  => present,
-        mode    => 0644,
-        owner   => $owner,
-        group   => $group,
-        content => template('nginx/nginx.xml.erb')
-      }
-
-      exec { 'svccfg import /var/svc/manifest/nginx.xml':
-        command => 'svccfg import /var/svc/manifest/nginx.xml',
-        require => File['/var/svc/manifest/nginx.xml']
-      }
-
-      $nginx_require = Exec['svccfg import /var/svc/manifest/nginx.xml']
-    }
-    debian, ubuntu: {
-
-      # Init script for ubuntu
-      file { '/etc/init.d/nginx':
-        ensure  => present,
-        mode    => 0744,
-        owner   => $owner,
-        group   => $group,
-        content => template('nginx/nginx-init-ubuntu.erb')
-      }
-
-      $nginx_require = File['/etc/init.d/nginx']
-    }
-    default: {
-      exec { 'nginx_notsupported': command => fail("No Nginx support yet for ${::operatingsystem}") }
-    }
+  # Init script
+  file { '/etc/init.d/nginx':
+    ensure  => present,
+    mode    => 0744,
+    owner   => $owner,
+    group   => $group,
+    content => template('nginx/nginx-init-ubuntu.erb')
   }
 
   if ($ssl_path) {
-
     exec { 'mkdir_ssl_path':
       command => "mkdir -p ${ssl_path}",
       unless  => "test -d ${ssl_path}",
@@ -121,10 +80,9 @@ class nginx (
     }
   }
 
-
   service { 'nginx':
     ensure  => running,
-    require => [ $nginx_require, File['nginx_config'] ]
+    require => [ File['/etc/init.d/nginx'], File['nginx_config'] ]
   }
 
 }

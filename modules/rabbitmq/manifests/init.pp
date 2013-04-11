@@ -9,14 +9,7 @@ class rabbitmq (
   ## PACKAGE DEPENDENCIES ##
   ##########################
 
-  case $operatingsystem {
-    debian, ubuntu: {
-      package { 'rabbitmq-server=2.7.1-0ubuntu4': ensure => installed, alias => 'rabbitmq-server' }
-    }
-    CentOS, RedHat: {
-      package { 'rabbitmq-server-2.6.1': ensure => installed, alias => 'rabbitmq-server' }
-    }
-  }
+  package { 'rabbitmq-server=2.7.1-0ubuntu4': ensure => installed, alias => 'rabbitmq-server' }
 
   file { '/etc/rabbitmq/rabbitmq.config':
     ensure  => present,

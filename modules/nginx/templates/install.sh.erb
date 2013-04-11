@@ -11,7 +11,7 @@ function installNginx {
     wget http://nginx.org/download/nginx-${REQUIRED_VERSION}.tar.gz
     tar -zxvf nginx-${REQUIRED_VERSION}.tar.gz
     cd nginx-${REQUIRED_VERSION}
-    ./configure --user=<%= owner %> --group=<%= group %> --prefix=<%= nginx_dir %> <%= nginx_ld_param %> \
+    ./configure --user=<%= owner %> --group=<%= group %> --prefix=<%= nginx_dir %> \
 \
         --with-debug \
         --pid-path=<%= nginx_dir %>/run/nginx.pid \
@@ -29,8 +29,8 @@ function installNginx {
         --with-ipv6 \
         --with-http_stub_status_module
 
-    <%= make %>
-    <%= make %> install
+    make
+    make install
 }
 
 mkdir -p <%= nginx_dir %>/run

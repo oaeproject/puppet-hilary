@@ -1,12 +1,6 @@
-[submodule "modules/pkgin"]
-	path = modules/pkgin
-	url = http://github.com/mudge/puppet-pkgin
 [submodule "modules/vcsrepo"]
 	path = modules/vcsrepo
 	url = http://github.com/puppetlabs/puppetlabs-vcsrepo
-[submodule "modules/epel"]
-	path = modules/epel
-	url = https://github.com/stahnma/puppet-module-epel.git
 [submodule "modules/iptables"]
 	path = modules/iptables
 	url = https://github.com/camptocamp/puppet-iptables.git

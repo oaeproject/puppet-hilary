@@ -16,58 +16,36 @@ class cassandra (
 
   $dsc_version = '1.1'
 
-  case $operatingsystem {
-    CentOS, RedHat: {
-      $cassandra_conf_dir = '/etc/cassandra/conf'
+  include apt
+  apt::source { 'datastax':
+    location    => 'http://debian.datastax.com/community',
+    repos       => 'stable main',
+    release     => '',
+    key         => 'B999A372',
+    key_source  => 'http://debian.datastax.com/debian/repo_key',
+  }
 
-      yumrepo { "datastax":
-        name => "datastax",
-        baseurl => "http://rpm.datastax.com/community",
-        enabled => '1',
-        gpgcheck => '0',
-      }
+  ## Sorry for the versioning garbage, should be improved, but how?
+  package { 'cassandra=1.1.4':
+    ensure  => installed,
+    alias   => 'cassandra',
+    require => Class['apt']
+  }
 
-      package { "dsc${dsc_version}":
-        ensure  => installed,
-        alias   => 'dsc',
-        require => Yumrepo['datastax'],
-      }
-    }
-    ubuntu, debian: {
-      $cassandra_conf_dir = '/etc/cassandra'
+  package { 'python-cql=1.4.0-1':
+    ensure  => installed,
+    alias   => 'python-cql',
+    require => Class['apt']
+  }
 
-      include apt
-      apt::source { 'datastax':
-        location    => 'http://debian.datastax.com/community',
-        repos       => 'stable main',
-        release     => '',
-        key         => 'B999A372',
-        key_source  => 'http://debian.datastax.com/debian/repo_key',
-      }
-
-      ## Sorry for the versioning garbage, should be improved, but how?
-      package { 'cassandra=1.1.4':
-        ensure  => installed,
-        alias   => 'cassandra',
-        require => Class['apt']
-      }
-
-      package { 'python-cql=1.4.0-1':
-        ensure  => installed,
-        alias   => 'python-cql',
-        require => Class['apt']
-      }
-
-      package { "dsc1.1=1.1.4":
-        ensure  => installed,
-        alias   => 'dsc',
-        require => [ Package['cassandra'], Package['python-cql'] ],
-      }
-    }
+  package { "dsc1.1=1.1.4":
+    ensure  => installed,
+    alias   => 'dsc',
+    require => [ Package['cassandra'], Package['python-cql'] ],
   }
 
   file { 'cassandra.yaml':
-    path => "${cassandra_conf_dir}/cassandra.yaml",
+    path => '/etc/cassandra/cassandra.yaml',
     ensure => present,
     mode => 0640,
     owner => $owner,
@@ -77,7 +55,7 @@ class cassandra (
   }
 
   file { 'cassandra-env.sh':
-    path => "${cassandra_conf_dir}/cassandra-env.sh",
+    path => '/etc/cassandra/cassandra-env.sh',
     ensure => present,
     mode => 0755,
     owner => $owner,
@@ -87,7 +65,7 @@ class cassandra (
   }
 
   file { 'log4j-server.properties':
-    path    => "${cassandra_conf_dir}/log4j-server.properties",
+    path    => '/etc/cassandra/log4j-server.properties',
     ensure  => present,
     mode    => 0755,
     owner   => $owner,

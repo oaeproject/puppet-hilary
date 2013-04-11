@@ -7,8 +7,8 @@
     "nodetype": "%{nodetype}",
     "nodesuffix": "%{nodesuffix}",
 
-    "app_os_user": "admin",
-    "app_os_group": "staff",
+    "app_os_user": "root",
+    "app_os_group": "root",
     "app_hosts": [ "10.224.14.27" ],
     "app_root_dir": "/opt/oae",
     "app_git_user": "sakaiproject",

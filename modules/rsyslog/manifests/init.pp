@@ -7,40 +7,9 @@ class rsyslog (
     $imfiles          = false,
   ) {
 
-  case $operatingsystem {
-    debian, ubuntu: {
-      $solaris = false
-      $provider = 'apt'
-      $configpath = '/etc/rsyslog.conf'
-    }
-    solaris, Solaris: {
-      $solaris = true
-      $provider = 'pkgin'
-      $configpath = '/opt/local/etc/rsyslog.conf'
-    }
-    default: {
-      $solaris = false
-      $provider = 'yum'
-      $configpath = '/etc/rsyslog.conf'
-    }
-  }
+  package { 'rsyslog': ensure => installed }
 
-  package { 'rsyslog':
-    ensure => installed,
-    provider => $provider
-  }
-
-  case $operatingsystem {
-    solaris, Solaris: {
-      # For SmartOS, we'll need to ensure that the default syslogd is disabled
-      service { 'system/system-log':
-        ensure => stopped,
-        before => Service['rsyslog'],
-      }
-    }
-  }
-
-  file { "${configpath}":
+  file { '/etc/rsyslog.conf':
     notify  => Service['rsyslog'],
     owner   => $owner,
     group   => $group,
@@ -58,6 +27,6 @@ class rsyslog (
 
   service { 'rsyslog': 
     ensure  => running,
-    require => File[$configpath],
+    require => File['/etc/rsyslog.conf'],
   }
 }
