@@ -5,8 +5,8 @@ class etherpad (
         $etherpad_dir           = '/opt/etherpad-lite',
         $ep_oae_path            = '/opt/etherpad-lite/node_modules/ep_oae',
         $ep_oae_revision        = 'master'
-        $etherpad_user          = 'admin',
-        $etherpad_group         = 'staff',
+        $etherpad_user          = 'etherpad',
+        $etherpad_group         = 'etherpad',
         $service_name           = 'node-etherpad') {
 
     # Get the etherpad source
