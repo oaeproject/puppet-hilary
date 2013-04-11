@@ -83,5 +83,8 @@
 
     "rsyslog::clientOrServer": "client",
 
-    "nginx::ssl_path": "/opt/nginx/ssl"
+    "nginx::ssl_path": "/opt/nginx/ssl",
+
+    "oaeservice::deps::package::nodejs::nodejs_version": "0.8.23-1chl1~precise1",
+    "oaeservice::deps::package::nodejs::npm_version": "1.2.14-1chl1~precise1"
 }

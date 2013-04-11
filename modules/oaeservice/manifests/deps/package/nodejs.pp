@@ -1,48 +1,23 @@
-class oaeservice::deps::package::nodejs {
+class oaeservice::deps::package::nodejs ($nodejs_version, $npm_version) {
 
-  $nodejs_version = '0.8.22'
-  $npm_version = '1.2.14'
+  $nodejs_version = '0.8.22-1chl1~precise1'
+  $npm_version = '1.2.14-1chl1~precise1'
   $nodegyp_version = '0.9.3'
 
-  # Crazy exact apt versioning
-  $nodejs_ubuntu_version = "${nodejs_version}-1chl1~precise1"
-  $npm_ubuntu_version = "${npm_version}-1chl1~precise1"
+  # Apply apt configuration, which should be executed before these packages are installed
+  include apt
+  apt::key { 'chris-lea': key => '4BD6EC30' }
+  apt::ppa { 'ppa:chris-lea/node.js': }
+  apt::ppa { 'ppa:chris-lea/node.js-legacy': }
 
-  case $operatingsystem {
-    debian, ubuntu: {
-      $npm_dir = '/usr/lib/nodejs/npm'
-      $npm_require = "npm=$npm_ubuntu_version"
-
-      # Apply apt configuration, which should be executed before these packages are installed
-      include apt
-      apt::key { 'chris-lea': key => '4BD6EC30' }
-      apt::ppa { 'ppa:chris-lea/node.js': }
-      apt::ppa { 'ppa:chris-lea/node.js-legacy': }
-
-      package { "nodejs=$nodejs_ubuntu_version": ensure => installed, require => Class['apt'] }
-      package { "npm=$npm_ubuntu_version": ensure => installed, require => Class['apt'] }
-    }
-    solaris, Solaris: {
-      $npm_dir = '/opt/local/lib/node_modules/npm'
-      $npm_require = "nodejs-$nodejs_version"
-
-      ## npm installs by default in the pkgin repos
-      package { "nodejs-$nodejs_version": ensure => installed, provider => 'pkgin' }
-    }
-    default: {
-      $npm_dir = '/usr/lib/nodejs/npm'
-      $npm_require = "npm-$npm_version"
-
-      package { "nodejs-$nodejs_version": ensure => installed }
-      package { "npm-$npm_version": ensure => installed }
-    }
-  }
+  package { "nodejs=$nodejs_version": ensure => installed, require => Class['apt'] }
+  package { "npm=$npm_version": ensure => installed, require => Class['apt'] }
 
   # Force the npm bundled version of node-gyp to upgrade node-gyp. Needed to build node-expat and hiredis
   exec { 'npm_reinstall_nodegyp':
     command   => "npm install node-gyp@$nodegyp_version",
-    cwd       => $npm_dir,
+    cwd       => '/usr/lib/nodejs/npm',
     logoutput => 'on_failure',
-    require   => Package[$npm_require],
+    require   => Package["npm=$npm_ubuntu_version"],
   }
 }
