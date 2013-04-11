@@ -319,7 +319,7 @@ apt-get -y install mcollective=$MCOLLECTIVE_VERSION mcollective-client=$MCOLLECT
 gem install stomp
 
 # mcollective plugins
-apt-get -y install mcollective-puppet-client=1.5.1-1 mcollective-package-client=4.2.0-1
+apt-get -y install mcollective-puppet-client=1.5.1-1 mcollective-package-client=4.2.0-1 mcollective-service-client=3.1.2-1
 
 cat > /etc/mcollective/client.cfg <<EOF
 # main config
