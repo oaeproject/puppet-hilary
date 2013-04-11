@@ -1,8 +1,4 @@
-class oaeservice::deps::package::nodejs ($nodejs_version, $npm_version) {
-
-  $nodejs_version = '0.8.22-1chl1~precise1'
-  $npm_version = '1.2.14-1chl1~precise1'
-  $nodegyp_version = '0.9.3'
+class oaeservice::deps::package::nodejs ($nodejs_version, $npm_version, $nodegyp_version = '0.9.3') {
 
   # Apply apt configuration, which should be executed before these packages are installed
   include apt
