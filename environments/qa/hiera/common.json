@@ -63,7 +63,7 @@
     "search_data_dir": "/var/lib/elasticsearch",
     "search_memory_mb": 512,
     "search_version": "0.20.6",
-    "search_checksum": "f66a778ad94ea1dd69d18f8f89ce32c2383898eb",
+    "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
 
     "etherpad_hosts": [ "127.0.0.1" ],
     "etherpad_index": "0",
