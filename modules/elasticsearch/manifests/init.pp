@@ -24,6 +24,7 @@ class elasticsearch (
   archive::download { $filename:
     url           => "https://download.elasticsearch.org/elasticsearch/elasticsearch/${filename}",
     digest_string => $checksum,
+    digest_type   => 'sha1',
     src_target    => '/usr/src'
   }
 
