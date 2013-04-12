@@ -9,6 +9,8 @@ class elasticsearch (
     $rsyslog_enabled  = false,
     $rsyslog_host     = '127.0.0.1') {
 
+  $filename = "elasticsearch-${version}.deb"
+
   ########################################
   ## DOWNLOAD AND COMPILE ELASTICSEARCH ##
   ########################################
@@ -19,8 +21,6 @@ class elasticsearch (
     unless    => "test -d ${path_data}",
   }
 
-  $filename = "elasticsearch-${version}.deb"
-
   archive::download { $filename:
     url           => "https://download.elasticsearch.org/elasticsearch/elasticsearch/${filename}",
     digest_string => $checksum,
@@ -30,7 +30,8 @@ class elasticsearch (
   package { 'elasticsearch':
     ensure    => installed,
     provider  => dpkg,
-    source    => "/usr/src/${filename}""
+    source    => "/usr/src/${filename}",
+    require   => Archive::Download[$filename]
   }
 
   file { '/etc/init.d/elasticsearch':
