@@ -19,10 +19,18 @@ class elasticsearch (
     unless    => "test -d ${path_data}",
   }
 
+  $filename = "elasticsearch-${version}.deb"
+
+  archive::download { $filename:
+    url           => "https://download.elasticsearch.org/elasticsearch/elasticsearch/${filename}",
+    digest_string => $checksum,
+    src_target    => '/usr/src'
+  }
+
   package { 'elasticsearch':
     ensure    => installed,
     provider  => dpkg,
-    source    => "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${version}.deb"
+    source    => "/usr/src/${filename}""
   }
 
   file { '/etc/init.d/elasticsearch':
