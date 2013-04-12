@@ -7,6 +7,7 @@ class oaeservice::deps::package::nodejs ($nodejs_version, $npm_version, $nodegyp
   apt::ppa { 'ppa:chris-lea/node.js-legacy': }
 
   package { "nodejs=${nodejs_version}": ensure => installed, require => Class['apt'] }
+  package { "nodejs-dev=${nodejs_version}": ensure => installed, require => Class['apt'] }
   package { "npm=${npm_version}": ensure => installed, require => Class['apt'] }
 
   # Force the npm bundled version of node-gyp to upgrade node-gyp. Needed to build node-expat and hiredis
