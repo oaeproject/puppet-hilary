@@ -5,8 +5,7 @@ class elasticsearch (
     $version,
     $checksum,
     $host_port        = 9200,
-    $max_memory_mb    = 384,
-    $min_memory_mb    = 384,
+    $heap_size_mb     = 384,
     $rsyslog_enabled  = false,
     $rsyslog_host     = '127.0.0.1') {
 
@@ -14,54 +13,42 @@ class elasticsearch (
   ## DOWNLOAD AND COMPILE ELASTICSEARCH ##
   ########################################
 
-  $filename = "elasticsearch-${version}"
-  $ext      = 'tar.gz'
-  $url      = "http://download.elasticsearch.org/elasticsearch/elasticsearch/${filename}.${ext}"
-
   # Ensure the data directory exists
   exec { 'mkdir_data':
     command   => "mkdir -p ${path_data}",
     unless    => "test -d ${path_data}",
   }
 
-  archive { 'elasticsearch':
-    ensure        => present,
-    url           => $url,
-    extension     => $ext,
-    target        => '/opt',
-    digest_string => "${checksum}",
-    digest_type   => 'sha1',
-  }
-
-  exec { 'rename_elasticsearch':
-    command => "mv /opt/${filename} /opt/elasticsearch",
-    unless  => "test -d /opt/elasticsearch",
-    require => Archive['elasticsearch'],
+  package { 'elasticsearch':
+    ensure    => installed,
+    provider  => dpkg,
+    source    => "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${version}.deb"
   }
 
   file { '/etc/init.d/elasticsearch':
     ensure  => present,
-    mode    => "0755",
+    mode    => '0755',
     content => template('elasticsearch/elasticsearch.erb'),
+    require => Package['elasticsearch']
   }
 
-  file { '/opt/elasticsearch/config/elasticsearch.yml':
+  file { '/etc/elasticsearch/elasticsearch.yml':
     ensure  => present,
     content => template('elasticsearch/elasticsearch.yml.erb'),
-    require => Exec['rename_elasticsearch'],
+    require => Package['elasticsearch']
   }
 
-  file { '/opt/elasticsearch/config/logging.yml':
+  file { '/etc/elasticsearch/logging.yml':
     ensure  => present,
     content => template('elasticsearch/logging.yml.erb'),
-    require => Exec['rename_elasticsearch'],
+    require => Package['elasticsearch']
   }
 
   service { 'elasticsearch':
     ensure  => 'running',
     enable  => true,
-    require => [ Exec['rename_elasticsearch'], File['/opt/elasticsearch/config/elasticsearch.yml'],
-      File['/opt/elasticsearch/config/logging.yml'], File['/etc/init.d/elasticsearch'], Exec['mkdir_data'] ],
+    require => [ Package['elasticsearch'], File['/etc/elasticsearch/elasticsearch.yml'],
+      File['/etc/elasticsearch/logging.yml'], File['/etc/init.d/elasticsearch'], Exec['mkdir_data'] ],
   }
 
 }
