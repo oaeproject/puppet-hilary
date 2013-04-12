@@ -159,13 +159,6 @@ class hilary (
     require =>  Vcsrepo[$app_root_dir],
   }
 
-  # Create a symlink to /etc/init/*.conf in /etc/init.d, because Puppet 2.7 looks there incorrectly (see: http://projects.puppetlabs.com/issues/14297)
-  file { '/etc/init.d/hilary':
-    ensure => link,
-    target => '/lib/init/hilary',
-    require =>  File["/etc/init/hilary.conf"],
-  }
-
   service { 'hilary':
     ensure   => running,
     provider => 'upstart',
