@@ -31,6 +31,8 @@ echo "Performing production build (this will take a little while)"
 service hilary stop
 
 cd <%= ux_root_dir %>
+npm install -d
+npm install -g grunt-cli
 grunt
 mv target/optimized /tmp/3akai-ux-optimized
 rm -rf <%= ux_root_dir %>
