@@ -40,11 +40,14 @@ mv /tmp/3akai-ux-optimized <%= ux_root_dir %>
 
 service hilary start
 
-$DELAY=10
+DELAY=10
 
 echo ""
 echo "Sleeping ${DELAY}s to let the app server start up"
 sleep $DELAY
+
+# Restarting nginx so it finds the app server up quicker
+service nginx restart
 
 echo ""
 echo "Re-building search index"
