@@ -24,6 +24,12 @@ $IncludeConfig /etc/rsyslog.d/*.conf
 
 $template DynAuth,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/auth-%$YEAR%-%$MONTH%-%$DAY%.log"
 $template DynLocal0,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/local0-%$YEAR%-%$MONTH%-%$DAY%.log"
+$template DynLocal1,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/local1-%$YEAR%-%$MONTH%-%$DAY%.log"
+$template DynLocal2,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/local2-%$YEAR%-%$MONTH%-%$DAY%.log"
+$template DynLocal3,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/local3-%$YEAR%-%$MONTH%-%$DAY%.log"
+$template DynLocal4,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/local4-%$YEAR%-%$MONTH%-%$DAY%.log"
+$template DynLocal5,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/local5-%$YEAR%-%$MONTH%-%$DAY%.log"
+$template DynLocal6,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/local6-%$YEAR%-%$MONTH%-%$DAY%.log"
 $template DynMail,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/mail-%$YEAR%-%$MONTH%-%$DAY%.log"
 $template DynOther,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/other-%$YEAR%-%$MONTH%-%$DAY%.log"
 $template DynKern,"<%= server_logdir %>/%HOSTNAME%-%fromhost-ip%/kern-%$YEAR%-%$MONTH%-%$DAY%.log"
@@ -35,6 +41,12 @@ kern.*              ?DynKern
 authpriv.*;auth.*   ?DynAuth
 mail.*              ?DynMail
 local0.*            ?DynLocal0
+local1.*            ?DynLocal1
+local2.*            ?DynLocal2
+local3.*            ?DynLocal3
+local4.*            ?DynLocal4
+local5.*            ?DynLocal5
+local6.*            ?DynLocal6
 local7.*            ?DynBoot
 
 # Store basically anything else higher than info as an "other"
