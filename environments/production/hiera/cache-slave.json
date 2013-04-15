@@ -1,0 +1,3 @@
+{
+    "oaeservice::redis::is_slave": true
+}

@@ -4,7 +4,7 @@
         "::oaeservice::deps::pp",
         "::oaeservice::hilary",
         "::oaeservice::ui",
-        "::redis",
+        "::oaeservice::redis",
         "::oaeservice::elasticsearch",
         "::oaeservice::nginx",
         "::oaeservice::cassandra",

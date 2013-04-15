@@ -63,7 +63,7 @@
     "etherpad_domain_suffix": ".etherpad.oae-demo.sakaiproject.org",
 
     "cache_host_master": "10.224.14.63",
-    "cache_host_slave": "127.0.0.1",
+    "cache_host_slave": "10.224.14.73",
 
     "activitycache_enabled": true,
     "activitycache_host_master": "10.224.14.62",
