@@ -1,0 +1,23 @@
+global
+    log     <%= syslog_ip %> alert
+
+defaults
+    log     global
+    mode    tcp
+
+frontend redis_frontend
+    bind <%= proxy_ip %>:6379
+    default_backend redis_backend
+
+backend redis_backend
+    server  cache-master    <% cache_host_master %>:6379    check inter 1000 downinter 365d
+    server  cache-slave     <% cache_host_slave %>:6379     check inter 1000 downinter 365d backup
+
+listen stats :80
+   mode http
+   stats enable
+   stats scope redis_frontend
+   stats scope redis_backend
+   stats realm HAProxy\ Statistics
+   stats uri /  
+   stats auth haproxy:haproxy

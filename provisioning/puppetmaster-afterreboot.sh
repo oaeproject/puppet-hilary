@@ -52,6 +52,9 @@ cat > /etc/puppet/hiera.yaml <<EOF
   - machines
 EOF
 
+# Automatically sign all client certificates. Only machines in our vlan can access the puppet interface
+echo "*" > /etc/puppet/autosign.conf
+
 git clone git://github.com/sakaiproject/puppet-hilary /etc/puppet/puppet-hilary
 cd /etc/puppet/puppet-hilary
 git fetch origin
@@ -369,3 +372,9 @@ service activemq start
 service mcollective restart
 
 echo "Puppet master setup complete. Hilary puppet config is found in /etc/puppet/puppet-hilary"
+
+# Lock down the public interface
+iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i eth0 -j DROP
+iptables -A INPUT -i eth0 -j DROP
+iptables-save > /etc/iptables.rules
