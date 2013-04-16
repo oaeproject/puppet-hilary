@@ -66,7 +66,7 @@
     "cache_port": 6379,
     
     "activitycache_enabled": true,
-    "activitycache_host": "ip_activity_cache_master",
+    "activitycache_host": "ip_proxy0",
     "activitycache_port": 6380,
 
     "mq_host": "ip_mq_master",
