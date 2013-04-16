@@ -51,7 +51,7 @@ class oaeservice::hilary {
     config_redis_port                 => hiera('cache_port', 6793),
     config_search_hosts               => map_hieraptr('search_hosts'),
     config_mq_host                    => hieraptr('mq_host'),
-    config_mq_port                    => hiera('mq_port', 5672)
+    config_mq_port                    => hiera('mq_port', 5672),
     config_etherpad_hosts             => map_hieraptr('etherpad_hosts'),
     config_etherpad_api_key           => hiera('etherpad_api_key'),
     config_etherpad_domain_suffix     => hiera('etherpad_domain_suffix'),
