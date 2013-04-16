@@ -1,6 +1,6 @@
 require 'puppet/parser/functions'
 
-Puppet::Parser::Functions.newfunction(:map_hiera, :type => :statement) do |vals|
+Puppet::Parser::Functions.newfunction(:map_hiera, :type => :rvalue) do |vals|
   var_names, hiera_function = vals
 
   raise(ArgumentError, 'Must provide an array of hiera variable names') unless var_names
