@@ -48,7 +48,7 @@ class oaeservice::hilary {
     config_cassandra_strategy_class => hiera('db_strategy_class'),
 
     config_redis_host                 => hieraptr('cache_host'),
-    config_redis_port                 => hiera('cache_port', 6793),
+    config_redis_port                 => hiera('cache_port', 6379),
     config_search_hosts               => map_hieraptr('search_hosts'),
     config_mq_host                    => hieraptr('mq_host'),
     config_mq_port                    => hiera('mq_port', 5672),
