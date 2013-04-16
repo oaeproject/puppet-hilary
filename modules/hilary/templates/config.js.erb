@@ -151,7 +151,7 @@ config.telemetry = {
 config.search = {
     'hosts': [
         <% config_search_hosts.each do |host| -%>
-        { 'host': '<%= host["host"] %>', 'port': <%= host["port"] %> },
+        { 'host': '<%= host %>' },
         <% end -%>
     ],
     'index': {
