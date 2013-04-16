@@ -19,7 +19,7 @@ class oaeservice::hilary {
   $activitycache_enabled = hiera('activitycache_enabled', false)
   if $activitycache_enabled {
     $activitycache_host_master = hieraptr('activitycache_host_master')
-    $activitycache_host_slave = hieraptr('activitycache_host_slave')
+    $activitycache_host_slave = hieraptr('activitycache_host_slave', undef)
   } else {
     $activitycache_host_master = false
     $activitycache_host_slave = false
