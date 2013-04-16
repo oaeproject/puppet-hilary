@@ -13,8 +13,8 @@ class oaeservice::haproxy {
     $cache_port = hiera('cache_port')
 
     $activity_cache_enabled = hiera('activitycache_enabled', false)
-    $activity_cache_master = hieraptr('ip_activity_cache_master', false)
-    $activity_cache_slave = hieraptr('ip_activity_cache_slave', false)
+    $activity_cache_master = hiera('ip_activity_cache_master', false)
+    $activity_cache_slave = hiera('ip_activity_cache_slave', false)
     $activity_cache_port = hiera('activitycache_port', false)
 
     class { '::haproxy': }
