@@ -34,7 +34,7 @@
 
     "db_cluster_name": "Sakai OAE Production Cluster",
     "db_keyspace": "oae",
-    "db_hosts": [ "ip_db0", "ip_db1" ],
+    "db_hosts": [ "ip_db0" ],
     "db_tokens": [ "0" ],
     "db_timeout": 5000,
     "db_replication_factor": 1,
