@@ -10,7 +10,7 @@
 
     "app_os_user": "root",
     "app_os_group": "root",
-    "app_hosts": [ "10.224.14.64" ],
+    "app_hosts": [ "ip_app0" ],
     "app_root_dir": "/opt/oae",
     "app_git_user": "sakaiproject",
     "app_git_branch": "master",
@@ -34,7 +34,7 @@
 
     "db_cluster_name": "Sakai OAE Production Cluster",
     "db_keyspace": "oae",
-    "db_hosts": [ "machine_db0", "machine_db1" ],
+    "db_hosts": [ "ip_db0", "ip_db1" ],
     "db_tokens": [ "0" ],
     "db_timeout": 5000,
     "db_replication_factor": 1,
@@ -49,36 +49,33 @@
     "phantomjs_version": "1.9.0",
     "phantomjs_checksum": "8075fa873d8741c7ae9093c80a589a1f",
 
-    "search_hosts": [{"host": "10.224.14.69", "port": 9200}],
+    "search_hosts": [ "ip_search0" ],
     "search_index": "%{nodesuffix}",
     "search_data_dir": "/var/lib/elasticsearch",
     "search_memory_mb": 3072,
     "search_version": "0.20.6",
     "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
 
-    "etherpad_hosts": [ "127.0.0.1", "127.0.0.2" ],
+    "etherpad_hosts": [],
     "etherpad_index": "%{nodesuffix}",
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_domain_suffix": ".etherpad.oae-demo.sakaiproject.org",
 
-    "cache_host_master": "10.224.14.63",
-    "cache_host_slave": "10.224.14.73",
+    "cache_host_master": "ip_cache_master",
+    "cache_host_slave": "ip_cache_slave",
 
     "activitycache_enabled": true,
-    "activitycache_host_master": "10.224.14.62",
-    "activitycache_host_slave": "127.0.0.1",
+    "activitycache_host_master": "ip_activity_cache_master",
 
-    "mq_host_master": "10.224.14.68",
-    "mq_host_slave": "127.0.0.1",
+    "mq_host_master": "ip_mq_master",
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
 
     "rsyslog_enabled": true,
-    "rsyslog_host": "10.224.14.71",
+    "rsyslog_host": "ip_syslog",
 
     "driver_tsung_version": "1.4.2",
-
 
     "rsyslog::clientOrServer": "client",
     "rsyslog::server_logdir": "/var/log/rsyslog",
@@ -92,9 +89,5 @@
     "oaeservice::mcollective::mco_puppet_version": "1.5.1-1",
     "oaeservice::mcollective::mco_package_version": "4.2.0-1",
     "oaeservice::mcollective::mco_service_version": "3.1.2-1",
-
-
-    "machine_db0": "127.0.0.110.224.14.67",
-    "machine_db1": "127.0.0.2"
 
 }

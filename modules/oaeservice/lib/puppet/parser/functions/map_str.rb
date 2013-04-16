@@ -9,7 +9,7 @@ Puppet::Parser::Functions.newfunction(:map_str, :type => :rvalue) do |vals|
   str_values = []
 
   strs.each do |str|
-    str_values.push(str.gsub("%s", val))
+    str_values.push(str.gsub("%s", [val]))
   end
 
   return str_values

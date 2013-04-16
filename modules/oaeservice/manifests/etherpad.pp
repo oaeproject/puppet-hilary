@@ -9,7 +9,7 @@ class oaeservice::etherpad {
   $index = hiera('etherpad_index', 0)
 
   class { '::etherpad':
-    listen_address  => hiera('etherpad_hosts')[$index],
+    listen_address  => map_hieraptr('etherpad_hosts')[$index],
     api_key         => hiera('etherpad_api_key')
   }
 }

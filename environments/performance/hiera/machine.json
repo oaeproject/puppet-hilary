@@ -1,0 +1,10 @@
+{
+    "ip_db0": "10.224.14.67",
+    "ip_app0": "10.224.14.64",
+    "ip_search0": "10.224.14.69",
+    "ip_cache_master": "10.224.14.63",
+    "ip_cache_slave": "10.224.14.73",
+    "ip_activity_cache_master": "10.224.14.62",
+    "ip_mq_master": "10.224.14.68",
+    "ip_syslog": "10.224.14.71"
+}

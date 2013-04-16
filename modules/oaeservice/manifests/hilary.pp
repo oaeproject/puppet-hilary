@@ -11,15 +11,15 @@ class oaeservice::hilary {
 
   $rsyslog_enabled = hiera('rsyslog_enabled', false)
   if $rsyslog_enabled {
-    $rsyslog_host = hiera('rsyslog_host')
+    $rsyslog_host = hieraptr('rsyslog_host')
   } else {
     $rsyslog_host = false
   }
 
   $activitycache_enabled = hiera('activitycache_enabled', false)
   if $activitycache_enabled {
-    $activitycache_host_master = hiera('activitycache_host_master', false)
-    $activitycache_host_slave = hiera('activitycache_host_slave')
+    $activitycache_host_master = hieraptr('activitycache_host_master')
+    $activitycache_host_slave = hieraptr('activitycache_host_slave')
   } else {
     $activitycache_host_master = false
     $activitycache_host_slave = false
@@ -41,16 +41,16 @@ class oaeservice::hilary {
     config_telemetry_circonus_url => hiera('circonus_url'),
     config_servers_admin_host     => hiera('app_admin_host'),
 
-    config_cassandra_hosts          => map_hiera(hiera('db_hosts')),
+    config_cassandra_hosts          => map_hieraptr('db_hosts'),
     config_cassandra_keyspace       => hiera('db_keyspace'),
     config_cassandra_timeout        => hiera('db_timeout'),
     config_cassandra_replication    => hiera('db_replication_factor'),
     config_cassandra_strategy_class => hiera('db_strategy_class'),
 
-    config_redis_host_master          => hiera('cache_host_master'),
-    config_search_hosts               => hiera('search_hosts'),
-    config_mq_host                    => hiera('mq_host_master'),
-    config_etherpad_hosts             => hiera('etherpad_hosts'),
+    config_redis_host_master          => hieraptr('cache_host_master'),
+    config_search_hosts               => map_hieraptr('search_hosts'),
+    config_mq_host                    => hieraptr('mq_host_master'),
+    config_etherpad_hosts             => map_hieraptr('etherpad_hosts'),
     config_etherpad_api_key           => hiera('etherpad_api_key'),
     config_etherpad_domain_suffix     => hiera('etherpad_domain_suffix'),
     config_log_syslog_ip              => $rsyslog_host,
