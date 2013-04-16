@@ -61,15 +61,12 @@
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_domain_suffix": ".etherpad.oae-performance.sakaiproject.org",
 
-    "cache_host_master": "ip_cache_master",
-    "cache_host_slave": "ip_cache_slave",
+    "cache_host": "ip_cache_master",
 
     "activitycache_enabled": true,
-    "activitycache_host_master": "ip_activity_cache_master",
-    "activitycache_host_slave": "ip_activity_cache_slave",
+    "activitycache_host": "ip_activity_cache_master",
 
-    "mq_host_master": "ip_mq_master",
-    "mq_host_slave": "ip_mq_slave",
+    "mq_host": "ip_mq_master",
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
 
