@@ -23,7 +23,7 @@ class hilary (
 
     # Redis
     $config_redis_host,
-    $config_redis_port                = 6379
+    $config_redis_port                = 6379,
 
     # Servers
     $config_servers_admin_host,
