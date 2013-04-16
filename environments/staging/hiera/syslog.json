@@ -1,0 +1,10 @@
+{
+    "classes": [
+        "::oaeservice::deps::package::nodejs",
+        "::oaeservice::nagios",
+        "::oaeservice::nagios::disk"
+    ],
+    "rsyslog::clientOrServer": "server",
+
+    "nagios_hostgroup": "misc"
+}

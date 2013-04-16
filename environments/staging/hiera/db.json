@@ -1,0 +1,10 @@
+{
+    "classes": [
+        "::oaeservice::cassandra",
+        "::oaeservice::nagios",
+        "::oaeservice::nagios::cassandra",
+        "::oaeservice::nagios::memory"
+    ],
+
+    "nagios_hostgroup": "dbservers"
+}

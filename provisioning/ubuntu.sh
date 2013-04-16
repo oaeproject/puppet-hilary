@@ -58,9 +58,25 @@ START=yes
 DAEMON_OPTS=""
 EOF
 
-# MCollective server (i.e., on each of the cluster nodes)
-apt-get -y install mcollective=2.2.3-1
+# Install rubygems (do not use the installation that came w/ OS)
+URL="http://production.cf.rubygems.org/rubygems/rubygems-1.3.7.tgz"
+PACKAGE=$(echo $URL | sed "s/\.[^\.]*$//; s/^.*\///")
+
+cd $(mktemp -d /tmp/install_rubygems.XXXXXXXXXX) && \
+wget -c -t10 -T20 -q $URL && \
+tar xfz $PACKAGE.tgz && \
+cd $PACKAGE && \
+ruby setup.rb
+
+update-alternatives --install /usr/bin/gem gem /usr/bin/gem1.8 1
 gem install stomp
+
+# Open up the puppet devel repos
+sed -i 's/# deb /deb /g' /etc/apt/sources.list.d/puppetlabs.list
+apt-get update
+
+# MCollective server (i.e., on each of the cluster nodes)
+apt-get -y install mcollective=2.3.1-2
 
 # Agent plugins
 apt-get -y install mcollective-puppet-agent=1.5.1-1
@@ -95,5 +111,8 @@ plugin.psk = abcdefghj
 EOF
 
 service mcollective restart
+
+# Install the mcollective nrpe agent
+apt-get -y install mcollective-nrpe-agent=3.0.2-1
 
 echo "Setup complete. Needs a reboot to take host change before puppet runs."

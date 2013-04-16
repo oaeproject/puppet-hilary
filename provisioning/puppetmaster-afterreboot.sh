@@ -4,9 +4,6 @@ cd /tmp
 wget http://apt.puppetlabs.com/puppetlabs-release-precise.deb
 dpkg -i puppetlabs-release-precise.deb
 
-# Open up the puppet devel repos
-sed -i 's/# deb /deb /g' /etc/apt/sources.list.d/puppetlabs.list
-
 # Pull in packages from the puppetlabs repos
 apt-get update
 
@@ -14,6 +11,7 @@ PUPPETDB_VERSION=1.2.0-1puppetlabs1
 
 # Install git and puppetmaster
 apt-get install -y git puppetmaster-passenger=3.1.1-1puppetlabs1 puppetdb=$PUPPETDB_VERSION puppetdb-terminus=$PUPPETDB_VERSION
+puppet module install puppetlabs/puppetdb
 
 # Configure PuppetMaster
 cat > /etc/puppet/puppet.conf <<EOF
@@ -25,6 +23,7 @@ rundir=/var/run/puppet
 factpath=\$vardir/lib/facter
 templatedir=\$confdir/templates
 pluginsync=true
+environment=staging
 
 [master]
 storeconfigs=true
@@ -40,6 +39,9 @@ modulepath = \$confdir/puppet-hilary/environments/\$environment/modules:\$confdi
 manifest = \$confdir/puppet-hilary/site.pp
 reports = store, http
 reporturl = http://puppet/reports/upload
+
+[agent]
+report=true
 EOF
 
 cat > /etc/puppet/puppetdb.conf <<EOF
@@ -63,12 +65,24 @@ cat > /etc/puppet/hiera.yaml <<EOF
   - machines
 EOF
 
+
+cat > /etc/default/puppet <<EOF
+# Defaults for puppet - sourced by /etc/init.d/puppet
+
+# Start puppet on boot?
+START=yes
+
+# Startup options
+DAEMON_OPTS=""
+EOF
+
 # Automatically sign all client certificates. Only machines in our vlan can access the puppet interface
 echo "*" > /etc/puppet/autosign.conf
 
-git clone git://github.com/sakaiproject/puppet-hilary /etc/puppet/puppet-hilary
+git clone git://github.com/simong/puppet-hilary /etc/puppet/puppet-hilary
 cd /etc/puppet/puppet-hilary
 git fetch origin
+git checkout hiera-nagios
 bin/pull.sh
 
 ## Puppet Dashboard
@@ -112,6 +126,9 @@ cd /usr/share/puppet-dashboard
 sed -i 's/max_allowed_packet.*/max_allowed_packet = 32M/g' /etc/mysql/my.cnf
 service mysql restart
 rake RAILS_ENV=production db:migrate
+
+# Make an init script for puppetmaster (since we're using passenger, we'll just bounce apache)
+ln -s /etc/init.d/apache2 /etc/init.d/puppetmaster
 
 # Set up the apache configs for puppetmaster and dashboard
 rm -f /etc/apache2/sites-enabled/*
@@ -328,13 +345,18 @@ EOF
 
 ln -s /opt/activemq/bin/linux-x86-64/activemq /etc/init.d/activemq
 
+
+# Open up the puppet devel repos
+sed -i 's/# deb /deb /g' /etc/apt/sources.list.d/puppetlabs.list
+apt-get update
+
 # mcollective packages
 MCOLLECTIVE_VERSION=2.3.1-2
-apt-get -y install mcollective=$MCOLLECTIVE_VERSION mcollective-client=$MCOLLECTIVE_VERSION
 gem install stomp
+apt-get -y install mcollective=$MCOLLECTIVE_VERSION mcollective-client=$MCOLLECTIVE_VERSION
 
 # mcollective plugins
-apt-get -y install mcollective-puppet-client=1.5.1-1 mcollective-package-client=4.2.0-1 mcollective-service-client=3.1.2-1
+apt-get -y install mcollective-puppet-client=1.5.1-1 mcollective-package-client=4.2.0-1 mcollective-service-client=3.1.2-1  mcollective-nrpe-client=3.0.2-1
 
 cat > /etc/mcollective/client.cfg <<EOF
 # main config
@@ -385,7 +407,7 @@ service mcollective restart
 echo "Puppet master setup complete. Hilary puppet config is found in /etc/puppet/puppet-hilary"
 
 # Lock down the public interface
-iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
-iptables -A FORWARD -i eth0 -j DROP
-iptables -A INPUT -i eth0 -j DROP
-iptables-save > /etc/iptables.rules
+#iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+#iptables -A FORWARD -i eth0 -j DROP
+#iptables -A INPUT -i eth0 -j DROP
+#iptables-save > /etc/iptables.rules
