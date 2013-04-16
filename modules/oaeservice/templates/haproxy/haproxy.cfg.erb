@@ -1,6 +1,6 @@
 global
-    log               <%= scope.lookupvar('::oaeservice::haproxy::syslog_ip') %> local0
-    log-send-hostname <%= scope.lookupvar('::oaeservice::haproxy::host_name') %>
+    log               <%= scope['::oaeservice::haproxy::syslog_ip'] %> local0
+    log-send-hostname <%= scope['::oaeservice::haproxy::host_name'] %>
 
 defaults
     log     global
@@ -9,25 +9,29 @@ defaults
     timeout server 1h
     timeout connect 5s
 
-listen redis_app :<%= scope.lookupvar('::oaeservice::haproxy::cache_port') %>
+listen redis_app :<%= scope['::oaeservice::haproxy::cache_port'] %>
     option tcplog
     option logasap
-    server  cache-master    <%= scope.lookupvar('::oaeservice::haproxy::cache_master') %>:6379  check inter 1000 downinter 365d
-    server  cache-slave     <%= scope.lookupvar('::oaeservice::haproxy::cache_slave') %>:6379   check inter 1000 downinter 365d backup
+    server  cache-master    <%= scope['::oaeservice::haproxy::cache_master'] %>:6379  check inter 1000 downinter 365d
+<% if scope['::oaeservice::haproxy::cache_slave'] -%>
+    server  cache-slave     <%= scope['::oaeservice::haproxy::cache_slave'] %>:6379   check inter 1000 downinter 365d backup
+<% end -%>
 
-<% if scope.lookupvar('::oaeservice::haproxy::activity_cache_enabled') -%>
-listen redis_activity :<%= scope.lookupvar('::oaeservice::haproxy::activity_cache_port') %>
+<% if scope['::oaeservice::haproxy::activity_cache_enabled'] -%>
+listen redis_activity :<%= scope['::oaeservice::haproxy::activity_cache_port'] %>
     option tcplog
     option logasap
-    server  activity-cache-master   <%= scope.lookupvar('::oaeservice::haproxy::activity_cache_master') %>:6379   check inter 1000 downinter 365d
-    server  activity-cache-slave    <%= scope.lookupvar('::oaeservice::haproxy::activity_cache_slave') %>:6379    check inter 1000 downinter 365d backup
+    server  activity-cache-master   <%= scope['::oaeservice::haproxy::activity_cache_master'] %>:6379   check inter 1000 downinter 365d
+<% if scope['::oaeservice::haproxy::activity_cache_slave'] -%>
+    server  activity-cache-slave    <%= scope['::oaeservice::haproxy::activity_cache_slave'] %>:6379    check inter 1000 downinter 365d backup
+<% end -%>
 <% end -%>
 
 listen stats :80
     mode http
     stats enable
     stats scope redis_app
-    <% if scope.lookupvar('::oaeservice::haproxy::activity_cache_enabled') -%>stats scope redis_activity<% end -%>
+    <% if scope['::oaeservice::haproxy::activity_cache_enabled'] -%>stats scope redis_activity<% end -%>
     stats realm HAProxy\ Statistics
     stats uri /
     stats auth haproxy:haproxy
