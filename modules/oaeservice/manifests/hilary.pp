@@ -41,7 +41,7 @@ class oaeservice::hilary {
     config_telemetry_circonus_url => hiera('circonus_url'),
     config_servers_admin_host     => hiera('app_admin_host'),
 
-    config_cassandra_hosts          => hiera('db_hosts'),
+    config_cassandra_hosts          => map_hiera(hiera('db_hosts')),
     config_cassandra_keyspace       => hiera('db_keyspace'),
     config_cassandra_timeout        => hiera('db_timeout'),
     config_cassandra_replication    => hiera('db_replication_factor'),
