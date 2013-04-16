@@ -1,0 +1,27 @@
+{
+    "ip_app0": "unset",
+    "ip_app1": "unset",
+    "ip_app2": "unset",
+    "ip_app3": "unset",
+
+    "ip_db0": "unset",
+    "ip_db1": "unset",
+    "ip_db2": "unset",
+
+    "ip_search0": "unset",
+    "ip_search1": "unset",
+
+    "ip_etherpad0": "unset",
+    "ip_etherpad1": "unset",
+
+    "ip_mq_master": "unset",
+    "ip_mq_slave": "unset",
+
+    "ip_cache_master": "unset",
+    "ip_cache_slave": "unset",
+
+    "ip_activity_cache_master": "unset",
+    "ip_activity_cache_slave": "unset",
+
+    "ip_syslog": "unset"
+}
