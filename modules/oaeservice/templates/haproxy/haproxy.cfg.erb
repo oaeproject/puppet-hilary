@@ -1,0 +1,24 @@
+global
+    log               <%= syslog_ip %> local0
+    log-send-hostname <%= host_name %>
+
+defaults
+    log     global
+    mode    tcp
+    timeout client 1h
+    timeout server 1h
+    timeout connect 5s
+
+listen redis :6379
+    option tcplog
+    option logasap
+    server  cache-master    <%= cache_master %>:6379  check inter 1000 downinter 365d
+    server  cache-slave     <%= cache_slave %>:6379   check inter 1000 downinter 365d backup
+
+listen stats :80
+    mode http
+    stats enable
+    stats scope redis
+    stats realm HAProxy\ Statistics
+    stats uri /
+    stats auth haproxy:haproxy
