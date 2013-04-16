@@ -2,10 +2,9 @@ require 'puppet/parser/functions'
 
 Puppet::Parser::Functions.newfunction(:map_hiera, :type => :rvalue) do |arguments|
   
-  var_names = arguments[0]
+  var_names = arguments[0] if arguments[0]
   hiera_function = arguments[1] if arguments[1]
 
-  raise(ArgumentError, var_names.join(','))
   raise(ArgumentError, 'Must provide an array of hiera variable names') unless var_names
 
   hiera_function ||= 'hiera'
