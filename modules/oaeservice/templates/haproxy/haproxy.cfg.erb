@@ -1,6 +1,6 @@
 global
-    log               <%= syslog_ip %> local0
-    log-send-hostname <%= host_name %>
+    log               <%= scope.lookupvar('::haproxy::syslog_ip') %> local0
+    log-send-hostname <%= scope.lookupvar('::haproxy::host_name') %>
 
 defaults
     log     global
@@ -9,25 +9,25 @@ defaults
     timeout server 1h
     timeout connect 5s
 
-listen redis_app :<%= cache_port %>
+listen redis_app :<%= scope.lookupvar('::haproxy::cache_port') %>
     option tcplog
     option logasap
-    server  cache-master    <%= cache_master %>:6379  check inter 1000 downinter 365d
-    server  cache-slave     <%= cache_slave %>:6379   check inter 1000 downinter 365d backup
+    server  cache-master    <%= scope.lookupvar('::haproxy::cache_master') %>:6379  check inter 1000 downinter 365d
+    server  cache-slave     <%= scope.lookupvar('::haproxy::cache_slave') %>:6379   check inter 1000 downinter 365d backup
 
-<% if activity_cache_enabled -%>
-listen redis_activity :<%= activity_cache_port %>
+<% if scope.lookupvar('::haproxy::activity_cache_enabled') -%>
+listen redis_activity :<%= scope.lookupvar('::haproxy::activity_cache_port') %>
     option tcplog
     option logasap
-    server  activity-cache-master   <%= activity_cache_master %>:6379   check inter 1000 downinter 365d
-    server  activity-cache-slave    <%= activity_cache_slave %>:6379    check inter 1000 downinter 365d backup
+    server  activity-cache-master   <%= scope.lookupvar('::haproxy::activity_cache_master') %>:6379   check inter 1000 downinter 365d
+    server  activity-cache-slave    <%= scope.lookupvar('::haproxy::activity_cache_slave') %>:6379    check inter 1000 downinter 365d backup
 <% end -%>
 
 listen stats :80
     mode http
     stats enable
     stats scope redis_app
-    <% if activity_cache_enabled -%>stats scope redis_activity<% end -%>
+    <% if scope.lookupvar('::haproxy::activity_cache_enabled') -%>stats scope redis_activity<% end -%>
     stats realm HAProxy\ Statistics
     stats uri /
     stats auth haproxy:haproxy
