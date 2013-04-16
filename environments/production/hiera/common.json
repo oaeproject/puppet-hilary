@@ -55,20 +55,21 @@
     "search_memory_mb": 3072,
     "search_version": "0.20.6",
     "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
-
+ 
     "etherpad_hosts": [],
     "etherpad_index": "%{nodesuffix}",
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_domain_suffix": ".etherpad.oae-demo.sakaiproject.org",
 
-    "cache_host_master": "ip_cache_master",
-    "cache_host_slave": "ip_cache_slave",
-
+    "cache_host": "ip_proxy0",
+    "cache_port": 6379,
+    
     "activitycache_enabled": true,
-    "activitycache_host_master": "ip_activity_cache_master",
+    "activitycache_host": "ip_activity_cache_master",
+    "activitycache_port": 6380,
 
-    "mq_host_master": "ip_mq_master",
+    "mq_host": "ip_mq_master",
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
 

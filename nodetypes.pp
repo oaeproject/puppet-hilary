@@ -21,3 +21,5 @@ node search         { $nodetype = 'search' }
 node ep             { $nodetype = 'ep' }
 
 node web            { $nodetype = 'web' }
+
+node proxy          { $nodetype = 'proxy' }

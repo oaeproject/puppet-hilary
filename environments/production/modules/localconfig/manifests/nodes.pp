@@ -190,6 +190,15 @@ node 'ep1' inherits ep {
 
 
 #################
+## PROXY NODES ##
+#################
+
+node 'proxy0' inherits proxy {
+  $nodesuffix = 0
+  hiera_include(classes)
+}
+
+#################
 ## SYSLOG NODE ##
 #################
 

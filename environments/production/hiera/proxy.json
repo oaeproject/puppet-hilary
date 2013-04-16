@@ -1,0 +1,5 @@
+{
+    "classes": [ "::oaeservice::haproxy" ],
+    "oaeservice::haproxy::version": "1.4.18-0ubuntu1.1",
+    "oaeservice::haproxy::template": "oaeservice/haproxy/haproxy.cfg.erb"
+}

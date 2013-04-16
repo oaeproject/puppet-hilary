@@ -31,7 +31,7 @@ config.ui = {
 config.cassandra = {
     'hosts': [ <% config_cassandra_hosts.each_with_index do |ip, index| %>'<%= ip %>', <% end %> ],
     'keyspace': '<%= config_cassandra_keyspace %>',
-    'user': '', 
+    'user': '',
     'pass': '',
     'timeout': <%= config_cassandra_timeout %>,
     'replication': <%= config_cassandra_replication %>,
@@ -46,8 +46,8 @@ config.cassandra = {
 //  0 = production
 //  1 = unit tests
 config.redis = {
-    'host': '<%= config_redis_host_master %>',
-    'port': 6379,
+    'host': '<%= config_redis_host %>',
+    'port': <%= config_redis_port %>,
     'pass': '',
     'dbIndex': 0
 };
@@ -195,7 +195,7 @@ config.search = {
 config.mq = {
     'connection': {
         'host': '<%= config_mq_host %>',
-        'port': 5672
+        'port': <%= config_mq_port %>
     }
 };
 
@@ -284,7 +284,7 @@ config.activity = {
 <% if config_activity_redis_host -%>
     'redis': {
         'host': '<%= config_activity_redis_host %>',
-        'port': 6379,
+        'port': <%= config_activity_redis_port %>,
         'pass': '',
         'dbIndex': 0
     }

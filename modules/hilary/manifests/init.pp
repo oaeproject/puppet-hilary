@@ -22,7 +22,8 @@ class hilary (
     $config_cassandra_strategy_class  = 'SimpleStrategy',
 
     # Redis
-    $config_redis_host_master,
+    $config_redis_host,
+    $config_redis_port                = 6379
 
     # Servers
     $config_servers_admin_host,
@@ -53,6 +54,7 @@ class hilary (
     # Activity
     $config_activity_enabled          = false,
     $config_activity_redis_host       = false,
+    $config_activity_redis_port       = 6379,
 
     # Etherpad
     $config_etherpad_hosts,

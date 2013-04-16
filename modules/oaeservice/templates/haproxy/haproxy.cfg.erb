@@ -9,16 +9,25 @@ defaults
     timeout server 1h
     timeout connect 5s
 
-listen redis :6379
+listen redis_app :<%= cache_port %>
     option tcplog
     option logasap
     server  cache-master    <%= cache_master %>:6379  check inter 1000 downinter 365d
     server  cache-slave     <%= cache_slave %>:6379   check inter 1000 downinter 365d backup
 
+<% if activity_cache_enabled -%>
+listen redis_activity :<%= activity_cache_port %>
+    option tcplog
+    option logasap
+    server  activity-cache-master   <%= activity_cache_master %>:6379   check inter 1000 downinter 365d
+    server  activity-cache-slave    <%= activity_cache_slave %>:6379    check inter 1000 downinter 365d backup
+<% end -%>
+
 listen stats :80
     mode http
     stats enable
-    stats scope redis
+    stats scope redis_app
+    <% if activity_cache_enabled -%>stats scope redis_activity<% end -%>
     stats realm HAProxy\ Statistics
     stats uri /
     stats auth haproxy:haproxy

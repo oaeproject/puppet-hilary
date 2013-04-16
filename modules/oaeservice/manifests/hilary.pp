@@ -18,11 +18,11 @@ class oaeservice::hilary {
 
   $activitycache_enabled = hiera('activitycache_enabled', false)
   if $activitycache_enabled {
-    $activitycache_host_master = hieraptr('activitycache_host_master')
-    $activitycache_host_slave = hieraptr('activitycache_host_slave', undef)
+    $activitycache_host = hieraptr('activitycache_host')
+    $activitycache_port = hiera('activitycache_port')
   } else {
-    $activitycache_host_master = false
-    $activitycache_host_slave = false
+    $activitycache_host = false
+    $activitycache_port = false
   }
 
   $phantomjs_version = hiera('phantomjs_version')
@@ -47,14 +47,17 @@ class oaeservice::hilary {
     config_cassandra_replication    => hiera('db_replication_factor'),
     config_cassandra_strategy_class => hiera('db_strategy_class'),
 
-    config_redis_host_master          => hieraptr('cache_host_master'),
+    config_redis_host                 => hieraptr('cache_host'),
+    config_redis_port                 => hiera('cache_port', 6793),
     config_search_hosts               => map_hieraptr('search_hosts'),
-    config_mq_host                    => hieraptr('mq_host_master'),
+    config_mq_host                    => hieraptr('mq_host'),
+    config_mq_port                    => hiera('mq_port', 5672)
     config_etherpad_hosts             => map_hieraptr('etherpad_hosts'),
     config_etherpad_api_key           => hiera('etherpad_api_key'),
     config_etherpad_domain_suffix     => hiera('etherpad_domain_suffix'),
     config_log_syslog_ip              => $rsyslog_host,
-    config_activity_redis_host        => $activitycache_host_master,
+    config_activity_redis_host        => $activitycache_host,
+    config_activity_redis_port        => $activitycache_port,
     config_previews_phantomjs_binary  => "/opt/phantomjs-${phantomjs_version}-linux-x86_64/bin/phantomjs"
   }
 }
