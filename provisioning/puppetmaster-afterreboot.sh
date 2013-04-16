@@ -49,6 +49,7 @@ cat > /etc/puppet/hiera.yaml <<EOF
   - %{nodetype}
   - common_hiera_secure
   - common
+  - machines
 EOF
 
 git clone git://github.com/sakaiproject/puppet-hilary /etc/puppet/puppet-hilary

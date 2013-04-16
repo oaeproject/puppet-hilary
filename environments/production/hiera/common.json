@@ -88,6 +88,5 @@
     "oaeservice::mcollective::mco_version": "2.2.3-1",
     "oaeservice::mcollective::mco_puppet_version": "1.5.1-1",
     "oaeservice::mcollective::mco_package_version": "4.2.0-1",
-    "oaeservice::mcollective::mco_service_version": "3.1.2-1",
-
+    "oaeservice::mcollective::mco_service_version": "3.1.2-1"
 }
