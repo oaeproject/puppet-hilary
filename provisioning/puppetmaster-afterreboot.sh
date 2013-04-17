@@ -10,8 +10,10 @@ sed -i 's/# deb /deb /g' /etc/apt/sources.list.d/puppetlabs.list
 # Pull in packages from the puppetlabs repos
 apt-get update
 
+PUPPETDB_VERSION=1.2.0-1puppetlabs1
+
 # Install git and puppetmaster
-apt-get install -y git puppetmaster-passenger=3.1.1-1puppetlabs1
+apt-get install -y git puppetmaster-passenger=3.1.1-1puppetlabs1 puppetdb=$PUPPETDB_VERSION puppetdb-terminus=$PUPPETDB_VERSION
 
 # Configure PuppetMaster
 cat > /etc/puppet/puppet.conf <<EOF
@@ -25,6 +27,9 @@ templatedir=\$confdir/templates
 pluginsync=true
 
 [master]
+storeconfigs=true
+storeconfigs_backend=puppetdb
+
 # These are needed when the puppetmaster is run by passenger
 # and can safely be removed if webrick is used.
 ssl_client_header = SSL_CLIENT_S_DN 
@@ -35,6 +40,12 @@ modulepath = \$confdir/puppet-hilary/environments/\$environment/modules:\$confdi
 manifest = \$confdir/puppet-hilary/site.pp
 reports = store, http
 reporturl = http://puppet/reports/upload
+EOF
+
+cat > /etc/puppet/puppetdb.conf <<EOF
+[main]
+server = puppet
+port = 8081
 EOF
 
 cat > /etc/puppet/hiera.yaml <<EOF

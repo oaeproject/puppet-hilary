@@ -1,7 +1,7 @@
 class oaeservice::hosts {
     
     ## Realize the hosts of all nodes
-    Host<<| |>>
+    Host<<||>>
 
     @@host { "$::certname": ip => $::ipaddress_eth1 }
 }
