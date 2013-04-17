@@ -15,6 +15,8 @@
     "ip_db0_external": "37.153.96.147",
     "ip_mq_master": "10.224.14.68",
     "ip_mq_master_external": "37.153.96.221",
+    "ip_mq_slave": "10.224.14.76",
+    "ip_mq_slave_external": "37.153.97.92",
     "ip_search0": "10.224.14.69",
     "ip_search0_external": "37.153.96.58",
     "ip_puppet": "10.224.14.70",
