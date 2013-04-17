@@ -66,7 +66,7 @@
     "activitycache_enabled": true,
     "activitycache_host": "ip_activity_cache_master",
 
-    "mq_host": "ip_mq_master",
+    "mq_hosts": [ "ip_mq_master" ],
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
 
@@ -80,5 +80,7 @@
     "nginx::ssl_path": "/opt/nginx/ssl",
 
     "oaeservice::deps::package::nodejs::nodejs_version": "0.8.23-1chl1~precise1",
-    "oaeservice::deps::package::nodejs::npm_version": "1.2.18-1chl1~precise1"
+    "oaeservice::deps::package::nodejs::npm_version": "1.2.18-1chl1~precise1",
+
+    "rabbitmq::server::version": "2.7.1-0ubuntu4"
 }

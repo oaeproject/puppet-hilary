@@ -76,7 +76,7 @@
     "activitycache_enabled": false,
     "activitycache_host": "ip_local",
 
-    "mq_host": "ip_local",
+    "mq_hosts": [ "ip_local" ],
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
 
@@ -97,6 +97,7 @@
 
     "oaeservice::deps::package::nodejs::nodejs_version": "0.8.23-1chl1~precise1",
     "oaeservice::deps::package::nodejs::npm_version": "1.2.18-1chl1~precise1",
+    "rabbitmq::server::version": "2.7.1-0ubuntu4",
 
     "automation_scripts_dir": "/opt/scripts",
     "automation_backup_dir": "/opt/backup"
