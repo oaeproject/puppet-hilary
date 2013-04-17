@@ -1,5 +1,6 @@
 {
     "classes": [
+        "::oaservice::hosts",
         "::oaeservice::firewall",
         "::oaeservice::rsyslog",
         "::oaeservice::mcollective"
