@@ -1,3 +1,5 @@
 class oaeservice::hosts {
-    host { "$::clientcert": ip => $::ipaddress_eth1 }
+    Host <<| |>>
+
+    @@host { "$::clientcert": ip => $::ipaddress_eth1 }
 }
