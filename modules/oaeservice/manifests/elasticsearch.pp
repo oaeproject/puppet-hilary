@@ -3,11 +3,11 @@ class oaeservice::elasticsearch {
 
   Class['::oaeservice::deps::package::java6']   -> Class['::elasticsearch']
 
-  $search_hosts = map_hieraptr('search_hosts')
+  $search_hosts = hiera('search_hosts')
   $index = hiera('search_index', 0)
 
   $rsyslog_enabled = hiera('rsyslog_enabled', false)
-  $rsyslog_host = hieraptr('rsyslog_host', '127.0.0.1')
+  $rsyslog_host = hiera('rsyslog_host', '127.0.0.1')
 
   class { '::elasticsearch':
     search_hosts      => $search_hosts,

@@ -11,7 +11,7 @@
 
     "app_os_user": "root",
     "app_os_group": "root",
-    "app_hosts": [ "ip_app0" ],
+    "app_hosts": [ "app0" ],
     "app_root_dir": "/opt/oae",
     "app_git_user": "sakaiproject",
     "app_git_branch": "master",
@@ -35,7 +35,7 @@
 
     "db_cluster_name": "Sakai OAE Production Cluster",
     "db_keyspace": "oae",
-    "db_hosts": [ "ip_db0" ],
+    "db_hosts": [ "db0" ],
     "db_tokens": [ "0" ],
     "db_timeout": 5000,
     "db_replication_factor": 1,
@@ -50,7 +50,7 @@
     "phantomjs_version": "1.9.0",
     "phantomjs_checksum": "8075fa873d8741c7ae9093c80a589a1f",
 
-    "search_hosts": [ "ip_search0" ],
+    "search_hosts": [ "search0" ],
     "search_index": "%{nodesuffix}",
     "search_data_dir": "/var/lib/elasticsearch",
     "search_memory_mb": 3072,
@@ -63,19 +63,19 @@
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_domain_suffix": ".etherpad.oae-demo.sakaiproject.org",
 
-    "cache_host": "ip_proxy0",
+    "cache_host": "proxy0",
     "cache_port": 6379,
     
     "activitycache_enabled": true,
-    "activitycache_host": "ip_proxy0",
+    "activitycache_host": "proxy0",
     "activitycache_port": 6380,
 
-    "mq_hosts": [ "ip_mq_master", "ip_mq_slave" ],
+    "mq_hosts": [ "mq-master", "mq-slave" ],
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
 
     "rsyslog_enabled": true,
-    "rsyslog_host": "ip_syslog",
+    "rsyslog_host": "syslog",
 
     "driver_tsung_version": "1.4.2",
 

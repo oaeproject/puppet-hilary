@@ -11,14 +11,14 @@ class oaeservice::hilary {
 
   $rsyslog_enabled = hiera('rsyslog_enabled', false)
   if $rsyslog_enabled {
-    $rsyslog_host = hieraptr('rsyslog_host')
+    $rsyslog_host = hiera('rsyslog_host')
   } else {
     $rsyslog_host = false
   }
 
   $activitycache_enabled = hiera('activitycache_enabled', false)
   if $activitycache_enabled {
-    $activitycache_host = hieraptr('activitycache_host')
+    $activitycache_host = hiera('activitycache_host')
     $activitycache_port = hiera('activitycache_port')
   } else {
     $activitycache_host = false
@@ -41,17 +41,17 @@ class oaeservice::hilary {
     config_telemetry_circonus_url => hiera('circonus_url'),
     config_servers_admin_host     => hiera('app_admin_host'),
 
-    config_cassandra_hosts          => map_hieraptr('db_hosts'),
+    config_cassandra_hosts          => hiera('db_hosts'),
     config_cassandra_keyspace       => hiera('db_keyspace'),
     config_cassandra_timeout        => hiera('db_timeout'),
     config_cassandra_replication    => hiera('db_replication_factor'),
     config_cassandra_strategy_class => hiera('db_strategy_class'),
 
-    config_redis_host                 => hieraptr('cache_host'),
+    config_redis_host                 => hiera('cache_host'),
     config_redis_port                 => hiera('cache_port', 6379),
-    config_search_hosts               => map_hieraptr('search_hosts'),
-    config_mq_hosts                   => map_hieraptr('mq_hosts'),
-    config_etherpad_hosts             => map_hieraptr('etherpad_hosts'),
+    config_search_hosts               => hiera('search_hosts'),
+    config_mq_hosts                   => hiera('mq_hosts'),
+    config_etherpad_hosts             => hiera('etherpad_hosts'),
     config_etherpad_api_key           => hiera('etherpad_api_key'),
     config_etherpad_domain_suffix     => hiera('etherpad_domain_suffix'),
     config_log_syslog_ip              => $rsyslog_host,

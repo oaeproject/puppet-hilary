@@ -11,7 +11,7 @@ class oaeservice::mq {
 
   class { '::rabbitmq::server':
     config_cluster      => true,
-    cluster_disk_nodes  => map_hieraptr('mq_hosts'),
+    cluster_disk_nodes  => hiera('mq_hosts'),
     require             => Class['::rabbitmq::repo::apt'],
   }
 }

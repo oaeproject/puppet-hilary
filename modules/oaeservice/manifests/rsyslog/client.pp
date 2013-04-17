@@ -1,6 +1,6 @@
 class oaeservice::rsyslog::client {
   class { '::rsyslog':
     clientOrServer  => 'client',
-    server_host     => hieraptr('rsyslog_host'),
+    server_host     => hiera('rsyslog_host'),
   }
 }
