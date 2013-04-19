@@ -14,7 +14,6 @@ class etherpad (
         $ep_oae_path            = '/opt/etherpad/node_modules/ep_oae',
         $ep_oae_revision        = 'master',
         $etherpad_user          = 'etherpad',
-        $etherpad_group         = 'admin',
         $service_name           = 'etherpad') {
 
     user { "${etherpad_user}": ensure => present }
@@ -60,7 +59,7 @@ class etherpad (
     }
 
     exec { "chown_etherpad_dir": 
-        command    => "chown -R ${etherpad_user}:${etherpad_group} ${etherpad_dir}",
+        command    => "chown -R ${etherpad_user}:${etherpad_user} ${etherpad_dir}",
         cwd        => $etherpad_dir,
         require    => [ File["${etherpad_dir}/APIKEY.txt"], User[$etherpad_user] ]
     }
