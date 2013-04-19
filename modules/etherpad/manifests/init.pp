@@ -12,7 +12,7 @@ class etherpad (
         $etherpad_git_revision  = 'master',
         $etherpad_dir           = '/opt/etherpad',
         $ep_oae_path            = '/opt/etherpad/node_modules/ep_oae',
-        $ep_oae_revision        = 'master'
+        $ep_oae_revision        = 'master',
         $etherpad_user          = 'etherpad',
         $etherpad_group         = 'etherpad',
         $service_name           = 'etherpad') {
