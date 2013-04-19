@@ -1,14 +1,14 @@
 class etherpad (
         $listen_address,
         $session_key,
-
+        $api_key,
+        
         $oae_db_hosts,
         $oae_db_keyspace,
         $oae_db_replication,
         $oae_db_strategy_class,
         $oae_sign_key,
 
-        $api_key,
         $etherpad_git_revision  = 'master',
         $etherpad_dir           = '/opt/etherpad',
         $ep_oae_path            = '/opt/etherpad/node_modules/ep_oae',

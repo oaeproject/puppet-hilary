@@ -9,7 +9,13 @@ class oaeservice::etherpad {
   $index = hiera('etherpad_index', 0)
 
   class { '::etherpad':
-    listen_address  => hiera('etherpad_hosts')[$index],
-    api_key         => hiera('etherpad_api_key')
+    listen_address        => hiera('etherpad_hosts')[$index],
+    session_key           => hiera('etherpad_session_key'),
+    api_key               => hiera('etherpad_api_key'),
+    oae_db_hosts          => hiera('db_hosts'),
+    oae_db_keyspace       => hiera('db_keyspace'),
+    oae_db_replication    => hiera('db_replication_factor'),
+    oae_db_strategy_class => hiera('db_strategy_class'),
+    oae_sign_key          => hiera('etherpad_oae_sign_key'),
   }
 }

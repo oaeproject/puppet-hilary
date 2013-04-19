@@ -62,6 +62,7 @@
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_domain_suffix": ".etherpad.oae-demo.sakaiproject.org",
+    "etherpad_oae_sign_key": "askdjfpsiudfhpiuHPIAUSHPFIAUHSFPIAUFHPIUFDHPSIDFUHSPIUHhpISDUHFIH",
 
     "cache_host": "proxy0",
     "cache_port": 6379,
