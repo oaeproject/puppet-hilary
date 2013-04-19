@@ -58,7 +58,7 @@ class etherpad (
     }
 
     exec { "chown_etherpad_dir": 
-        command    => "/opt/local/gnu/bin/chown -R ${etherpad_user}:${etherpad_group} ${etherpad_dir}",
+        command    => "chown -R ${etherpad_user}:${etherpad_group} ${etherpad_dir}",
         cwd        => $etherpad_dir,
         require    => [ File["${etherpad_dir}/APIKEY.txt"] ]
     }
