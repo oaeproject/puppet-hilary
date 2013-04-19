@@ -17,6 +17,8 @@ class etherpad (
         $etherpad_group         = 'etherpad',
         $service_name           = 'etherpad') {
 
+    user { "etherpad": ensure => present }
+
     # Get the etherpad source
     vcsrepo { $etherpad_dir:
         ensure      =>  present,
