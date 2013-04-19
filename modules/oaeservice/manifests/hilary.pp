@@ -27,6 +27,12 @@ class oaeservice::hilary {
 
   $phantomjs_version = hiera('phantomjs_version')
 
+  $web_domain = hiera('web_domain')
+  $admin_tenant = hiera('admin_tenant')
+  $admin_domain = "${admin_tenant}.${web_domain}"
+  $etherpad_domain_label = hiera('etherpad_domain_label')
+  $etherpad_domain_suffix = ".${etherpad_domain_label}.${web_domain}"
+
   class { '::hilary':
     app_root_dir                  => hiera('app_root_dir'),
     app_git_user                  => hiera('app_git_user'),
@@ -39,7 +45,7 @@ class oaeservice::hilary {
     config_cookie_secret          => hiera('app_cookie_secret'),
     config_signing_key            => hiera('app_signing_key'),
     config_telemetry_circonus_url => hiera('circonus_url'),
-    config_servers_admin_host     => hiera('app_admin_host'),
+    config_servers_admin_host     => $admin_domain,
 
     config_cassandra_hosts          => hiera('db_hosts'),
     config_cassandra_keyspace       => hiera('db_keyspace'),
@@ -53,7 +59,7 @@ class oaeservice::hilary {
     config_mq_hosts                   => hiera('mq_hosts'),
     config_etherpad_hosts             => hiera('etherpad_hosts'),
     config_etherpad_api_key           => hiera('etherpad_api_key'),
-    config_etherpad_domain_suffix     => hiera('etherpad_domain_suffix'),
+    config_etherpad_domain_suffix     => $etherpad_domain_suffix,
     config_log_syslog_ip              => $rsyslog_host,
     config_activity_redis_host        => $activitycache_host,
     config_activity_redis_port        => $activitycache_port,

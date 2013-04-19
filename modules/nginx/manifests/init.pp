@@ -1,8 +1,12 @@
 class nginx (
     $internal_app_ips,
     $internal_etherpad_ips,
-    $ux_root_dir      = '/opt/3akai-ux',
-    $ux_admin_host    = 'admin.oae-performance.sakaiproject.org',
+    $web_domain,
+
+    $etherpad_domain_label    = 'etherpad',
+    $admin_tenant             = 'admin',
+    $ux_root_dir              = '/opt/3akai-ux',
+
     $files_home       = '/opt/files',
     $ssl_path         = false,
     $cert_source      = 'puppet:///modules/localconfig/server.crt',

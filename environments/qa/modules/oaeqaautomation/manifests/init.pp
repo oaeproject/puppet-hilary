@@ -7,7 +7,10 @@ class oaeqaautomation ($log_file_path = '/var/log/nightly.log') {
     $user_files_dir = hiera('app_files_dir')
     $app_root_dir = hiera('app_root_dir')
     $ux_root_dir = hiera('ux_root_dir')
-    $admin_host = hiera('app_admin_host')
+
+    $web_domain = hiera('web_domain')
+    $admin_tenant = hiera('admin_tenant')
+    $admin_host = "${admin_tenant}.${web_domain}"
 
     exec { 'mkdir_scripts': command => "mkdir -p ${scripts_dir}", unless => "test -d ${scripts_dir}" }
 
