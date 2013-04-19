@@ -14,10 +14,10 @@ class etherpad (
         $ep_oae_path            = '/opt/etherpad/node_modules/ep_oae',
         $ep_oae_revision        = 'master',
         $etherpad_user          = 'etherpad',
-        $etherpad_group         = 'etherpad',
+        $etherpad_group         = 'admin',
         $service_name           = 'etherpad') {
 
-    user { "etherpad": ensure => present }
+    user { "${etherpad_user}": ensure => present }
 
     # Get the etherpad source
     vcsrepo { $etherpad_dir:
@@ -62,7 +62,7 @@ class etherpad (
     exec { "chown_etherpad_dir": 
         command    => "chown -R ${etherpad_user}:${etherpad_group} ${etherpad_dir}",
         cwd        => $etherpad_dir,
-        require    => [ File["${etherpad_dir}/APIKEY.txt"] ]
+        require    => [ File["${etherpad_dir}/APIKEY.txt"], User[$etherpad_user] ]
     }
 
     # Daemon script for the etherpad service
