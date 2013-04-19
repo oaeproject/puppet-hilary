@@ -163,7 +163,7 @@ class hilary (
   service { 'hilary':
     ensure   => running,
     provider => 'upstart',
-    require  => [ File['/etc/init/hilary.conf'], Vcsrepo[$ux_root_dir], Exec["npm_install_dependencies"] ]
+    require  => [File['/etc/init/hilary.conf'], Vcsrepo[$ux_root_dir], Exec["npm_install_dependencies"] ]
   }
 
 }

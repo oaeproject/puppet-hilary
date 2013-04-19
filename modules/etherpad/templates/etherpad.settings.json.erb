@@ -29,16 +29,14 @@
   "dbType" : "cassandra",
   //the database specific settings
   "dbSettings" : {
-                    "hosts": [
-                        <% scope.lookupvar("localconfig::db_hosts").each do |host| -%>"<%= host %>:9160",<% end %>
-                    ],
-                    "keyspace": "<%= scope.lookupvar("localconfig::db_keyspace") %>",
+                    "hosts": [ <%= oae_db_hosts.map { |host| "#{host}:9160" }.join(",") %> ],
+                    "keyspace": "<%= oae_db_keyspace %>",
                     "cfName": "Etherpad",
                     "user": "",
                     "pass": "",
                     "timeout": 3000,
-                    "replication": "<%= scope.lookupvar("localconfig::db_replication") %>",
-                    "strategyClass": "<%= scope.lookupvar("localconfig::db_strategyClass") %>"
+                    "replication": "<%= oae_db_replication %>",
+                    "strategyClass": "<%= oae_db_strategy_class %>"
                   },
   
   //the default text of a pad
@@ -91,9 +89,9 @@
   // restrict socket.io transport methods
   "socketTransportProtocols" : ['websocket', 'xhr-polling', 'jsonp-polling', 'htmlfile'],
 
-  "sessionKey": "<%= scope.lookupvar("localconfig::etherpad_session_key") %>",
+  "sessionKey": "<%= session_key %>",
 
   "ep_oae": {
-    "signKey": "<%= scope.lookupvar("localconfig::app_sign_key") %>"
+    "signKey": "<%= oae_sign_key %>"
   }
 }

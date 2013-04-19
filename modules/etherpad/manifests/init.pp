@@ -1,13 +1,21 @@
 class etherpad (
-        listen_address,
+        $listen_address,
+        $session_key,
+
+        $oae_db_hosts,
+        $oae_db_keyspace,
+        $oae_db_replication,
+        $oae_db_strategy_class,
+        $oae_sign_key,
+
         $api_key,
         $etherpad_git_revision  = 'master',
-        $etherpad_dir           = '/opt/etherpad-lite',
-        $ep_oae_path            = '/opt/etherpad-lite/node_modules/ep_oae',
+        $etherpad_dir           = '/opt/etherpad',
+        $ep_oae_path            = '/opt/etherpad/node_modules/ep_oae',
         $ep_oae_revision        = 'master'
         $etherpad_user          = 'etherpad',
         $etherpad_group         = 'etherpad',
-        $service_name           = 'node-etherpad') {
+        $service_name           = 'etherpad') {
 
     # Get the etherpad source
     vcsrepo { $etherpad_dir:
@@ -55,24 +63,21 @@ class etherpad (
         require    => [ File["${etherpad_dir}/APIKEY.txt"] ]
     }
 
-    # Daemon script needed for SMF to manage the application
-    file { "${etherpad_dir}/service.xml":
-        ensure      =>  present,
-        content     =>  template('etherpad/node-etherpad-service-manifest.xml.erb'),
-        notify      =>  Exec["svccfg_${service_name}"],
-        require     =>  [ Vcsrepo[$etherpad_dir], Vcsrepo[$ep_oae_path] ],
-    }
-
-    # Force reload the manifest
-    exec { "svccfg_${service_name}":
-        command     =>  "/usr/sbin/svccfg import ${etherpad_dir}/service.xml",
-        require     =>  File["${etherpad_dir}/service.xml"],
+    # Daemon script for the etherpad service
+    file { "/etc/init/${service_name}.conf":
+        ensure  =>  present,
+        content =>  template('etherpad/upstart_etherpad.conf.erb'),
+        require =>  [ Vcsrepo[$etherpad_dir], Vcsrepo[$ep_oae_path] ],
     }
 
     # Start the etherpad server
     service { $service_name:
-        ensure      =>  running,
-        manifest    =>  "${app_root_dir}/service.xml",
-        require     =>  [ Vcsrepo[$ep_oae_path], Exec['install_etherpad_dependencies'], Exec["svccfg_${service_name}"] ]
+        ensure      => running,
+        provider    => upstart,
+        require     => [
+            Vcsrepo[$ep_oae_path],
+            Exec['install_etherpad_dependencies'],
+            File["/etc/init/${service_name}.conf"]
+        ]
     }
 }
