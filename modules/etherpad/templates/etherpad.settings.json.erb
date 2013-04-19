@@ -29,7 +29,7 @@
   "dbType" : "cassandra",
   //the database specific settings
   "dbSettings" : {
-                    "hosts": [ <%= oae_db_hosts.map { |host| "#{host}:9160" }.join(",") %> ],
+                    "hosts": [ "<%= oae_db_hosts.map { |host| "#{host}:9160" }.join('","') %>" ],
                     "keyspace": "<%= oae_db_keyspace %>",
                     "cfName": "Etherpad",
                     "user": "",
