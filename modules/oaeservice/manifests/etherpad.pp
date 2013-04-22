@@ -17,6 +17,6 @@ class oaeservice::etherpad {
     oae_db_keyspace       => hiera('db_keyspace'),
     oae_db_replication    => hiera('db_replication_factor'),
     oae_db_strategy_class => hiera('db_strategy_class'),
-    oae_sign_key          => hiera('etherpad_oae_sign_key'),
+    oae_sign_key          => hiera('app_signing_key'),
   }
 }
