@@ -1,5 +1,6 @@
 {
     "classes": [
+        "::oaeservice::hosts",
         "::oaeservice::firewall::open",
         "::oaeservice::rsyslog"
     ],
@@ -9,7 +10,7 @@
 
     "app_os_user": "root",
     "app_os_group": "root",
-    "app_hosts": [ "ip_app0", "ip_app1", "ip_app2", "ip_app3" ],
+    "app_hosts": [ "app0", "app1", "app2", "app3" ],
     "app_root_dir": "/opt/oae",
     "app_git_user": "sakaiproject",
     "app_git_branch": "master",
@@ -33,7 +34,7 @@
 
     "db_cluster_name": "Sakai OAE Performance Testing Cluster",
     "db_keyspace": "oae",
-    "db_hosts": [ "ip_db0", "ip_db1", "ip_db2" ],
+    "db_hosts": [ "db0", "db1", "db2" ],
     "db_tokens": [ "0", "56713727820156410577229101238628035242", "113427455640312821154458202477256070484" ],
     "db_timeout": 5000,
     "db_replication_factor": 3,
@@ -48,30 +49,30 @@
     "phantomjs_version": "1.9.0",
     "phantomjs_checksum": "8075fa873d8741c7ae9093c80a589a1f",
 
-    "search_hosts": [ "ip_search0", "ip_search1" ],
+    "search_hosts": [ "search0", "search1" ],
     "search_index": "%{nodesuffix}",
     "search_data_dir": "/var/lib/elasticsearch",
     "search_memory_mb": 3072,
     "search_version": "0.20.6",
     "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
 
-    "etherpad_hosts": [ "ip_etherpad0", "ip_etherpad1" ],
+    "etherpad_hosts": [ "etherpad0", "etherpad1" ],
     "etherpad_index": "%{nodesuffix}",
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_domain_suffix": ".etherpad.oae-performance.sakaiproject.org",
 
-    "cache_host": "ip_cache_master",
+    "cache_host": "cache-master",
 
     "activitycache_enabled": true,
-    "activitycache_host": "ip_activity_cache_master",
+    "activitycache_host": "activity-cache-master",
 
-    "mq_host": "ip_mq_master",
+    "mq_hosts": [ "mq-master" ],
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
 
     "rsyslog_enabled": false,
-    "rsyslog_host": "ip_syslog",
+    "rsyslog_host": "syslog",
 
     "driver_tsung_version": "1.4.2",
 
@@ -80,5 +81,8 @@
     "nginx::ssl_path": "/opt/nginx/ssl",
 
     "oaeservice::deps::package::nodejs::nodejs_version": "0.8.23-1chl1~precise1",
-    "oaeservice::deps::package::nodejs::npm_version": "1.2.18-1chl1~precise1"
+    "oaeservice::deps::package::nodejs::npm_version": "1.2.18-1chl1~precise1",
+
+    "rabbitmq::server::version": "2.7.1-0ubuntu4",
+    "rabbitmq::server::wipe_db_on_cookie_change": true
 }

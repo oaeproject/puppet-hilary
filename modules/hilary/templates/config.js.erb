@@ -29,7 +29,7 @@ config.ui = {
 
 // Cassandra related config information.
 config.cassandra = {
-    'hosts': [ <% config_cassandra_hosts.each_with_index do |ip, index| %>'<%= ip %>', <% end %> ],
+    'hosts': [ '<%= config_cassandra_hosts.join("', '") %>' ],
     'keyspace': '<%= config_cassandra_keyspace %>',
     'user': '',
     'pass': '',
@@ -93,12 +93,12 @@ config.cookie = {
 
 config.log = {
     'streams': [
-        <% if !config_log_syslog_ip -%>
+<% if !config_log_syslog_ip -%>
         {
             'level': 'info',
             'path': '/opt/oae/server.log'
         }
-        <% else -%>
+<% else -%>
         {
             'level': 'debug',
             'type': 'raw',
@@ -109,7 +109,7 @@ config.log = {
                 'port': 514
             })
         }
-        <% end -%>
+<% end -%>
     ],
     'serializers': {
         'err': bunyan.stdSerializers.err,
@@ -150,9 +150,9 @@ config.telemetry = {
  */
 config.search = {
     'hosts': [
-        <% config_search_hosts.each do |host| -%>
+<% config_search_hosts.each do |host| -%>
         { 'host': '<%= host %>', 'port': 9200 },
-        <% end -%>
+<% end -%>
     ],
     'index': {
         'name': 'oae',
@@ -176,9 +176,7 @@ config.search = {
                     }
                 }
             }
-        },
-        'allowAnonRefresh': false,
-        'destroyOnStartup': false
+        }
     },
     'processIndexJobs': true
 };
@@ -194,8 +192,8 @@ config.search = {
  */
 config.mq = {
     'connection': {
-        'host': '<%= config_mq_host %>',
-        'port': <%= config_mq_port %>
+        'host': [ '<%= config_mq_hosts.join("', '") %>' ],
+        'port': 5672
     }
 };
 
@@ -337,12 +335,12 @@ config.saml = {
  */
 config.etherpad = {
     'hosts': [
-        <% config_etherpad_hosts.each_with_index do |ip, index| %>
+<% config_etherpad_hosts.each_with_index do |ip, index| %>
             {
                 'apikey': '<%= config_etherpad_api_key %>',
                 'host': '<%= index %><%= config_etherpad_domain_suffix %>',
                 'port': 80
             },
-        <% end %>
+<% end %>
     ]
 };

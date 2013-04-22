@@ -3,7 +3,7 @@ class oaeservice::cassandra {
 
   Class['::oaeservice::deps::package::java6']   -> Class['::cassandra']
 
-  $hosts = map_hieraptr('db_hosts')
+  $hosts = hiera('db_hosts')
   $tokens = hiera('db_tokens')
   $index = hiera('db_index', 0)
 

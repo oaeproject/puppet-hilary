@@ -3,9 +3,15 @@ class oaeservice::mq {
   require oaeservice::deps::package::java6
   require oaeservice::deps::package::erlang
 
-  Class['::oaeservice::deps::common']           -> Class['::rabbitmq']
-  Class['::oaeservice::deps::package::java6']   -> Class['::rabbitmq']
-  Class['::oaeservice::deps::package::erlang']  -> Class['::rabbitmq']
+  Class['::oaeservice::deps::common']           -> Class['::rabbitmq::server']
+  Class['::oaeservice::deps::package::java6']   -> Class['::rabbitmq::server']
+  Class['::oaeservice::deps::package::erlang']  -> Class['::rabbitmq::server']
 
-  class { '::rabbitmq': }
+  class { '::rabbitmq::repo::apt': }
+
+  class { '::rabbitmq::server':
+    config_cluster      => true,
+    cluster_disk_nodes  => hiera('mq_hosts'),
+    require             => Class['::rabbitmq::repo::apt'],
+  }
 }

@@ -19,3 +19,9 @@
 [submodule "modules/nfs"]
 	path = modules/nfs
 	url = https://github.com/sakaiproject/puppet-nfs.git
+[submodule "modules/openvpn"]
+	path = modules/openvpn
+	url = https://github.com/luxflux/puppet-openvpn.git
+[submodule "modules/rabbitmq"]
+	path = modules/rabbitmq
+	url = https://github.com/puppetlabs/puppetlabs-rabbitmq.git
