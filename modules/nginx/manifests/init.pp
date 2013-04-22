@@ -4,7 +4,7 @@ class nginx (
     $web_domain,
 
     $etherpad_domain_label    = 'etherpad',
-    $admin_tenant             = 'admin',
+    $app_admin_tenant         = 'admin',
     $ux_root_dir              = '/opt/3akai-ux',
 
     $files_home       = '/opt/files',

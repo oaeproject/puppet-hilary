@@ -28,8 +28,8 @@ class oaeservice::hilary {
   $phantomjs_version = hiera('phantomjs_version')
 
   $web_domain = hiera('web_domain')
-  $admin_tenant = hiera('admin_tenant')
-  $admin_domain = "${admin_tenant}.${web_domain}"
+  $app_admin_tenant = hiera('app_admin_tenant')
+  $admin_domain = "${app_admin_tenant}.${web_domain}"
   $etherpad_domain_label = hiera('etherpad_domain_label')
   $etherpad_domain_suffix = ".${etherpad_domain_label}.${web_domain}"
 

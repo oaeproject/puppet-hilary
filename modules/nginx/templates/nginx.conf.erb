@@ -48,7 +48,7 @@ http {
         <% if ssl_path -%>
         listen       443 ssl;
         <% end -%>
-        server_name  <%= admin_tenant %>.<%= web_domain %>;
+        server_name  <%= app_admin_tenant %>.<%= web_domain %>;
 
         gzip on;
         gzip_min_length 1000;

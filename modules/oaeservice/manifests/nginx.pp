@@ -10,7 +10,7 @@ class oaeservice::nginx {
     internal_etherpad_ips => hiera('etherpad_hosts', []),
 
     web_domain            => hiera('web_domain'),
-    admin_tenant          => hiera('app_admin_tenant', 'admin'),
+    app_admin_tenant      => hiera('app_admin_tenant', 'admin'),
     etherpad_domain_label => hiera('etherpad_domain_label', 'etherpad'),
 
     ux_root_dir           => hiera('ux_root_dir'),
