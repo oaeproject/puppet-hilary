@@ -95,6 +95,6 @@
     "oaeservice::mcollective::mco_package_version": "4.2.0-1",
     "oaeservice::mcollective::mco_service_version": "3.1.2-1",
 
-    "rabbitmq::server::version": "2.7.1-0ubuntu4",
+    "rabbitmq::server::version": "3.0.4-1",
     "rabbitmq::server::wipe_db_on_cookie_change": true
 }

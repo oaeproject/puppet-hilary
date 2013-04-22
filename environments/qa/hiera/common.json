@@ -98,7 +98,7 @@
     "oaeservice::deps::package::nodejs::nodejs_version": "0.8.23-1chl1~precise1",
     "oaeservice::deps::package::nodejs::npm_version": "1.2.18-1chl1~precise1",
     
-    "rabbitmq::server::version": "2.7.1-0ubuntu4",
+    "rabbitmq::server::version": "3.0.4-1",
     "rabbitmq::server::wipe_db_on_cookie_change": true,
 
     "automation_scripts_dir": "/opt/scripts",
