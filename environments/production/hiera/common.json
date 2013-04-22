@@ -9,7 +9,7 @@
     "nodetype": "%{nodetype}",
     "nodesuffix": "%{nodesuffix}",
 
-    "web_domain": "oae-production.sakaiproject.org",
+    "web_domain": "oaeproject.org",
 
     "app_os_user": "root",
     "app_os_group": "root",
