@@ -57,6 +57,7 @@ class hilary (
 
     # Etherpad
     $config_etherpad_hosts,
+    $config_etherpad_protocol         = 'https',
     $config_etherpad_api_key,
     $config_etherpad_domain_suffix) {
 

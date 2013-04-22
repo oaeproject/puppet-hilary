@@ -66,6 +66,7 @@
     "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
 
     "etherpad_hosts": [ "127.0.0.1" ],
+    "etherpad_protocol": "https",
     "etherpad_index": "0",
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",

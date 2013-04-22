@@ -338,6 +338,7 @@ config.etherpad = {
 <% config_etherpad_hosts.each_with_index do |ip, index| %>
             {
                 'apikey': '<%= config_etherpad_api_key %>',
+                'protocol': '<%= config_etherpad_protocol %>',
                 'host': '<%= index %><%= config_etherpad_domain_suffix %>',
                 'port': 80
             },
