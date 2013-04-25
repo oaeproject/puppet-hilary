@@ -1,4 +1,8 @@
-class oaeservice::haproxy {
+class oaeservice::haproxy(
+        $cache_primary,
+        $cache_backups = false,
+        $activity_cache_primary = false,
+        $activity_cache_backups = false) {
     
     if (hiera('rsyslog_enabled', false)) {
         $syslog_ip = hiera('rsyslog_host')
@@ -6,15 +10,9 @@ class oaeservice::haproxy {
         $syslog_ip = '127.0.0.1'
     }
 
-    $host_name = $::certname
-
-    $cache_master = 'cache-master'
-    $cache_slave = 'cache-slave'
+    # Managed by shared config options
     $cache_port = hiera('cache_port')
-
     $activity_cache_enabled = hiera('activitycache_enabled', false)
-    $activity_cache_master = 'activity-cache-master'
-    $activity_cache_slave = 'activity-cache-slave'
     $activity_cache_port = hiera('activitycache_port', false)
 
     class { '::haproxy': }

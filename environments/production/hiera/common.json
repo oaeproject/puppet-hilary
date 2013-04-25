@@ -73,7 +73,7 @@
     "activitycache_host": "proxy0",
     "activitycache_port": 6380,
 
-    "mq_hosts": [ "mq-master", "mq-slave" ],
+    "mq_hosts": [ "mq0", "mq1" ],
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
 
