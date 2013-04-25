@@ -8,13 +8,13 @@ class oaeservice::haproxy {
 
     $host_name = $::certname
 
-    $cache_master = hiera('cache-master')
-    $cache_slave = hiera('cache-slave')
+    $cache_master = 'cache-master'
+    $cache_slave = 'cache-slave'
     $cache_port = hiera('cache_port')
 
     $activity_cache_enabled = hiera('activitycache_enabled', false)
-    $activity_cache_master = hiera('activity-cache-master', false)
-    $activity_cache_slave = hiera('activity-cache-slave', false)
+    $activity_cache_master = 'activity-cache-master'
+    $activity_cache_slave = 'activity-cache-slave'
     $activity_cache_port = hiera('activitycache_port', false)
 
     class { '::haproxy': }
