@@ -187,6 +187,11 @@ node 'etherpad1' inherits etherpad {
   hiera_include(classes)
 }
 
+node 'etherpad2' inherits etherpad {
+  $nodesuffix = 2
+  hiera_include(classes)
+}
+
 
 
 #################
