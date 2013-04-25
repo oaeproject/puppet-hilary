@@ -17,6 +17,7 @@ listen redis_app :<%= scope['::oaeservice::haproxy::cache_port'] %>
 <% scope['::oaeservice::haproxy::cache_backups'].each do |cache_backup| -%>
     server  <%= cache_backup %>     <%= cache_backup %>:6379   check inter 1000 downinter 365d backup
 <% end -%>
+<% end -%>
 
 <% if scope['::oaeservice::haproxy::activity_cache_enabled'] -%>
 listen redis_activity :<%= scope['::oaeservice::haproxy::activity_cache_port'] %>
