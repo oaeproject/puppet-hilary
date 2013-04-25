@@ -29,6 +29,7 @@ listen redis_activity :<%= scope['::oaeservice::haproxy::activity_cache_port'] %
     server  <%= activity_cache_backup %>    <%= activity_cache_backup %>:6379    check inter 1000 downinter 365d backup
 <% end -%>
 <% end -%>
+<% end -%>
 
 listen stats :80
     mode http
