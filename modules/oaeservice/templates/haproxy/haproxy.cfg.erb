@@ -12,10 +12,10 @@ defaults
 listen redis_app :<%= scope['::oaeservice::haproxy::cache_port'] %>
     option tcplog
     option logasap
-    server <%= scope['::oaeservice::haproxy::cache_primary'] %>    <%= scope['::oaeservice::haproxy::cache_primary'] %>:6379  check inter 1000 downinter 365d
+    server <%= scope['::oaeservice::haproxy::cache_primary'] %>    <%= scope['::oaeservice::haproxy::cache_primary'] %>:6379    check inter 1000 downinter 365d
 <% if scope['::oaeservice::haproxy::cache_backups'] -%>
 <% scope['::oaeservice::haproxy::cache_backups'].each do |cache_backup| -%>
-    server <%= cache_backup %>    <%= cache_backup %>:6379   check inter 1000 downinter 365d backup
+    server <%= cache_backup %>    <%= cache_backup %>:6379    check inter 1000 downinter 365d backup
 <% end -%>
 <% end -%>
 
@@ -23,7 +23,7 @@ listen redis_app :<%= scope['::oaeservice::haproxy::cache_port'] %>
 listen redis_activity :<%= scope['::oaeservice::haproxy::activity_cache_port'] %>
     option tcplog
     option logasap
-    server <%= scope['::oaeservice::haproxy::activity_cache_primary'] %>    <%= scope['::oaeservice::haproxy::activity_cache_primary'] %>:6379   check inter 1000 downinter 365d
+    server <%= scope['::oaeservice::haproxy::activity_cache_primary'] %>    <%= scope['::oaeservice::haproxy::activity_cache_primary'] %>:6379    check inter 1000 downinter 365d
 <% if scope['::oaeservice::haproxy::activity_cache_backups'] -%>
 <% scope['::oaeservice::haproxy::activity_cache_backups'].each do |activity_cache_backup| -%>
     server <%= activity_cache_backup %>    <%= activity_cache_backup %>:6379    check inter 1000 downinter 365d backup
