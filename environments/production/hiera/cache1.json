@@ -1,0 +1,3 @@
+{
+    "redis::slave_of": "cache0"
+}

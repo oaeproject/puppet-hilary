@@ -1,3 +1,0 @@
-{
-    "redis::slave_of": "activity-cache-master"
-}
