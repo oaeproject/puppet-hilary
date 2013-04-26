@@ -1,3 +1,10 @@
+if [ "$1" = "" ]
+then
+  echo "Usage: $0 <environment (production, performance)>"
+  exit
+fi
+
+SCRIPT_ENVIRONMENT=$1
 
 # Install the puppetlabs repos
 cd /tmp
@@ -23,7 +30,7 @@ rundir=/var/run/puppet
 factpath=\$vardir/lib/facter
 templatedir=\$confdir/templates
 pluginsync=true
-environment=staging
+environment=$SCRIPT_ENVIRONMENT
 
 [master]
 storeconfigs=true
@@ -79,10 +86,9 @@ EOF
 # Automatically sign all client certificates. Only machines in our vlan can access the puppet interface
 echo "*" > /etc/puppet/autosign.conf
 
-git clone git://github.com/simong/puppet-hilary /etc/puppet/puppet-hilary
+git clone git://github.com/sakaiproject/puppet-hilary /etc/puppet/puppet-hilary
 cd /etc/puppet/puppet-hilary
 git fetch origin
-git checkout hiera-nagios
 bin/pull.sh
 
 ## Puppet Dashboard
@@ -356,7 +362,7 @@ gem install stomp
 apt-get -y install mcollective=$MCOLLECTIVE_VERSION mcollective-client=$MCOLLECTIVE_VERSION
 
 # mcollective plugins
-apt-get -y install mcollective-puppet-client=1.5.1-1 mcollective-package-client=4.2.0-1 mcollective-service-client=3.1.2-1  mcollective-nrpe-client=3.0.2-1
+apt-get -y install mcollective-puppet-client=1.5.1-1 mcollective-package-client=4.2.0-1 mcollective-service-client=3.1.2-1
 
 cat > /etc/mcollective/client.cfg <<EOF
 # main config

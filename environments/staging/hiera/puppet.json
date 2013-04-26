@@ -1,10 +1,10 @@
 {
     "classes": [
-                "::oaeservice::puppet",
-                "::oaeservice::nagios",
-                "::oaeservice::nagios::server",
-                "::oaeservice::nagios::puppet"
-               ],
+        "::oaeservice::firewall::ssh",
+        "::oaeservice::puppet",
+        "::oaeservice::nagios::server",
+        "::oaeservice::nagios::puppet"
+    ],
 
     "nagios_hostgroup": "misc"
 }

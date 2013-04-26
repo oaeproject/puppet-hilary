@@ -1,10 +1,8 @@
 {
     "classes": [
-                 "::oaeservice::elasticsearch",
-                 "::oaeservice::nagios",
-                 "::oaeservice::nagios::elasticsearch",
-                 "::oaeservice::nagios::memory"
-               ],
+        "::oaeservice::elasticsearch",
+        "::oaeservice::nagios::elasticsearch"
+    ],
 
-    "nagios_hostgroup": "appservers"
+    "nagios_hostgroup": "searchservers"
 }

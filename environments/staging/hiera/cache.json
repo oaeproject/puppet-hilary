@@ -1,9 +1,7 @@
 {
     "classes": [
         "::oaeservice::redis",
-        "oaeservice::nagios",
-        "::oaeservice::nagios::memory",
-        "oaeservice::nagios::redis"
+        "::oaeservice::nagios::redis"
     ],
     "redis::syslog_enabled": true,
 

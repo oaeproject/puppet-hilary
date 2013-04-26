@@ -268,7 +268,6 @@ command[check_redis_memory]=/opt/local/bin/ruby  /usr/lib/nagios/plugins/check_r
 # Elasticsearch checks
 command[check_elasticsearch_running]=/usr/lib/nagios/plugins/check_procs -u elasticsearch -a elasticsearch -c 1:1 -w 1:1
 command[check_elasticsearch_health]=/usr/lib/nagios/plugins/check_http -H <%= scope.lookupvar('::ipaddress_eth1') %> -p 9200 -u /_cluster/health -w 2 -c 3 -s green
-command[check_elasticsearch_slow]=/usr/lib/nagios/plugins/check_elasticsearch_slow $ARG1$ $ARG2$ $ARG3$
 command[check_elasticsearch_jvm]=/usr/lib/nagios/plugins/check_elasticsearch_jvm --host $ARG1$ --node $ARG2$
 
 

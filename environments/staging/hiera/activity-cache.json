@@ -1,8 +1,7 @@
 {
     "classes": [
         "::redis",
-        "oaeservice::nagios",
-        "oaeservice::nagios::redis"
+        "::oaeservice::nagios::redis"
     ],
 
     "redis::syslog_enabled": true,

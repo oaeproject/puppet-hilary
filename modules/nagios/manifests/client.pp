@@ -3,7 +3,7 @@
 ###################
 
 class nagios::client (
-    $hostgroup   = 'miscservers'
+    $hostgroup   = 'misc'
   ){
 
   # Although it seems weird, nagios-nrpe-server is the daemon that needs to run on each host so the nagios monitor server can connect to it.

@@ -1,9 +1,9 @@
 {
     "classes": [
-                    "::oaeservice::mq",
-                    "::oaeservice::nagios",
-                    "::oaeservice::nagios::rabbitmq"
-               ],
+        "::oaeservice::mq",
+        "::oaeservice::nagios",
+        "::oaeservice::nagios::rabbitmq"
+    ],
                
     "nagios_hostgroup": "misc"
 }

@@ -265,16 +265,16 @@ class nagios::server (
 
   # Create the notification commands.
   nagios_command { 'notify-host-by-email':
-    target              => '/etc/nagios3/conf.d/puppet/commands/notify-host-by-email.cfg',
-    command_line        => "/usr/bin/printf \"%b\" \"***** OAE Monitoring Alert *****\\n\\nNotification Type: \$NOTIFICATIONTYPE\$\\nHost: \$HOSTNAME\$\\nState: \$HOSTSTATE\$\\nAddress: \$HOSTADDRESS\$\\nInfo: \$HOSTOUTPUT\$\\n\\nDate/Time: \$LONGDATETIME\$\\n\" | /usr/bin/mail -a \"From: $email_address\" -s \"** \$NOTIFICATIONTYPE\$ Host Alert: \$HOSTNAME\$ is \$HOSTSTATE\$ **\" \$CONTACTEMAIL\$",
-    ensure              => 'present',
+    target          => '/etc/nagios3/conf.d/puppet/commands/notify-host-by-email.cfg',
+    command_line    => "/usr/bin/printf \"%b\" \"***** OAE Monitoring Alert *****\\n\\nNotification Type: \$NOTIFICATIONTYPE\$\\nHost: \$HOSTNAME\$\\nState: \$HOSTSTATE\$\\nAddress: \$HOSTADDRESS\$\\nInfo: \$HOSTOUTPUT\$\\n\\nDate/Time: \$LONGDATETIME\$\\n\" | /usr/bin/mail -a \"From: $email_address\" -s \"** \$NOTIFICATIONTYPE\$ Host Alert: \$HOSTNAME\$ is \$HOSTSTATE\$ **\" \$CONTACTEMAIL\$",
+    ensure          => 'present',
     require         =>  File[$nagios_directories],
   }
 
   nagios_command { 'notify-service-by-email':
-    target              => '/etc/nagios3/conf.d/puppet/commands/notify-service-by-email.cfg',
-    command_line        => "/usr/bin/printf \"%b\" \"***** OAE Monitoring Alert *****\\n\\nNotification Type: \$NOTIFICATIONTYPE\$\\nHost: \$HOSTNAME\$\\nState: \$HOSTSTATE\$\\nAddress: \$HOSTADDRESS\$\\nInfo: \$HOSTOUTPUT\$\\n\\nDate/Time: \$LONGDATETIME\$\\n\" | /usr/bin/mail -a \"From: $email_address\" -s \"** \$NOTIFICATIONTYPE\$ Host Alert: \$HOSTNAME\$ is \$HOSTSTATE\$ **\" \$CONTACTEMAIL\$",
-    ensure              => 'present',
+    target          => '/etc/nagios3/conf.d/puppet/commands/notify-service-by-email.cfg',
+    command_line    => "/usr/bin/printf \"%b\" \"***** OAE Monitoring Alert *****\\n\\nNotification Type: \$NOTIFICATIONTYPE\$\\nHost: \$HOSTNAME\$\\nState: \$HOSTSTATE\$\\nAddress: \$HOSTADDRESS\$\\nInfo: \$HOSTOUTPUT\$\\n\\nDate/Time: \$LONGDATETIME\$\\n\" | /usr/bin/mail -a \"From: $email_address\" -s \"** \$NOTIFICATIONTYPE\$ Host Alert: \$HOSTNAME\$ is \$HOSTSTATE\$ **\" \$CONTACTEMAIL\$",
+    ensure          => 'present',
     require         =>  File[$nagios_directories],
   }
 
