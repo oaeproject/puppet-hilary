@@ -152,16 +152,6 @@ class nagios::client (
     require => Package[$packages],
   }
 
-  # Create a check that greps trough the elasticsearch logs
-  # When running with syslog, this is only useful to execute on the syslog server.
-  file { '/usr/lib/nagios/plugins/check_elasticsearch_slow':
-    content => template('nagios/checks/check_elasticsearch_slow'),
-    mode    => 0555,
-    owner   => 'nagios',
-    group   => 'nagios',
-    require => Package[$packages],
-  }
-
   # Create a check that pulls the JVM data from the REST Api
   file { '/usr/lib/nagios/plugins/check_elasticsearch_jvm':
     content => template('nagios/checks/check_elasticsearch_jvm'),
