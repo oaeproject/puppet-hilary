@@ -1,4 +1,5 @@
-<VirtualHost *:80>
+Listen 8090
+<VirtualHost *:8090>
     # apache configuration for nagios 3.x
 
     ScriptAlias /cgi-bin/nagios3 /usr/lib/cgi-bin/nagios3
