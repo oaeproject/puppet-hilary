@@ -1,0 +1,58 @@
+#!/bin/sh
+#
+# Plugin to monitor the Redis latency.
+
+if [ "$1" = "autoconf" ]; then
+        echo yes
+        exit 0
+fi
+
+HOME=/tmp/
+cd $HOME
+
+# If run with the "config"-parameter, give out information on how the
+# graphs should look.
+#
+if [ "$1" = "config" ]; then
+    # The title of the graph
+    echo 'graph_title Redis latency'
+    # Arguments to "rrdtool graph". In this case, tell it that the
+    # lower limit of the graph is '0', and that 1k=1000 (not 1024)
+    echo 'graph_args --base 1000 -l 0'
+    # The Y-axis label
+    echo 'graph_vlabel latency'
+    # We want Cur/Min/Avg/Max unscaled (i.e. 0.42 latency instead of
+    # 420 millilatency)
+    echo 'graph_scale no'
+    # Graph category. Defaults to 'other'
+    echo 'graph_category redis'
+    # The fields. "label" is used in the legend. "label" is the only
+    # required subfield.
+    echo 'latency.label latency'
+    # This one is purely to add an explanation to the web page. The first
+    # one is for the graph itself, while the second one is for the field
+    # "latency".
+    echo 'graph_info The average latency over a 5 second timespan when the stats were collected.'
+    echo 'latency.info 5 second latency average'
+
+    # Last, if run with the "config"-parameter, quit here (don't
+    # display any data)
+    exit 0
+fi
+
+
+# Spawn the latency process
+(redis-cli --latency) > /tmp/latency.log & pid=$!
+
+# Disown the process, so we don't get any output when we kill it.
+disown $pid
+
+# Gather some samples for 5 seconds before we kill it.
+sleep 5
+kill $pid > /dev/null 2> /dev/null
+
+# Get the last bit from the latency.log
+# Everything is on line unfortunately, so we'll need to do some trickery.
+latency=$(cat /tmp/latency.log)
+avg=$(echo ${latency##*2K} | cut -f 6 -d ' ')
+echo "latency.value $avg"

@@ -1,0 +1,23 @@
+Alias /munin /var/cache/munin/www
+<Directory /var/cache/munin/www>
+    Order allow,deny
+    Allow from all
+    Options None
+
+    AuthName "Munin Access"
+    AuthType Basic
+    AuthUserFile /etc/munin/htpasswd.users
+    require valid-user
+
+    # This next part requires mod_expires to be enabled.
+    # Set the default expiration time for files to 5 minutes 10 seconds from
+    # their creation (modification) time.  There are probably new files by
+    # that time.
+    #
+
+    <IfModule mod_expires.c>
+        ExpiresActive On
+        ExpiresDefault M310
+    </IfModule>
+
+</Directory>

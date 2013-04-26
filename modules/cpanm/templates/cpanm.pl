@@ -20,297 +20,297 @@ my %fatpacked;
 $fatpacked{"App/cpanminus.pm"} = <<'APP_CPANMINUS';
   package App::cpanminus;
   our $VERSION = "1.6108";
-  
+
   =head1 encoding utf-8
-  
+
   =head1 NAME
-  
+
   App::cpanminus - get, unpack, build and install modules from CPAN
-  
+
   =head1 SYNOPSIS
-  
+
       cpanm Module
-  
+
   Run C<cpanm -h> or C<perldoc cpanm> for more options.
-  
+
   =head1 DESCRIPTION
-  
+
   cpanminus is a script to get, unpack, build and install modules from
   CPAN and does nothing else.
-  
+
   It's dependency free (can bootstrap itself), requires zero
   configuration, and stands alone. When running, it requires only 10MB
   of RAM.
-  
+
   =head1 INSTALLATION
-  
+
   There are several ways to install cpanminus to your system.
-  
+
   =head2 Package management system
-  
+
   There are Debian packages, RPMs, FreeBSD ports, and packages for other
   operation systems available. If you want to use the package management system,
   search for cpanminus and use the appropriate command to install. This makes it
   easy to install C<cpanm> to your system without thinking about where to
   install, and later upgrade.
-  
+
   =head2 Installing to system perl
-  
+
   You can also use the latest cpanminus to install cpanminus itself:
-  
+
       curl -L http://cpanmin.us | perl - --sudo App::cpanminus
-  
+
   This will install C<cpanm> to your bin directory like
   C</usr/local/bin> (unless you configured C<INSTALL_BASE> with
   L<local::lib>), so you probably need the C<--sudo> option.
-  
+
   =head2 Installing to local perl (perlbrew)
-  
+
   If you have perl in your home directory, which is the case if you use
   tools like L<perlbrew>, you don't need the C<--sudo> option, since
   you're most likely to have a write permission to the perl's library
   path. You can just do:
-  
+
       curl -L http://cpanmin.us | perl - App::cpanminus
-  
+
   to install the C<cpanm> executable to the perl's bin path, like
   C<~/perl5/perlbrew/bin/cpanm>.
-  
+
   =head2 Downloading the standalone executable
-  
+
   You can also copy the standalone executable to whatever location you'd like.
-  
+
       cd ~/bin
       curl -LO http://xrl.us/cpanm
       chmod +x cpanm
       # edit shebang if you don't have /usr/bin/env
-  
+
   This just works, but be sure to grab the new version manually when you
   upgrade because C<--self-upgrade> might not work for this.
-  
+
   =head1 DEPENDENCIES
-  
+
   perl 5.8 or later.
-  
+
   =over 4
-  
+
   =item *
-  
+
   'tar' executable (bsdtar or GNU tar version 1.22 are rcommended) or Archive::Tar to unpack files.
-  
+
   =item *
-  
+
   C compiler, if you want to build XS modules.
-  
+
   =item *
-  
+
   make
-  
+
   =item *
-  
+
   Module::Build (core in 5.10)
-  
+
   =back
-  
+
   =head1 QUESTIONS
-  
+
   =head2 Another CPAN installer?
-  
+
   OK, the first motivation was this: the CPAN shell runs out of memory (or swaps
   heavily and gets really slow) on Slicehost/linode's most affordable plan with
   only 256MB RAM. Should I pay more to install perl modules from CPAN? I don't
   think so.
-  
+
   =head2 But why a new client?
-  
+
   First of all, let me be clear that CPAN and CPANPLUS are great tools
   I've used for I<literally> years (you know how many modules I have on
   CPAN, right?). I really respect their efforts of maintaining the most
   important tools in the CPAN toolchain ecosystem.
-  
+
   However, for less experienced users (mostly from outside the Perl community),
   or even really experienced Perl developers who know how to shoot themselves in
   their feet, setting up the CPAN toolchain often feels like yak shaving,
   especially when all they want to do is just install some modules and start
   writing code.
-  
+
   =head2 Zero-conf? How does this module get/parse/update the CPAN index?
-  
+
   It queries the CPAN Meta DB site at L<http://cpanmetadb.plackperl.org/>.
   The site is updated at least every hour to reflect the latest changes
   from fast syncing mirrors. The script then also falls back to query the
   module at L<http://metacpan.org/> using its wonderful API.
-  
+
   Upon calling these API hosts, cpanm (1.6004 or later) will send the
   local perl versions to the server in User-Agent string by default. You
   can turn it off with C<--no-report-perl-version> option. Read more
   about the option with L<cpanm>, and read more about the privacy policy
   about this data collection at L<http://cpanmetadb.plackperl.org/#privacy>
-  
+
   Fetched files are unpacked in C<~/.cpanm> and automatically cleaned up
   periodically.  You can configure the location of this with the
   C<PERL_CPANM_HOME> environment variable.
-  
+
   =head2 Where does this install modules to? Do I need root access?
-  
+
   It installs to wherever ExtUtils::MakeMaker and Module::Build are
   configured to (via C<PERL_MM_OPT> and C<PERL_MB_OPT>). So if you're
   using local::lib, then it installs to your local perl5
   directory. Otherwise it installs to the site_perl directory that
   belongs to your perl.
-  
+
   cpanminus at a boot time checks whether you have configured
   local::lib, or have the permission to install modules to the site_perl
   directory.  If neither, it automatically sets up local::lib compatible
   installation path in a C<perl5> directory under your home
   directory. To avoid this, run the script as the root user, with
   C<--sudo> option or with C<--local-lib> option.
-  
+
   =head2 cpanminus can't install the module XYZ. Is it a bug?
-  
+
   It is more likely a problem with the distribution itself. cpanminus
   doesn't support or is known to have issues with distributions like as
   follows:
-  
+
   =over 4
-  
+
   =item *
-  
+
   Tests that require input from STDIN.
-  
+
   =item *
-  
+
   Tests that might fail when C<AUTOMATED_TESTING> is enabled.
-  
+
   =item *
-  
+
   Modules that have invalid numeric values as VERSION (such as C<1.1a>)
-  
+
   =back
-  
+
   These failures can be reported back to the author of the module so
   that they can fix it accordingly, rather than me.
-  
+
   =head2 Does cpanm support the feature XYZ of L<CPAN> and L<CPANPLUS>?
-  
+
   Most likely not. Here are the things that cpanm doesn't do by
   itself. And it's a feature - you got that from the name I<minus>,
   right?
-  
+
   If you need these features, use L<CPAN>, L<CPANPLUS> or the standalone
   tools that are mentioned.
-  
+
   =over 4
-  
+
   =item *
-  
+
   Bundle:: module dependencies
-  
+
   =item *
-  
+
   CPAN testers reporting
-  
+
   =item *
-  
+
   Building RPM packages from CPAN modules
-  
+
   =item *
-  
+
   Listing the outdated modules that needs upgrading. See L<App::cpanoutdated>
-  
+
   =item *
-  
+
   Uninstalling modules. See L<pm-uninstall>.
-  
+
   =item *
-  
+
   Showing the changes of the modules you're about to upgrade. See L<cpan-listchanges>
-  
+
   =item *
-  
+
   Patching CPAN modules with distroprefs.
-  
+
   =back
-  
+
   See L<cpanm> or C<cpanm -h> to see what cpanminus I<can> do :)
-  
+
   =head1 COPYRIGHT
-  
+
   Copyright 2010- Tatsuhiko Miyagawa
-  
+
   The standalone executable contains the following modules embedded.
-  
+
   =over 4
-  
+
   =item L<CPAN::DistnameInfo> Copyright 2003 Graham Barr
-  
+
   =item L<Parse::CPAN::Meta> Copyright 2006-2009 Adam Kennedy
-  
+
   =item L<local::lib> Copyright 2007-2009 Matt S Trout
-  
+
   =item L<HTTP::Tiny> Copyright 2011 Christian Hansen
-  
+
   =item L<Module::Metadata> Copyright 2001-2006 Ken Williams. 2010 Matt S Trout
-  
+
   =item L<version> Copyright 2004-2010 John Peacock
-  
+
   =item L<JSON::PP> Copyright 2007-2011 by Makamaka Hannyaharamitu
-  
+
   =item L<CPAN::Meta>, L<CPAN::Meta::Requirements> Copyright (c) 2010 by David Golden and Ricardo Signes
-  
+
   =item L<CPAN::Meta::YAML> Copyright 2010 Adam Kennedy
-  
+
   =item L<File::pushd> Copyright 2012 David Golden
-  
+
   =back
-  
+
   =head1 LICENSE
-  
+
   Same as Perl.
-  
+
   =head1 CREDITS
-  
+
   =head2 CONTRIBUTORS
-  
+
   Patches and code improvements were contributed by:
-  
+
   Goro Fuji, Kazuhiro Osawa, Tokuhiro Matsuno, Kenichi Ishigaki, Ian
   Wells, Pedro Melo, Masayoshi Sekimura, Matt S Trout (mst), squeeky,
   horus and Ingy dot Net.
-  
+
   =head2 ACKNOWLEDGEMENTS
-  
+
   Bug reports, suggestions and feedbacks were sent by, or general
   acknowledgement goes to:
-  
+
   Jesse Vincent, David Golden, Andreas Koenig, Jos Boumans, Chris
   Williams, Adam Kennedy, Audrey Tang, J. Shirley, Chris Prather, Jesse
   Luehrs, Marcus Ramberg, Shawn M Moore, chocolateboy, Chirs Nehren,
   Jonathan Rockway, Leon Brocard, Simon Elliott, Ricardo Signes, AEvar
   Arnfjord Bjarmason, Eric Wilhelm, Florian Ragwitz and xaicron.
-  
+
   =head1 COMMUNITY
-  
+
   =over 4
-  
+
   =item L<http://github.com/miyagawa/cpanminus> - source code repository, issue tracker
-  
+
   =item L<irc://irc.perl.org/#toolchain> - discussions about Perl toolchain. I'm there.
-  
+
   =back
-  
+
   =head1 NO WARRANTY
-  
+
   This software is provided "as-is," without any express or implied
   warranty. In no event shall the author be held liable for any damages
   arising from the use of the software.
-  
+
   =head1 SEE ALSO
-  
+
   L<CPAN> L<CPANPLUS> L<pip>
-  
+
   =cut
-  
+
   1;
 APP_CPANMINUS
 
@@ -330,12 +330,12 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
   use Parse::CPAN::Meta;
   use Symbol ();
   use version ();
-  
+
   use constant WIN32 => $^O eq 'MSWin32';
   use constant SUNOS => $^O eq 'solaris';
-  
+
   our $VERSION = $App::cpanminus::VERSION;
-  
+
   if ($INC{"App/FatPacker/Trace.pm"}) {
       require JSON::PP;
       require CPAN::Meta::YAML;
@@ -343,34 +343,34 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
       require version::vpp;
       require File::pushd;
   }
-  
+
   my $quote = WIN32 ? q/"/ : q/'/;
-  
+
   sub agent {
       my $self = shift;
       my $agent = "cpanminus/$VERSION";
       $agent .= " perl/$]" if $self->{report_perl_version};
       $agent;
   }
-  
+
   sub determine_home {
       my $class = shift;
-  
+
       my $homedir = $ENV{HOME}
         || eval { require File::HomeDir; File::HomeDir->my_home }
         || join('', @ENV{qw(HOMEDRIVE HOMEPATH)}); # Win32
-  
+
       if (WIN32) {
           require Win32; # no fatpack
           $homedir = Win32::GetShortPathName($homedir);
       }
-  
+
       return "$homedir/.cpanm";
   }
-  
+
   sub new {
       my $class = shift;
-  
+
       bless {
           home => $class->determine_home,
           cmd  => 'install',
@@ -417,19 +417,19 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           @_,
       }, $class;
   }
-  
+
   sub env {
       my($self, $key) = @_;
       $ENV{"PERL_CPANM_" . $key};
   }
-  
+
   sub parse_options {
       my $self = shift;
-  
+
       local @ARGV = @{$self->{argv}};
       push @ARGV, split /\s+/, $self->env('OPT');
       push @ARGV, @_;
-  
+
       Getopt::Long::Configure("bundling");
       Getopt::Long::GetOptions(
           'f|force'   => sub { $self->{skip_installed} = 0; $self->{force} = 1 },
@@ -483,46 +483,46 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           'build-timeout=i' => \$self->{build_timeout},
           'test-timeout=i' => \$self->{test_timeout},
       );
-  
+
       if (!@ARGV && $0 ne '-' && !-t STDIN){ # e.g. # cpanm < author/requires.cpanm
           push @ARGV, $self->load_argv_from_fh(\*STDIN);
           $self->{load_from_stdin} = 1;
       }
-  
+
       $self->{argv} = \@ARGV;
   }
-  
+
   sub check_upgrade {
       if ($0 !~ /^$Config{installsitebin}/) {
           if ($0 =~ m!perlbrew/bin!) {
               warn <<WARN;
   It appears your cpanm executable was installed via `perlbrew install-cpanm`.
   cpanm --self-upgrade won't upgrade the version of cpanm you're running.
-  
+
   Run the following command to get it upgraded.
-  
+
     perlbrew install-cpanm
-  
+
   WARN
           } else {
               warn <<WARN;
   You are running cpanm from the path where your current perl won't install executables to.
   Because of that, cpanm --self-upgrade won't upgrade the version of cpanm you're running.
-  
+
     cpanm path   : $0
     Install path : $Config{installsitebin}
-  
+
   It means you either installed cpanm globally with system perl, or use distro packages such
   as rpm or apt-get, and you have to use them again to upgrade cpanm.
   WARN
           }
       }
   }
-  
+
   sub check_libs {
       my $self = shift;
       return if $self->{_checked}++;
-  
+
       $self->bootstrap_local_lib;
       if (@{$self->{bootstrap_deps} || []}) {
           local $self->{notest} = 1; # test failure in bootstrap should be tolerated
@@ -530,26 +530,26 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $self->install_deps(Cwd::cwd, 0, @{$self->{bootstrap_deps}});
       }
   }
-  
+
   sub setup_verify {
       my $self = shift;
-  
+
       my $has_modules = eval { require Module::Signature; require Digest::SHA; 1 };
       $self->{cpansign} = $self->which('cpansign');
-  
+
       unless ($has_modules && $self->{cpansign}) {
           warn "WARNING: Module::Signature and Digest::SHA is required for distribution verifications.\n";
           $self->{verify} = 0;
       }
   }
-  
+
   sub parse_module_args {
       my($self, $module) = @_;
-  
+
       # Plack@1.2 -> Plack~"==1.2"
       # BUT don't expand @ in git URLs
       $module =~ s/^([A-Za-z0-9_:]+)@([v\d\._]+)$/$1~== $2/;
-  
+
       # Plack~1.20, DBI~"> 1.0, <= 2.0"
       if ($module =~ /\~[v\d\._,\!<>= ]+$/) {
           return split /\~/, $module, 2;
@@ -557,32 +557,32 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           return $module, undef;
       }
   }
-  
+
   sub doit {
       my $self = shift;
-  
+
       $self->setup_home;
       $self->init_tools;
       $self->setup_verify if $self->{verify};
-  
+
       if (my $action = $self->{action}) {
           $self->$action() and return 1;
       }
-  
+
       $self->show_help(1)
           unless @{$self->{argv}} or $self->{load_from_stdin};
-  
+
       $self->configure_mirrors;
-  
+
       my $cwd = Cwd::cwd;
-  
+
       my @fail;
       for my $module (@{$self->{argv}}) {
           if ($module =~ s/\.pm$//i) {
               my ($volume, $dirs, $file) = File::Spec->splitpath($module);
               $module = join '::', grep { $_ } File::Spec->splitdir($dirs), $file;
           }
-  
+
           ($module, my $version) = $self->parse_module_args($module);
           if ($self->{skip_satisfied}) {
               $self->check_libs;
@@ -592,21 +592,21 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
                   next;
               }
           }
-  
+
           $self->chdir($cwd);
           $self->install_module($module, 0, $version)
               or push @fail, $module;
       }
-  
+
       if ($self->{base} && $self->{auto_cleanup}) {
           $self->cleanup_workdirs;
       }
-  
+
       if ($self->{installed_dists}) {
           my $dists = $self->{installed_dists} > 1 ? "distributions" : "distribution";
           $self->diag("$self->{installed_dists} $dists installed\n", 1);
       }
-  
+
       if ($self->{scandeps}) {
           $self->dump_scandeps();
       }
@@ -617,27 +617,27 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
       # absolutely.
       # https://rt.cpan.org/Public/Bug/Display.html?id=44924
       $self->chdir($cwd);
-  
+
       return !@fail;
   }
-  
+
   sub setup_home {
       my $self = shift;
-  
+
       $self->{home} = $self->env('HOME') if $self->env('HOME');
-  
+
       unless (_writable($self->{home})) {
           die "Can't write to cpanm home '$self->{home}': You should fix it with chown/chmod first.\n";
       }
-  
+
       $self->{base} = "$self->{home}/work/" . time . ".$$";
       File::Path::mkpath([ $self->{base} ], 0, 0777);
-  
+
       my $link = "$self->{home}/latest-build";
       eval { unlink $link; symlink $self->{base}, $link };
-  
+
       $self->{log} = File::Spec->catfile($self->{home}, "build.log"); # because we use shell redirect
-  
+
       {
           my $log = $self->{log}; my $base = $self->{base};
           $self->{at_exit} = sub {
@@ -645,32 +645,32 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               File::Copy::copy($self->{log}, "$self->{base}/build.log");
           };
       }
-  
+
       { open my $out, ">$self->{log}" or die "$self->{log}: $!" }
-  
+
       $self->chat("cpanm (App::cpanminus) $VERSION on perl $] built for $Config{archname}\n" .
                   "Work directory is $self->{base}\n");
   }
-  
+
   sub fetch_meta_sco {
       my($self, $dist) = @_;
       return if $self->{mirror_only};
-  
+
       my $meta_yml = $self->get("http://search.cpan.org/meta/$dist->{distvname}/META.yml");
       return $self->parse_meta_string($meta_yml);
   }
-  
+
   sub package_index_for {
       my ($self, $mirror) = @_;
       return $self->source_for($mirror) . "/02packages.details.txt";
   }
-  
+
   sub generate_mirror_index {
       my ($self, $mirror) = @_;
       my $file = $self->package_index_for($mirror);
       my $gz_file = $file . '.gz';
       my $index_mtime = (stat $gz_file)[9];
-  
+
       unless (-e $file && (stat $file)[9] >= $index_mtime) {
           $self->chat("Uncompressing index file...\n");
           if (eval {require Compress::Zlib}) {
@@ -696,15 +696,15 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
       }
       return 1;
   }
-  
+
   sub search_mirror_index {
       my ($self, $mirror, $module, $version) = @_;
       $self->search_mirror_index_file($self->package_index_for($mirror), $module, $version);
   }
-  
+
   sub search_mirror_index_file {
       my($self, $file, $module, $version) = @_;
-  
+
       open my $fh, '<', $file or return;
       my $found;
       while (<$fh>) {
@@ -713,9 +713,9 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               last;
           }
       }
-  
+
       return $found unless $self->{cascade_search};
-  
+
       if ($found) {
           if ($self->satisfy_version($module, $found->{module_version}, $version)) {
               return $found;
@@ -723,35 +723,35 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               $self->chat("Found $module $found->{module_version} which doesn't satisfy $version.\n");
           }
       }
-  
+
       return;
   }
-  
+
   sub with_version_range {
       my($self, $version) = @_;
       defined($version) && $version =~ /[<>=]/;
   }
-  
+
   sub encode_json {
       my($self, $data) = @_;
       require JSON::PP;
-  
+
       my $json = JSON::PP::encode_json($data);
       $json =~ s/([^a-zA-Z0-9_\-.])/uc sprintf("%%%02x",ord($1))/eg;
       $json;
   }
-  
+
   # TODO extract this as a module?
   sub version_to_query {
       my($self, $module, $version) = @_;
-  
+
       require CPAN::Meta::Requirements;
-  
+
       my $requirements = CPAN::Meta::Requirements->new;
       $requirements->add_string_requirement($module, $version || '0');
-  
+
       my $req = $requirements->requirements_for_module($module);
-  
+
       if ($req =~ s/^==\s*//) {
           return {
               term => { 'module.version' => $req },
@@ -771,55 +771,55 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
                   push @exclusion, $self->numify_ver($r);
               }
           }
-  
+
           my @filters= (
               { range => { 'module.version_numified' => \%range } },
           );
-  
+
           if (@exclusion) {
               push @filters, {
                   not => { or => [ map { +{ term => { 'module.version_numified' => $self->numify_ver($_) } } } @exclusion ] },
               };
           }
-  
+
           return @filters;
       }
   }
-  
+
   sub numify_ver {
       my($self, $ver) = @_;
       version->new($ver)->numify;
   }
-  
+
   sub maturity_filter {
       my($self, $module, $version) = @_;
-  
+
       my @filters;
-  
+
       # TODO: dev release should be enabled per dist
       if (!$self->with_version_range($version) or $self->{dev_release}) {
           # backpan'ed dev release are considered "cancelled"
           push @filters, { not => { term => { status => 'backpan' } } };
       }
-  
+
       unless ($self->{dev_release} or $version =~ /==/) {
           push @filters, { term => { maturity => 'released' } };
       }
-  
+
       return @filters;
   }
-  
+
   sub search_metacpan {
       my($self, $module, $version) = @_;
-  
+
       require JSON::PP;
-  
+
       $self->chat("Searching $module ($version) on metacpan ...\n");
-  
+
       my $metacpan_uri = 'http://api.metacpan.org/v0';
-  
+
       my @filter = $self->maturity_filter($module, $version);
-  
+
       my $query = { filtered => {
           (@filter ? (filter => { and => \@filter }) : ()),
           query => { nested => {
@@ -838,15 +838,15 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               } },
           } },
       } };
-  
+
       my $module_uri = "$metacpan_uri/file/_search?source=";
       $module_uri .= $self->encode_json({
           query => $query,
           fields => [ 'release', 'module' ],
       });
-  
+
       my($release, $module_version);
-  
+
       my $module_json = $self->get($module_uri);
       my $module_meta = eval { JSON::PP::decode_json($module_json) };
       my $match = $module_meta ? $module_meta->{hits}{hits}[0]{fields} : undef;
@@ -855,12 +855,12 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           my $module_matched = (grep { $_->{name} eq $module } @{$match->{module}})[0];
           $module_version = $module_matched->{version};
       }
-  
+
       unless ($release) {
           $self->chat("! Could not find a release matching $module ($version) on MetaCPAN.\n");
           return;
       }
-  
+
       my $dist_uri = "$metacpan_uri/release/_search?source=";
       $dist_uri .= $self->encode_json({
           filter => {
@@ -868,10 +868,10 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           },
           fields => [ 'download_url', 'stat', 'status' ],
       });
-  
+
       my $dist_json = $self->get($dist_uri);
       my $dist_meta = eval { JSON::PP::decode_json($dist_json) };
-  
+
       if ($dist_meta) {
           $dist_meta = $dist_meta->{hits}{hits}[0]{fields};
       }
@@ -885,17 +885,17 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           }
           return $self->cpan_module($module, $distfile, $module_version);
       }
-  
+
       $self->diag_fail("Finding $module on metacpan failed.");
       return;
   }
-  
+
   sub search_database {
       my($self, $module, $version) = @_;
-  
+
       my $found;
       my $range = ($self->with_version_range($version) || $self->{dev_release});
-  
+
       if ($range or $self->{metacpan}) {
           $found = $self->search_metacpan($module, $version)   and return $found;
           $found = $self->search_cpanmetadb($module, $version) and return $found;
@@ -904,108 +904,108 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $found = $self->search_metacpan($module, $version)   and return $found;
       }
   }
-  
+
   sub search_cpanmetadb {
       my($self, $module, $version) = @_;
-  
+
       $self->chat("Searching $module on cpanmetadb ...\n");
-  
+
       my $uri  = "http://cpanmetadb.plackperl.org/v1.0/package/$module";
       my $yaml = $self->get($uri);
       my $meta = $self->parse_meta_string($yaml);
       if ($meta && $meta->{distfile}) {
           return $self->cpan_module($module, $meta->{distfile}, $meta->{version});
       }
-  
+
       $self->diag_fail("Finding $module on cpanmetadb failed.");
       return;
   }
-  
+
   sub search_module {
       my($self, $module, $version) = @_;
-  
+
       if ($self->{mirror_index}) {
           $self->chat("Searching $module on mirror index $self->{mirror_index} ...\n");
           my $pkg = $self->search_mirror_index_file($self->{mirror_index}, $module, $version);
           return $pkg if $pkg;
-  
+
           unless ($self->{cascade_search}) {
              $self->diag_fail("Finding $module ($version) on mirror index $self->{mirror_index} failed.");
              return;
           }
       }
-  
+
       unless ($self->{mirror_only}) {
           my $found = $self->search_database($module, $version);
           return $found if $found;
       }
-  
+
       MIRROR: for my $mirror (@{ $self->{mirrors} }) {
           $self->chat("Searching $module on mirror $mirror ...\n");
           my $name = '02packages.details.txt.gz';
           my $uri  = "$mirror/modules/$name";
           my $gz_file = $self->package_index_for($mirror) . '.gz';
-  
+
           unless ($self->{pkgs}{$uri}) {
               $self->chat("Downloading index file $uri ...\n");
               $self->mirror($uri, $gz_file);
               $self->generate_mirror_index($mirror) or next MIRROR;
               $self->{pkgs}{$uri} = "!!retrieved!!";
           }
-  
+
           my $pkg = $self->search_mirror_index($mirror, $module, $version);
           return $pkg if $pkg;
-  
+
           $self->diag_fail("Finding $module ($version) on mirror $mirror failed.");
       }
-  
+
       return;
   }
-  
+
   sub source_for {
       my($self, $mirror) = @_;
       $mirror =~ s/[^\w\.\-]+/%/g;
-  
+
       my $dir = "$self->{home}/sources/$mirror";
       File::Path::mkpath([ $dir ], 0, 0777);
-  
+
       return $dir;
   }
-  
+
   sub load_argv_from_fh {
       my($self, $fh) = @_;
-  
+
       my @argv;
       while(defined(my $line = <$fh>)){
           chomp $line;
           $line =~ s/#.+$//; # comment
           $line =~ s/^\s+//; # trim spaces
           $line =~ s/\s+$//; # trim spaces
-  
+
           push @argv, split ' ', $line if $line;
       }
       return @argv;
   }
-  
+
   sub show_version {
       print "cpanm (App::cpanminus) version $VERSION\n";
       return 1;
   }
-  
+
   sub show_help {
       my $self = shift;
-  
+
       if ($_[0]) {
           die <<USAGE;
   Usage: cpanm [options] Module [...]
-  
+
   Try `cpanm --help` or `man cpanm` for more options.
   USAGE
       }
-  
+
       print <<HELP;
   Usage: cpanm [options] Module [...]
-  
+
   Options:
     -v,--verbose              Turns on chatty output
     -q,--quiet                Turns off the most output
@@ -1024,15 +1024,15 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
     -L,--local-lib-contained  Specify the install base to install all non-core modules
     --self-contained          Install all non-core modules, even if they're already installed.
     --auto-cleanup            Number of days that cpanm's work directories expire in. Defaults to 7
-  
+
   Commands:
     --self-upgrade            upgrades itself
     --info                    Displays distribution info on CPAN
     --look                    Opens the distribution with your SHELL
     -V,--version              Displays software version
-  
+
   Examples:
-  
+
     cpanm Test::More                                          # install Test::More
     cpanm MIYAGAWA/Plack-0.99_05.tar.gz                       # full distribution path
     cpanm http://example.org/LDS/CGI.pm-3.20.tar.gz           # install from URL
@@ -1042,18 +1042,18 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
     cpanm --installdeps .                                     # install all the deps for the current directory
     cpanm -L extlib Plack                                     # install Plack and all non-core deps into extlib
     cpanm --mirror http://cpan.cpantesters.org/ DBI           # use the fast-syncing mirror
-  
+
   You can also specify the default options in PERL_CPANM_OPT environment variable in the shell rc:
-  
+
     export PERL_CPANM_OPT="--prompt --reinstall -l ~/perl --mirror http://cpan.cpantesters.org"
-  
+
   Type `man cpanm` or `perldoc cpanm` for the more detailed explanation of the options.
-  
+
   HELP
-  
+
       return 1;
   }
-  
+
   sub _writable {
       my $dir = shift;
       my @dir = File::Spec->splitdir($dir);
@@ -1064,10 +1064,10 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           }
           pop @dir;
       }
-  
+
       return;
   }
-  
+
   sub maybe_abs {
       my($self, $lib) = @_;
       if ($lib eq '_' or $lib =~ /^~/ or File::Spec->file_name_is_absolute($lib)) {
@@ -1076,26 +1076,26 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           return File::Spec->canonpath(File::Spec->catdir(Cwd::cwd(), $lib));
       }
   }
-  
+
   sub bootstrap_local_lib {
       my $self = shift;
-  
+
       # If -l is specified, use that.
       if ($self->{local_lib}) {
           return $self->setup_local_lib($self->{local_lib});
       }
-  
+
       # root, locally-installed perl or --sudo: don't care about install_base
       return if $self->{sudo} or (_writable($Config{installsitelib}) and _writable($Config{installsitebin}));
-  
+
       # local::lib is configured in the shell -- yay
       if ($ENV{PERL_MM_OPT} and ($ENV{MODULEBUILDRC} or $ENV{PERL_MB_OPT})) {
           $self->bootstrap_local_lib_deps;
           return;
       }
-  
+
       $self->setup_local_lib;
-  
+
       $self->diag(<<DIAG);
   !
   ! Can't write to $Config{installsitelib} and $Config{installsitebin}: Installing modules to $ENV{HOME}/perl5
@@ -1109,7 +1109,7 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
   DIAG
       sleep 2;
   }
-  
+
   sub _core_only_inc {
       my($self, $base) = @_;
       require local::lib;
@@ -1119,29 +1119,29 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           @Config{qw(privlibexp archlibexp)},
       );
   }
-  
+
   sub _diff {
       my($self, $old, $new) = @_;
-  
+
       my @diff;
       my %old = map { $_ => 1 } @$old;
       for my $n (@$new) {
           push @diff, $n unless exists $old{$n};
       }
-  
+
       @diff;
   }
-  
+
   sub _setup_local_lib_env {
       my($self, $base) = @_;
       local $SIG{__WARN__} = sub { }; # catch 'Attempting to write ...'
       local::lib->setup_env_hash_for($base);
   }
-  
+
   sub setup_local_lib {
       my($self, $base) = @_;
       $base = undef if $base eq '_';
-  
+
       require local::lib;
       {
           local $0 = 'cpanm'; # so curl/wget | perl works
@@ -1159,35 +1159,35 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           }
           $self->_setup_local_lib_env($base);
       }
-  
+
       $self->bootstrap_local_lib_deps;
   }
-  
+
   sub bootstrap_local_lib_deps {
       my $self = shift;
       push @{$self->{bootstrap_deps}},
           'ExtUtils::MakeMaker' => 6.31,
           'ExtUtils::Install'   => 1.46;
   }
-  
+
   sub prompt_bool {
       my($self, $mess, $def) = @_;
-  
+
       my $val = $self->prompt($mess, $def);
       return lc $val eq 'y';
   }
-  
+
   sub prompt {
       my($self, $mess, $def) = @_;
-  
+
       my $isa_tty = -t STDIN && (-t STDOUT || !(-f STDOUT || -c STDOUT)) ;
       my $dispdef = defined $def ? "[$def] " : " ";
       $def = defined $def ? $def : "";
-  
+
       if (!$self->{prompt} || (!$isa_tty && eof STDIN)) {
           return $def;
       }
-  
+
       local $|=1;
       local $\;
       my $ans;
@@ -1203,10 +1203,10 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
       } else { # user hit ctrl-D or alarm timeout
           print STDOUT "\n";
       }
-  
+
       return (!defined $ans || $ans eq '') ? $def : $ans;
   }
-  
+
   sub diag_ok {
       my($self, $msg) = @_;
       chomp $msg;
@@ -1217,7 +1217,7 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
       }
       $self->log("-> $msg\n");
   }
-  
+
   sub diag_fail {
       my($self, $msg, $always) = @_;
       chomp $msg;
@@ -1225,13 +1225,13 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $self->_diag("FAIL\n");
           $self->{in_progress} = 0;
       }
-  
+
       if ($msg) {
           $self->_diag("! $msg\n", $always);
           $self->log("-> FAIL $msg\n");
       }
   }
-  
+
   sub diag_progress {
       my($self, $msg) = @_;
       chomp $msg;
@@ -1239,37 +1239,37 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
       $self->_diag("$msg ... ");
       $self->log("$msg\n");
   }
-  
+
   sub _diag {
       my($self, $msg, $always) = @_;
       print STDERR $msg if $always or $self->{verbose} or !$self->{quiet};
   }
-  
+
   sub diag {
       my($self, $msg, $always) = @_;
       $self->_diag($msg, $always);
       $self->log($msg);
   }
-  
+
   sub chat {
       my $self = shift;
       print STDERR @_ if $self->{verbose};
       $self->log(@_);
   }
-  
+
   sub log {
       my $self = shift;
       open my $out, ">>$self->{log}";
       print $out @_;
   }
-  
+
   sub run {
       my($self, $cmd) = @_;
-  
+
       if (WIN32 && ref $cmd eq 'ARRAY') {
           $cmd = join q{ }, map { $self->shell_quote($_) } @$cmd;
       }
-  
+
       if (ref $cmd eq 'ARRAY') {
           my $pid = fork;
           if ($pid) {
@@ -1285,10 +1285,10 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           !system $cmd;
       }
   }
-  
+
   sub run_exec {
       my($self, $cmd) = @_;
-  
+
       if (ref $cmd eq 'ARRAY') {
           unless ($self->{verbose}) {
               open my $logfh, ">>", $self->{log};
@@ -1304,11 +1304,11 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           exec $cmd;
       }
   }
-  
+
   sub run_timeout {
       my($self, $cmd, $timeout) = @_;
       return $self->run($cmd) if WIN32 || $self->{verbose} || !$timeout;
-  
+
       my $pid = fork;
       if ($pid) {
           eval {
@@ -1332,34 +1332,34 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $self->run($cmd);
       }
   }
-  
+
   sub configure {
       my($self, $cmd) = @_;
-  
+
       # trick AutoInstall
       local $ENV{PERL5_CPAN_IS_RUNNING} = local $ENV{PERL5_CPANPLUS_IS_RUNNING} = $$;
-  
+
       # e.g. skip CPAN configuration on local::lib
       local $ENV{PERL5_CPANM_IS_RUNNING} = $$;
-  
+
       my $use_default = !$self->{interactive};
       local $ENV{PERL_MM_USE_DEFAULT} = $use_default;
-  
+
       # skip man page generation
       local $ENV{PERL_MM_OPT} = $ENV{PERL_MM_OPT};
       unless ($self->{pod2man}) {
           $ENV{PERL_MM_OPT} .= " INSTALLMAN1DIR=none INSTALLMAN3DIR=none";
       }
-  
+
       local $self->{verbose} = $self->{verbose} || $self->{interactive};
       $self->run_timeout($cmd, $self->{configure_timeout});
   }
-  
+
   sub build {
       my($self, $cmd, $distname) = @_;
-  
+
       local $ENV{PERL_MM_USE_DEFAULT} = !$self->{interactive};
-  
+
       return 1 if $self->run_timeout($cmd, $self->{build_timeout});
       while (1) {
           my $ans = lc $self->prompt("Building $distname failed.\nYou can s)kip, r)etry, e)xamine build log, or l)ook ?", "s");
@@ -1369,14 +1369,14 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $self->look                          if $ans eq 'l';
       }
   }
-  
+
   sub test {
       my($self, $cmd, $distname) = @_;
       return 1 if $self->{notest};
-  
+
       # https://rt.cpan.org/Ticket/Display.html?id=48965#txn-1013385
       local $ENV{PERL_MM_USE_DEFAULT} = !$self->{interactive};
-  
+
       return 1 if $self->run_timeout($cmd, $self->{test_timeout});
       if ($self->{force}) {
           $self->diag_fail("Testing $distname failed but installing it anyway.");
@@ -1393,28 +1393,28 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           }
       }
   }
-  
+
   sub install {
       my($self, $cmd, $uninst_opts, $depth) = @_;
-  
+
       if ($depth == 0 && $self->{test_only}) {
           return 1;
       }
-  
+
       if ($self->{sudo}) {
           unshift @$cmd, "sudo";
       }
-  
+
       if ($self->{uninstall_shadows} && !$ENV{PERL_MM_OPT}) {
           push @$cmd, @$uninst_opts;
       }
-  
+
       $self->run($cmd);
   }
-  
+
   sub look {
       my $self = shift;
-  
+
       my $shell = $ENV{SHELL};
       $shell  ||= $ENV{COMSPEC} if WIN32;
       if ($shell) {
@@ -1425,10 +1425,10 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $self->diag_fail("You don't seem to have a SHELL :/");
       }
   }
-  
+
   sub show_build_log {
       my $self = shift;
-  
+
       my @pagers = (
           $ENV{PAGER},
           (WIN32 ? () : ('less')),
@@ -1442,7 +1442,7 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           next unless $pager;
           last;
       }
-  
+
       if ($pager) {
           # win32 'more' doesn't allow "more build.log", the < is required
           system("$pager < $self->{log}");
@@ -1451,12 +1451,12 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $self->diag_fail("You don't seem to have a PAGER :/");
       }
   }
-  
+
   sub chdir {
       my $self = shift;
       Cwd::chdir(File::Spec->canonpath($_[0])) or die "$_[0]: $!";
   }
-  
+
   sub configure_mirrors {
       my $self = shift;
       unless (@{$self->{mirrors}}) {
@@ -1467,40 +1467,40 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           s!/$!!;
       }
   }
-  
+
   sub self_upgrade {
       my $self = shift;
       $self->{argv} = [ 'App::cpanminus' ];
       return; # continue
   }
-  
+
   sub install_module {
       my($self, $module, $depth, $version) = @_;
-  
+
       if ($self->{seen}{$module}++) {
           $self->chat("Already tried $module. Skipping.\n");
           return 1;
       }
-  
+
       my $dist = $self->resolve_name($module, $version);
       unless ($dist) {
           $self->diag_fail("Couldn't find module or a distribution $module ($version)", 1);
           return;
       }
-  
+
       if ($dist->{distvname} && $self->{seen}{$dist->{distvname}}++) {
           $self->chat("Already tried $dist->{distvname}. Skipping.\n");
           return 1;
       }
-  
+
       if ($self->{cmd} eq 'info') {
           print $self->format_dist($dist), "\n";
           return 1;
       }
-  
+
       $self->check_libs;
       $self->setup_module_build_patch unless $self->{pod2man};
-  
+
       if ($dist->{module}) {
           unless ($self->with_version_range($version)) {
               my($ok, $local) = $self->check_module($dist->{module}, $dist->{module_version} || 0);
@@ -1509,65 +1509,65 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
                   return 1;
               }
           }
-  
+
           unless ($self->satisfy_version($dist->{module}, $dist->{module_version}, $version)) {
               $self->diag("Found $dist->{module} $dist->{module_version} which doesn't satisfy $version.\n");
               return;
           }
       }
-  
+
       if ($dist->{dist} eq 'perl'){
           $self->diag("skipping $dist->{pathname}\n");
           return 1;
       }
-  
+
       $self->diag("--> Working on $module\n");
-  
+
       $dist->{dir} ||= $self->fetch_module($dist);
-  
+
       unless ($dist->{dir}) {
           $self->diag_fail("Failed to fetch distribution $dist->{distvname}", 1);
           return;
       }
-  
+
       $self->chat("Entering $dist->{dir}\n");
       $self->chdir($self->{base});
       $self->chdir($dist->{dir});
-  
+
       if ($self->{cmd} eq 'look') {
           $self->look;
           return 1;
       }
-  
+
       return $self->build_stuff($module, $dist, $depth);
   }
-  
+
   sub format_dist {
       my($self, $dist) = @_;
-  
+
       # TODO support --dist-format?
       return "$dist->{cpanid}/$dist->{filename}";
   }
-  
+
   sub trim {
       local $_ = shift;
       tr/\n/ /d;
       s/^\s*|\s*$//g;
       $_;
   }
-  
+
   sub fetch_module {
       my($self, $dist) = @_;
-  
+
       $self->chdir($self->{base});
-  
+
       for my $uri (@{$dist->{uris}}) {
           $self->diag_progress("Fetching $uri");
-  
+
           # Ugh, $dist->{filename} can contain sub directory
           my $filename = $dist->{filename} || $uri;
           my $name = File::Basename::basename($filename);
-  
+
           my $cancelled;
           my $fetch = sub {
               my $file;
@@ -1579,30 +1579,30 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               $self->diag("ERROR: " . trim("$@") . "\n", 1) if $@ && $@ ne "SIGINT\n";
               return $file;
           };
-  
+
           my($try, $file);
           while ($try++ < 3) {
               $file = $fetch->();
               last if $cancelled or $file;
               $self->diag_fail("Download $uri failed. Retrying ... ");
           }
-  
+
           if ($cancelled) {
               $self->diag_fail("Download cancelled.");
               return;
           }
-  
+
           unless ($file) {
               $self->diag_fail("Failed to download $uri");
               next;
           }
-  
+
           $self->diag_ok;
           $dist->{local_path} = File::Spec->rel2abs($name);
-  
+
           my $dir = $self->unpack($file, $uri, $dist);
           next unless $dir; # unpack failed
-  
+
           if (my $save = $self->{save_dists}) {
               # Only distros retrieved from CPAN have a pathname set
               my $path = $dist->{pathname} ? "$save/authors/id/$dist->{pathname}"
@@ -1611,18 +1611,18 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               File::Path::mkpath([ File::Basename::dirname($path) ], 0, 0777);
               File::Copy::copy($file, $path) or warn $!;
           }
-  
+
           return $dist, $dir;
       }
   }
-  
+
   sub unpack {
       my($self, $file, $uri, $dist) = @_;
-  
+
       if ($self->{verify}) {
           $self->verify_archive($file, $uri, $dist) or return;
       }
-  
+
       $self->chat("Unpacking $file\n");
       my $dir = $file =~ /\.zip/i ? $self->unzip($file) : $self->untar($file);
       unless ($dir) {
@@ -1630,14 +1630,14 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
       }
       return $dir;
   }
-  
+
   sub verify_checksums_signature {
       my($self, $chk_file) = @_;
-  
+
       require Module::Signature; # no fatpack
-  
+
       $self->chat("Verifying the signature of CHECKSUMS\n");
-  
+
       my $rv = eval {
           local $SIG{__WARN__} = sub {}; # suppress warnings
           my $v = Module::Signature::_verify($chk_file);
@@ -1649,51 +1649,51 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $self->diag_fail("Verifying CHECKSUMS signature failed: $rv\n");
           return;
       }
-  
+
       return 1;
   }
-  
+
   sub verify_archive {
       my($self, $file, $uri, $dist) = @_;
-  
+
       unless ($dist->{cpanid}) {
           $self->chat("Archive '$file' does not seem to be from PAUSE. Skip verification.\n");
       }
-  
+
       (my $mirror = $uri) =~ s!/authors/id.*$!!;
-  
+
       (my $chksum_uri = $uri) =~ s!/[^/]*$!/CHECKSUMS!;
       my $chk_file = $self->source_for($mirror) . "/$dist->{cpanid}.CHECKSUMS";
       $self->diag_progress("Fetching $chksum_uri");
       $self->mirror($chksum_uri, $chk_file);
-  
+
       unless (-e $chk_file) {
           $self->diag_fail("Fetching $chksum_uri failed.\n");
           return;
       }
-  
+
       $self->diag_ok;
       $self->verify_checksums_signature($chk_file) or return;
       $self->verify_checksum($file, $chk_file);
   }
-  
+
   sub verify_checksum {
       my($self, $file, $chk_file) = @_;
-  
+
       $self->chat("Verifying the SHA1 for $file\n");
-  
+
       open my $fh, "<$chk_file" or die "$chk_file: $!";
       my $data = join '', <$fh>;
       $data =~ s/\015?\012/\n/g;
-  
+
       require Safe; # no fatpack
       my $chksum = Safe->new->reval($data);
-  
+
       if (!ref $chksum or ref $chksum ne 'HASH') {
           $self->diag_fail("! Checksum file downloaded from $chk_file is broken.\n");
           return;
       }
-  
+
       if (my $sha = $chksum->{$file}{sha256}) {
           my $hex = $self->sha1_for($file);
           if ($hex eq $sha) {
@@ -1707,29 +1707,29 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           return;
       }
   }
-  
+
   sub sha1_for {
       my($self, $file) = @_;
-  
+
       require Digest::SHA; # no fatpack
-  
+
       open my $fh, "<", $file or die "$file: $!";
       my $dg = Digest::SHA->new(256);
       my($data);
       while (read($fh, $data, 4096)) {
           $dg->add($data);
       }
-  
+
       return $dg->hexdigest;
   }
-  
+
   sub verify_signature {
       my($self, $dist) = @_;
-  
+
       $self->diag_progress("Verifying the SIGNATURE file");
       my $out = `$self->{cpansign} -v --skip 2>&1`;
       $self->log($out);
-  
+
       if ($out =~ /Signature verified OK/) {
           $self->diag_ok("Verified OK");
           return 1;
@@ -1738,10 +1738,10 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           return;
       }
   }
-  
+
   sub resolve_name {
       my($self, $module, $version) = @_;
-  
+
       # URL
       if ($module =~ /^(ftp|https?|file):/) {
           if ($module =~ m!authors/id/(.*)!) {
@@ -1750,7 +1750,7 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               return { uris => [ $module ] };
           }
       }
-  
+
       # Directory
       if ($module =~ m!^[\./]! && -d $module) {
           return {
@@ -1758,7 +1758,7 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               dir => Cwd::abs_path($module),
           };
       }
-  
+
       # File
       if (-f $module) {
           return {
@@ -1766,103 +1766,103 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               uris => [ "file://" . Cwd::abs_path($module) ],
           };
       }
-  
+
       # Git
       if ($module =~ /(?:^git:|\.git(?:@.+)?$)/) {
           return $self->git_uri($module);
       }
-  
+
       # cpan URI
       if ($module =~ s!^cpan:///distfile/!!) {
           return $self->cpan_dist($module);
       }
-  
+
       # PAUSEID/foo
       # P/PA/PAUSEID/foo
       if ($module =~ m!^(?:[A-Z]/[A-Z]{2}/)?([A-Z]{2,}/.*)$!) {
           return $self->cpan_dist($1);
       }
-  
+
       # Module name
       return $self->search_module($module, $version);
   }
-  
+
   sub cpan_module {
       my($self, $module, $dist, $version) = @_;
-  
+
       my $dist = $self->cpan_dist($dist);
       $dist->{module} = $module;
       $dist->{module_version} = $version if $version && $version ne 'undef';
-  
+
       return $dist;
   }
-  
+
   sub cpan_dist {
       my($self, $dist, $url) = @_;
-  
+
       $dist =~ s!^([A-Z]{3})!substr($1,0,1)."/".substr($1,0,2)."/".$1!e;
-  
+
       require CPAN::DistnameInfo;
       my $d = CPAN::DistnameInfo->new($dist);
-  
+
       if ($url) {
           $url = [ $url ] unless ref $url eq 'ARRAY';
       } else {
           my $id = $d->cpanid;
           my $fn = substr($id, 0, 1) . "/" . substr($id, 0, 2) . "/" . $id . "/" . $d->filename;
-  
+
           my @mirrors = @{$self->{mirrors}};
           my @urls    = map "$_/authors/id/$fn", @mirrors;
-  
+
           $url = \@urls,
       }
-  
+
       return {
           $d->properties,
           source  => 'cpan',
           uris    => $url,
       };
   }
-  
+
   sub git_uri {
       my ($self, $uri) = @_;
-  
+
       # similar to http://www.pip-installer.org/en/latest/logic.html#vcs-support
       # git URL has to end with .git when you need to use pin @ commit/tag/branch
-  
+
       ($uri, my $commitish) = split /(?<=\.git)@/i, $uri, 2;
-  
+
       my $dir = File::Temp::tempdir(CLEANUP => 1);
-  
+
       $self->diag_progress("Cloning $uri");
       $self->run([ 'git', 'clone', $uri, $dir ]);
-  
+
       unless (-e "$dir/.git") {
           $self->diag_fail("Failed cloning git repository $uri");
           return;
       }
-  
+
       if ($commitish) {
           require File::pushd;
           my $dir = File::pushd::pushd($dir);
-  
+
           unless ($self->run([ 'git', 'checkout', $commitish ])) {
               $self->diag_fail("Failed to checkout '$commitish' in git repository $uri\n");
               return;
           }
       }
-  
+
       $self->diag_ok;
-  
+
       return {
           source => 'local',
           dir    => $dir,
       };
   }
-  
+
   sub setup_module_build_patch {
       my $self = shift;
-  
+
       open my $out, ">$self->{base}/ModuleBuildSkipMan.pm" or die $!;
       print $out <<EOF;
   package ModuleBuildSkipMan;
@@ -1876,34 +1876,34 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
   1;
   EOF
   }
-  
+
   sub core_version_for {
       my($self, $module) = @_;
-  
+
       require Module::CoreList; # no fatpack
       unless (exists $Module::CoreList::version{$]+0}) {
           die sprintf("Module::CoreList %s (loaded from %s) doesn't seem to have entries for perl $]. " .
                       "You're strongly recommended to upgrade Module::CoreList from CPAN.\n",
                       $Module::CoreList::VERSION, $INC{"Module/CoreList.pm"});
       }
-  
+
       unless (exists $Module::CoreList::version{$]+0}{$module}) {
           return -1;
       }
-  
+
       return $Module::CoreList::version{$]+0}{$module};
   }
-  
-  
+
+
   sub check_module {
       my($self, $mod, $want_ver) = @_;
-  
+
       require Module::Metadata;
       my $meta = Module::Metadata->new_from_module($mod, inc => $self->{search_inc})
           or return 0, undef;
-  
+
       my $version = $meta->version;
-  
+
       # When -L is in use, the version loaded from 'perl' library path
       # might be newer than (or actually wasn't core at) the version
       # that is shipped with the current perl
@@ -1911,9 +1911,9 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $version = $self->core_version_for($mod);
           return 0, undef if $version && $version == -1;
       }
-  
+
       $self->{local_versions}{$mod} = $version;
-  
+
       if ($self->is_deprecated($meta)){
           return 0, $version;
       } elsif ($self->satisfy_version($mod, $version, $want_ver)) {
@@ -1922,42 +1922,42 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           return 0, $version;
       }
   }
-  
+
   sub satisfy_version {
       my($self, $mod, $version, $want_ver) = @_;
-  
+
       $want_ver = '0' unless defined($want_ver) && length($want_ver);
-  
+
       require CPAN::Meta::Requirements;
       my $requirements = CPAN::Meta::Requirements->new;
       $requirements->add_string_requirement($mod, $want_ver);
       $requirements->accepts_module($mod, $version);
   }
-  
+
   sub unsatisfy_how {
       my($self, $ver, $want_ver) = @_;
-  
+
       if ($want_ver =~ /^[v0-9\.\_]+$/) {
           return "$ver < $want_ver";
       } else {
           return "$ver doesn't satisfy $want_ver";
       }
   }
-  
+
   sub is_deprecated {
       my($self, $meta) = @_;
-  
+
       my $deprecated = eval {
           require Module::CoreList; # no fatpack
           Module::CoreList::is_deprecated($meta->{module});
       };
-  
+
       return $deprecated && $self->loaded_from_perl_lib($meta);
   }
-  
+
   sub loaded_from_perl_lib {
       my($self, $meta) = @_;
-  
+
       require Config;
       for my $dir (qw(archlibexp privlibexp)) {
           my $confdir = $Config{$dir};
@@ -1965,32 +1965,32 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               return 1;
           }
       }
-  
+
       return;
   }
-  
+
   sub should_install {
       my($self, $mod, $ver) = @_;
-  
+
       $self->chat("Checking if you have $mod $ver ... ");
       my($ok, $local) = $self->check_module($mod, $ver);
-  
+
       if ($ok)       { $self->chat("Yes ($local)\n") }
       elsif ($local) { $self->chat("No (" . $self->unsatisfy_how($local, $ver) . ")\n") }
       else           { $self->chat("No\n") }
-  
+
       return $mod unless $ok;
       return;
   }
-  
+
   sub check_perl_version {
       my($self, $version) = @_;
       return version->new($]) >= version->new($version);
   }
-  
+
   sub install_deps {
       my($self, $dir, $depth, @deps) = @_;
-  
+
       my(@install, %seen, @fail);
       while (my($mod, $ver) = splice @deps, 0, 2) {
           next if $seen{$mod};
@@ -2004,25 +2004,25 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               $seen{$mod} = 1;
           }
       }
-  
+
       if (@install) {
           $self->diag("==> Found dependencies: " . join(", ",  map $_->[0], @install) . "\n");
       }
-  
+
       for my $mod (@install) {
           $self->install_module($mod->[0], $depth + 1, $mod->[1])
               or push @fail, $mod->[0];
       }
-  
+
       $self->chdir($self->{base});
       $self->chdir($dir) if $dir;
-  
+
       return @fail;
   }
-  
+
   sub install_deps_bailout {
       my($self, $target, $dir, $depth, @deps) = @_;
-  
+
       my @fail = $self->install_deps($dir, $depth, @deps);
       if (@fail) {
           unless ($self->prompt_bool("Installing the following dependencies failed:\n==> " .
@@ -2031,17 +2031,17 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               return;
           }
       }
-  
+
       return 1;
   }
-  
+
   sub build_stuff {
       my($self, $stuff, $dist, $depth) = @_;
-  
+
       if ($self->{verify} && -e 'SIGNATURE') {
           $self->verify_signature($dist) or return;
       }
-  
+
       if (-e 'META.json') {
           $self->chat("Checking configure dependencies from META.json\n");
           $dist->{meta} = $self->parse_meta('META.json');
@@ -2049,16 +2049,16 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $self->chat("Checking configure dependencies from META.yml\n");
           $dist->{meta} = $self->parse_meta('META.yml');
       }
-  
+
       if (!$dist->{meta} && $dist->{source} eq 'cpan') {
           $self->chat("META.yml/json not found or unparsable. Fetching META.yml from search.cpan.org\n");
           $dist->{meta} = $self->fetch_meta_sco($dist);
       }
-  
+
       $dist->{meta} ||= {};
-  
+
       my @config_deps;
-  
+
       if (my $prereqs = $dist->{meta}->{prereqs} ) {
           push @config_deps, %{$prereqs->{configure}{requires} || {}};
           push @config_deps, $self->perl_requirements($prereqs->{runtime}{requires}, $prereqs->{build}{requires});
@@ -2066,26 +2066,26 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           push @config_deps, %{$dist->{meta}{configure_requires} || {}};
           push @config_deps, $self->perl_requirements($dist->{meta}{build_requires}, $dist->{meta}{requires});
       }
-  
+
       my $target = $dist->{meta}{name} ? "$dist->{meta}{name}-$dist->{meta}{version}" : $dist->{dir};
-  
+
       $self->install_deps_bailout($target, $dist->{dir}, $depth, @config_deps)
           or return;
-  
+
       $self->diag_progress("Configuring $target");
-  
+
       my $configure_state = $self->configure_this($dist, $depth);
-  
+
       $self->diag_ok($configure_state->{configured_ok} ? "OK" : "N/A");
-  
+
       # install direct 'test' dependencies for --installdeps, even with --notest
       my @want_phase = $self->{notest} && !($self->{installdeps} && $depth == 0)
                      ? qw( build runtime ) : qw( build test runtime );
-  
+
       my @deps = $self->find_prereqs($dist, \@want_phase);
       my $module_name = $self->find_module_name($configure_state) || $dist->{meta}{name};
       $module_name =~ s/-/::/g;
-  
+
       if ($self->{showdeps}) {
           my %rootdeps = (@config_deps, @deps); # merge
           for my $mod (keys %rootdeps) {
@@ -2094,17 +2094,17 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           }
           return 1;
       }
-  
+
       my $distname = $dist->{meta}{name} ? "$dist->{meta}{name}-$dist->{meta}{version}" : $stuff;
-  
+
       my $walkup;
       if ($self->{scandeps}) {
           $walkup = $self->scandeps_append_child($dist);
       }
-  
+
       $self->install_deps_bailout($distname, $dist->{dir}, $depth, @deps)
           or return;
-  
+
       if ($self->{scandeps}) {
           unless ($configure_state->{configured_ok}) {
               my $diag = <<DIAG;
@@ -2120,7 +2120,7 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $walkup->();
           return 1;
       }
-  
+
       if ($self->{installdeps} && $depth == 0) {
           if ($configure_state->{configured_ok}) {
               $self->diag("<== Installed dependencies for $stuff. Finishing.\n");
@@ -2130,7 +2130,7 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               return;
           }
       }
-  
+
       my $installed;
       if ($configure_state->{use_module_build} && -e 'Build' && -f _) {
           my @switches = $self->{pod2man} ? () : ("-I$self->{base}", "-MModuleBuildSkipMan");
@@ -2151,11 +2151,11 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           if ($configure_failed) { $why = "Configure failed for $distname." }
           elsif ($self->{make})  { $why = "The distribution doesn't have a proper Makefile.PL/Build.PL" }
           else                   { $why = "Can't configure the distribution. You probably need to have 'make'." }
-  
+
           $self->diag_fail("$why See $self->{log} for details.", 1);
           return;
       }
-  
+
       if ($installed && $self->{test_only}) {
           $self->diag_ok;
           $self->diag("Successfully tested $distname\n", 1);
@@ -2163,7 +2163,7 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           my $local   = $self->{local_versions}{$dist->{module} || ''};
           my $version = $dist->{module_version} || $dist->{meta}{version} || $dist->{version};
           my $reinstall = $local && ($local eq $version);
-  
+
           my $how = $reinstall ? "reinstalled $distname"
                   : $local     ? "installed $distname (upgraded from $local)"
                                : "installed $distname" ;
@@ -2179,23 +2179,23 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           return;
       }
   }
-  
+
   sub perl_requirements {
       my($self, @requires) = @_;
-  
+
       my @perl;
       for my $requires (grep defined, @requires) {
           if (exists $requires->{perl}) {
               push @perl, perl => $requires->{perl};
           }
       }
-  
+
       return @perl;
   }
-  
+
   sub configure_this {
       my($self, $dist, $depth) = @_;
-  
+
       if (-e 'cpanfile' && $self->{installdeps} && $depth == 0) {
           require Module::CPANfile;
           $dist->{cpanfile} = eval { Module::CPANfile->load('cpanfile') };
@@ -2206,7 +2206,7 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               use_module_build => 0,
           };
       }
-  
+
       if ($self->{skip_configure}) {
           my $eumm = -e 'Makefile';
           my $mb   = -e 'Build' && -f _;
@@ -2216,19 +2216,19 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               use_module_build => $mb,
           };
       }
-  
+
       my @mb_switches;
       unless ($self->{pod2man}) {
           # it has to be push, so Module::Build is loaded from the adjusted path when -L is in use
           push @mb_switches, ("-I$self->{base}", "-MModuleBuildSkipMan");
       }
-  
+
       my $state = {};
-  
+
       my $try_eumm = sub {
           if (-e 'Makefile.PL') {
               $self->chat("Running Makefile.PL\n");
-  
+
               # NOTE: according to Devel::CheckLib, most XS modules exit
               # with 0 even if header files are missing, to avoid receiving
               # tons of FAIL reports in such cases. So exit code can't be
@@ -2239,7 +2239,7 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               $state->{configured}++;
           }
       };
-  
+
       my $try_mb = sub {
           if (-e 'Build.PL') {
               $self->chat("Running Build.PL\n");
@@ -2250,23 +2250,23 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               $state->{configured}++;
           }
       };
-  
+
       # Module::Build deps should use MakeMaker because that causes circular deps and fail
       # Otherwise we should prefer Build.PL
       my %should_use_mm = map { $_ => 1 } qw( version ExtUtils-ParseXS ExtUtils-Install ExtUtils-Manifest );
-  
+
       my @try;
       if ($dist->{dist} && $should_use_mm{$dist->{dist}}) {
           @try = ($try_eumm, $try_mb);
       } else {
           @try = ($try_mb, $try_eumm);
       }
-  
+
       for my $try (@try) {
           $try->();
           last if $state->{configured_ok};
       }
-  
+
       unless ($state->{configured_ok}) {
           while (1) {
               my $ans = lc $self->prompt("Configuring $dist->{dist} failed.\nYou can s)kip, r)etry, e)xamine build log, or l)ook ?", "s");
@@ -2276,15 +2276,15 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               $self->look                                 if $ans eq 'l';
           }
       }
-  
+
       return $state;
   }
-  
+
   sub find_module_name {
       my($self, $state) = @_;
-  
+
       return unless $state->{configured_ok};
-  
+
       if ($state->{use_module_build} &&
           -e "_build/build_params") {
           my $params = do { open my $in, "_build/build_params"; $self->safe_eval(join "", <$in>) };
@@ -2297,26 +2297,26 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               }
           }
       }
-  
+
       return;
   }
-  
+
   sub save_meta {
       my($self, $module, $dist, $module_name, $config_deps, $build_deps) = @_;
-  
+
       return unless $dist->{distvname} && $dist->{source} eq 'cpan';
-  
+
       my $base = ($ENV{PERL_MM_OPT} || '') =~ /INSTALL_BASE=/
           ? ($self->install_base($ENV{PERL_MM_OPT}) . "/lib/perl5") : $Config{sitelibexp};
-  
+
       require Module::Metadata;
       my $provides = $self->_merge_hashref(
           map Module::Metadata->package_versions_from_directory($_),
               qw( blib/lib blib/arch ) # FCGI.pm :(
       );
-  
+
       File::Path::mkpath("blib/meta", 0, 0777);
-  
+
       my $local = {
           name => $module_name,
           target => $module,
@@ -2325,16 +2325,16 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           pathname => $dist->{pathname},
           provides => $provides,
       };
-  
+
       require JSON::PP;
       open my $fh, ">", "blib/meta/install.json" or die $!;
       print $fh JSON::PP::encode_json($local);
-  
+
       # Existence of MYMETA.* Depends on EUMM/M::B versions and CPAN::Meta
       if (-e "MYMETA.json") {
           File::Copy::copy("MYMETA.json", "blib/meta/MYMETA.json");
       }
-  
+
       my @cmd = (
           ($self->{sudo} ? 'sudo' : ()),
           $^X,
@@ -2344,44 +2344,44 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
       );
       $self->run(\@cmd);
   }
-  
+
   sub _merge_hashref {
       my($self, @hashrefs) = @_;
-  
+
       my %hash;
       for my $h (@hashrefs) {
           %hash = (%hash, %$h);
       }
-  
+
       return \%hash;
   }
-  
+
   sub install_base {
       my($self, $mm_opt) = @_;
       $mm_opt =~ /INSTALL_BASE=(\S+)/ and return $1;
       die "Your PERL_MM_OPT doesn't contain INSTALL_BASE";
   }
-  
+
   sub safe_eval {
       my($self, $code) = @_;
       eval $code;
   }
-  
+
   sub find_prereqs {
       my($self, $dist, $phases) = @_;
-  
+
       my @deps = $self->extract_meta_prereqs($dist, $phases);
-  
+
       if ($dist->{module} =~ /^Bundle::/i) {
           push @deps, $self->bundle_deps($dist);
       }
-  
+
       return @deps;
   }
-  
+
   sub extract_meta_prereqs {
       my($self, $dist, $phases) = @_;
-  
+
       if ($dist->{cpanfile}) {
           my $prereq = $dist->{cpanfile}->prereq;
           require CPAN::Meta::Requirements;
@@ -2389,9 +2389,9 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $req->add_requirements($prereq->requirements_for($_, 'requires')) for @$phases;
           return %{$req->as_string_hash};
       }
-  
+
       my $meta = $dist->{meta};
-  
+
       my @deps;
       if (-e "MYMETA.json") {
           require JSON::PP;
@@ -2403,7 +2403,7 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               return $self->extract_requires($mymeta, $phases);
           }
       }
-  
+
       if (-e 'MYMETA.yml') {
           $self->chat("Checking dependencies from MYMETA.yml ...\n");
           my $mymeta = $self->parse_meta('MYMETA.yml');
@@ -2412,7 +2412,7 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               return $self->extract_requires($mymeta, $phases);
           }
       }
-  
+
       if (-e '_build/prereqs') {
           $self->chat("Checking dependencies from _build/prereqs ...\n");
           my $mymeta = do { open my $in, "_build/prereqs"; $self->safe_eval(join "", <$in>) };
@@ -2435,21 +2435,21 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               }
           }
       }
-  
+
       return @deps;
   }
-  
+
   sub bundle_deps {
       my($self, $dist) = @_;
-  
+
       my @files;
       File::Find::find({
           wanted => sub { push @files, File::Spec->rel2abs($_) if /\.pm/i },
           no_chdir => 1,
       }, '.');
-  
+
       my @deps;
-  
+
       for my $file (@files) {
           open my $pod, "<", $file or next;
           my $in_contents;
@@ -2464,18 +2464,18 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               }
           }
       }
-  
+
       return @deps;
   }
-  
+
   sub maybe_version {
       my($self, $string) = @_;
       return $string && $string =~ /^\.?\d/ ? $string : undef;
   }
-  
+
   sub extract_requires {
       my($self, $meta, $phases) = @_;
-  
+
       if ($meta->{'meta-spec'} && $meta->{'meta-spec'}{version} == 2) {
           my @deps = map {
               my $p = $meta->{prereqs}{$_} || {};
@@ -2483,20 +2483,20 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           } @$phases;
           return @deps;
       }
-  
+
       my @deps;
       push @deps, %{$meta->{build_requires}} if $meta->{build_requires};
       push @deps, %{$meta->{requires}} if $meta->{requires};
-  
+
       return @deps;
   }
-  
+
   sub cleanup_workdirs {
       my $self = shift;
-  
+
       my $expire = time - 24 * 60 * 60 * $self->{auto_cleanup};
       my @targets;
-  
+
       opendir my $dh, "$self->{home}/work";
       while (my $e = readdir $dh) {
           next if $e !~ /^(\d+)\.\d+$/; # {UNIX time}.{PID}
@@ -2505,7 +2505,7 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               push @targets, "$self->{home}/work/$e";
           }
       }
-  
+
       if (@targets) {
           if (@targets >= 64) {
               $self->diag("Expiring ", scalar(@targets), " work directories. This might take long...\n");
@@ -2515,23 +2515,23 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           File::Path::rmtree(\@targets, 0, 0); # safe = 0, since blib usually doesn't have write bits
       }
   }
-  
+
   sub scandeps_append_child {
       my($self, $dist) = @_;
-  
+
       my $new_node = [ $dist, [] ];
-  
+
       my $curr_node = $self->{scandeps_current} || [ undef, $self->{scandeps_tree} ];
       push @{$curr_node->[1]}, $new_node;
-  
+
       $self->{scandeps_current} = $new_node;
-  
+
       return sub { $self->{scandeps_current} = $curr_node };
   }
-  
+
   sub dump_scandeps {
       my $self = shift;
-  
+
       if ($self->{format} eq 'tree') {
           $self->walk_down(sub {
               my($dist, $depth) = @_;
@@ -2557,15 +2557,15 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $self->diag("Unknown format: $self->{format}\n");
       }
   }
-  
+
   sub walk_down {
       my($self, $cb, $pre) = @_;
       $self->_do_walk_down($self->{scandeps_tree}, $cb, 0, $pre);
   }
-  
+
   sub _do_walk_down {
       my($self, $children, $cb, $depth, $pre) = @_;
-  
+
       # DFS - $pre determines when we call the callback
       for my $node (@$children) {
           $cb->($node->[0], $depth) if $pre;
@@ -2573,19 +2573,19 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $cb->($node->[0], $depth) unless $pre;
       }
   }
-  
+
   sub DESTROY {
       my $self = shift;
       $self->{at_exit}->($self) if $self->{at_exit};
   }
-  
+
   # Utils
-  
+
   sub shell_quote {
       my($self, $stuff) = @_;
       $stuff =~ /^${quote}.+${quote}$/ ? $stuff : ($quote . $stuff . $quote);
   }
-  
+
   sub which {
       my($self, $name) = @_;
       return $name if File::Spec->file_name_is_absolute($name) && -x $name;
@@ -2601,7 +2601,7 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
       }
       return;
   }
-  
+
   sub get {
       my($self, $uri) = @_;
       if ($uri =~ /^file:/) {
@@ -2610,7 +2610,7 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $self->{_backends}{get}->(@_);
       }
   }
-  
+
   sub mirror {
       my($self, $uri, $local) = @_;
       if ($uri =~ /^file:/) {
@@ -2619,44 +2619,44 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $self->{_backends}{mirror}->(@_);
       }
   }
-  
+
   sub untar    { $_[0]->{_backends}{untar}->(@_) };
   sub unzip    { $_[0]->{_backends}{unzip}->(@_) };
-  
+
   sub uri_to_file {
       my($self, $uri) = @_;
-  
+
       # file:///path/to/file -> /path/to/file
       # file://C:/path       -> C:/path
       if ($uri =~ s!file:/+!!) {
           $uri = "/$uri" unless $uri =~ m![a-zA-Z]:!;
       }
-  
+
       return $uri;
   }
-  
+
   sub file_get {
       my($self, $uri) = @_;
       my $file = $self->uri_to_file($uri);
       open my $fh, "<$file" or return;
       join '', <$fh>;
   }
-  
+
   sub file_mirror {
       my($self, $uri, $path) = @_;
       my $file = $self->uri_to_file($uri);
       File::Copy::copy($file, $path);
   }
-  
+
   sub init_tools {
       my $self = shift;
-  
+
       return if $self->{initialized}++;
-  
+
       if ($self->{make} = $self->which($Config{make})) {
           $self->chat("You have make $self->{make}\n");
       }
-  
+
       # use --no-lwp if they have a broken LWP, to upgrade LWP
       if ($self->{try_lwp} && eval { require LWP::UserAgent; LWP::UserAgent->VERSION(5.802) }) {
           $self->chat("You have LWP $LWP::VERSION\n");
@@ -2737,38 +2737,38 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               return $res->{status};
           };
       }
-  
+
       my $tar = $self->which('tar');
       my $tar_ver;
       my $maybe_bad_tar = sub { WIN32 || SUNOS || (($tar_ver = `$tar --version 2>/dev/null`) =~ /GNU.*1\.13/i) };
-  
+
       if ($tar && !$maybe_bad_tar->()) {
           chomp $tar_ver;
           $self->chat("You have $tar: $tar_ver\n");
           $self->{_backends}{untar} = sub {
               my($self, $tarfile) = @_;
-  
+
               my $xf = ($self->{verbose} ? 'v' : '')."xf";
               my $ar = $tarfile =~ /bz2$/ ? 'j' : 'z';
-  
+
               my($root, @others) = `$tar ${ar}tf $tarfile`
                   or return undef;
-  
+
               FILE: {
                   chomp $root;
                   $root =~ s!^\./!!;
                   $root =~ s{^(.+?)/.*$}{$1};
-  
+
                   if (!length($root)) {
                       # archive had ./ as the first entry, so try again
                       $root = shift(@others);
                       redo FILE if $root;
                   }
               }
-  
+
               system "$tar $ar$xf $tarfile";
               return $root if -d $root;
-  
+
               $self->diag_fail("Bad archive: $tarfile");
               return undef;
           }
@@ -2778,28 +2778,28 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           $self->chat("You have $tar, $gzip and $bzip2\n");
           $self->{_backends}{untar} = sub {
               my($self, $tarfile) = @_;
-  
+
               my $x  = "x" . ($self->{verbose} ? 'v' : '') . "f -";
               my $ar = $tarfile =~ /bz2$/ ? $bzip2 : $gzip;
-  
+
               my($root, @others) = `$ar -dc $tarfile | $tar tf -`
                   or return undef;
-  
+
               FILE: {
                   chomp $root;
                   $root =~ s!^\./!!;
                   $root =~ s{^(.+?)/.*$}{$1};
-  
+
                   if (!length($root)) {
                       # archive had ./ as the first entry, so try again
                       $root = shift(@others);
                       redo FILE if $root;
                   }
               }
-  
+
               system "$ar -dc $tarfile | $tar $x";
               return $root if -d $root;
-  
+
               $self->diag_fail("Bad archive: $tarfile");
               return undef;
           }
@@ -2812,7 +2812,7 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               FILE: {
                   $root =~ s!^\./!!;
                   $root =~ s{^(.+?)/.*$}{$1};
-  
+
                   if (!length($root)) {
                       # archive had ./ as the first entry, so try again
                       $root = shift(@others);
@@ -2827,22 +2827,22 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
               die "Failed to extract $_[1] - You need to have tar or Archive::Tar installed.\n";
           };
       }
-  
+
       if (my $unzip = $self->which('unzip')) {
           $self->chat("You have $unzip\n");
           $self->{_backends}{unzip} = sub {
               my($self, $zipfile) = @_;
-  
+
               my $opt = $self->{verbose} ? '' : '-q';
               my(undef, $root, @others) = `$unzip -t $zipfile`
                   or return undef;
-  
+
               chomp $root;
               $root =~ s{^\s+testing:\s+([^/]+)/.*?\s+OK$}{$1};
-  
+
               system "$unzip $opt $zipfile";
               return $root if -d $root;
-  
+
               $self->diag_fail("Bad archive: [$root] $zipfile");
               return undef;
           }
@@ -2864,23 +2864,23 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
                   $self->diag_fail("Extracting of file[$af] from zipfile[$file failed")
                       if $status != Archive::Zip::AZ_OK();
               }
-  
+
               my ($root) = $zip->membersMatching( qr<^[^/]+/$> );
               $root &&= $root->fileName;
               return -d $root ? $root : undef;
           };
       }
   }
-  
+
   sub safeexec {
       my $self = shift;
       my $rdr = $_[0] ||= Symbol::gensym();
-  
+
       if (WIN32) {
           my $cmd = join q{ }, map { $self->shell_quote($_) } @_[ 1 .. $#_ ];
           return open( $rdr, "$cmd |" );
       }
-  
+
       if ( my $pid = open( $rdr, '-|' ) ) {
           return $pid;
       }
@@ -2892,17 +2892,17 @@ $fatpacked{"App/cpanminus/script.pm"} = <<'APP_CPANMINUS_SCRIPT';
           return;
       }
   }
-  
+
   sub parse_meta {
       my($self, $file) = @_;
       return eval { Parse::CPAN::Meta->load_file($file) };
   }
-  
+
   sub parse_meta_string {
       my($self, $yaml) = @_;
       return eval { Parse::CPAN::Meta->load_yaml_string($yaml) };
   }
-  
+
   1;
 APP_CPANMINUS_SCRIPT
 
@@ -2910,9 +2910,9 @@ $fatpacked{"CPAN/DistnameInfo.pm"} = <<'CPAN_DISTNAMEINFO';
   package CPAN::DistnameInfo;$VERSION="0.12";use strict;sub distname_info {my$file=shift or return;my ($dist,$version)=$file =~ /^
       ((?:[-+.]*(?:[A-Za-z0-9]+|(?<=\D)_|_(?=\D))*
        (?:
-  	[A-Za-z](?=[^A-Za-z]|$)
-  	|
-  	\d(?=-)
+    [A-Za-z](?=[^A-Za-z]|$)
+    |
+    \d(?=-)
        )(?<![._-][vV])
       )+)(.*)
     $/xs or return ($file,undef,undef);if ($dist =~ /-undef\z/ and!length$version){$dist =~ s/-undef\z//}$version =~ s/-withoutworldwriteables$//;if ($version =~ /^(-[Vv].*)-(\d.*)/){$dist .= $1;$version=$2}if ($version =~ /(.+_.*)-(\d.*)/){$dist .= $1;$version=$2}$dist =~ s{\.pm$}{};$version=$1 if!length$version and $dist =~ s/-(\d+\w)$//;$version=$1 .$version if$version =~ /^\d+$/ and $dist =~ s/-(\w+)$//;if ($version =~ /\d\.\d/){$version =~ s/^[-_.]+//}else {$version =~ s/^[-_]+//}my$dev;if (length$version){if ($file =~ /^perl-?\d+\.(\d+)(?:\D(\d+))?(-(?:TRIAL|RC)\d+)?$/){$dev=1 if (($1 > 6 and $1 & 1)or ($2 and $2 >= 50))or $3}elsif ($version =~ /\d\D\d+_\d/ or $version =~ /-TRIAL/){$dev=1}}else {$version=undef}($dist,$version,$dev)}sub new {my$class=shift;my$distfile=shift;$distfile =~ s,//+,/,g;my%info=(pathname=>$distfile);($info{filename}=$distfile)=~ s,^(((.*?/)?authors/)?id/)?([A-Z])/(\4[A-Z])/(\5[-A-Z0-9]*)/,, and $info{cpanid}=$6;if ($distfile =~ m,([^/]+)\.(tar\.(?:g?z|bz2)|zip|tgz)$,i){$info{distvname}=$1;$info{extension}=$2}@info{qw(dist version beta)}=distname_info($info{distvname});$info{maturity}=delete$info{beta}? 'developer' : 'released';return bless \%info,$class}sub dist {shift->{dist}}sub version {shift->{version}}sub maturity {shift->{maturity}}sub filename {shift->{filename}}sub cpanid {shift->{cpanid}}sub distvname {shift->{distvname}}sub extension {shift->{extension}}sub pathname {shift->{pathname}}sub properties {%{$_[0]}}1;
@@ -2956,16 +2956,16 @@ $fatpacked{"CPAN/Meta/YAML.pm"} = <<'CPAN_META_YAML';
   package CPAN::Meta::YAML;{$CPAN::Meta::YAML::VERSION='0.008'}use strict;sub HAVE_UTF8 () {$] >= 5.007003}BEGIN {if (HAVE_UTF8){eval "require utf8;";die "Failed to load UTF-8 support" if $@}require 5.004;require Exporter;require Carp;@CPAN::Meta::YAML::ISA=qw{Exporter};@CPAN::Meta::YAML::EXPORT=qw{Load Dump};@CPAN::Meta::YAML::EXPORT_OK=qw{LoadFile DumpFile freeze thaw};$CPAN::Meta::YAML::errstr=''}my@UNPRINTABLE=qw(z x01 x02 x03 x04 x05 x06 a x08 t n v f r x0e x0f x10 x11 x12 x13 x14 x15 x16 x17 x18 x19 x1a e x1c x1d x1e x1f);my%UNESCAPES=(z=>"\x00",a=>"\x07",t=>"\x09",n=>"\x0a",v=>"\x0b",f=>"\x0c",r=>"\x0d",e=>"\x1b",'\\'=>'\\',);my%QUOTE=map {$_=>1}qw{null Null NULL y Y yes Yes YES n N no No NO true True TRUE false False FALSE on On ON off Off OFF};sub new {my$class=shift;bless [@_ ],$class}sub read {my$class=ref $_[0]? ref shift : shift;my$file=shift or return$class->_error('You did not specify a file name');return$class->_error("File '$file' does not exist")unless -e $file;return$class->_error("'$file' is a directory, not a file")unless -f _;return$class->_error("Insufficient permissions to read '$file'")unless -r _;local $/=undef;local*CFG;unless (open(CFG,$file)){return$class->_error("Failed to open file '$file': $!")}my$contents=<CFG>;unless (close(CFG)){return$class->_error("Failed to close file '$file': $!")}$class->read_string($contents)}sub read_string {my$class=ref $_[0]? ref shift : shift;my$self=bless [],$class;my$string=$_[0];eval {unless (defined$string){die \"Did not provide a string to load"}if ($string =~ /^(?:\376\377|\377\376|\377\376\0\0|\0\0\376\377)/){die \"Stream has a non UTF-8 BOM"}else {$string =~ s/^\357\273\277//}utf8::decode($string)if HAVE_UTF8;return$self unless length$string;unless ($string =~ /[\012\015]+\z/){die \"Stream does not end with newline character"}my@lines=grep {!/^\s*(?:\#.*)?\z/}split /(?:\015{1,2}\012|\015|\012)/,$string;@lines and $lines[0]=~ /^\%YAML[: ][\d\.]+.*\z/ and shift@lines;while (@lines){if ($lines[0]=~ /^---\s*(?:(.+)\s*)?\z/){shift@lines;if (defined $1 and $1 !~ /^(?:\#.+|\%YAML[: ][\d\.]+)\z/){push @$self,$self->_read_scalar("$1",[undef ],\@lines);next}}if (!@lines or $lines[0]=~ /^(?:---|\.\.\.)/){push @$self,undef;while (@lines and $lines[0]!~ /^---/){shift@lines}}elsif ($lines[0]=~ /^\s*\-/){my$document=[];push @$self,$document;$self->_read_array($document,[0 ],\@lines)}elsif ($lines[0]=~ /^(\s*)\S/){my$document={};push @$self,$document;$self->_read_hash($document,[length($1)],\@lines)}else {die \"CPAN::Meta::YAML failed to classify the line '$lines[0]'"}}};if (ref $@ eq 'SCALAR'){return$self->_error(${$@})}elsif ($@){require Carp;Carp::croak($@)}return$self}sub _read_scalar {my ($self,$string,$indent,$lines)=@_;$string =~ s/\s*\z//;return undef if$string eq '~';if ($string =~ /^\'(.*?)\'(?:\s+\#.*)?\z/){return '' unless defined $1;$string=$1;$string =~ s/\'\'/\'/g;return$string}if ($string =~ /^\"([^\\"]*(?:\\.[^\\"]*)*)\"(?:\s+\#.*)?\z/){$string=$1;$string =~ s/\\"/"/g;$string =~ s/\\([never\\fartz]|x([0-9a-fA-F]{2}))/(length($1)>1)?pack("H2",$2):$UNESCAPES{$1}/gex;return$string}if ($string =~ /^[\'\"!&]/){die \"CPAN::Meta::YAML does not support a feature in line '$string'"}return {}if$string =~ /^{}(?:\s+\#.*)?\z/;return []if$string =~ /^\[\](?:\s+\#.*)?\z/;if ($string !~ /^[>|]/){if ($string =~ /^(?:-(?:\s|$)|[\@\%\`])/ or $string =~ /:(?:\s|$)/){die \"CPAN::Meta::YAML found illegal characters in plain scalar: '$string'"}$string =~ s/\s+#.*\z//;return$string}die \"CPAN::Meta::YAML failed to find multi-line scalar content" unless @$lines;$lines->[0]=~ /^(\s*)/;$indent->[-1]=length("$1");if (defined$indent->[-2]and $indent->[-1]<= $indent->[-2]){die \"CPAN::Meta::YAML found bad indenting in line '$lines->[0]'"}my@multiline=();while (@$lines){$lines->[0]=~ /^(\s*)/;last unless length($1)>= $indent->[-1];push@multiline,substr(shift(@$lines),length($1))}my$j=(substr($string,0,1)eq '>')? ' ' : "\n";my$t=(substr($string,1,1)eq '-')? '' : "\n";return join($j,@multiline).$t}sub _read_array {my ($self,$array,$indent,$lines)=@_;while (@$lines){if ($lines->[0]=~ /^(?:---|\.\.\.)/){while (@$lines and $lines->[0]!~ /^---/){shift @$lines}return 1}$lines->[0]=~ /^(\s*)/;if (length($1)< $indent->[-1]){return 1}elsif (length($1)> $indent->[-1]){die \"CPAN::Meta::YAML found bad indenting in line '$lines->[0]'"}if ($lines->[0]=~ /^(\s*\-\s+)[^\'\"]\S*\s*:(?:\s+|$)/){my$indent2=length("$1");$lines->[0]=~ s/-/ /;push @$array,{};$self->_read_hash($array->[-1],[@$indent,$indent2 ],$lines)}elsif ($lines->[0]=~ /^\s*\-(\s*)(.+?)\s*\z/){shift @$lines;push @$array,$self->_read_scalar("$2",[@$indent,undef ],$lines)}elsif ($lines->[0]=~ /^\s*\-\s*\z/){shift @$lines;unless (@$lines){push @$array,undef;return 1}if ($lines->[0]=~ /^(\s*)\-/){my$indent2=length("$1");if ($indent->[-1]==$indent2){push @$array,undef}else {push @$array,[];$self->_read_array($array->[-1],[@$indent,$indent2 ],$lines)}}elsif ($lines->[0]=~ /^(\s*)\S/){push @$array,{};$self->_read_hash($array->[-1],[@$indent,length("$1")],$lines)}else {die \"CPAN::Meta::YAML failed to classify line '$lines->[0]'"}}elsif (defined$indent->[-2]and $indent->[-1]==$indent->[-2]){return 1}else {die \"CPAN::Meta::YAML failed to classify line '$lines->[0]'"}}return 1}sub _read_hash {my ($self,$hash,$indent,$lines)=@_;while (@$lines){if ($lines->[0]=~ /^(?:---|\.\.\.)/){while (@$lines and $lines->[0]!~ /^---/){shift @$lines}return 1}$lines->[0]=~ /^(\s*)/;if (length($1)< $indent->[-1]){return 1}elsif (length($1)> $indent->[-1]){die \"CPAN::Meta::YAML found bad indenting in line '$lines->[0]'"}unless ($lines->[0]=~ s/^\s*([^\'\" ][^\n]*?)\s*:(\s+(?:\#.*)?|$)//){if ($lines->[0]=~ /^\s*[?\'\"]/){die \"CPAN::Meta::YAML does not support a feature in line '$lines->[0]'"}die \"CPAN::Meta::YAML failed to classify line '$lines->[0]'"}my$key=$1;if (length$lines->[0]){$hash->{$key}=$self->_read_scalar(shift(@$lines),[@$indent,undef ],$lines)}else {shift @$lines;unless (@$lines){$hash->{$key}=undef;return 1}if ($lines->[0]=~ /^(\s*)-/){$hash->{$key}=[];$self->_read_array($hash->{$key},[@$indent,length($1)],$lines)}elsif ($lines->[0]=~ /^(\s*)./){my$indent2=length("$1");if ($indent->[-1]>= $indent2){$hash->{$key}=undef}else {$hash->{$key}={};$self->_read_hash($hash->{$key},[@$indent,length($1)],$lines)}}}}return 1}sub write {my$self=shift;my$file=shift or return$self->_error('No file name provided');open(CFG,'>' .$file)or return$self->_error("Failed to open file '$file' for writing: $!");print CFG$self->write_string;close CFG;return 1}sub write_string {my$self=shift;return '' unless @$self;my$indent=0;my@lines=();for my$cursor (@$self){push@lines,'---';if (!defined$cursor){}elsif (!ref$cursor){$lines[-1].= ' ' .$self->_write_scalar($cursor,$indent)}elsif (ref$cursor eq 'ARRAY'){unless (@$cursor){$lines[-1].= ' []';next}push@lines,$self->_write_array($cursor,$indent,{})}elsif (ref$cursor eq 'HASH'){unless (%$cursor){$lines[-1].= ' {}';next}push@lines,$self->_write_hash($cursor,$indent,{})}else {Carp::croak("Cannot serialize " .ref($cursor))}}join '',map {"$_\n"}@lines}sub _write_scalar {my$string=$_[1];return '~' unless defined$string;return "''" unless length$string;if ($string =~ /[\x00-\x08\x0b-\x0d\x0e-\x1f\"\'\n]/){$string =~ s/\\/\\\\/g;$string =~ s/"/\\"/g;$string =~ s/\n/\\n/g;$string =~ s/([\x00-\x1f])/\\$UNPRINTABLE[ord($1)]/g;return qq|"$string"|}if ($string =~ /(?:^\W|\s|:\z)/ or $QUOTE{$string}){return "'$string'"}return$string}sub _write_array {my ($self,$array,$indent,$seen)=@_;if ($seen->{refaddr($array)}++){die "CPAN::Meta::YAML does not support circular references"}my@lines=();for my$el (@$array){my$line=('  ' x $indent).'-';my$type=ref$el;if (!$type){$line .= ' ' .$self->_write_scalar($el,$indent + 1);push@lines,$line}elsif ($type eq 'ARRAY'){if (@$el){push@lines,$line;push@lines,$self->_write_array($el,$indent + 1,$seen)}else {$line .= ' []';push@lines,$line}}elsif ($type eq 'HASH'){if (keys %$el){push@lines,$line;push@lines,$self->_write_hash($el,$indent + 1,$seen)}else {$line .= ' {}';push@lines,$line}}else {die "CPAN::Meta::YAML does not support $type references"}}@lines}sub _write_hash {my ($self,$hash,$indent,$seen)=@_;if ($seen->{refaddr($hash)}++){die "CPAN::Meta::YAML does not support circular references"}my@lines=();for my$name (sort keys %$hash){my$el=$hash->{$name};my$line=('  ' x $indent)."$name:";my$type=ref$el;if (!$type){$line .= ' ' .$self->_write_scalar($el,$indent + 1);push@lines,$line}elsif ($type eq 'ARRAY'){if (@$el){push@lines,$line;push@lines,$self->_write_array($el,$indent + 1,$seen)}else {$line .= ' []';push@lines,$line}}elsif ($type eq 'HASH'){if (keys %$el){push@lines,$line;push@lines,$self->_write_hash($el,$indent + 1,$seen)}else {$line .= ' {}';push@lines,$line}}else {die "CPAN::Meta::YAML does not support $type references"}}@lines}sub _error {$CPAN::Meta::YAML::errstr=$_[1];undef}sub errstr {$CPAN::Meta::YAML::errstr}sub Dump {CPAN::Meta::YAML->new(@_)->write_string}sub Load {my$self=CPAN::Meta::YAML->read_string(@_);unless ($self){Carp::croak("Failed to load YAML document from string")}if (wantarray){return @$self}else {return$self->[-1]}}BEGIN {*freeze=*Dump;*thaw=*Load}sub DumpFile {my$file=shift;CPAN::Meta::YAML->new(@_)->write($file)}sub LoadFile {my$self=CPAN::Meta::YAML->read($_[0]);unless ($self){Carp::croak("Failed to load YAML document from '" .($_[0]|| '')."'")}if (wantarray){return @$self}else {return$self->[-1]}}BEGIN {local $@;eval {require Scalar::Util};my$v=eval("$Scalar::Util::VERSION")|| 0;if ($@ or $v < 1.18){eval <<'END_PERL'}else {*refaddr=*Scalar::Util::refaddr}}1;
   # Scalar::Util failed to load or too old
   sub refaddr {
-  	my $pkg = ref($_[0]) or return undef;
-  	if ( !! UNIVERSAL::can($_[0], 'can') ) {
-  		bless $_[0], 'Scalar::Util::Fake';
-  	} else {
-  		$pkg = undef;
-  	}
-  	"$_[0]" =~ /0x(\w+)/;
-  	my $i = do { local $^W; hex $1 };
-  	bless $_[0], $pkg if defined $pkg;
-  	$i;
+    my $pkg = ref($_[0]) or return undef;
+    if ( !! UNIVERSAL::can($_[0], 'can') ) {
+        bless $_[0], 'Scalar::Util::Fake';
+    } else {
+        $pkg = undef;
+    }
+    "$_[0]" =~ /0x(\w+)/;
+    my $i = do { local $^W; hex $1 };
+    bless $_[0], $pkg if defined $pkg;
+    $i;
   }
   END_PERL
 CPAN_META_YAML
@@ -2989,17 +2989,17 @@ $fatpacked{"JSON/PP.pm"} = <<'JSON_PP';
   package JSON::PP;use 5.005;use strict;use base qw(Exporter);use overload ();use Carp ();use B ();$JSON::PP::VERSION='2.27202';@JSON::PP::EXPORT=qw(encode_json decode_json from_json to_json);use constant P_ASCII=>0;use constant P_LATIN1=>1;use constant P_UTF8=>2;use constant P_INDENT=>3;use constant P_CANONICAL=>4;use constant P_SPACE_BEFORE=>5;use constant P_SPACE_AFTER=>6;use constant P_ALLOW_NONREF=>7;use constant P_SHRINK=>8;use constant P_ALLOW_BLESSED=>9;use constant P_CONVERT_BLESSED=>10;use constant P_RELAXED=>11;use constant P_LOOSE=>12;use constant P_ALLOW_BIGNUM=>13;use constant P_ALLOW_BAREKEY=>14;use constant P_ALLOW_SINGLEQUOTE=>15;use constant P_ESCAPE_SLASH=>16;use constant P_AS_NONBLESSED=>17;use constant P_ALLOW_UNKNOWN=>18;use constant OLD_PERL=>$] < 5.008 ? 1 : 0;BEGIN {my@xs_compati_bit_properties=qw(latin1 ascii utf8 indent canonical space_before space_after allow_nonref shrink allow_blessed convert_blessed relaxed allow_unknown);my@pp_bit_properties=qw(allow_singlequote allow_bignum loose allow_barekey escape_slash as_nonblessed);if ($] < 5.008){my$helper=$] >= 5.006 ? 'JSON::PP::Compat5006' : 'JSON::PP::Compat5005';eval qq| require $helper |;if ($@){Carp::croak $@}}for my$name (@xs_compati_bit_properties,@pp_bit_properties){my$flag_name='P_' .uc($name);eval qq/
               sub $name {
                   my \$enable = defined \$_[1] ? \$_[1] : 1;
-  
+
                   if (\$enable) {
                       \$_[0]->{PROPS}->[$flag_name] = 1;
                   }
                   else {
                       \$_[0]->{PROPS}->[$flag_name] = 0;
                   }
-  
+
                   \$_[0];
               }
-  
+
               sub get_$name {
                   \$_[0]->{PROPS}->[$flag_name] ? 1 : '';
               }
@@ -3024,7 +3024,7 @@ $fatpacked{"JSON/PP.pm"} = <<'JSON_PP';
           |}sub JSON::PP::incr_parse {local$Carp::CarpLevel=1;($_[0]->{_incr_parser}||=JSON::PP::IncrParser->new)->incr_parse(@_)}sub JSON::PP::incr_skip {($_[0]->{_incr_parser}||=JSON::PP::IncrParser->new)->incr_skip}sub JSON::PP::incr_reset {($_[0]->{_incr_parser}||=JSON::PP::IncrParser->new)->incr_reset}eval q{
           sub JSON::PP::incr_text : lvalue {
               $_[0]->{_incr_parser} ||= JSON::PP::IncrParser->new;
-  
+
               if ( $_[0]->{_incr_parser}->{incr_parsing} ) {
                   Carp::croak("incr_text can not be called when the incremental parser already started parsing");
               }
@@ -3043,10 +3043,10 @@ $fatpacked{"Module/CPANfile.pm"} = <<'MODULE_CPANFILE';
   no warnings;
   my \$_result;
   BEGIN { import Module::CPANfile::Environment \\\$_result };
-  
+
   # line 1 "$file"
   $code;
-  
+
   \$_result;
   EVAL
 MODULE_CPANFILE
@@ -3065,7 +3065,7 @@ $fatpacked{"Module/Metadata.pm"} = <<'MODULE_METADATA';
     ([\$*])         # sigil - $ or *
     (
       (             # optional leading package name
-        (?:::|\')?  # possibly starting like just :: (�  la $::VERSION)
+        (?:::|\')?  # possibly starting like just :: (Ì  la $::VERSION)
         (?:\w+(?:::|\'))*  # Foo::Bar:: ...
       )?
       VERSION
@@ -3082,7 +3082,7 @@ $fatpacked{"Module/Metadata.pm"} = <<'MODULE_METADATA';
       #; package Module::Metadata::_version::p$pn;
       use version;
       no strict;
-  
+
         \$vsub = sub {
           local $sigil$var;
           \$$var=undef;
@@ -3101,7 +3101,7 @@ $fatpacked{"lib/core/only.pm"} = <<'LIB_CORE_ONLY';
 LIB_CORE_ONLY
 
 $fatpacked{"local/lib.pm"} = <<'LOCAL_LIB';
-  use strict;use warnings;package local::lib;use 5.008001;use File::Spec ();use File::Path ();use Config;our$VERSION='1.008009';our@KNOWN_FLAGS=qw(--self-contained --deactivate --deactivate-all);sub DEACTIVATE_ONE () {1}sub DEACTIVATE_ALL () {2}sub INTERPOLATE_ENV () {1}sub LITERAL_ENV () {0}sub import {my ($class,@args)=@_;my$perl5lib=$ENV{PERL5LIB}|| '';my%arg_store;for my$arg (@args){if ($arg =~ /−/){die <<'DEATH'}elsif(grep {$arg eq $_}@KNOWN_FLAGS){(my$flag=$arg)=~ s/--//;$arg_store{$flag}=1}elsif($arg =~ /^--/){die "Unknown import argument: $arg"}else {$arg_store{path}=$arg}}if($arg_store{'self-contained'}){die "FATAL: The local::lib --self-contained flag has never worked reliably and the original author, Mark Stosberg, was unable or unwilling to maintain it. As such, this flag has been removed from the local::lib codebase in order to prevent misunderstandings and potentially broken builds. The local::lib authors recommend that you look at the lib::core::only module shipped with this distribution in order to create a more robust environment that is equivalent to what --self-contained provided (although quite possibly not what you originally thought it provided due to the poor quality of the documentation, for which we apologise).\n"}my$deactivating=0;if ($arg_store{deactivate}){$deactivating=DEACTIVATE_ONE}if ($arg_store{'deactivate-all'}){$deactivating=DEACTIVATE_ALL}$arg_store{path}=$class->resolve_path($arg_store{path});$class->setup_local_lib_for($arg_store{path},$deactivating);for (@INC){next if ref;m/(.*)/ and $_=$1}}sub pipeline;sub pipeline {my@methods=@_;my$last=pop(@methods);if (@methods){\sub {my ($obj,@args)=@_;$obj->${pipeline@methods}($obj->$last(@args))}}else {\sub {shift->$last(@_)}}}sub _uniq {my%seen;grep {!$seen{$_}++}@_}sub resolve_path {my ($class,$path)=@_;$class->${pipeline qw(resolve_relative_path resolve_home_path resolve_empty_path)}($path)}sub resolve_empty_path {my ($class,$path)=@_;if (defined$path){$path}else {'~/perl5'}}sub resolve_home_path {my ($class,$path)=@_;return$path unless ($path =~ /^~/);my ($user)=($path =~ /^~([^\/]+)/);my$tried_file_homedir;my$homedir=do {if (eval {require File::HomeDir}&& $File::HomeDir::VERSION >= 0.65){$tried_file_homedir=1;if (defined$user){File::HomeDir->users_home($user)}else {File::HomeDir->my_home}}else {if (defined$user){(getpwnam$user)[7]}else {if (defined$ENV{HOME}){$ENV{HOME}}else {(getpwuid $<)[7]}}}};unless (defined$homedir){require Carp;Carp::croak("Couldn't resolve homedir for " .(defined$user ? $user : 'current user').($tried_file_homedir ? '' : ' - consider installing File::HomeDir'))}$path =~ s/^~[^\/]*/$homedir/;$path}sub resolve_relative_path {my ($class,$path)=@_;$path=File::Spec->rel2abs($path)}sub setup_local_lib_for {my ($class,$path,$deactivating)=@_;my$interpolate=LITERAL_ENV;my@active_lls=$class->active_paths;$class->ensure_dir_structure_for($path);$path=Win32::GetShortPathName($path)if $^O eq 'MSWin32';if (!$deactivating){if (@active_lls && $active_lls[-1]eq $path){exit 0 if $0 eq '-';return}elsif (grep {$_ eq $path}@active_lls){$class->setup_env_hash_for($path,DEACTIVATE_ONE);$interpolate=INTERPOLATE_ENV}}if ($0 eq '-'){$class->print_environment_vars_for($path,$deactivating,$interpolate);exit 0}else {$class->setup_env_hash_for($path,$deactivating);my$arch_dir=$Config{archname};@INC=_uniq((map {(File::Spec->catdir($_,$arch_dir),$_)}split($Config{path_sep},$ENV{PERL5LIB})),@INC)}}sub install_base_bin_path {my ($class,$path)=@_;File::Spec->catdir($path,'bin')}sub install_base_perl_path {my ($class,$path)=@_;File::Spec->catdir($path,'lib','perl5')}sub install_base_arch_path {my ($class,$path)=@_;File::Spec->catdir($class->install_base_perl_path($path),$Config{archname})}sub ensure_dir_structure_for {my ($class,$path)=@_;unless (-d $path){warn "Attempting to create directory ${path}\n"}File::Path::mkpath($path);return}sub guess_shelltype {my$shellbin='sh';if(defined$ENV{'SHELL'}){my@shell_bin_path_parts=File::Spec->splitpath($ENV{'SHELL'});$shellbin=$shell_bin_path_parts[-1]}my$shelltype=do {local $_=$shellbin;if(/csh/){'csh'}else {'bourne'}};if (defined$ENV{'COMSPEC'}&& $^O ne 'cygwin'){my@shell_bin_path_parts=File::Spec->splitpath($ENV{'COMSPEC'});$shellbin=$shell_bin_path_parts[-1];$shelltype=do {local $_=$shellbin;if(/command\.com/){'win32'}elsif(/cmd\.exe/){'win32'}elsif(/4nt\.exe/){'win32'}else {$shelltype}}}return$shelltype}sub print_environment_vars_for {my ($class,$path,$deactivating,$interpolate)=@_;print$class->environment_vars_string_for($path,$deactivating,$interpolate)}sub environment_vars_string_for {my ($class,$path,$deactivating,$interpolate)=@_;my@envs=$class->build_environment_vars_for($path,$deactivating,$interpolate);my$out='';my$shelltype=$class->guess_shelltype;while (@envs){my ($name,$value)=(shift(@envs),shift(@envs));$value =~ s/(\\")/\\$1/g if defined$value;$out .= $class->${\"build_${shelltype}_env_declaration"}($name,$value)}return$out}sub build_bourne_env_declaration {my$class=shift;my($name,$value)=@_;return defined($value)? qq{export ${name}="${value}";\n} : qq{unset ${name};\n}}sub build_csh_env_declaration {my$class=shift;my($name,$value)=@_;return defined($value)? qq{setenv ${name} "${value}"\n} : qq{unsetenv ${name}\n}}sub build_win32_env_declaration {my$class=shift;my($name,$value)=@_;return defined($value)? qq{set ${name}=${value}\n} : qq{set ${name}=\n}}sub setup_env_hash_for {my ($class,$path,$deactivating)=@_;my%envs=$class->build_environment_vars_for($path,$deactivating,INTERPOLATE_ENV);@ENV{keys%envs}=values%envs}sub build_environment_vars_for {my ($class,$path,$deactivating,$interpolate)=@_;if ($deactivating==DEACTIVATE_ONE){return$class->build_deactivate_environment_vars_for($path,$interpolate)}elsif ($deactivating==DEACTIVATE_ALL){return$class->build_deact_all_environment_vars_for($path,$interpolate)}else {return$class->build_activate_environment_vars_for($path,$interpolate)}}my%ENV_LIST_VALUE_DEFAULTS=(interpolate=>INTERPOLATE_ENV,exists=>undef,filter=>sub {1},empty=>undef,);sub _env_list_value {my$options=shift;die(sprintf "unknown option '$_' at %s line %u\n",(caller)[1..2])for grep {!exists$ENV_LIST_VALUE_DEFAULTS{$_}}keys %$options;my%options=(%ENV_LIST_VALUE_DEFAULTS,%{$options});$options{exists}=$options{interpolate}==INTERPOLATE_ENV unless defined$options{exists};my%seen;my$value=join($Config{path_sep},map {ref $_ ? ($^O eq 'MSWin32' ? "%${$_}%" : "\$${$_}"): $_}grep {ref $_ || (defined $_ && length($_)> 0 &&!$seen{$_}++ && $options{filter}->($_)&& (!$options{exists}|| -e $_))}map {if (ref $_ eq 'SCALAR' && $options{interpolate}==INTERPOLATE_ENV){exists$ENV{${$_}}? (split /\Q$Config{path_sep}/,$ENV{${$_}}): ()}else {$_}}@_);return length($value)? $value : $options{empty}}sub build_activate_environment_vars_for {my ($class,$path,$interpolate)=@_;return (PERL_LOCAL_LIB_ROOT=>_env_list_value({interpolate=>$interpolate,exists=>0,empty=>'' },\'PERL_LOCAL_LIB_ROOT',$path,),PERL_MB_OPT=>"--install_base ${path}",PERL_MM_OPT=>"INSTALL_BASE=${path}",PERL5LIB=>_env_list_value({interpolate=>$interpolate,exists=>0,empty=>'' },$class->install_base_perl_path($path),\'PERL5LIB',),PATH=>_env_list_value({interpolate=>$interpolate,exists=>0,empty=>'' },$class->install_base_bin_path($path),\'PATH',),)}sub active_paths {my ($class)=@_;return ()unless defined$ENV{PERL_LOCAL_LIB_ROOT};return grep {$_ ne ''}split /\Q$Config{path_sep}/,$ENV{PERL_LOCAL_LIB_ROOT}}sub build_deactivate_environment_vars_for {my ($class,$path,$interpolate)=@_;my@active_lls=$class->active_paths;if (!grep {$_ eq $path}@active_lls){warn "Tried to deactivate inactive local::lib '$path'\n";return ()}my$perl_path=$class->install_base_perl_path($path);my$arch_path=$class->install_base_arch_path($path);my$bin_path=$class->install_base_bin_path($path);my%env=(PERL_LOCAL_LIB_ROOT=>_env_list_value({exists=>0,},grep {$_ ne $path}@active_lls),PERL5LIB=>_env_list_value({exists=>0,filter=>sub {$_ ne $perl_path && $_ ne $arch_path},},\'PERL5LIB',),PATH=>_env_list_value({exists=>0,filter=>sub {$_ ne $bin_path},},\'PATH',),);if ($active_lls[-1]eq $path){my$new_top=$active_lls[-2];$env{PERL_MB_OPT}=defined($new_top)? "--install_base ${new_top}" : undef;$env{PERL_MM_OPT}=defined($new_top)? "INSTALL_BASE=${new_top}" : undef}return%env}sub build_deact_all_environment_vars_for {my ($class,$path,$interpolate)=@_;my@active_lls=$class->active_paths;my%perl_paths=map {($class->install_base_perl_path($_)=>1,$class->install_base_arch_path($_)=>1)}@active_lls;my%bin_paths=map {($class->install_base_bin_path($_)=>1,)}@active_lls;my%env=(PERL_LOCAL_LIB_ROOT=>undef,PERL_MM_OPT=>undef,PERL_MB_OPT=>undef,PERL5LIB=>_env_list_value({exists=>0,filter=>sub {!scalar grep {exists$perl_paths{$_}}$_[0]},},\'PERL5LIB'),PATH=>_env_list_value({exists=>0,filter=>sub {!scalar grep {exists$bin_paths{$_}}$_[0]},},\'PATH'),);return%env}1;
+  use strict;use warnings;package local::lib;use 5.008001;use File::Spec ();use File::Path ();use Config;our$VERSION='1.008009';our@KNOWN_FLAGS=qw(--self-contained --deactivate --deactivate-all);sub DEACTIVATE_ONE () {1}sub DEACTIVATE_ALL () {2}sub INTERPOLATE_ENV () {1}sub LITERAL_ENV () {0}sub import {my ($class,@args)=@_;my$perl5lib=$ENV{PERL5LIB}|| '';my%arg_store;for my$arg (@args){if ($arg =~ /âˆ’/){die <<'DEATH'}elsif(grep {$arg eq $_}@KNOWN_FLAGS){(my$flag=$arg)=~ s/--//;$arg_store{$flag}=1}elsif($arg =~ /^--/){die "Unknown import argument: $arg"}else {$arg_store{path}=$arg}}if($arg_store{'self-contained'}){die "FATAL: The local::lib --self-contained flag has never worked reliably and the original author, Mark Stosberg, was unable or unwilling to maintain it. As such, this flag has been removed from the local::lib codebase in order to prevent misunderstandings and potentially broken builds. The local::lib authors recommend that you look at the lib::core::only module shipped with this distribution in order to create a more robust environment that is equivalent to what --self-contained provided (although quite possibly not what you originally thought it provided due to the poor quality of the documentation, for which we apologise).\n"}my$deactivating=0;if ($arg_store{deactivate}){$deactivating=DEACTIVATE_ONE}if ($arg_store{'deactivate-all'}){$deactivating=DEACTIVATE_ALL}$arg_store{path}=$class->resolve_path($arg_store{path});$class->setup_local_lib_for($arg_store{path},$deactivating);for (@INC){next if ref;m/(.*)/ and $_=$1}}sub pipeline;sub pipeline {my@methods=@_;my$last=pop(@methods);if (@methods){\sub {my ($obj,@args)=@_;$obj->${pipeline@methods}($obj->$last(@args))}}else {\sub {shift->$last(@_)}}}sub _uniq {my%seen;grep {!$seen{$_}++}@_}sub resolve_path {my ($class,$path)=@_;$class->${pipeline qw(resolve_relative_path resolve_home_path resolve_empty_path)}($path)}sub resolve_empty_path {my ($class,$path)=@_;if (defined$path){$path}else {'~/perl5'}}sub resolve_home_path {my ($class,$path)=@_;return$path unless ($path =~ /^~/);my ($user)=($path =~ /^~([^\/]+)/);my$tried_file_homedir;my$homedir=do {if (eval {require File::HomeDir}&& $File::HomeDir::VERSION >= 0.65){$tried_file_homedir=1;if (defined$user){File::HomeDir->users_home($user)}else {File::HomeDir->my_home}}else {if (defined$user){(getpwnam$user)[7]}else {if (defined$ENV{HOME}){$ENV{HOME}}else {(getpwuid $<)[7]}}}};unless (defined$homedir){require Carp;Carp::croak("Couldn't resolve homedir for " .(defined$user ? $user : 'current user').($tried_file_homedir ? '' : ' - consider installing File::HomeDir'))}$path =~ s/^~[^\/]*/$homedir/;$path}sub resolve_relative_path {my ($class,$path)=@_;$path=File::Spec->rel2abs($path)}sub setup_local_lib_for {my ($class,$path,$deactivating)=@_;my$interpolate=LITERAL_ENV;my@active_lls=$class->active_paths;$class->ensure_dir_structure_for($path);$path=Win32::GetShortPathName($path)if $^O eq 'MSWin32';if (!$deactivating){if (@active_lls && $active_lls[-1]eq $path){exit 0 if $0 eq '-';return}elsif (grep {$_ eq $path}@active_lls){$class->setup_env_hash_for($path,DEACTIVATE_ONE);$interpolate=INTERPOLATE_ENV}}if ($0 eq '-'){$class->print_environment_vars_for($path,$deactivating,$interpolate);exit 0}else {$class->setup_env_hash_for($path,$deactivating);my$arch_dir=$Config{archname};@INC=_uniq((map {(File::Spec->catdir($_,$arch_dir),$_)}split($Config{path_sep},$ENV{PERL5LIB})),@INC)}}sub install_base_bin_path {my ($class,$path)=@_;File::Spec->catdir($path,'bin')}sub install_base_perl_path {my ($class,$path)=@_;File::Spec->catdir($path,'lib','perl5')}sub install_base_arch_path {my ($class,$path)=@_;File::Spec->catdir($class->install_base_perl_path($path),$Config{archname})}sub ensure_dir_structure_for {my ($class,$path)=@_;unless (-d $path){warn "Attempting to create directory ${path}\n"}File::Path::mkpath($path);return}sub guess_shelltype {my$shellbin='sh';if(defined$ENV{'SHELL'}){my@shell_bin_path_parts=File::Spec->splitpath($ENV{'SHELL'});$shellbin=$shell_bin_path_parts[-1]}my$shelltype=do {local $_=$shellbin;if(/csh/){'csh'}else {'bourne'}};if (defined$ENV{'COMSPEC'}&& $^O ne 'cygwin'){my@shell_bin_path_parts=File::Spec->splitpath($ENV{'COMSPEC'});$shellbin=$shell_bin_path_parts[-1];$shelltype=do {local $_=$shellbin;if(/command\.com/){'win32'}elsif(/cmd\.exe/){'win32'}elsif(/4nt\.exe/){'win32'}else {$shelltype}}}return$shelltype}sub print_environment_vars_for {my ($class,$path,$deactivating,$interpolate)=@_;print$class->environment_vars_string_for($path,$deactivating,$interpolate)}sub environment_vars_string_for {my ($class,$path,$deactivating,$interpolate)=@_;my@envs=$class->build_environment_vars_for($path,$deactivating,$interpolate);my$out='';my$shelltype=$class->guess_shelltype;while (@envs){my ($name,$value)=(shift(@envs),shift(@envs));$value =~ s/(\\")/\\$1/g if defined$value;$out .= $class->${\"build_${shelltype}_env_declaration"}($name,$value)}return$out}sub build_bourne_env_declaration {my$class=shift;my($name,$value)=@_;return defined($value)? qq{export ${name}="${value}";\n} : qq{unset ${name};\n}}sub build_csh_env_declaration {my$class=shift;my($name,$value)=@_;return defined($value)? qq{setenv ${name} "${value}"\n} : qq{unsetenv ${name}\n}}sub build_win32_env_declaration {my$class=shift;my($name,$value)=@_;return defined($value)? qq{set ${name}=${value}\n} : qq{set ${name}=\n}}sub setup_env_hash_for {my ($class,$path,$deactivating)=@_;my%envs=$class->build_environment_vars_for($path,$deactivating,INTERPOLATE_ENV);@ENV{keys%envs}=values%envs}sub build_environment_vars_for {my ($class,$path,$deactivating,$interpolate)=@_;if ($deactivating==DEACTIVATE_ONE){return$class->build_deactivate_environment_vars_for($path,$interpolate)}elsif ($deactivating==DEACTIVATE_ALL){return$class->build_deact_all_environment_vars_for($path,$interpolate)}else {return$class->build_activate_environment_vars_for($path,$interpolate)}}my%ENV_LIST_VALUE_DEFAULTS=(interpolate=>INTERPOLATE_ENV,exists=>undef,filter=>sub {1},empty=>undef,);sub _env_list_value {my$options=shift;die(sprintf "unknown option '$_' at %s line %u\n",(caller)[1..2])for grep {!exists$ENV_LIST_VALUE_DEFAULTS{$_}}keys %$options;my%options=(%ENV_LIST_VALUE_DEFAULTS,%{$options});$options{exists}=$options{interpolate}==INTERPOLATE_ENV unless defined$options{exists};my%seen;my$value=join($Config{path_sep},map {ref $_ ? ($^O eq 'MSWin32' ? "%${$_}%" : "\$${$_}"): $_}grep {ref $_ || (defined $_ && length($_)> 0 &&!$seen{$_}++ && $options{filter}->($_)&& (!$options{exists}|| -e $_))}map {if (ref $_ eq 'SCALAR' && $options{interpolate}==INTERPOLATE_ENV){exists$ENV{${$_}}? (split /\Q$Config{path_sep}/,$ENV{${$_}}): ()}else {$_}}@_);return length($value)? $value : $options{empty}}sub build_activate_environment_vars_for {my ($class,$path,$interpolate)=@_;return (PERL_LOCAL_LIB_ROOT=>_env_list_value({interpolate=>$interpolate,exists=>0,empty=>'' },\'PERL_LOCAL_LIB_ROOT',$path,),PERL_MB_OPT=>"--install_base ${path}",PERL_MM_OPT=>"INSTALL_BASE=${path}",PERL5LIB=>_env_list_value({interpolate=>$interpolate,exists=>0,empty=>'' },$class->install_base_perl_path($path),\'PERL5LIB',),PATH=>_env_list_value({interpolate=>$interpolate,exists=>0,empty=>'' },$class->install_base_bin_path($path),\'PATH',),)}sub active_paths {my ($class)=@_;return ()unless defined$ENV{PERL_LOCAL_LIB_ROOT};return grep {$_ ne ''}split /\Q$Config{path_sep}/,$ENV{PERL_LOCAL_LIB_ROOT}}sub build_deactivate_environment_vars_for {my ($class,$path,$interpolate)=@_;my@active_lls=$class->active_paths;if (!grep {$_ eq $path}@active_lls){warn "Tried to deactivate inactive local::lib '$path'\n";return ()}my$perl_path=$class->install_base_perl_path($path);my$arch_path=$class->install_base_arch_path($path);my$bin_path=$class->install_base_bin_path($path);my%env=(PERL_LOCAL_LIB_ROOT=>_env_list_value({exists=>0,},grep {$_ ne $path}@active_lls),PERL5LIB=>_env_list_value({exists=>0,filter=>sub {$_ ne $perl_path && $_ ne $arch_path},},\'PERL5LIB',),PATH=>_env_list_value({exists=>0,filter=>sub {$_ ne $bin_path},},\'PATH',),);if ($active_lls[-1]eq $path){my$new_top=$active_lls[-2];$env{PERL_MB_OPT}=defined($new_top)? "--install_base ${new_top}" : undef;$env{PERL_MM_OPT}=defined($new_top)? "INSTALL_BASE=${new_top}" : undef}return%env}sub build_deact_all_environment_vars_for {my ($class,$path,$interpolate)=@_;my@active_lls=$class->active_paths;my%perl_paths=map {($class->install_base_perl_path($_)=>1,$class->install_base_arch_path($_)=>1)}@active_lls;my%bin_paths=map {($class->install_base_bin_path($_)=>1,)}@active_lls;my%env=(PERL_LOCAL_LIB_ROOT=>undef,PERL_MM_OPT=>undef,PERL_MB_OPT=>undef,PERL5LIB=>_env_list_value({exists=>0,filter=>sub {!scalar grep {exists$perl_paths{$_}}$_[0]},},\'PERL5LIB'),PATH=>_env_list_value({exists=>0,filter=>sub {!scalar grep {exists$bin_paths{$_}}$_[0]},},\'PATH'),);return%env}1;
   WHOA THERE! It looks like you've got some fancy dashes in your commandline!
   These are *not* the traditional -- dashes that software recognizes. You
   probably got these by copy-pasting from the perldoc for this module as
@@ -3113,21 +3113,21 @@ LOCAL_LIB
 
 $fatpacked{"version.pm"} = <<'VERSION';
   package version;use 5.005_04;use strict;use vars qw(@ISA $VERSION $CLASS $STRICT $LAX *declare *qv);$VERSION=0.9902;$CLASS='version';my$FRACTION_PART=qr/\.[0-9]+/;my$STRICT_INTEGER_PART=qr/0|[1-9][0-9]*/;my$LAX_INTEGER_PART=qr/[0-9]+/;my$STRICT_DOTTED_DECIMAL_PART=qr/\.[0-9]{1,3}/;my$LAX_DOTTED_DECIMAL_PART=qr/\.[0-9]+/;my$LAX_ALPHA_PART=qr/_[0-9]+/;my$STRICT_DECIMAL_VERSION=qr/ $STRICT_INTEGER_PART $FRACTION_PART? /x;my$STRICT_DOTTED_DECIMAL_VERSION=qr/ v $STRICT_INTEGER_PART $STRICT_DOTTED_DECIMAL_PART{2,} /x;$STRICT=qr/ $STRICT_DECIMAL_VERSION | $STRICT_DOTTED_DECIMAL_VERSION /x;my$LAX_DECIMAL_VERSION=qr/ $LAX_INTEGER_PART (?: \. | $FRACTION_PART $LAX_ALPHA_PART? )?
-  	|
-  	$FRACTION_PART $LAX_ALPHA_PART?
+    |
+    $FRACTION_PART $LAX_ALPHA_PART?
       /x;my$LAX_DOTTED_DECIMAL_VERSION=qr/
-  	v $LAX_INTEGER_PART (?: $LAX_DOTTED_DECIMAL_PART+ $LAX_ALPHA_PART? )?
-  	|
-  	$LAX_INTEGER_PART? $LAX_DOTTED_DECIMAL_PART{2,} $LAX_ALPHA_PART?
+    v $LAX_INTEGER_PART (?: $LAX_DOTTED_DECIMAL_PART+ $LAX_ALPHA_PART? )?
+    |
+    $LAX_INTEGER_PART? $LAX_DOTTED_DECIMAL_PART{2,} $LAX_ALPHA_PART?
       /x;$LAX=qr/ undef | $LAX_DECIMAL_VERSION | $LAX_DOTTED_DECIMAL_VERSION /x;{local$SIG{'__DIE__'};eval "use version::vxs $VERSION";if ($@){eval "use version::vpp $VERSION";die "$@" if ($@);push@ISA,"version::vpp";local $^W;*version::qv=\&version::vpp::qv;*version::declare=\&version::vpp::declare;*version::_VERSION=\&version::vpp::_VERSION;*version::vcmp=\&version::vpp::vcmp;*version::new=\&version::vpp::new;if ($] >= 5.009000){no strict 'refs';*version::stringify=\&version::vpp::stringify;*{'version::(""'}=\&version::vpp::stringify;*{'version::(<=>'}=\&version::vpp::vcmp;*version::parse=\&version::vpp::parse}}else {push@ISA,"version::vxs";local $^W;*version::declare=\&version::vxs::declare;*version::qv=\&version::vxs::qv;*version::_VERSION=\&version::vxs::_VERSION;*version::vcmp=\&version::vxs::VCMP;*version::new=\&version::vxs::new;if ($] >= 5.009000){no strict 'refs';*version::stringify=\&version::vxs::stringify;*{'version::(""'}=\&version::vxs::stringify;*{'version::(<=>'}=\&version::vxs::VCMP;*version::parse=\&version::vxs::parse}}}sub import {no strict 'refs';my ($class)=shift;unless ($class eq 'version'){local $^W;*{$class.'::declare'}=\&version::declare;*{$class.'::qv'}=\&version::qv}my%args;if (@_){map {$args{$_}=1}@_}else {%args=(qv=>1,'UNIVERSAL::VERSION'=>1,)}my$callpkg=caller();if (exists($args{declare})){*{$callpkg.'::declare'}=sub {return$class->declare(shift)}unless defined(&{$callpkg.'::declare'})}if (exists($args{qv})){*{$callpkg.'::qv'}=sub {return$class->qv(shift)}unless defined(&{$callpkg.'::qv'})}if (exists($args{'UNIVERSAL::VERSION'})){local $^W;*UNIVERSAL::VERSION =\&version::_VERSION}if (exists($args{'VERSION'})){*{$callpkg.'::VERSION'}=\&version::_VERSION}if (exists($args{'is_strict'})){*{$callpkg.'::is_strict'}=\&version::is_strict unless defined(&{$callpkg.'::is_strict'})}if (exists($args{'is_lax'})){*{$callpkg.'::is_lax'}=\&version::is_lax unless defined(&{$callpkg.'::is_lax'})}}sub is_strict {defined $_[0]&& $_[0]=~ qr/ \A $STRICT \z /x}sub is_lax {defined $_[0]&& $_[0]=~ qr/ \A $LAX \z /x}1;
 VERSION
 
 $fatpacked{"version/vpp.pm"} = <<'VERSION_VPP';
   package charstar;use overload ('""'=>\&thischar,'0+'=>\&thischar,'++'=>\&increment,'--'=>\&decrement,'+'=>\&plus,'-'=>\&minus,'*'=>\&multiply,'cmp'=>\&cmp,'<=>'=>\&spaceship,'bool'=>\&thischar,'='=>\&clone,);sub new {my ($self,$string)=@_;my$class=ref($self)|| $self;my$obj={string=>[split(//,$string)],current=>0,};return bless$obj,$class}sub thischar {my ($self)=@_;my$last=$#{$self->{string}};my$curr=$self->{current};if ($curr >= 0 && $curr <= $last){return$self->{string}->[$curr]}else {return ''}}sub increment {my ($self)=@_;$self->{current}++}sub decrement {my ($self)=@_;$self->{current}--}sub plus {my ($self,$offset)=@_;my$rself=$self->clone;$rself->{current}+= $offset;return$rself}sub minus {my ($self,$offset)=@_;my$rself=$self->clone;$rself->{current}-= $offset;return$rself}sub multiply {my ($left,$right,$swapped)=@_;my$char=$left->thischar();return$char * $right}sub spaceship {my ($left,$right,$swapped)=@_;unless (ref($right)){$right=$left->new($right)}return$left->{current}<=> $right->{current}}sub cmp {my ($left,$right,$swapped)=@_;unless (ref($right)){if (length($right)==1){return$left->thischar cmp $right}$right=$left->new($right)}return$left->currstr cmp $right->currstr}sub bool {my ($self)=@_;my$char=$self->thischar;return ($char ne '')}sub clone {my ($left,$right,$swapped)=@_;$right={string=>[@{$left->{string}}],current=>$left->{current},};return bless$right,ref($left)}sub currstr {my ($self,$s)=@_;my$curr=$self->{current};my$last=$#{$self->{string}};if (defined($s)&& $s->{current}< $last){$last=$s->{current}}my$string=join('',@{$self->{string}}[$curr..$last]);return$string}package version::vpp;use strict;use POSIX qw/locale_h/;use locale;use vars qw ($VERSION @ISA @REGEXS);$VERSION=0.9902;use overload ('""'=>\&stringify,'0+'=>\&numify,'cmp'=>\&vcmp,'<=>'=>\&vcmp,'bool'=>\&vbool,'+'=>\&vnoop,'-'=>\&vnoop,'*'=>\&vnoop,'/'=>\&vnoop,'+='=>\&vnoop,'-='=>\&vnoop,'*='=>\&vnoop,'/='=>\&vnoop,'abs'=>\&vnoop,);eval "use warnings";if ($@){eval '
-  	package
-  	warnings;
-  	sub enabled {return $^W;}
-  	1;
+    package
+    warnings;
+    sub enabled {return $^W;}
+    1;
       '}my$VERSION_MAX=0x7FFFFFFF;use constant TRUE=>1;use constant FALSE=>0;sub isDIGIT {my ($char)=shift->thischar();return ($char =~ /\d/)}sub isALPHA {my ($char)=shift->thischar();return ($char =~ /[a-zA-Z]/)}sub isSPACE {my ($char)=shift->thischar();return ($char =~ /\s/)}sub BADVERSION {my ($s,$errstr,$error)=@_;if ($errstr){$$errstr=$error}return$s}sub prescan_version {my ($s,$strict,$errstr,$sqv,$ssaw_decimal,$swidth,$salpha)=@_;my$qv=defined$sqv ? $$sqv : FALSE;my$saw_decimal=defined$ssaw_decimal ? $$ssaw_decimal : 0;my$width=defined$swidth ? $$swidth : 3;my$alpha=defined$salpha ? $$salpha : FALSE;my$d=$s;if ($qv && isDIGIT($d)){goto dotted_decimal_version}if ($d eq 'v'){$d++;if (isDIGIT($d)){$qv=TRUE}else {return BADVERSION($s,$errstr,"Invalid version format (dotted-decimal versions require at least three parts)")}dotted_decimal_version: if ($strict && $d eq '0' && isDIGIT($d+1)){return BADVERSION($s,$errstr,"Invalid version format (no leading zeros)")}while (isDIGIT($d)){$d++}if ($d eq '.'){$saw_decimal++;$d++}else {if ($strict){return BADVERSION($s,$errstr,"Invalid version format (dotted-decimal versions require at least three parts)")}else {goto version_prescan_finish}}{my$i=0;my$j=0;while (isDIGIT($d)){$i++;while (isDIGIT($d)){$d++;$j++;if ($strict && $j > 3){return BADVERSION($s,$errstr,"Invalid version format (maximum 3 digits between decimals)")}}if ($d eq '_'){if ($strict){return BADVERSION($s,$errstr,"Invalid version format (no underscores)")}if ($alpha){return BADVERSION($s,$errstr,"Invalid version format (multiple underscores)")}$d++;$alpha=TRUE}elsif ($d eq '.'){if ($alpha){return BADVERSION($s,$errstr,"Invalid version format (underscores before decimal)")}$saw_decimal++;$d++}elsif (!isDIGIT($d)){last}$j=0}if ($strict && $i < 2){return BADVERSION($s,$errstr,"Invalid version format (dotted-decimal versions require at least three parts)")}}}else {my$j=0;if ($strict){if ($d eq '.'){return BADVERSION($s,$errstr,"Invalid version format (0 before decimal required)")}if ($d eq '0' && isDIGIT($d+1)){return BADVERSION($s,$errstr,"Invalid version format (no leading zeros)")}}if ($d eq '-'){return BADVERSION($s,$errstr,"Invalid version format (negative version number)")}while (isDIGIT($d)){$d++}if ($d eq '.'){$saw_decimal++;$d++}elsif (!$d || $d eq ';' || isSPACE($d)|| $d eq '}'){if ($d==$s){return BADVERSION($s,$errstr,"Invalid version format (version required)")}goto version_prescan_finish}elsif ($d==$s){return BADVERSION($s,$errstr,"Invalid version format (non-numeric data)")}elsif ($d eq '_'){if ($strict){return BADVERSION($s,$errstr,"Invalid version format (no underscores)")}elsif (isDIGIT($d+1)){return BADVERSION($s,$errstr,"Invalid version format (alpha without decimal)")}else {return BADVERSION($s,$errstr,"Invalid version format (misplaced underscore)")}}elsif ($d){return BADVERSION($s,$errstr,"Invalid version format (non-numeric data)")}if ($d &&!isDIGIT($d)&& ($strict ||!($d eq ';' || isSPACE($d)|| $d eq '}'))){return BADVERSION($s,$errstr,"Invalid version format (fractional part required)")}while (isDIGIT($d)){$d++;$j++;if ($d eq '.' && isDIGIT($d-1)){if ($alpha){return BADVERSION($s,$errstr,"Invalid version format (underscores before decimal)")}if ($strict){return BADVERSION($s,$errstr,"Invalid version format (dotted-decimal versions must begin with 'v')")}$d=$s;$qv=TRUE;goto dotted_decimal_version}if ($d eq '_'){if ($strict){return BADVERSION($s,$errstr,"Invalid version format (no underscores)")}if ($alpha){return BADVERSION($s,$errstr,"Invalid version format (multiple underscores)")}if (!isDIGIT($d+1)){return BADVERSION($s,$errstr,"Invalid version format (misplaced underscore)")}$width=$j;$d++;$alpha=TRUE}}}version_prescan_finish: while (isSPACE($d)){$d++}if ($d &&!isDIGIT($d)&& (!($d eq ';' || $d eq '}'))){return BADVERSION($s,$errstr,"Invalid version format (non-numeric data)")}if (defined$sqv){$$sqv=$qv}if (defined$swidth){$$swidth=$width}if (defined$ssaw_decimal){$$ssaw_decimal=$saw_decimal}if (defined$salpha){$$salpha=$alpha}return$d}sub scan_version {my ($s,$rv,$qv)=@_;my$start;my$pos;my$last;my$errstr;my$saw_decimal=0;my$width=3;my$alpha=FALSE;my$vinf=FALSE;my@av;$s=new charstar$s;while (isSPACE($s)){$s++}$last=prescan_version($s,FALSE,\$errstr,\$qv,\$saw_decimal,\$width,\$alpha);if ($errstr){if ($s ne 'undef'){use Carp;Carp::croak($errstr)}}$start=$s;if ($s eq 'v'){$s++}$pos=$s;if ($qv){$$rv->{qv}=$qv}if ($alpha){$$rv->{alpha}=$alpha}if (!$qv && $width < 3){$$rv->{width}=$width}while (isDIGIT($pos)){$pos++}if (!isALPHA($pos)){my$rev;for (;;){$rev=0;{my$end=$pos;my$mult=1;my$orev;if (!$qv && $s > $start && $saw_decimal==1){$mult *= 100;while ($s < $end){$orev=$rev;$rev += $s * $mult;$mult /= 10;if ((abs($orev)> abs($rev))|| (abs($rev)> $VERSION_MAX)){warn("Integer overflow in version %d",$VERSION_MAX);$s=$end - 1;$rev=$VERSION_MAX;$vinf=1}$s++;if ($s eq '_'){$s++}}}else {while (--$end >= $s){$orev=$rev;$rev += $end * $mult;$mult *= 10;if ((abs($orev)> abs($rev))|| (abs($rev)> $VERSION_MAX)){warn("Integer overflow in version");$end=$s - 1;$rev=$VERSION_MAX;$vinf=1}}}}push@av,$rev;if ($vinf){$s=$last;last}elsif ($pos eq '.'){$s=++$pos}elsif ($pos eq '_' && isDIGIT($pos+1)){$s=++$pos}elsif ($pos eq ',' && isDIGIT($pos+1)){$s=++$pos}elsif (isDIGIT($pos)){$s=$pos}else {$s=$pos;last}if ($qv){while (isDIGIT($pos)){$pos++}}else {my$digits=0;while ((isDIGIT($pos)|| $pos eq '_')&& $digits < 3){if ($pos ne '_'){$digits++}$pos++}}}}if ($qv){my$len=$#av;$len=2 - $len;while ($len-- > 0){push@av,0}}if ($vinf){$$rv->{original}="v.Inf";$$rv->{vinf}=1}elsif ($s > $start){$$rv->{original}=$start->currstr($s);if ($qv && $saw_decimal==1 && $start ne 'v'){$$rv->{original}='v' .$$rv->{original}}}else {$$rv->{original}='0';push(@av,0)}$$rv->{version}=\@av;if ($s eq 'undef'){$s += 5}return$s}sub new {my ($class,$value)=@_;unless (defined$class){require Carp;Carp::croak('Usage: version::new(class, version)')}my$self=bless ({},ref ($class)|| $class);my$qv=FALSE;if (ref($value)&& eval('$value->isa("version")')){$self->{version}=[@{$value->{version}}];$self->{qv}=1 if$value->{qv};$self->{alpha}=1 if$value->{alpha};$self->{original}=''.$value->{original};return$self}my$currlocale=setlocale(LC_ALL);if (localeconv()->{decimal_point}eq ','){$value =~ tr/,/./}if (not defined$value or $value =~ /^undef$/){push @{$self->{version}},0;$self->{original}="0";return ($self)}if ($#_==2){$value=$_[2];$qv=TRUE}$value=_un_vstring($value);if ($value =~ /\d+.?\d*e[-+]?\d+/){$value=sprintf("%.9f",$value);$value =~ s/(0+)$//}my$s=scan_version($value,\$self,$qv);if ($s){warn("Version string '%s' contains invalid data; " ."ignoring: '%s'",$value,$s)}return ($self)}*parse=\&new;sub numify {my ($self)=@_;unless (_verify($self)){require Carp;Carp::croak("Invalid version object")}my$width=$self->{width}|| 3;my$alpha=$self->{alpha}|| "";my$len=$#{$self->{version}};my$digit=$self->{version}[0];my$string=sprintf("%d.",$digit);for (my$i=1 ;$i < $len ;$i++ ){$digit=$self->{version}[$i];if ($width < 3){my$denom=10**(3-$width);my$quot=int($digit/$denom);my$rem=$digit - ($quot * $denom);$string .= sprintf("%0".$width."d_%d",$quot,$rem)}else {$string .= sprintf("%03d",$digit)}}if ($len > 0){$digit=$self->{version}[$len];if ($alpha && $width==3){$string .= "_"}$string .= sprintf("%0".$width."d",$digit)}else {$string .= sprintf("000")}return$string}sub normal {my ($self)=@_;unless (_verify($self)){require Carp;Carp::croak("Invalid version object")}my$alpha=$self->{alpha}|| "";my$len=$#{$self->{version}};my$digit=$self->{version}[0];my$string=sprintf("v%d",$digit);for (my$i=1 ;$i < $len ;$i++ ){$digit=$self->{version}[$i];$string .= sprintf(".%d",$digit)}if ($len > 0){$digit=$self->{version}[$len];if ($alpha){$string .= sprintf("_%0d",$digit)}else {$string .= sprintf(".%0d",$digit)}}if ($len <= 2){for ($len=2 - $len;$len!=0;$len-- ){$string .= sprintf(".%0d",0)}}return$string}sub stringify {my ($self)=@_;unless (_verify($self)){require Carp;Carp::croak("Invalid version object")}return exists$self->{original}? $self->{original}: exists$self->{qv}? $self->normal : $self->numify}sub vcmp {require UNIVERSAL;my ($left,$right,$swap)=@_;my$class=ref($left);unless (UNIVERSAL::isa($right,$class)){$right=$class->new($right)}if ($swap){($left,$right)=($right,$left)}unless (_verify($left)){require Carp;Carp::croak("Invalid version object")}unless (_verify($right)){require Carp;Carp::croak("Invalid version format")}my$l=$#{$left->{version}};my$r=$#{$right->{version}};my$m=$l < $r ? $l : $r;my$lalpha=$left->is_alpha;my$ralpha=$right->is_alpha;my$retval=0;my$i=0;while ($i <= $m && $retval==0){$retval=$left->{version}[$i]<=> $right->{version}[$i];$i++}if ($retval==0 && $l==$r && $left->{version}[$m]==$right->{version}[$m]&& ($lalpha || $ralpha)){if ($lalpha &&!$ralpha){$retval=-1}elsif ($ralpha &&!$lalpha){$retval=+1}}if ($retval==0 && $l!=$r){if ($l < $r){while ($i <= $r && $retval==0){if ($right->{version}[$i]!=0){$retval=-1}$i++}}else {while ($i <= $l && $retval==0){if ($left->{version}[$i]!=0){$retval=+1}$i++}}}return$retval}sub vbool {my ($self)=@_;return vcmp($self,$self->new("0"),1)}sub vnoop {require Carp;Carp::croak("operation not supported with version object")}sub is_alpha {my ($self)=@_;return (exists$self->{alpha})}sub qv {my$value=shift;my$class='version';if (@_){$class=ref($value)|| $value;$value=shift}$value=_un_vstring($value);$value='v'.$value unless$value =~ /(^v|\d+\.\d+\.\d)/;my$obj=version->new($value);return bless$obj,$class}*declare=\&qv;sub is_qv {my ($self)=@_;return (exists$self->{qv})}sub _verify {my ($self)=@_;if (ref($self)&& eval {exists$self->{version}}&& ref($self->{version})eq 'ARRAY'){return 1}else {return 0}}sub _is_non_alphanumeric {my$s=shift;$s=new charstar$s;while ($s){return 0 if isSPACE($s);return 1 unless (isALPHA($s)|| isDIGIT($s)|| $s =~ /[.-]/);$s++}return 0}sub _un_vstring {my$value=shift;if (length($value)>= 3 && $value !~ /[._]/ && _is_non_alphanumeric($value)){my$tvalue;if ($] ge 5.008_001){$tvalue=_find_magic_vstring($value);$value=$tvalue if length$tvalue}elsif ($] ge 5.006_000){$tvalue=sprintf("v%vd",$value);if ($tvalue =~ /^v\d+(\.\d+){2,}$/){$value=$tvalue}}}return$value}sub _find_magic_vstring {my$value=shift;my$tvalue='';require B;my$sv=B::svref_2object(\$value);my$magic=ref($sv)eq 'B::PVMG' ? $sv->MAGIC : undef;while ($magic){if ($magic->TYPE eq 'V'){$tvalue=$magic->PTR;$tvalue =~ s/^v?(.+)$/v$1/;last}else {$magic=$magic->MOREMAGIC}}return$tvalue}sub _VERSION {my ($obj,$req)=@_;my$class=ref($obj)|| $obj;no strict 'refs';if (exists$INC{"$class.pm"}and not %{"$class\::"}and $] >= 5.008){require Carp;Carp::croak("$class defines neither package nor VERSION" ."--version check failed")}my$version=eval "\$$class\::VERSION";if (defined$version){local $^W if $] <= 5.008;$version=version::vpp->new($version)}if (defined$req){unless (defined$version){require Carp;my$msg=$] < 5.006 ? "$class version $req required--this is only version " : "$class does not define \$$class\::VERSION" ."--version check failed";if ($ENV{VERSION_DEBUG}){Carp::confess($msg)}else {Carp::croak($msg)}}$req=version::vpp->new($req);if ($req > $version){require Carp;if ($req->is_qv){Carp::croak(sprintf ("%s version %s required--"."this is only version %s",$class,$req->normal,$version->normal))}else {Carp::croak(sprintf ("%s version %s required--"."this is only version %s",$class,$req->stringify,$version->stringify))}}}return defined$version ? $version->stringify : undef}1;
 VERSION_VPP
 
