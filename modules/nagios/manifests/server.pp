@@ -110,12 +110,13 @@ class nagios::server (
   }
 
   # Create all nagios configs before restarting nagios
-  Nagios_host <| |> -> Service['nagios3']
-  Nagios_hostgroup <| |> -> Service['nagios3']
-  Nagios_service <| |> -> Service['nagios3']
-  Nagios_command <| |> -> Service['nagios3']
-  Nagios_contact <| |> -> Service['nagios3']
-  Nagios_contactgroup <| |> -> Service['nagios3']
+  Package[$packages] -> Nagios_host <| |> -> Service['nagios3']
+  Package[$packages] -> Nagios_hostextinfo <| |> -> Service['nagios3']
+  Package[$packages] -> Nagios_hostgroup <| |> -> Service['nagios3']
+  Package[$packages] -> Nagios_service <| |> -> Service['nagios3']
+  Package[$packages] -> Nagios_command <| |> -> Service['nagios3']
+  Package[$packages] -> Nagios_contact <| |> -> Service['nagios3']
+  Package[$packages] -> Nagios_contactgroup <| |> -> Service['nagios3']
 
   # Configure Apache2 to host nagios.
   # This assumes Apache2 is present.
