@@ -120,9 +120,9 @@ class nagios::server (
 
   # Configure Apache2 to host nagios.
   # This assumes Apache2 is present.
-  file { '/etc/apache2/sites-enabled/020-nagios':
+  file { '/etc/apache2/sites-enabled/000-nagios':
     ensure  => present,
-    content => template('nagios/020-nagios'),
+    content => template('nagios/000-nagios'),
     notify  => Service['apache2'],
     require => Package[$packages],
   }
@@ -135,7 +135,7 @@ class nagios::server (
 
   service { 'apache2':
     ensure  => 'running',
-    require => File['/etc/apache2/sites-enabled/020-nagios'],
+    require => File['/etc/apache2/sites-enabled/000-nagios'],
   }
 
   # Workaround for http://projects.puppetlabs.com/issues/3299
