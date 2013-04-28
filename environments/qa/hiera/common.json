@@ -65,12 +65,12 @@
     "search_version": "0.20.6",
     "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
 
-    "etherpad_hosts": [ "127.0.0.1" ],
-    "etherpad_protocol": "https",
-    "etherpad_index": "0",
+    "etherpad_internal_hosts": [ "127.0.0.1" ],
+    "etherpad_external_protocol": "http",
+    "etherpad_index": "%{nodesuffix}",
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
-    "etherpad_domain_label": "etherpad",
+    "etherpad_external_domain_label": "etherpad",
 
     "cache_host": "127.0.0.1",
 

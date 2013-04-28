@@ -23,6 +23,13 @@ class rsyslog (
       group   => 'root',
       mode    => 0644
     }
+
+    file { "${server_logdir}/filter-bunyan":
+      content => template('rsyslog/filter-bunyan.erb'),
+      owner   => 'root',
+      group   => 'root',
+      mode    => 0754,
+    }
   }
 
   service { 'rsyslog': 

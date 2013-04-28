@@ -30,7 +30,7 @@ class oaeservice::hilary {
   $web_domain = hiera('web_domain')
   $app_admin_tenant = hiera('app_admin_tenant')
   $admin_domain = "${app_admin_tenant}.${web_domain}"
-  $etherpad_domain_label = hiera('etherpad_domain_label')
+  $etherpad_domain_label = hiera('etherpad_external_domain_label')
   $etherpad_domain_suffix = ".${etherpad_domain_label}.${web_domain}"
 
   class { '::hilary':
@@ -57,10 +57,12 @@ class oaeservice::hilary {
     config_redis_port                 => hiera('cache_port', 6379),
     config_search_hosts               => hiera('search_hosts'),
     config_mq_hosts                   => hiera('mq_hosts'),
-    config_etherpad_hosts             => hiera('etherpad_hosts'),
-    config_etherpad_protocol          => hiera('etherpad_protocol'),
-    config_etherpad_api_key           => hiera('etherpad_api_key'),
-    config_etherpad_domain_suffix     => $etherpad_domain_suffix,
+
+    config_etherpad_internal_hosts          => hiera('etherpad_internal_hosts'),
+    config_etherpad_external_protocol       => hiera('etherpad_external_protocol'),
+    config_etherpad_api_key                 => hiera('etherpad_api_key'),
+    config_etherpad_external_domain_suffix  => $etherpad_external_domain_suffix,
+
     config_log_syslog_ip              => $rsyslog_host,
     config_activity_redis_host        => $activitycache_host,
     config_activity_redis_port        => $activitycache_port,
