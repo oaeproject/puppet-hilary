@@ -66,14 +66,14 @@
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_domain_suffix": ".etherpad.oae-staging.oaeproject.org",
 
-    "cache_host": "cache-master",
+    "cache_host": "cache0",
     "cache_port": 6379,
 
-    "activitycache_enabled": true,
-    "activitycache_host": "cache-master",
+    "activitycache_enabled": false,
+    "activitycache_host": "cache0",
     "activitycache_port": 6379,
 
-    "mq_hosts": [ "mq-master" ],
+    "mq_hosts": [ "mq0" ],
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
 
