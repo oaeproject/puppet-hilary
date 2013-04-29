@@ -106,8 +106,15 @@ class nagios::server (
 
   # The nagios service will wreck the nagios.cmd file. If we chown and chmod that stupid thing, we can reschedule checks
   # from the web console.
-  exec { 'chown_cmd_file': command => 'chown -R nagios:www-data /var/lib/nagios3' }
-  exec { 'chmod_cmd_file': command => 'chmod -R g+x /var/lib/nagios3/rw'}  
+  exec { 'chown_cmd_file':
+    command     => 'chown -R nagios:www-data /var/lib/nagios3',
+    refreshonly => true
+  }
+
+  exec { 'chmod_cmd_file':
+    command     => 'chmod -R g+x /var/lib/nagios3/rw',
+    refreshonly => true
+  }
 
   # Create all nagios configs before restarting nagios
   Package[$packages] -> Nagios_host <| |> -> Service['nagios3']
