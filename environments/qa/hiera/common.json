@@ -73,9 +73,11 @@
     "etherpad_external_domain_label": "etherpad",
 
     "cache_host": "127.0.0.1",
+    "cache_port": 6379,
 
     "activitycache_enabled": false,
     "activitycache_host": "127.0.0.1",
+    "activitycache_port": 6379,
 
     "mq_hosts": [ "127.0.0.1" ],
 
@@ -98,6 +100,11 @@
 
     "oaeservice::deps::package::nodejs::nodejs_version": "0.8.23-1chl1~precise1",
     "oaeservice::deps::package::nodejs::npm_version": "1.2.18-1chl1~precise1",
+    
+    "oaeservice::mcollective::mco_version": "2.3.1-2",
+    "oaeservice::mcollective::mco_puppet_version": "1.5.1-1",
+    "oaeservice::mcollective::mco_package_version": "4.2.0-1",
+    "oaeservice::mcollective::mco_service_version": "3.1.2-1",
     
     "rabbitmq::server::version": "3.0.4-1",
     "rabbitmq::server::wipe_db_on_cookie_change": true,

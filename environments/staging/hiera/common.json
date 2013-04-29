@@ -12,6 +12,8 @@
     "nodetype": "%{nodetype}",
     "nodesuffix": "%{nodesuffix}",
 
+    "web_domain": "oae-staging.oaeproject.org",
+
     "app_os_user": "root",
     "app_os_group": "root",
     "app_hosts": [ "app0" ],
@@ -21,7 +23,7 @@
 
     "app_signing_key": "A;SLDFJ984FJW398FJWP4GO5IJSLRTKGJ",
     "app_cookie_secret": "SODIFJ984FJA984JAFP98WF4PAW984F984FJ9",
-    "app_admin_host": "admin.oae-staging.oaeproject.org",
+    "app_admin_tenant": "admin",
 
     "app_files_parent": "/shared",
     "app_files_dir": "/shared/files",
@@ -60,17 +62,18 @@
     "search_version": "0.20.6",
     "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
 
-    "etherpad_hosts": [ ],
+    "etherpad_internal_hosts": [ "etherpad0" ],
+    "etherpad_external_protocol": "http",
     "etherpad_index": "%{nodesuffix}",
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
-    "etherpad_domain_suffix": ".etherpad.oae-staging.oaeproject.org",
+    "etherpad_external_domain_label": "etherpad",
 
-    "cache_host": "cache0",
+    "cache_host": "proxy0",
     "cache_port": 6379,
 
     "activitycache_enabled": false,
-    "activitycache_host": "cache0",
+    "activitycache_host": "proxy0",
     "activitycache_port": 6379,
 
     "mq_hosts": [ "mq0" ],
@@ -105,6 +108,6 @@
     "oaeservice::mcollective::mco_package_version": "4.2.0-1",
     "oaeservice::mcollective::mco_service_version": "3.1.2-1",
 
-    "rabbitmq::server::version": "2.7.1-0ubuntu4",
+    "rabbitmq::server::version": "3.0.4-1",
     "rabbitmq::server::wipe_db_on_cookie_change": true
 }

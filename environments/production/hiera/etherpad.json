@@ -1,3 +1,7 @@
 {
-    "classes": [ "::oaeservice::etherpad" ]
+    "classes": [
+        "::oaeservice::etherpad"
+    ],
+    
+    "nagios_hostgroup": "misc"
 }

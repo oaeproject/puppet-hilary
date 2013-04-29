@@ -1,8 +1,10 @@
 {
     "classes": [
         "::oaeservice::hilary",
-        "::oaeservice::ui"
+        "::oaeservice::ui",
+        "::oaeservice::nagios::hilary",
     ],
 
-    "hilary::config_activity_enabled": true
+    "hilary::config_activity_enabled": true,
+    "nagios_hostgroup": "activityservers"
 }
