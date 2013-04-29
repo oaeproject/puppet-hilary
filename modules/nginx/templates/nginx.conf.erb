@@ -339,7 +339,7 @@ http {
     <% internal_etherpad_ips.each_with_index do |ip, index| %>
     server {
         listen 80;
-        server_name <%=index %>.<%= etherpad_domain_label %>.<%= web_domain %>;
+        server_name <%=index %>.<%= etherpad_external_domain_label %>.<%= web_domain %>;
 
         location / {
             expires 15m;

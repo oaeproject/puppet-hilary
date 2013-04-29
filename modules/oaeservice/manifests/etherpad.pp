@@ -7,7 +7,7 @@ class oaeservice::etherpad {
   Class['::oaeservice::deps::package::nodejs']  -> Class['::etherpad']
 
   $index = hiera('etherpad_index', 0)
-  $hosts = hiera('etherpad_hosts')
+  $hosts = hiera('etherpad_internal_hosts')
 
   class { '::etherpad':
     listen_address        => $hosts[$index],

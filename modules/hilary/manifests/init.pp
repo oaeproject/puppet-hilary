@@ -57,7 +57,7 @@ class hilary (
 
     # Etherpad
     $config_etherpad_internal_hosts,
-    $config_etherpad_external protocol      = 'https',
+    $config_etherpad_external_protocol      = 'https',
     $config_etherpad_api_key,
     $config_etherpad_external_domain_suffix) {
 

@@ -28,6 +28,7 @@ class rsyslog (
       owner   => 'root',
       group   => 'root',
       mode    => 0754,
+      require => Package['rsyslog'],
     }
   }
 
