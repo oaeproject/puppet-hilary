@@ -29,7 +29,7 @@
 # Cluster name identifies your cluster for auto-discovery. If you're running
 # multiple clusters on the same network, make sure you're using unique names.
 #
-# cluster.name: elasticsearch
+cluster.name: oae-cluster
 
 
 #################################### Node #####################################
@@ -37,7 +37,7 @@
 # Node names are generated dynamically on startup, so you're relieved
 # from configuring them manually. You can tie this node to a specific name:
 #
-# node.name: "Franz Kafka"
+node.name: "<%= scope.lookupvar('::clientcert') %>"
 
 # Every node can be configured to allow or deny being eligible as the master,
 # and to allow or deny to store the data.
@@ -344,23 +344,27 @@ discovery.zen.ping.unicast.hosts: [<% search_hosts.each do |host| -%>"<%= host %
 
 # Shard level query and fetch threshold logging.
 
-#index.search.slowlog.level: TRACE
-#index.search.slowlog.threshold.query.warn: 10s
-#index.search.slowlog.threshold.query.info: 5s
-#index.search.slowlog.threshold.query.debug: 2s
-#index.search.slowlog.threshold.query.trace: 500ms
+index.search.slowlog.threshold.query.warn: 10s
+index.search.slowlog.threshold.query.info: 5s
+index.search.slowlog.threshold.query.debug: 2s
+index.search.slowlog.threshold.query.trace: 500ms
 
-#index.search.slowlog.threshold.fetch.warn: 1s
-#index.search.slowlog.threshold.fetch.info: 800ms
-#index.search.slowlog.threshold.fetch.debug: 500ms
-#index.search.slowlog.threshold.fetch.trace: 200ms
+index.search.slowlog.threshold.fetch.warn: 1s
+index.search.slowlog.threshold.fetch.info: 800ms
+index.search.slowlog.threshold.fetch.debug: 500ms
+index.search.slowlog.threshold.fetch.trace: 200ms
+
+index.indexing.slowlog.threshold.index.warn: 10s
+index.indexing.slowlog.threshold.index.info: 5s
+index.indexing.slowlog.threshold.index.debug: 2s
+index.indexing.slowlog.threshold.index.trace: 500ms
 
 ################################## GC Logging ################################
 
-#monitor.jvm.gc.ParNew.warn: 1000ms
-#monitor.jvm.gc.ParNew.info: 700ms
-#monitor.jvm.gc.ParNew.debug: 400ms
+monitor.jvm.gc.ParNew.warn: 1000ms
+monitor.jvm.gc.ParNew.info: 700ms
+monitor.jvm.gc.ParNew.debug: 400ms
 
-#monitor.jvm.gc.ConcurrentMarkSweep.warn: 10s
-#monitor.jvm.gc.ConcurrentMarkSweep.info: 5s
-#monitor.jvm.gc.ConcurrentMarkSweep.debug: 2s
+monitor.jvm.gc.ConcurrentMarkSweep.warn: 10s
+monitor.jvm.gc.ConcurrentMarkSweep.info: 5s
+monitor.jvm.gc.ConcurrentMarkSweep.debug: 2s

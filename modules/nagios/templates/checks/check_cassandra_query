@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Simple script that tries to execute a query against a local cassandra node.
+
+echo "select * from schema_keyspaces;" > /tmp/cassandra.cql;
+cass=$(/usr/bin/cqlsh -f /tmp/cassandra.cql 2>&1)
+
+if [[ "$?" != "0" ]] ; then
+    echo -n "CRITICAL:Could not run a simple query."
+    exit 2;
+else
+    echo -n "OK:Query succeeded"
+    exit 0;
+fi

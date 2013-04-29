@@ -1,0 +1,79 @@
+#!/usr/bin/python
+
+import argparse
+import httplib
+import json
+import sys
+
+def check_value(checkName, value, warningThreshold, criticalThreshold):
+    """
+    Checks if a value reached a certain threshold
+    """
+    if value > criticalThreshold:
+        print "CRITICAL:%s was at %d percent" % (checkName, value)
+        sys.exit(2)
+    elif value > warningThreshold:
+        print "WARNING:%s was at %d percent" % (checkName, value)
+        sys.exit(1)
+
+
+def check_percentage(checkName, used, max, warningThreshold, criticalThreshold):
+    """
+    Given the current usage and a maximum, calculates the percentage and prints a warning/critical message if a threshold is reached.
+    The process will exit if a threshold is reached.
+    """
+    percentage = (used * 100) / max
+    check_value(checkName, percentage, warningThreshold, criticalThreshold)
+
+def check_node(node):
+    """
+    Checks all the stats on a node.
+    It is assumed that the node was retrieved with the all=true flag
+    """
+    # Check Garbage Collection
+    check_value('Java GC time', node['jvm']['gc']['collection_time_in_millis'], 5000, 1000)
+    check_value('Java GC ConcurrentMarpSweep time', node['jvm']['gc']['collectors']['ConcurrentMarkSweep']['collection_time_in_millis'], 5000, 1000)
+    check_value('Java GC ParNew time', node['jvm']['gc']['collectors']['ParNew']['collection_time_in_millis'], 5000, 1000)
+
+    # Check memory
+    check_percentage("Heap size", node['jvm']['mem']['heap_used_in_bytes'], node['jvm']['mem']['heap_committed_in_bytes'], 80, 90)
+
+    # All checks clear.
+    print "OK"
+    sys.exit(0)
+
+# Parse the command line arguments
+parser = argparse.ArgumentParser(description='Nagios Check for elasticsearch.')
+parser.add_argument('--host', nargs='?', help='the ip address where elasticsearch is running')
+parser.add_argument('--node', nargs='?', help='the name of the node (in ES) that should be checked')
+args = parser.parse_args()
+
+# Get the node from the command line
+ip_address = args.host
+node_to_check = args.node
+if ip_address is None:
+    print "CRITICAL:No ip address was specified"
+    sys.exit(2)
+
+if node_to_check is None:
+    print "CRITICAL:No nodename was specified"
+    sys.exit(2)
+
+
+# Get the stats from the ES REST api
+conn = httplib.HTTPConnection(ip_address, 9200)
+conn.request("GET", "/_nodes/%s/stats?jvm=true" % node_to_check)
+r1 = conn.getresponse()
+if r1.status != 200:
+    print "CRITICIAL:Got %s - Reason: %s" % (r1.status, r1.reason)
+
+# Parse the data and grab the right node.
+data = json.loads(r1.read())
+for search_node in data['nodes'].values():
+    if search_node['name'] == node_to_check:
+        check_node(search_node)
+
+
+# If we get to this point, we couldn't find the node in the elasticsearch cluster.
+print "CRITICAL:Could not find %s in cluster data" % node_to_check
+sys.exit(2)

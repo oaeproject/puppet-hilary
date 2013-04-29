@@ -1,0 +1,9 @@
+{
+    "classes": [
+        "::oaeservice::redis",
+        "::oaeservice::nagios::redis"
+    ],
+    "redis::syslog_enabled": true,
+
+    "nagios_hostgroup": "cacheservers"
+}

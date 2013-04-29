@@ -45,13 +45,13 @@ class elasticsearch (
   file { '/etc/elasticsearch/elasticsearch.yml':
     ensure  => present,
     content => template('elasticsearch/elasticsearch.yml.erb'),
-    require => Package['elasticsearch']
+    require => Package['elasticsearch'],
   }
 
   file { '/etc/elasticsearch/logging.yml':
     ensure  => present,
     content => template('elasticsearch/logging.yml.erb'),
-    require => Package['elasticsearch']
+    require => Package['elasticsearch'],
   }
 
   service { 'elasticsearch':

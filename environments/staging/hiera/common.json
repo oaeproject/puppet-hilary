@@ -1,41 +1,42 @@
 {
     "classes": [
         "::oaeservice::hosts",
-        "::oaeservice::firewall",
+        "::oaeservice::firewall::open",
         "::oaeservice::rsyslog",
-        "::oaeservice::mcollective"
+        "::oaeservice::mcollective",
+        "::oaeservice::nagios",
+        "::oaeservice::nagios::disk",
+        "::oaeservice::nagios::memory"
     ],
 
     "nodetype": "%{nodetype}",
     "nodesuffix": "%{nodesuffix}",
 
-    "web_domain": "oaeproject.org",
-
     "app_os_user": "root",
     "app_os_group": "root",
     "app_hosts": [ "app0" ],
     "app_root_dir": "/opt/oae",
-    "app_git_user": "mrvisser",
-    "app_git_branch": "etherpad-merge",
-    
+    "app_git_user": "sakaiproject",
+    "app_git_branch": "master",
+
     "app_signing_key": "A;SLDFJ984FJW398FJWP4GO5IJSLRTKGJ",
     "app_cookie_secret": "SODIFJ984FJA984JAFP98WF4PAW984F984FJ9",
-    "app_admin_tenant": "admin",
+    "app_admin_host": "admin.oae-staging.oaeproject.org",
 
     "app_files_parent": "/shared",
     "app_files_dir": "/shared/files",
     "app_files_nfs": {
-        "server": "10.224.14.126",
-        "source_dir": "/zones/nfs/a906ce30-37bb-480c-98a5-794981b27e01/sakai1"
+        "server": "10.224.16.254",
+        "source_dir": "/zones/nfs/054491a7-81ac-4586-9415-bcafd565bd4c/shared"
     },
 
     "circonus_url": "https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t",
 
     "ux_root_dir": "/opt/3akai-ux",
-    "ux_git_user": "mrvisser",
-    "ux_git_branch": "etherpad-full",
+    "ux_git_user": "sakaiproject",
+    "ux_git_branch": "newframework",
 
-    "db_cluster_name": "Sakai OAE Production Cluster",
+    "db_cluster_name": "Sakai OAE Staging Cluster",
     "db_keyspace": "oae",
     "db_hosts": [ "db0" ],
     "db_tokens": [ "0" ],
@@ -54,26 +55,25 @@
 
     "search_hosts": [ "search0" ],
     "search_index": "%{nodesuffix}",
-    "search_data_dir": "/var/lib/elasticsearch",
+    "search_data_dir": "/data/elasticsearch",
     "search_memory_mb": 3072,
     "search_version": "0.20.6",
     "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
- 
-    "etherpad_internal_hosts": [ "etherpad0", "etherpad1", "etherpad2" ],
-    "etherpad_external_protocol": "http",
+
+    "etherpad_hosts": [ ],
     "etherpad_index": "%{nodesuffix}",
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
-    "etherpad_external_domain_label": "etherpad",
+    "etherpad_domain_suffix": ".etherpad.oae-staging.oaeproject.org",
 
-    "cache_host": "proxy0",
+    "cache_host": "cache0",
     "cache_port": 6379,
-    
-    "activitycache_enabled": true,
-    "activitycache_host": "proxy0",
-    "activitycache_port": 6380,
 
-    "mq_hosts": [ "mq0", "mq1" ],
+    "activitycache_enabled": false,
+    "activitycache_host": "cache0",
+    "activitycache_port": 6379,
+
+    "mq_hosts": [ "mq0" ],
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
 
@@ -87,6 +87,16 @@
 
     "nginx::ssl_path": "/opt/nginx/ssl",
 
+    "nagios_http_username": "nagiosadmin",
+    "nagios_http_password": "$apr1$jdYkGn4R$C/zBGqUA1.Zkra8U4vmNH1",
+    "nagios_enable_notifications": "0",
+    "nagios_smtp_host": "smtp.sendgrid.net",
+    "nagios_smtp_port": "587",
+    "nagios_smtp_user": "unset",
+    "nagios_smtp_pass": "unset",
+    "nagios_email_address": "unset",
+    "nagios_hostgroup": "misc",
+
     "oaeservice::deps::package::nodejs::nodejs_version": "0.8.23-1chl1~precise1",
     "oaeservice::deps::package::nodejs::npm_version": "1.2.18-1chl1~precise1",
 
@@ -95,6 +105,6 @@
     "oaeservice::mcollective::mco_package_version": "4.2.0-1",
     "oaeservice::mcollective::mco_service_version": "3.1.2-1",
 
-    "rabbitmq::server::version": "3.0.4-1",
+    "rabbitmq::server::version": "2.7.1-0ubuntu4",
     "rabbitmq::server::wipe_db_on_cookie_change": true
 }

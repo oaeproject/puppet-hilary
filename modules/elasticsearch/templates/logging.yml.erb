@@ -24,14 +24,17 @@ logger:
 <% if rsyslog_enabled -%>
   index.search.slowlog: TRACE, syslog_search_slow
   index.indexing.slowlog: TRACE, syslog_index_slow
+  index.merge: DEBUG, syslog_index_merge_slow
 <% else -%>
   index.search.slowlog: TRACE, index_search_slow_log_file
   index.indexing.slowlog: TRACE, index_indexing_slow_log_file
+  index.merge: DEBUG, index_merge_slow_log_file
 <% end -%>
 
 additivity:
   index.search.slowlog: false
   index.indexing.slowlog: false
+  index.merge: DEBUG,
 
 appender:
   console:
@@ -64,6 +67,14 @@ appender:
       type: pattern
       conversionPattern: "[%d{ISO8601}][%-5p][%-25c] %m%n"
 
+  index_merge_slow_log_file:
+    type: dailyRollingFile
+    file: ${path.logs}/${cluster.name}_index_merge_slowlog.log
+    datePattern: "'.'yyyy-MM-dd"
+    layout:
+      type: pattern
+      conversionPattern: "[%d{ISO8601}][%-5p][%-25c] %m%n"
+
   syslog_info:
     type: syslog
     header: true
@@ -87,6 +98,15 @@ appender:
     header: true
     syslogHost: <%= rsyslog_host %>
     facility: local2
+    layout:
+      type: pattern
+      conversionPattern: "[%d{ISO8601}][%-5p][%-25c] %m%n"
+
+  syslog_index_merge_slow:
+    type: syslog
+    header: true
+    syslogHost: <%= rsyslog_host %>
+    facility: local3
     layout:
       type: pattern
       conversionPattern: "[%d{ISO8601}][%-5p][%-25c] %m%n"
