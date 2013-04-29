@@ -226,4 +226,11 @@ node 'bastion' {
 }
 
 
+###################
+## PUPPET MASTER ##
+###################
 
+node 'puppet' {
+  $nodetype = 'puppet'
+  hiera_include(classes)
+}
