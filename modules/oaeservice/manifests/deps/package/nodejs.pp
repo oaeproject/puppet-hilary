@@ -6,21 +6,18 @@ class oaeservice::deps::package::nodejs ($nodejs_version, $npm_version, $nodegyp
   apt::ppa { 'ppa:chris-lea/node.js': }
   apt::ppa { 'ppa:chris-lea/node.js-legacy': }
 
-  package { "nodejs=${nodejs_version}":
-    alias   => nodejs,
-    ensure  => installed,
+  package { "nodejs":
+    ensure  => $nodejs_version,
     require => Class['apt']
   }
 
-  package { "nodejs-dev=${nodejs_version}":
-    alias   => nodejs-dev,
-    ensure  => installed,
+  package { "nodejs-dev":
+    ensure  => $nodejs_version,
     require => [ Class['apt'], Package['nodejs'] ]
   }
 
-  package { "npm=${npm_version}":
-    alias   => npm,
-    ensure  => installed,
+  package { "npm":
+    ensure  => $npm_version,
     require => [ Class['apt'], Package['nodejs-dev'] ]
   }
 
