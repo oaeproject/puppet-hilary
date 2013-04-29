@@ -6,10 +6,8 @@ class oaeservice::etherpad {
   Class['::oaeservice::deps::package::git']     -> Class['::etherpad']
   Class['::oaeservice::deps::package::nodejs']  -> Class['::etherpad']
 
-  $index = hiera('etherpad_index', 0)
-
   class { '::etherpad':
-    listen_address  => hiera('etherpad_hosts')[$index],
+    listen_address  => $ipaddress_eth1,
     api_key         => hiera('etherpad_api_key')
   }
 }

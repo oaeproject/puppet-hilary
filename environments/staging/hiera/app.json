@@ -1,0 +1,14 @@
+{
+    "classes": [
+        "::oaeservice::deps::package::java6",
+        "::oaeservice::deps::package::samlparser",
+        "::oaeservice::hilary",
+        "::oaeservice::hilary::files",
+        "::oaeservice::ui",
+        "::oaeservice::nagios::disk::shared",
+        "::oaeservice::nagios::hilary",
+        "::localconfig::ordering::app"
+    ],
+
+    "nagios_hostgroup": "appservers"
+}

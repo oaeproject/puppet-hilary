@@ -1,0 +1,8 @@
+{
+    "classes": [
+        "::oaeservice::elasticsearch",
+        "::oaeservice::nagios::elasticsearch"
+    ],
+
+    "nagios_hostgroup": "searchservers"
+}

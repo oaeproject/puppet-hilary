@@ -1,0 +1,17 @@
+#!/bin/bash
+
+total=$(free -k -o | grep Mem | sed 's/\s\+/,/g' | cut -d , -f 2)
+avail=$(free -k -o | grep Mem | sed 's/\s\+/,/g' | cut -d , -f 4)
+
+percentage=$((($avail * 100) / $total))
+
+if [[ $percentage -lt 5 ]] ; then
+     echo "CRITICAL:Free memory $avail ($percentage%)"
+     exit 2;
+elif [[ $percentage -lt 10 ]] ; then
+     echo "WARNING:Free memory $avail ($percentage%)"
+     exit 1;
+else
+    echo "OK:Free memory $avail ($percentage%)"
+    exit 0;
+fi
