@@ -10,7 +10,6 @@ class rsyslog (
   package { 'rsyslog': ensure => installed }
 
   file { '/etc/rsyslog.conf':
-    notify  => Service['rsyslog'],
     owner   => $owner,
     group   => $group,
     content => template("rsyslog/rsyslog.${clientOrServer}.conf.erb"),

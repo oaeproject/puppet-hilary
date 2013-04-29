@@ -21,7 +21,6 @@ class oaeservice::mq {
   exec { 'enable_management_plugin':
     environment => 'HOME=/root',
     command     => '/usr/lib/rabbitmq/lib/rabbitmq_server-2.7.1/sbin/rabbitmq-plugins enable rabbitmq_management',
-    notify      => Class['::rabbitmq::service'],
-    require     => Class['::rabbitmq::server'],
+    require     => Class['::rabbitmq::server']
   }
 }

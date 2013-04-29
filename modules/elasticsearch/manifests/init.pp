@@ -46,14 +46,12 @@ class elasticsearch (
     ensure  => present,
     content => template('elasticsearch/elasticsearch.yml.erb'),
     require => Package['elasticsearch'],
-    notify  => Service['elasticsearch'],
   }
 
   file { '/etc/elasticsearch/logging.yml':
     ensure  => present,
     content => template('elasticsearch/logging.yml.erb'),
     require => Package['elasticsearch'],
-    notify  => Service['elasticsearch'],
   }
 
   service { 'elasticsearch':

@@ -10,20 +10,17 @@ class oaeservice::mcollective (
         ensure  => installed,
         require => Package['mcollective'],
         before  => Service['mcollective'],
-        notify  => Service['mcollective']
     }
     package { "mcollective-package-agent=${mco_package_version}":
         ensure  => installed,
         require => Package['mcollective'],
         before  => Service['mcollective'],
-        notify  => Service['mcollective']
     }
 
     package { "mcollective-service-agent=${mco_service_version}":
         ensure  => installed,
         require => Package['mcollective'],
         before  => Service['mcollective'],
-        notify  => Service['mcollective']
     }
 
     service { 'mcollective':

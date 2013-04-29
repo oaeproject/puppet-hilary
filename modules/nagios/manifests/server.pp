@@ -106,7 +106,7 @@ class nagios::server (
 
   # If we chown that file, we can force checks from the web console.
   exec { 'chown_cmd_file':
-    command => '/bin/chown -R nagios:www-data /var/lib/nagios3',
+    command => '/bin/chown -R nagios:www-data /var/lib/nagios3'
   }
 
   # Create all nagios configs before restarting nagios
