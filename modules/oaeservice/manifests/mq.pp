@@ -19,8 +19,9 @@ class oaeservice::mq {
   # Enable the rabbitmq_management plugin and bounce the rabbitmq server.
   # We need the management plugin in case we want do monitoring.
   exec { 'enable_management_plugin':
-    command => '/usr/lib/rabbitmq/lib/rabbitmq_server-2.7.1/sbin/rabbitmq-plugins enable rabbitmq_management',
-    notify  => Class['::rabbitmq::service'],
-    require => Class['::rabbitmq::server'],
+    environment => 'HOME=/root',
+    command     => '/usr/lib/rabbitmq/lib/rabbitmq_server-2.7.1/sbin/rabbitmq-plugins enable rabbitmq_management',
+    notify      => Class['::rabbitmq::service'],
+    require     => Class['::rabbitmq::server'],
   }
 }
