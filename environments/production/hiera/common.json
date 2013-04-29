@@ -16,10 +16,10 @@
 
     "app_os_user": "root",
     "app_os_group": "root",
-    "app_hosts": [ "app0" ],
+    "app_hosts": [ "app0", "app1", "app2", "app3" ],
     "app_root_dir": "/opt/oae",
-    "app_git_user": "mrvisser",
-    "app_git_branch": "etherpad-merge",
+    "app_git_user": "sakaiproject",
+    "app_git_branch": "master",
     
     "app_signing_key": "A;SLDFJ984FJW398FJWP4GO5IJSLRTKGJ",
     "app_cookie_secret": "SODIFJ984FJA984JAFP98WF4PAW984F984FJ9",
@@ -40,10 +40,10 @@
 
     "db_cluster_name": "Sakai OAE Production Cluster",
     "db_keyspace": "oae",
-    "db_hosts": [ "db0" ],
+    "db_hosts": [ "db0", "db1", "db2" ],
     "db_tokens": [ "0" ],
     "db_timeout": 5000,
-    "db_replication_factor": 1,
+    "db_replication_factor": 3,
     "db_strategy_class": "SimpleStrategy",
     "db_index": "%{nodesuffix}",
     "db_data_dir": "/data/cassandra",
@@ -55,7 +55,7 @@
     "phantomjs_version": "1.9.0",
     "phantomjs_checksum": "8075fa873d8741c7ae9093c80a589a1f",
 
-    "search_hosts": [ "search0" ],
+    "search_hosts": [ "search0", "search1" ],
     "search_index": "%{nodesuffix}",
     "search_data_dir": "/var/lib/elasticsearch",
     "search_memory_mb": 3072,
