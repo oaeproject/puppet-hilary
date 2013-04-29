@@ -30,8 +30,8 @@ class oaeservice::hilary {
   $web_domain = hiera('web_domain')
   $app_admin_tenant = hiera('app_admin_tenant')
   $admin_domain = "${app_admin_tenant}.${web_domain}"
-  $etherpad_domain_label = hiera('etherpad_external_domain_label')
-  $etherpad_domain_suffix = ".${etherpad_domain_label}.${web_domain}"
+  $etherpad_external_domain_label = hiera('etherpad_external_domain_label')
+  $etherpad_external_domain_suffix = ".${etherpad_external_domain_label}.${web_domain}"
 
   class { '::hilary':
     app_root_dir                  => hiera('app_root_dir'),
