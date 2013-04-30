@@ -5,7 +5,7 @@ list=/tmp/security_list_only
 grep 'security' /etc/apt/sources.list > $list
 
 # Use that list and check if there are any upgrades.
-sudo apt-get upgrade -qq -s  -o Dir::Etc::SourceList==$list | egrep '^Conf|^Inst' > /dev/null
+apt-get upgrade -qq -s  -o Dir::Etc::SourceList==$list | egrep '^Conf|^Inst' > /dev/null
 EXITCODE=${?}
 
 # Depending on the statuscode there might be updates.
