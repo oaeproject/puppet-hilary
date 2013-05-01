@@ -8,6 +8,8 @@ SCRIPT_ENVIRONMENT=$1
 SCRIPT_HOSTNAME=$2
 SCRIPT_PUPPET_INTERNAL_IP=$3
 
+chmod 1777 /tmp
+
 # Set the host of the machine. Will need a reboot after this
 echo $SCRIPT_HOSTNAME > /etc/hostname
 sed -i "s/^127\.0\.1\.1[[:space:]]*localhost/127.0.1.1 $SCRIPT_HOSTNAME localhost/" /etc/hosts
