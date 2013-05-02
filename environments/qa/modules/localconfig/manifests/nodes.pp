@@ -9,3 +9,9 @@ node 'qa0' {
     $nodesuffix = 0
     hiera_include(classes)
 }
+
+node 'qa1' {
+    $nodetype = 'qa'
+    $nodesuffix = 1
+    hiera_include(classes)
+}

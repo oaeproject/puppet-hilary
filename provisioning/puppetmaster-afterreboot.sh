@@ -7,6 +7,7 @@ fi
 SCRIPT_ENVIRONMENT=$1
 
 # Install the puppetlabs repos
+chmod 1777 /tmp
 cd /tmp
 wget http://apt.puppetlabs.com/puppetlabs-release-precise.deb
 dpkg -i puppetlabs-release-precise.deb

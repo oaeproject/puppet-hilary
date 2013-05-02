@@ -1,7 +1,6 @@
 class oaeservice::cassandra {
-  require oaeservice::deps::package::java6
-
-  Class['::oaeservice::deps::package::java6']   -> Class['::cassandra']
+  require oaeservice::oracle-java
+  Class['::oaeservice::oracle-java']   -> Class['::cassandra']
 
   $hosts = hiera('db_hosts')
   $tokens = hiera('db_tokens')
