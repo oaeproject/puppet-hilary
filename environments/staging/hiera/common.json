@@ -1,7 +1,7 @@
 {
     "classes": [
         "::oaeservice::hosts",
-        "::oaeservice::firewall::open",
+        "::oaeservice::firewall",
         "::oaeservice::rsyslog",
         "::oaeservice::mcollective",
         "::oaeservice::nagios",
@@ -69,11 +69,11 @@
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_external_domain_label": "etherpad",
 
-    "cache_host": "proxy0",
+    "cache_host": "cache0",
     "cache_port": 6379,
 
     "activitycache_enabled": false,
-    "activitycache_host": "proxy0",
+    "activitycache_host": "activity-cache0",
     "activitycache_port": 6379,
 
     "mq_hosts": [ "mq0" ],

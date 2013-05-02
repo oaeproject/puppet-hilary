@@ -203,6 +203,8 @@ node 'proxy0' inherits proxy {
   hiera_include(classes)
 }
 
+
+
 #################
 ## SYSLOG NODE ##
 #################
