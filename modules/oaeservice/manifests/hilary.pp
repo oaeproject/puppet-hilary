@@ -60,6 +60,7 @@ class oaeservice::hilary {
 
     config_etherpad_internal_hosts          => hiera('etherpad_internal_hosts'),
     config_etherpad_external_protocol       => hiera('etherpad_external_protocol'),
+    config_etherpad_external_port           => hiera('etherpad_external_port'),
     config_etherpad_api_key                 => hiera('etherpad_api_key'),
     config_etherpad_external_domain_suffix  => $etherpad_external_domain_suffix,
 
