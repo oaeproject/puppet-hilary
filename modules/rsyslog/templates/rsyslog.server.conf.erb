@@ -11,6 +11,7 @@ $ModLoad imklog   # provides kernel logging support (previously done by rklogd)
 # Provides UDP syslog reception
 $ModLoad imudp
 $UDPServerRun 514
+$SystemLogRateLimitInterval 0
 
 #### GLOBAL DIRECTIVES ####
 

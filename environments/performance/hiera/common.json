@@ -8,6 +8,8 @@
     "nodetype": "%{nodetype}",
     "nodesuffix": "%{nodesuffix}",
 
+    "web_domain": "oae-performance.sakaiproject.org",
+
     "app_os_user": "root",
     "app_os_group": "root",
     "app_hosts": [ "app0", "app1", "app2", "app3" ],
@@ -17,7 +19,7 @@
     
     "app_signing_key": "A;SLDFJ984FJW398FJWP4GO5IJSLRTKGJ",
     "app_cookie_secret": "SODIFJ984FJA984JAFP98WF4PAW984F984FJ9",
-    "app_admin_host": "admin.oae-performance.sakaiproject.org",
+    "app_admin_tenant": "admin",
 
     "app_files_parent": "/shared",
     "app_files_dir": "/shared/files",
@@ -56,11 +58,12 @@
     "search_version": "0.20.6",
     "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
 
-    "etherpad_hosts": [ "etherpad0", "etherpad1" ],
+    "etherpad_internal_hosts": [ "etherpad0", "etherpad1", "etherpad2" ],
+    "etherpad_external_protocol": "http",
     "etherpad_index": "%{nodesuffix}",
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
-    "etherpad_domain_suffix": ".etherpad.oae-performance.sakaiproject.org",
+    "etherpad_external_domain_label": "etherpad",
 
     "cache_host": "cache-master",
 
@@ -83,6 +86,6 @@
     "oaeservice::deps::package::nodejs::nodejs_version": "0.8.23-1chl1~precise1",
     "oaeservice::deps::package::nodejs::npm_version": "1.2.18-1chl1~precise1",
 
-    "rabbitmq::server::version": "2.7.1-0ubuntu4",
+    "rabbitmq::server::version": "3.0.4-1",
     "rabbitmq::server::wipe_db_on_cookie_change": true
 }

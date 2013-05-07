@@ -1,0 +1,9 @@
+{
+    "classes": [
+        "::oaeservice::puppet",
+        "::oaeservice::nagios::server",
+        "::oaeservice::nagios::puppet"
+    ],
+
+    "nagios_hostgroup": "misc"
+}

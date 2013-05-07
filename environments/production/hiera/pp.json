@@ -2,11 +2,14 @@
     "classes": [
         "::oaeservice::deps::pp",
         "::oaeservice::hilary",
-        "::oaeservice::ui"
+        "::oaeservice::ui",
+        "::oaeservice::nagios::hilary"
     ],
 
     "hilary::config_previews_enabled": true,
     
     "app_os_user": "root",
-    "app_os_group": "root"
+    "app_os_group": "root",
+
+    "nagios_hostgroup": "ppservers"
 }

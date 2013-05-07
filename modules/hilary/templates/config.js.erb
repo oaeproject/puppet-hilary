@@ -326,21 +326,27 @@ config.saml = {
 /**
  * `config.etherpad`
  *
- * Configuration namespace for the etherpad logic
+ * Configuration namespace for the etherpad logic.
  *
- * @param  {Object[]}   hosts               The hosts where etherpad instances can be found.
- * @param  {String}     hosts[i].apikey     The key that can be used to communicate with etherpad.
- * @param  {String}     hosts[i].host       The hostname or IP address where the etherpad API can be reached. It's recommended that you proxy your etherpad instance which allows you to do failover without restarting all the app nodes.
- * @param  {Number}     hosts[i].port       The port number where etherpad can be reached.
+ * @param  {String}     apikey                          The key that can be used to communicate with the etherpad API.
+ * @param  {Object[]}   hosts                           The hosts where etherpad instances can be found.
+ * @param  {String}     hosts[i].externalProtocol       The protocol on which users will be accessing Etherpad. Either `http` or `https`
+ * @param  {String}     hosts[i].externalEtherpadHost   The hostname or IP address on which users will be accessing Etherpad.
+ * @param  {String}     hosts[i].externalEtherpadPort   The port on which users will be accessing Etherpad.
+ * @param  {String}     hosts[i].internalEtherpadHost   The hostname or IP address on which Hilary will be accessing the Etherpad API.
+ * @param  {Number}     hosts[i].internalEtherpadPort   The port number on which Hilary will be accessing the etherpad API.
  */
 config.etherpad = {
+    'apikey': '<%= config_etherpad_api_key %>',
     'hosts': [
-<% config_etherpad_hosts.each_with_index do |ip, index| %>
-            {
-                'apikey': '<%= config_etherpad_api_key %>',
-                'host': '<%= index %><%= config_etherpad_domain_suffix %>',
-                'port': 80
-            },
+<% config_etherpad_internal_hosts.each_with_index do |ip, index| %>
+        {
+            'externalProtocol': '<%= config_etherpad_external_protocol %>',
+            'externalHost': '<%= index %><%= config_etherpad_external_domain_suffix %>',
+            'externalPort': <%= config_etherpad_external_port %>,
+            'internalHost': '<%= ip %>',
+            'internalPort': 9001
+        },
 <% end %>
     ]
 };

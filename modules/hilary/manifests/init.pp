@@ -56,9 +56,11 @@ class hilary (
     $config_activity_redis_port       = 6379,
 
     # Etherpad
-    $config_etherpad_hosts,
+    $config_etherpad_internal_hosts,
+    $config_etherpad_external_protocol      = 'https',
+    $config_etherpad_external_port          = 443,
     $config_etherpad_api_key,
-    $config_etherpad_domain_suffix) {
+    $config_etherpad_external_domain_suffix) {
 
   $config_files_tmp_upload_dir = "${config_files_tmp_dir}/uploads"
   $config_previews_tmp_dir = "${config_files_tmp_dir}/previews"
@@ -163,7 +165,7 @@ class hilary (
   service { 'hilary':
     ensure   => running,
     provider => 'upstart',
-    require  => [ File['/etc/init/hilary.conf'], Vcsrepo[$ux_root_dir], Exec["npm_install_dependencies"] ]
+    require  => [File['/etc/init/hilary.conf'], Vcsrepo[$ux_root_dir], Exec["npm_install_dependencies"] ]
   }
 
 }

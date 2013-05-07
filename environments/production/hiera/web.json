@@ -2,8 +2,10 @@
     "classes": [
         "::oaeservice::firewall::web",
         "::oaeservice::nginx",
+        "::oaeservice::hilary::files",
         "::oaeservice::ui",
-        "::oaeservice::hilary::files"
+        "::oaeservice::nagios::nginx",
+        "::oaeservice::nagios::disk::shared"
     ],
     "rsyslog::imfiles": [
         {
@@ -25,5 +27,7 @@
     ],
 
     "nginx::owner": "root",
-    "nginx::group": "root"
+    "nginx::group": "root",
+
+    "nagios_hostgroup": "webservers"
 }
