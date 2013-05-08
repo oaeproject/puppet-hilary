@@ -1,4 +1,8 @@
 {
-    "classes": ["::oaeservice::deps::package::nodejs"],
-    "rsyslog::clientOrServer": "server"
+    "classes": [
+        "::oaeservice::deps::package::nodejs"
+    ],
+    "rsyslog::clientOrServer": "server",
+
+    "nagios_hostgroup": "misc"
 }

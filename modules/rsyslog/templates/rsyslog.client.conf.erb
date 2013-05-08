@@ -1,6 +1,7 @@
 <% if not imfiles -%>
 $ModLoad imuxsock   # provides support for local system logging (e.g. via logger command)
 $ModLoad imklog     # provides kernel logging support (previously done by rklogd)
+$SystemLogRateLimitInterval 0
 <% else imfiles -%>
 $ModLoad imfile
 

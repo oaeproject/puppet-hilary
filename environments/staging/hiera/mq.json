@@ -1,7 +1,6 @@
 {
     "classes": [
         "::oaeservice::mq",
-        "::oaeservice::nagios",
         "::oaeservice::nagios::rabbitmq"
     ],
                

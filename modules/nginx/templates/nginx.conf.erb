@@ -48,7 +48,7 @@ http {
         <% if ssl_path -%>
         listen       443 ssl;
         <% end -%>
-        server_name  <%= ux_admin_host %>;
+        server_name  <%= app_admin_tenant %>.<%= web_domain %>;
 
         gzip on;
         gzip_min_length 1000;
@@ -339,7 +339,7 @@ http {
     <% internal_etherpad_ips.each_with_index do |ip, index| %>
     server {
         listen 80;
-        server_name <%=index %><%= scope.lookupvar("localconfig::etherpad_domain_suffix") %>;
+        server_name <%=index %>.<%= etherpad_external_domain_label %>.<%= web_domain %>;
 
         location / {
             expires 15m;

@@ -9,6 +9,12 @@ class rsyslog (
 
   package { 'rsyslog': ensure => installed }
 
+  file { $server_logdir:
+    ensure  => directory,
+    owner   => 'root',
+    group   => 'root'
+  }
+
   file { '/etc/rsyslog.conf':
     owner   => $owner,
     group   => $group,
@@ -21,6 +27,14 @@ class rsyslog (
       owner   => 'root',
       group   => 'root',
       mode    => 0644
+    }
+
+    file { "${server_logdir}/filter-bunyan":
+      content => template('rsyslog/filter-bunyan.erb'),
+      owner   => 'root',
+      group   => 'root',
+      mode    => 0754,
+      require => [ Package['rsyslog'], File[$server_logdir] ],
     }
   }
 

@@ -1,16 +1,18 @@
 class nginx (
     $internal_app_ips,
     $internal_etherpad_ips,
-    $ux_root_dir      = '/opt/3akai-ux',
-    $ux_admin_host    = 'admin.oae-performance.sakaiproject.org',
-    $files_home       = '/opt/files',
-    $ssl_path         = false,
-    $cert_source      = 'puppet:///modules/localconfig/server.crt',
-    $cert_key_source  = 'puppet:///modules/localconfig/server.key',
-    $owner            = 'www',
-    $group            = 'www',
-    $nginx_dir        = '/opt/nginx',
-    $installer_path   = '/tmp') {
+    $web_domain,
+    $etherpad_external_domain_label   = 'etherpad',
+    $app_admin_tenant                 = 'admin',
+    $ux_root_dir                      = '/opt/3akai-ux',
+    $files_home                       = '/opt/files',
+    $ssl_path                         = false,
+    $cert_source                      = 'puppet:///modules/localconfig/server.crt',
+    $cert_key_source                  = 'puppet:///modules/localconfig/server.key',
+    $owner                            = 'www',
+    $group                            = 'www',
+    $nginx_dir                        = '/opt/nginx',
+    $installer_path                   = '/tmp') {
 
   exec { 'installdir':
     command => "mkdir -p ${installer_path}",

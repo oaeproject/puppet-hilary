@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Useful for tailing the app server logs, filtering out the syslog pre-amble and feeding it through bunyan.
+# Example usage:
+#
+# tail -f <path to log> | filter-bunyan
+#
+# or:
+#
+# head -100 <path to log> | filter-bunyan
+
+# stdbuf I think flushes the buffer after each line, so bunyan gets all the data as it is tailed out.
+# It's absolutely necessary for "tail -f"
+
+stdbuf -oL cut -d' ' -f 6- | bunyan
