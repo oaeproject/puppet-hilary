@@ -46,6 +46,16 @@ class nginx (
     require => Exec['nginx_install']
   }
 
+  file { 'nginx_mime_types':
+    path    => "${nginx_dir}/conf/nginx.mime.types",
+    ensure  => present,
+    mode    => 0640,
+    owner   => $owner,
+    group   => $group,
+    content => template('nginx/nginx.mime.types'),
+    require => Exec['nginx_install']
+  }
+
   # Init script
   file { '/etc/init.d/nginx':
     ensure  => present,
@@ -84,7 +94,7 @@ class nginx (
 
   service { 'nginx':
     ensure  => running,
-    require => [ File['/etc/init.d/nginx'], File['nginx_config'] ]
+    require => [ File['/etc/init.d/nginx'], File['nginx_config'], File['nginx_mime_types'] ]
   }
 
 }

@@ -10,11 +10,10 @@ events {
 }
 
 http {
-    include       <%= nginx_dir %>/conf/mime.types;
-    default_type  application/octet-stream;
+    include       <%= nginx_dir %>/conf/nginx.mime.types;
 
     server_names_hash_bucket_size  64;
-    
+
     <% if ssl_path -%>
     ssl_certificate      <%= ssl_path %>/server.crt;
     ssl_certificate_key  <%= ssl_path %>/server.key;
@@ -32,7 +31,7 @@ http {
     ## GLOBAL ADMIN ##
     ##################
     ##################
-    
+
     ####################
     ## LOAD BALANCING ##
     ####################
@@ -42,7 +41,7 @@ http {
         server <%= ip %>:2000;
         <% end -%>
     }
-    
+
     server {
         listen       80;
         <% if ssl_path -%>
@@ -60,28 +59,28 @@ http {
         ##################
         ## STATIC FILES ##
         ##################
-        
+
         ## Admin UI
-        
+
         rewrite ^/$              /admin/index.html last;
         rewrite ^/tenant/(.*)$   /admin/index.html last;
-        
+
         location /admin/ {
             alias <%= ux_root_dir %>/admin/;
             autoindex off;
             expires max;
         }
-        
+
         ## Shared Resources
-        
+
         location /shared/ {
             alias <%= ux_root_dir %>/shared/;
             autoindex off;
             expires max;
         }
-        
+
         ## Main UI
-        
+
         location /ui/ {
             alias <%= ux_root_dir %>/ui/;
             autoindex off;
@@ -101,7 +100,7 @@ http {
             proxy_pass http://globaladminworkers;
             proxy_redirect off;
         }
-    
+
         location /api/config {
             expires 15m;
             proxy_set_header X-Real-IP $remote_addr;
@@ -111,7 +110,7 @@ http {
             proxy_pass http://globaladminworkers;
             proxy_redirect off;
         }
-        
+
         location /api/ui/widgets {
             expires 15m;
             proxy_set_header X-Real-IP $remote_addr;
@@ -174,15 +173,15 @@ http {
         ##################
 
         ## Shared Resources
-        
+
         location /shared/ {
             alias <%= ux_root_dir %>/shared/;
             autoindex off;
             expires max;
         }
-        
+
         ## Main UI
-        
+
         location /ui/ {
             alias <%= ux_root_dir %>/ui/;
             autoindex off;
@@ -194,7 +193,7 @@ http {
             autoindex off;
             expires max;
         }
-        
+
         rewrite ^/content/(.*)      /ui/content.html last;
         rewrite ^/creategroup       /ui/creategroup.html last;
         rewrite ^/favicon.ico       /ui/favicon.ico last;
@@ -205,7 +204,7 @@ http {
         rewrite ^/$                 /ui/index.html last;
         rewrite ^/search            /ui/search.html last;
         rewrite ^/user/(.*)         /ui/user.html last;
-        
+
         rewrite ^/accessdenied      /ui/errors/accessdenied.html last;
         rewrite ^/maintenance       /ui/errors/maintenance.html last;
         rewrite ^/noscript          /ui/errors/noscript.html last;
@@ -219,16 +218,16 @@ http {
             autoindex off;
             expires max;
         }
-        
+
         rewrite ^/admin$  /admin/index.html last;
-        
+
         ## API Documentation
-    
+
         location /docs/ {
             alias <%= ux_root_dir %>/docs/;
             autoindex off;
         }
-        
+
         rewrite ^/docs$  /docs/index.html last;
 
         ## Tests
@@ -236,7 +235,7 @@ http {
             alias <%= ux_root_dir %>/tests/;
             autoindex off;
         }
-    
+
         #################
         ## ERROR PAGES ##
         #################
