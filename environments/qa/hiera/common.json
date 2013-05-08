@@ -2,6 +2,7 @@
     "classes": [
         "::oaeservice::firewall::open",
         "::oaeservice::deps::pp",
+        "::oaeservice::etherpad",
         "::oaeservice::hilary",
         "::oaeservice::ui",
         "::oaeservice::redis",
@@ -28,8 +29,8 @@
     "app_cookie_secret": "SODIFJ984FJA984JAFP98WF4PAW984F984FJ9",
     "app_admin_tenant": "admin",
 
-    "app_files_parent": "/shared",
-    "app_files_dir": "/shared/files",
+    "app_files_parent": "/data",
+    "app_files_dir": "/data/files",
     "app_files_nfs": {
         "server": "127.0.0.1",
         "source_dir": "/vol/notinstalled"
@@ -111,5 +112,6 @@
     "rabbitmq::server::wipe_db_on_cookie_change": true,
 
     "automation_scripts_dir": "/opt/scripts",
-    "automation_backup_dir": "/opt/backup"
+    "automation_backup_dir": "/opt/backup",
+    "automation_model_loader_dir": "/opt/OAE-model-loader"
 }
