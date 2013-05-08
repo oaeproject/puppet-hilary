@@ -9,16 +9,25 @@ echo "Nightly Run: `date`"
 echo "========================================================="
 echo ""
 
+
+# Simple requirement check
+if [ ! -d <%= model_loader_dir %> ] ; then
+    echo "The model loader was not found. Exitting"
+    exit 1
+elif [ ! -f <%= model_loader_dir %>/scripts/users/0.txt ] ; then
+    echo "There was no batch found in the model loader."
+    echo "You can generate a batch with:"
+    echo "cd <%= model_loader_dir %> && node generate.js -b 1 -t oae -u 100 -g 200 -c 500"
+    exit 1
+fi
+
+
 echo "Shutting down services..."
 <%= scripts_dir %>/shutdown.sh
 
 echo ""
 echo "Deleting data..."
 <%= scripts_dir %>/deletedata.sh
-
-echo ""
-echo "Restoring data..."
-<%= scripts_dir %>/restoredata.sh
 
 echo ""
 echo "Restoring services with puppet"
@@ -49,8 +58,18 @@ sleep $DELAY
 # Restarting nginx so it finds the app server up quicker
 service nginx restart
 
+# Create an 'oae' tenant.
 echo ""
-echo "Re-building search index"
-
+echo "Creating an 'oae' tenant and disabling reCaptcha"
 ADMIN_COOKIE=$(curl -s -e "/" --cookie-jar - -d"username=administrator" -d"password=administrator" http://<%= admin_host %>/api/auth/login | grep connect.sess | cut -f 7)
-curl -XPOST -e "/" --cookie connect.sess=${ADMIN_COOKIE} http://<%= admin_host%>/api/search/reindexAll
+curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d "alias=oae" -d"displayName=Open Academic Environment" -d"host=oae.<%= web_domain %>" http://<%= admin_host %>/api/tenant/create
+
+# Disable reCaptcha
+curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d "oae-principals/recaptcha/enabled=false" http://<%= admin_host %>/api/config/oae
+
+# Performing a data load.
+# An initial set of scripts should already be present on the server (requires manual intervention)
+echo ""
+echo "Loading data via the model loader"
+cd <%= model_loader_dir %>
+node loaddata.js -b 1 -s 0 -h http://oae.<%= web_domain %>
