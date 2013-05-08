@@ -16,7 +16,7 @@
     "app_root_dir": "/opt/oae",
     "app_git_user": "sakaiproject",
     "app_git_branch": "master",
-    
+
     "app_signing_key": "A;SLDFJ984FJW398FJWP4GO5IJSLRTKGJ",
     "app_cookie_secret": "SODIFJ984FJA984JAFP98WF4PAW984F984FJ9",
     "app_admin_tenant": "admin",
@@ -86,6 +86,6 @@
     "oaeservice::deps::package::nodejs::nodejs_version": "0.8.23-1chl1~precise1",
     "oaeservice::deps::package::nodejs::npm_version": "1.2.18-1chl1~precise1",
 
-    "rabbitmq::server::version": "3.0.4-1",
+    "rabbitmq::server::version": "3.1.0-1",
     "rabbitmq::server::wipe_db_on_cookie_change": true
 }
