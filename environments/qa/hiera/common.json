@@ -113,5 +113,9 @@
 
     "automation_scripts_dir": "/opt/scripts",
     "automation_backup_dir": "/opt/backup",
-    "automation_model_loader_dir": "/opt/OAE-model-loader"
+    "automation_model_loader_dir": "/opt/OAE-model-loader",
+    "automation_flickr_api_key": "unset",
+    "automation_flickr_api_secret": "unset",
+    "automation_slideshare_shared_secret": "unset",
+    "automation_slideshare_api_key": "unset"
 }

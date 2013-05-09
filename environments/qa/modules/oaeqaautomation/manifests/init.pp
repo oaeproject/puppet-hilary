@@ -33,6 +33,12 @@ class oaeqaautomation ($log_file_path = '/var/log/nightly.log') {
     $app_admin_tenant = hiera('app_admin_tenant')
     $admin_host = "${app_admin_tenant}.${web_domain}"
 
+
+    $flickr_api_key = hiera('automation_flickr_api_key')
+    $flickr_api_secret = hiera('automation_flickr_api_secret')
+    $slideshare_shared_secret = hiera('automation_slideshare_shared_secret')
+    $slideshare_api_key = hiera('automation_slideshare_api_key')
+
     exec { 'mkdir_scripts': command => "mkdir -p ${scripts_dir}", unless => "test -d ${scripts_dir}" }
 
     file { 'deletedata.sh':
