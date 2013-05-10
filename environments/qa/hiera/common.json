@@ -1,6 +1,8 @@
 {
     "classes": [
-        "::oaeservice::firewall::open",
+        "::oaeservice::firewall",
+        "::oaeservice::firewall::ssh",
+        "::oaeservice::firewall::web",
         "::oaeservice::deps::pp",
         "::oaeservice::etherpad",
         "::oaeservice::hilary",
