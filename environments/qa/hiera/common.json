@@ -83,6 +83,13 @@
     "activitycache_host": "127.0.0.1",
     "activitycache_port": 6379,
 
+    "email_debug": false,
+    "email_customEmailTemplatesDir": "null",
+    "email_service": "unset",
+    "email_user": "unset",
+    "email_pass": "unset",
+
+
     "mq_hosts": [ "127.0.0.1" ],
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],

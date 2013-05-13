@@ -55,6 +55,13 @@ class hilary (
     $config_activity_redis_host       = false,
     $config_activity_redis_port       = 6379,
 
+    # Email notifications
+    $config_email_debug                      = false,
+    $config_email_customEmailTemplatesDir    = 'null',
+    $config_email_service                    = 'Gmail',
+    $config_email_user                       = 'user@gmail.com',
+    $config_email_pass                       = 'password',
+
     # Etherpad
     $config_etherpad_internal_hosts,
     $config_etherpad_external_protocol      = 'https',

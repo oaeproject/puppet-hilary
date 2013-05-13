@@ -67,6 +67,13 @@ class oaeservice::hilary {
     config_log_syslog_ip              => $rsyslog_host,
     config_activity_redis_host        => $activitycache_host,
     config_activity_redis_port        => $activitycache_port,
+
+    config_email_debug                      => hiera('email_debug'),
+    config_email_customEmailTemplatesDir    => hiera('email_customEmailTemplatesDir'),
+    config_email_service                    => hiera('email_service'),
+    config_email_user                       => hiera('email_user'),
+    config_email_pass                       => hiera('email_pass'),
+
     config_previews_phantomjs_binary  => "/opt/phantomjs-${phantomjs_version}-linux-x86_64/bin/phantomjs"
   }
 }

@@ -301,13 +301,13 @@ config.activity = {
  * @param  {Object}     [smtpTransport]             The SMTP connection information for sending emails. This is the settings object that will be used by nodemailer to form an smtp connection: https://github.com/andris9/Nodemailer
  */
 config.email = {
-    'debug': true,
-    'customEmailTemplatesDir': null,
+    'debug': <%= config_email_debug %>,
+    'customEmailTemplatesDir': <%= config_email_customEmailTemplatesDir %>,
     'smtpTransport': {
-        'service': 'Gmail',
+        'service': '<%= config_email_service %>',
         'auth': {
-            'user': 'my.email@gmail.com',
-            'pass': 'myemailpassword'
+            'user': '<%= config_email_user %>',
+            'pass': '<%= config_email_pass %>'
         }
     }
 };
