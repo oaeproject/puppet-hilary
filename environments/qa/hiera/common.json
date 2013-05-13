@@ -12,6 +12,7 @@
         "::oaeservice::nginx",
         "::oaeservice::cassandra",
         "::oaeservice::mq",
+        "::oaeservice::postfix",
 
         "::localconfig::ordering",
         "::oaeqaautomation"
@@ -24,8 +25,8 @@
     "app_os_group": "root",
     "app_hosts": [ "127.0.0.1" ],
     "app_root_dir": "/opt/oae",
-    "app_git_user": "sakaiproject",
-    "app_git_branch": "master",
+    "app_git_user": "simong",
+    "app_git_branch": "issue-498-sendmail-support",
 
     "app_signing_key": "A;SLDFJ984FJW398FJWP4GO5IJSLRTKGJ",
     "app_cookie_secret": "SODIFJ984FJA984JAFP98WF4PAW984F984FJ9",
@@ -86,9 +87,14 @@
 
     "email_debug": true,
     "email_customEmailTemplatesDir": "null",
-    "email_service": "unset",
-    "email_user": "unset",
-    "email_pass": "unset",
+    "email_transport": "sendmail",
+    "email_sendmail_path": "/usr/sbin/sendmail",
+    "email_smtp_service": "unset",
+    "email_smtp_port": "unset",
+    "email_smtp_host": "unset",
+    "email_smtp_user": "unset",
+    "email_smtp_pass": "unset",
+    "email_blacklisted_domains": ["example.com", "localhost", "127.0.0.1"],
 
 
     "mq_hosts": [ "127.0.0.1" ],

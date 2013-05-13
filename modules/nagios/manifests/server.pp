@@ -17,28 +17,8 @@
 class nagios::server (
     $http_username = 'nagiosadmin',
     $http_password = '$apr1$jdYkGn4R$C/zBGqUA1.Zkra8U4vmNH1',
-    $enable_notifications = 1,
-    $smtp_server_host,
-    $smtp_server_port,
-    $smtp_server_user,
-    $smtp_server_pass,
-    $email_address,
+    $enable_notifications = 1
   ){
-
-  #############
-  ## Postfix ##
-  ############# 
-
-  # Make sure postfix is sending out mails via the correct SMTP relay.
-  file { '/etc/postfix/main.cf':
-    ensure  => present,
-    content => template('nagios/main.cf.erb'),
-    notify  => Service['postfix'],
-  }
-
-  service { 'postfix':
-    ensure  => running,
-  }
 
   ###################
   ## Nagios Server ##
@@ -294,7 +274,7 @@ class nagios::server (
   # CPAN is the default way to install modules, but there seems to be no good
   # way to automate it.
   # Use cpanminus to set a simple cpan up and use simple exec's to get the dependencies
-  
+
   exec { 'install_cpanm':
     command => '/usr/bin/perl /etc/puppet/puppet-hilary/modules/nagios/templates/cpanm.pl --self-upgrade'
   }
@@ -303,7 +283,7 @@ class nagios::server (
     command => '/usr/local/bin/cpanm URI && /usr/local/bin/cpanm JSON && /usr/local/bin/cpanm LWP::UserAgent && /usr/local/bin/cpanm Nagios::Plugin',
     require => Exec['install_cpanm'],
   }
-  
+
 
   vcsrepo { '/tmp/nagios-plugins-rabbitmq':
     ensure    => latest,

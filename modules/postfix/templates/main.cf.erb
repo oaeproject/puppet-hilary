@@ -38,9 +38,14 @@ mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
 
-smtp_sasl_auth_enable = yes 
+
+# We'll blackhole all the @example.com mail addresses,
+# we need to configure this in a virtual alias map file.
+virtual_alias_maps = hash:/etc/postfix/virtual_alias
+
+smtp_sasl_auth_enable = yes
 smtp_sasl_password_maps = static:<%= smtp_server_user %>:<%= smtp_server_pass %>
-smtp_sasl_security_options = noanonymous 
+smtp_sasl_security_options = noanonymous
 smtp_tls_security_level = may
 start_tls = yes
 header_size_limit = 4096000

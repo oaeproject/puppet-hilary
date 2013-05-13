@@ -25,6 +25,22 @@ class oaeservice::hilary {
     $activitycache_port = false
   }
 
+  $email_debug = hiera('email_debug')
+  if $email_debug {
+    # If debug is set to true, we won't be sending out emails, so there is nothing to do.
+    # Puppet doesn't support a NOT operator
+  } else {
+    # Otherwise we need to configure postfix so it'll relay mails and blackhole certain domains.
+    class { '::postfix':
+      smtp_server_host        => hiera('email_smtp_host'),
+      smtp_server_port        => hiera('email_smtp_port'),
+      smtp_server_user        => hiera('email_smtp_user'),
+      smtp_server_pass        => hiera('email_smtp_pass'),
+      email_address           => hiera('email_address'),
+      blacklisted_domains     => hiera('email_blacklisted_domains'),
+    }
+  }
+
   $phantomjs_version = hiera('phantomjs_version')
 
   $web_domain = hiera('web_domain')
@@ -70,9 +86,11 @@ class oaeservice::hilary {
 
     config_email_debug                      => hiera('email_debug'),
     config_email_customEmailTemplatesDir    => hiera('email_customEmailTemplatesDir'),
-    config_email_service                    => hiera('email_service'),
-    config_email_user                       => hiera('email_user'),
-    config_email_pass                       => hiera('email_pass'),
+    config_email_transport                  => hiera('email_transport'),
+    config_email_sendmail_path              => hiera('email_sendmail_path'),
+    config_email_smtp_service               => hiera('email_smtp_service'),
+    config_email_smtp_user                  => hiera('email_smtp_user'),
+    config_email_smtp_pass                  => hiera('email_smtp_pass'),
 
     config_previews_phantomjs_binary  => "/opt/phantomjs-${phantomjs_version}-linux-x86_64/bin/phantomjs"
   }

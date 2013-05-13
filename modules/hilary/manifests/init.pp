@@ -58,9 +58,11 @@ class hilary (
     # Email notifications
     $config_email_debug                      = false,
     $config_email_customEmailTemplatesDir    = 'null',
-    $config_email_service                    = 'Gmail',
-    $config_email_user                       = 'user@gmail.com',
-    $config_email_pass                       = 'password',
+    $config_email_transport                  = 'sendmail',
+    $config_email_sendmail_path              = '/usr/sbin/sendmail',
+    $config_email_smtp_service               = 'Gmail',
+    $config_email_smtp_user                  = 'user@gmail.com',
+    $config_email_smtp_pass                  = 'password',
 
     # Etherpad
     $config_etherpad_internal_hosts,
