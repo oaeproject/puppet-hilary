@@ -83,7 +83,7 @@
     "activitycache_host": "127.0.0.1",
     "activitycache_port": 6379,
 
-    "email_debug": false,
+    "email_debug": true,
     "email_customEmailTemplatesDir": "null",
     "email_service": "unset",
     "email_user": "unset",
