@@ -9,10 +9,9 @@ class nginx (
     $ssl_path                         = false,
     $cert_source                      = 'puppet:///modules/localconfig/server.crt',
     $cert_key_source                  = 'puppet:///modules/localconfig/server.key',
-    $owner                            = 'www',
-    $group                            = 'www',
-    $nginx_dir                        = '/opt/nginx',
-    $installer_path                   = '/tmp') {
+    $owner                            = 'root',
+    $group                            = 'root',
+    $nginx_dir                        = '/etc/nginx') {
 
 
   include apt
@@ -29,7 +28,7 @@ class nginx (
   }
 
   file { 'nginx_config':
-    path    => "${nginx_dir}/conf/nginx.conf",
+    path    => "${nginx_dir}/nginx.conf",
     ensure  => present,
     mode    => 0640,
     owner   => $owner,
@@ -39,7 +38,7 @@ class nginx (
   }
 
   file { 'nginx_mime_types':
-    path    => "${nginx_dir}/conf/nginx.mime.types",
+    path    => "${nginx_dir}/nginx.mime.types",
     ensure  => present,
     mode    => 0640,
     owner   => $owner,
