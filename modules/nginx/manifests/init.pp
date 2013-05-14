@@ -14,26 +14,17 @@ class nginx (
     $nginx_dir                        = '/opt/nginx',
     $installer_path                   = '/tmp') {
 
-  exec { 'installdir':
-    command => "mkdir -p ${installer_path}",
-    unless  => "test -d ${installer_path}",
+
+  include apt
+  apt::source { 'datastax':
+    location    => 'http://nginx.org/packages/ubuntu/',
+    repos       => 'precise nginx',
   }
 
-  file { 'nginx_script':
-    path    => "${installer_path}/install.sh",
-    ensure  => present,
-    mode    => 0755,
-    owner   => root,
-    group   => root,
-    content  => template('nginx/install.sh.erb'),
-    require => Exec['installdir']
-  }
-
-  exec { 'nginx_install':
-    cwd       => '/tmp',
-    command   => "bash ${installer_path}/install.sh",
-    logoutput => true,
-    require   => File['nginx_script']
+  package { 'nginx=1.4.1':
+    ensure  => installed,
+    alias   => 'nginx',
+    require => Class['apt']
   }
 
   file { 'nginx_config':
@@ -43,7 +34,7 @@ class nginx (
     owner   => $owner,
     group   => $group,
     content => template('nginx/nginx.conf.erb'),
-    require => Exec['nginx_install']
+    require => Package['nginx'],
   }
 
   file { 'nginx_mime_types':
@@ -53,16 +44,7 @@ class nginx (
     owner   => $owner,
     group   => $group,
     content => template('nginx/nginx.mime.types'),
-    require => Exec['nginx_install']
-  }
-
-  # Init script
-  file { '/etc/init.d/nginx':
-    ensure  => present,
-    mode    => 0744,
-    owner   => $owner,
-    group   => $group,
-    content => template('nginx/nginx-init-ubuntu.erb')
+    require => Package['nginx'],
   }
 
   if ($ssl_path) {
@@ -94,7 +76,7 @@ class nginx (
 
   service { 'nginx':
     ensure  => running,
-    require => [ File['/etc/init.d/nginx'], File['nginx_config'], File['nginx_mime_types'] ]
+    require => [ Package['nginx'], File['nginx_config'], File['nginx_mime_types'] ]
   }
 
 }
