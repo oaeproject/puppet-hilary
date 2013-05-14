@@ -16,7 +16,7 @@ class nginx (
 
 
   include apt
-  apt::source { 'datastax':
+  apt::source { 'nginx':
     location    => 'http://nginx.org/packages/ubuntu/',
     repos       => 'precise nginx',
   }
