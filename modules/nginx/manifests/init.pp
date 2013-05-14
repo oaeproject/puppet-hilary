@@ -21,7 +21,7 @@ class nginx (
     repos       => 'precise nginx',
   }
 
-  package { 'nginx=1.4.1':
+  package { 'nginx-full=1.4.1':
     ensure  => installed,
     alias   => 'nginx',
     require => Class['apt'],
