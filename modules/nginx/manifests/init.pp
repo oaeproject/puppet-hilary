@@ -24,7 +24,7 @@ class nginx (
   package { 'nginx=1.4.1':
     ensure  => installed,
     alias   => 'nginx',
-    require => Apt::source['nginx'],
+    require => Apt::Source['nginx'],
   }
 
   file { 'nginx_config':
