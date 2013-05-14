@@ -18,10 +18,11 @@ class nginx (
   include apt
   apt::source { 'nginx':
     location    => 'http://nginx.org/packages/ubuntu/',
-    repos       => 'precise nginx',
+    repos       => 'nginx',
+    key         => 'ABF5BD827BD9BF62',
   }
 
-  package { 'nginx-full=1.4.1':
+  package { 'nginx-full=1.4.1-1':
     ensure  => installed,
     alias   => 'nginx',
     require => Class['apt'],
