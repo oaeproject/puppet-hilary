@@ -74,9 +74,18 @@ class nginx (
     }
   }
 
+  # Init script for ubuntu
+  file { '/etc/init.d/nginx':
+    ensure  => present,
+    mode    => 0744,
+    owner   => $owner,
+    group   => $group,
+    content => template('nginx/nginx-init-ubuntu.erb')
+  }
+
   service { 'nginx':
     ensure  => running,
-    require => [ Package['nginx'], File['nginx_config'], File['nginx_mime_types'] ]
+    require => [ Package['nginx'], File['nginx_config'], File['nginx_mime_types'], File['/etc/init.d/nginx'] ]
   }
 
 }
