@@ -8,9 +8,6 @@ class localconfig::ordering {
     Class['::cassandra']                    -> Class['::hilary']
     Class['::rabbitmq::server']             -> Class['::hilary']
 
-    ## After the app server is installed and ready, then setup nginx
-    Class['::hilary']                       -> Class['::nginx']
-
     ## After the app server is installed, setup the qa-automation.
     Class['::hilary']                       -> Class['::oaeqaautomation']
 }
