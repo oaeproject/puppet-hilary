@@ -22,7 +22,7 @@ class nginx (
     key         => 'ABF5BD827BD9BF62',
   }
 
-  package { 'nginx=1.4.1-1':
+  package { 'nginx=1.4.1-1~precise':
     ensure  => installed,
     alias   => 'nginx',
     require => Class['apt'],
