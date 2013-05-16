@@ -53,8 +53,8 @@ class etherpad (
     # Install the ep_headings plugin
     exec { "install_ep_headings":
         command     => "npm install ep_headings",
-        cwd         => $etherpad_dir
-        require     => Vcsrepo[$etherpad_dir]
+        cwd         => $etherpad_dir,
+        require     => Exec['install_etherpad_dependencies'],
     }
 
     # The file that will contain the shared secret.
