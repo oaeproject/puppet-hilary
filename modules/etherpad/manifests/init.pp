@@ -2,7 +2,7 @@ class etherpad (
         $listen_address,
         $session_key,
         $api_key,
-        
+
         $oae_db_hosts,
         $oae_db_keyspace,
         $oae_db_replication,
@@ -50,6 +50,13 @@ class etherpad (
         require     =>  Exec['install_etherpad_dependencies'],
     }
 
+    # Install the ep_headings plugin
+    exec { "install_ep_headings":
+        command     => "npm install ep_headings",
+        cwd         => $etherpad_dir
+        require     => Vcsrepo[$etherpad_dir]
+    }
+
     # The file that will contain the shared secret.
     file { "${etherpad_dir}/APIKEY.txt":
         ensure      =>  present,
@@ -58,10 +65,10 @@ class etherpad (
         require     =>  [ Vcsrepo[$etherpad_dir], Vcsrepo[$ep_oae_path] ]
     }
 
-    exec { "chown_etherpad_dir": 
+    exec { "chown_etherpad_dir":
         command    => "chown -R ${etherpad_user}:${etherpad_user} ${etherpad_dir}",
         cwd        => $etherpad_dir,
-        require    => [ File["${etherpad_dir}/APIKEY.txt"], User[$etherpad_user] ]
+        require    => [ File["${etherpad_dir}/APIKEY.txt"], User[$etherpad_user], Exec['install_ep_headings'] ]
     }
 
     # Daemon script for the etherpad service
