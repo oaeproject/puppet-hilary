@@ -1,7 +1,7 @@
 class oaeservice::etherpad {
   require oaeservice::deps::common
   require oaeservice::deps::package::nodejs
-  
+
   Class['::oaeservice::deps::common']           -> Class['::etherpad']
   Class['::oaeservice::deps::package::git']     -> Class['::etherpad']
   Class['::oaeservice::deps::package::nodejs']  -> Class['::etherpad']
@@ -18,5 +18,6 @@ class oaeservice::etherpad {
     oae_db_replication    => hiera('db_replication_factor'),
     oae_db_strategy_class => hiera('db_strategy_class'),
     oae_sign_key          => hiera('app_signing_key'),
+    enable_abiword        => hiera('etherpad_enable_abiword'),
   }
 }

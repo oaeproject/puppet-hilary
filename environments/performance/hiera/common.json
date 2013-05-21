@@ -65,6 +65,7 @@
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_external_domain_label": "etherpad",
+    "etherpad_enable_abiword": true,
 
     "cache_host": "cache-master",
 

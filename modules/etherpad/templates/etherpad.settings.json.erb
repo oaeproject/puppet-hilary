@@ -5,12 +5,12 @@
   // favicon default name
   // alternatively, set up a fully specified Url to your own favicon
   "favicon": "favicon.ico",
-  
+
   //IP and port which etherpad should bind at
   "ip": "<%= listen_address %>",
   "port" : 9001,
 
-  /*  
+  /*
   // Node native SSL support
   // this is disabled by default
   //
@@ -38,28 +38,32 @@
                     "replication": "<%= oae_db_replication %>",
                     "strategyClass": "<%= oae_db_strategy_class %>"
                   },
-  
+
   //the default text of a pad
   "defaultPadText" : "",
-  
+
   /* Users must have a session to access pads. This effectively allows only group pads to be accessed. */
   "requireSession" : true,
 
   /* Users may edit pads but not create new ones. Pad creation is only via the API. This applies both to group pads and regular pads. */
   "editOnly" : true,
-  
-  /* if true, all css & js will be minified before sending to the client. This will improve the loading performance massivly, 
+
+  /* if true, all css & js will be minified before sending to the client. This will improve the loading performance massivly,
      but makes it impossible to debug the javascript/css */
   "minify" : true,
 
   /* How long may clients use served javascript code (in seconds)? Without versioning this
      may cause problems during deployment. Set to 0 to disable caching */
   "maxAge" : 21600, // 60 * 60 * 6 = 6 hours
-  
+
   /* This is the path to the Abiword executable. Setting it to null, disables abiword.
-     Abiword is needed to advanced import/export features of pads*/  
+     Abiword is needed to advanced import/export features of pads*/
+<% if enable_abiword -%>
+  "abiword": <%= $abiword %>,
+<% else -%>
   "abiword" : null,
- 
+<% end -%>
+
   /* This setting is used if you require authentication of all users.
      Note: /admin always requires authentication. */
   "requireAuthentication": false,

@@ -14,7 +14,18 @@ class etherpad (
         $ep_oae_path            = '/opt/etherpad/node_modules/ep_oae',
         $ep_oae_revision        = 'master',
         $etherpad_user          = 'etherpad',
-        $service_name           = 'etherpad') {
+        $service_name           = 'etherpad'
+        $enable_abiword         = false) {
+
+
+    $abiword = "null"
+    if ($enable_abiword) {
+        package { 'abiword':
+            ensure => present
+        }
+        $abiword = '/usr/bin/abiword'
+    }
+
 
     user { "${etherpad_user}": ensure => present }
 
