@@ -59,7 +59,7 @@
   /* This is the path to the Abiword executable. Setting it to null, disables abiword.
      Abiword is needed to advanced import/export features of pads*/
 <% if enable_abiword -%>
-  "abiword": <%= $abiword %>,
+  "abiword": "/usr/bin/abiword",
 <% else -%>
   "abiword" : null,
 <% end -%>

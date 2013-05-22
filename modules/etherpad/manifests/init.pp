@@ -18,12 +18,10 @@ class etherpad (
         $enable_abiword         = false) {
 
 
-    $abiword = "null"
     if ($enable_abiword) {
         package { 'abiword':
             ensure => present,
         }
-        $abiword = '/usr/bin/abiword'
     }
 
 
