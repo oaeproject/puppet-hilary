@@ -1,3 +1,4 @@
 {
-    "web_domain": "oae-qa0.oaeproject.org"
+    "web_domain": "oae-qa0.oaeproject.org",
+    "email_debug": "false"
 }
