@@ -310,11 +310,8 @@ config.email = {
         'path': '<%= config_email_sendmail_path %>'
     },
     'smtpTransport': {
-        'service': '<%= config_email_smtp_service %>',
-        'auth': {
-            'user': '<%= config_email_smtp_user %>',
-            'pass': '<%= config_email_smtp_pass %>'
-        }
+        'host': 'localhost',
+        'port': 25
     }
 };
 

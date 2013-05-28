@@ -87,7 +87,7 @@
 
     "email_debug": true,
     "email_customEmailTemplatesDir": "null",
-    "email_transport": "sendmail",
+    "email_transport": "SMTP",
     "email_sendmail_path": "/usr/sbin/sendmail",
     "email_smtp_service": "unset",
     "email_smtp_port": "unset",
