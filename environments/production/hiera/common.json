@@ -35,8 +35,8 @@
     "circonus_url": "https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t",
 
     "ux_root_dir": "/opt/3akai-ux",
-    "ux_git_user": "mrvisser",
-    "ux_git_branch": "etherpad-full",
+    "ux_git_user": "sakaiproject",
+    "ux_git_branch": "newframework",
 
     "db_cluster_name": "Sakai OAE Production Cluster",
     "db_keyspace": "oae",
