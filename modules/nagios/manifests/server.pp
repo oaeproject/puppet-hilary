@@ -288,7 +288,7 @@ class nagios::server (
   vcsrepo { '/tmp/nagios-plugins-rabbitmq':
     ensure    => latest,
     provider  => git,
-    source    => 'http://github.com/jamesc/nagios-plugins-rabbitmq.git',
+    source    => 'https://github.com/jamesc/nagios-plugins-rabbitmq.git',
     revision  => 'master',
     notify    => Exec['copy-nagios-rabbitmq-scripts'],
   }

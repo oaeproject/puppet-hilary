@@ -31,7 +31,7 @@ class etherpad (
     vcsrepo { $etherpad_dir:
         ensure      =>  present,
         provider    =>  git,
-        source      =>  'http://github.com/simong/etherpad-lite',
+        source      =>  'https://github.com/simong/etherpad-lite',
         revision    =>  $etherpad_git_revision,
     }
 
@@ -54,7 +54,7 @@ class etherpad (
     vcsrepo { $ep_oae_path:
         ensure      =>  present,
         provider    =>  git,
-        source      =>  'http://github.com/sakaiproject/ep_oae',
+        source      =>  'https://github.com/sakaiproject/ep_oae',
         revision    =>  $ep_oae_revision,
         require     =>  Exec['install_etherpad_dependencies'],
     }

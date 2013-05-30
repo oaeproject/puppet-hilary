@@ -79,11 +79,11 @@ class hilary (
   ## DEPLOY APPLICATION ##
   ########################
 
-  # git clone http://github.com/sakaiproject/Hilary
+  # git clone https://github.com/sakaiproject/Hilary
   vcsrepo { $app_root_dir:
     ensure    => latest,
     provider  => git,
-    source    => "http://github.com/${app_git_user}/Hilary",
+    source    => "https://github.com/${app_git_user}/Hilary",
     revision  => $app_git_branch
   }
 

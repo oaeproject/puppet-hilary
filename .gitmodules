@@ -1,6 +1,6 @@
 [submodule "modules/vcsrepo"]
 	path = modules/vcsrepo
-	url = http://github.com/puppetlabs/puppetlabs-vcsrepo
+	url = https://github.com/puppetlabs/puppetlabs-vcsrepo
 [submodule "modules/iptables"]
 	path = modules/iptables
 	url = https://github.com/camptocamp/puppet-iptables.git

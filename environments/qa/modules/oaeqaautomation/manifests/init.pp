@@ -70,11 +70,11 @@ class oaeqaautomation ($log_file_path = '/var/log/nightly.log') {
         minute  => 0
     }
 
-    # git clone http://github.com/sakaiproject/OAE-model-loader
+    # git clone https://github.com/sakaiproject/OAE-model-loader
     vcsrepo { $model_loader_dir:
         ensure    => latest,
         provider  => git,
-        source    => 'http://github.com/sakaiproject/OAE-model-loader',
+        source    => 'https://github.com/sakaiproject/OAE-model-loader',
         revision  => 'Hilary'
     }
 
