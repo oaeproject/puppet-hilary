@@ -26,20 +26,6 @@ class oaeservice::hilary {
   }
 
   $email_debug = hiera('email_debug')
-  if $email_debug {
-    # If debug is set to true, we won't be sending out emails, so there is nothing to do.
-    # Puppet doesn't support a NOT operator
-  } else {
-    # Otherwise we need to configure postfix so it'll relay mails and blackhole certain domains.
-    class { '::postfix':
-      smtp_server_host        => hiera('email_smtp_host'),
-      smtp_server_port        => hiera('email_smtp_port'),
-      smtp_server_user        => hiera('email_smtp_user'),
-      smtp_server_pass        => hiera('email_smtp_pass'),
-      email_address           => hiera('email_address'),
-      blacklisted_domains     => hiera('email_blacklisted_domains'),
-    }
-  }
 
   $phantomjs_version = hiera('phantomjs_version')
 

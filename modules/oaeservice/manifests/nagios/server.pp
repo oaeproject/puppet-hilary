@@ -6,13 +6,4 @@ class oaeservice::nagios::server {
     http_password         => hiera('nagios_http_password'),
     enable_notifications  => hiera('nagios_enable_notifications'),
   }
-
-  class { '::postfix':
-    smtp_server_host        => hiera('email_smtp_host'),
-    smtp_server_port        => hiera('email_smtp_port'),
-    smtp_server_user        => hiera('email_smtp_user'),
-    smtp_server_pass        => hiera('email_smtp_pass'),
-    email_address           => hiera('email_address'),
-    blacklisted_domains     => hiera('email_blacklisted_domains'),
-  }
 }
