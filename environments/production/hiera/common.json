@@ -78,6 +78,18 @@
     "activitycache_host": "proxy0",
     "activitycache_port": 6380,
 
+    "email_debug": true,
+    "email_customEmailTemplatesDir": "null",
+    "email_transport": "SMTP",
+    "email_sendmail_path": "/usr/sbin/sendmail",
+    "email_smtp_service": "unset",
+    "email_smtp_port": "unset",
+    "email_smtp_host": "unset",
+    "email_smtp_user": "unset",
+    "email_smtp_pass": "unset",
+    "email_blacklisted_domains": ["example.com", "localhost", "127.0.0.1"],
+
+
     "mq_hosts": [ "mq0", "mq1" ],
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
