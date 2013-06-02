@@ -171,6 +171,21 @@ node 'pp2' inherits pp {
   hiera_include(classes)
 }
 
+node 'pp3' inherits pp {
+  $nodesuffix = 3
+  hiera_include(classes)
+}
+
+node 'pp4' inherits pp {
+  $nodesuffix = 4
+  hiera_include(classes)
+}
+
+node 'pp5' inherits pp {
+  $nodesuffix = 5
+  hiera_include(classes)
+}
+
 
 
 ####################
