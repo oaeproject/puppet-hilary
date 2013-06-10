@@ -89,6 +89,7 @@ echo "*" > /etc/puppet/autosign.conf
 
 git clone git://github.com/oaeproject/puppet-hilary /etc/puppet/puppet-hilary
 cd /etc/puppet/puppet-hilary
+git checkout dse
 git fetch origin
 bin/pull.sh
 

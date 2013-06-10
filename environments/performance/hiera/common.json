@@ -1,8 +1,7 @@
 {
     "classes": [
         "::oaeservice::hosts",
-        "::oaeservice::firewall::open",
-        "::oaeservice::rsyslog"
+        "::oaeservice::firewall::open"
     ],
 
     "nodetype": "%{nodetype}",
@@ -12,7 +11,7 @@
 
     "app_os_user": "root",
     "app_os_group": "root",
-    "app_hosts": [ "app0", "app1", "app2", "app3" ],
+    "app_hosts": [ "app0" ],
     "app_root_dir": "/opt/oae",
     "app_git_user": "oaeproject",
     "app_git_branch": "master",
@@ -51,14 +50,14 @@
     "phantomjs_version": "1.9.0",
     "phantomjs_checksum": "8075fa873d8741c7ae9093c80a589a1f",
 
-    "search_hosts": [ "search0", "search1" ],
+    "search_hosts": [ "search0" ],
     "search_index": "%{nodesuffix}",
     "search_data_dir": "/var/lib/elasticsearch",
     "search_memory_mb": 3072,
     "search_version": "0.20.6",
     "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
 
-    "etherpad_internal_hosts": [ "etherpad0", "etherpad1", "etherpad2" ],
+    "etherpad_internal_hosts": [ "etherpad0" ],
     "etherpad_external_protocol": "http",
     "etherpad_external_port": "80",
     "etherpad_index": "%{nodesuffix}",
@@ -67,11 +66,12 @@
     "etherpad_external_domain_label": "etherpad",
     "etherpad_enable_abiword": true,
 
-    "cache_host": "cache-master",
+    "cache_host": "proxy0",
+    "cache_port": 6379,
 
     "activitycache_enabled": true,
-    "activitycache_host": "activity-cache-master",
-
+    "activitycache_host": "proxy0",
+    "activitycache_port": 6380,
 
     "email_debug": true,
     "email_customEmailTemplatesDir": "null",
@@ -84,8 +84,7 @@
     "email_smtp_pass": "unset",
     "email_blacklisted_domains": ["example.com", "localhost", "127.0.0.1"],
 
-
-    "mq_hosts": [ "mq-master" ],
+    "mq_hosts": [ "mq0" ],
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
 

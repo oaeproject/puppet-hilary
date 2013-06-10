@@ -143,7 +143,7 @@ node 'activity-cache1' inherits activity-cache {
 #####################
 
 node 'mq0' inherits mq {
-  $nodesuffix = '-master'
+  $nodesuffix = 0
   hiera_include(classes)
 }
 

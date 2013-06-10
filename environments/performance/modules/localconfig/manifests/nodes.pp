@@ -118,37 +118,23 @@ node 'search1' inherits search {
 ## REDIS NODES ##
 #################
 
-node 'cache-master' inherits cache {
-  $nodesuffix = '-master'
+node 'cache0' inherits cache {
+  $nodesuffix = 0
   hiera_include(classes)
 }
 
-node 'cache-slave' inherits cache {
-  $nodesuffix = '-slave'
+node 'activity-cache0' inherits activity-cache {
+  $nodesuffix = 0
   hiera_include(classes)
 }
 
-node 'activity-cache-master' inherits activity-cache {
-  $nodesuffix = '-master'
-  hiera_include(classes)
-}
-
-node 'activity-cache-slave' inherits activity-cache {
-  $nodesuffix = '-slave'
-  hiera_include(classes)
-}
 
 #####################
 ## MESSAGING NODES ##
 #####################
 
-node 'mq-master' inherits mq {
-  $nodesuffix = '-master'
-  hiera_include(classes)
-}
-
-node 'mq-slave' inherits mq {
-  $nodesuffix = '-slave'
+node 'mq0' inherits mq {
+  $nodesuffix = 0
   hiera_include(classes)
 }
 
