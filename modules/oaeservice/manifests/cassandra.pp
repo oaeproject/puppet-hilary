@@ -17,7 +17,7 @@ class oaeservice::cassandra {
     owner               => hiera('db_os_user'),
     group               => hiera('db_os_group'),
     cluster_name        => hiera('db_cluster_name'),
-    inital_token        => $tokens[$index],
+    initail_token       => $tokens[$index],
     cassandra_data_dir  => hiera('db_data_dir'),
     hosts               => $hosts,
     rsyslog_enabled     => $rsyslog_enabled,
