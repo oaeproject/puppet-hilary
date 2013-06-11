@@ -67,21 +67,21 @@ class dse::cassandra (
   }
 
   ## chown all the files in /etc/dse/cassandra to the cassandra user.
-  exec { "chown_cassandra":
-    command => '/bin/chown -R cassandra:cassandra /etc/dse/cassandra',
-    require => File["cassandra.yaml"] #, "cassandra-env.sh", "log4j-server.properties"],
-  }
+  #exec { "chown_cassandra":
+  #  command => '/bin/chown -R cassandra:cassandra /etc/dse/cassandra',
+  #  require => File["cassandra.yaml"] #, "cassandra-env.sh", "log4j-server.properties"],
+  #}
 
   ## Ensure the data directory exists
-  exec { "mkdir_p_${cassandra_data_dir}":
-    command => "mkdir -p ${cassandra_data_dir}/data ${cassandra_data_dir}/saved_caches",
-    creates => "${cassandra_data_dir}/saved_caches",
-  }
+  #exec { "mkdir_p_${cassandra_data_dir}":
+  #  command => "mkdir -p ${cassandra_data_dir}/data ${cassandra_data_dir}/saved_caches",
+  #  creates => "${cassandra_data_dir}/saved_caches",
+  #}
 
-  exec { "chown_cassandra_data":
-    command => "/bin/chown -R cassandra:cassandra ${cassandra_data_dir}",
-    require => [ Exec["mkdir_p_${cassandra_data_dir}"], Package[$dse_package] ],
-  }
+  #exec { "chown_cassandra_data":
+  #  command => "/bin/chown -R cassandra:cassandra ${cassandra_data_dir}",
+  #  require => [ Exec["mkdir_p_${cassandra_data_dir}"], Package[$dse_package] ],
+  #}
 
   # Start it.
   # Note that the default /etc/init.d/cassandra script has an invalid
