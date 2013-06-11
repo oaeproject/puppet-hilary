@@ -10,7 +10,7 @@ class dse::cassandra (
     $hosts              = [ '127.0.0.1' ],
     $listen_address     = '',
     $cassandra_home_dir = '/var/lib/cassandra',
-    $cassandra_data_dir = '/data/cassandra',
+    $cassandra_data_dir = '/data/cassandra/data',
     $rsyslog_enabled    = false,
     $rsyslog_host       = '127.0.0.1') {
 
@@ -34,16 +34,6 @@ class dse::cassandra (
     content => template('dse/cassandra.yaml.erb'),
     require => Package[$dse_package],
   }
-
-  #file { 'cassandra-env.sh':
-  #  path => '/etc/dse/cassandra/cassandra-env.sh',
-  #  ensure => present,
-  #  mode => 0755,
-  #  owner => $owner,
-  #  group => $group,
-  #  content => template('dse/cassandra-env.sh.erb'),
-  #  require => Package[$dse_package],
-  #}
 
   #file { 'log4j-server.properties':
   #  path    => '/etc/dse/cassandra/log4j-server.properties',
