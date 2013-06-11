@@ -10,7 +10,7 @@ class oaeservice::deps::package::oraclejava6jre {
     }
 
     file { 'oab-java.sh':
-        path    => "$script_dir/oab-java.sh"
+        path    => "$script_dir/oab-java.sh",
         mode    => 0744,
         require => Archive::Download['oab-java.sh'],
     }
