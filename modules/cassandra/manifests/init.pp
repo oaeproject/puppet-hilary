@@ -1,7 +1,3 @@
-#
-# = Class cassandra::common
-#
-
 class cassandra (
     $owner              = 'cassandra',
     $group              = 'cassandra',

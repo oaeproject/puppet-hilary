@@ -6,7 +6,7 @@ class dse::cassandra (
     $owner              = 'cassandra',
     $group              = 'cassandra',
     $cluster_name       = 'Apereo OAE Cluster',
-    $num_tokens         = 256,
+    $initial_token      = '',
     $hosts              = [ '127.0.0.1' ],
     $listen_address     = '',
     $cassandra_home_dir = '/var/lib/cassandra',
@@ -25,15 +25,15 @@ class dse::cassandra (
 
   package { $dse_package: ensure => $dse_version, require => Apt::Source['dse'] }
 
-  #file { 'cassandra.yaml':
-  #  path => '/etc/dse/cassandra/cassandra.yaml',
-  #  ensure => present,
-  #  mode => 0640,
-  #  owner => $owner,
-  #  group => $group,
-  #  content => template('dse/cassandra.yaml.erb'),
-  #  require => Package[$dse_package],
-  #}
+  file { 'cassandra.yaml':
+    path => '/etc/dse/cassandra/cassandra.yaml',
+    ensure => present,
+    mode => 0640,
+    owner => $owner,
+    group => $group,
+    content => template('dse/cassandra.yaml.erb'),
+    require => Package[$dse_package],
+  }
 
   #file { 'cassandra-env.sh':
   #  path => '/etc/dse/cassandra/cassandra-env.sh',
@@ -67,21 +67,21 @@ class dse::cassandra (
   }
 
   ## chown all the files in /etc/dse/cassandra to the cassandra user.
-  #exec { "chown_cassandra":
-  #  command => '/bin/chown -R cassandra:cassandra /etc/dse/cassandra',
-  #  require => File["cassandra.yaml"] #, "cassandra-env.sh", "log4j-server.properties"],
-  #}
+  exec { "chown_cassandra":
+    command => '/bin/chown -R cassandra:cassandra /etc/dse/cassandra',
+    require => File["cassandra.yaml"] #, "cassandra-env.sh", "log4j-server.properties"],
+  }
 
   ## Ensure the data directory exists
-  #exec { "mkdir_p_${cassandra_data_dir}":
-  #  command => "mkdir -p ${cassandra_data_dir}/data ${cassandra_data_dir}/saved_caches",
-  #  creates => "${cassandra_data_dir}/saved_caches",
-  #}
+  exec { "mkdir_p_${cassandra_data_dir}":
+    command => "mkdir -p ${cassandra_data_dir}/data ${cassandra_data_dir}/saved_caches",
+    creates => "${cassandra_data_dir}/saved_caches",
+  }
 
-  #exec { "chown_cassandra_data":
-  #  command => "/bin/chown -R cassandra:cassandra ${cassandra_data_dir}",
-  #  require => [ Exec["mkdir_p_${cassandra_data_dir}"], Package[$dse_package] ],
-  #}
+  exec { "chown_cassandra_data":
+    command => "/bin/chown -R cassandra:cassandra ${cassandra_data_dir}",
+    require => [ Exec["mkdir_p_${cassandra_data_dir}"], Package[$dse_package] ],
+  }
 
   # Start it.
   # Note that the default /etc/init.d/cassandra script has an invalid
@@ -89,7 +89,7 @@ class dse::cassandra (
   # is stopped.
   service { 'dse':
     ensure     => 'running',
-    # require    => [Exec['chown_cassandra'], Exec['chown_cassandra_data']],
+    require    => [Exec['chown_cassandra'], Exec['chown_cassandra_data']],
   }
 
 #  # Wait till we boot cassandra to boot the agent.
