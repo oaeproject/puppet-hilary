@@ -70,12 +70,12 @@ class oaeqaautomation ($log_file_path = '/var/log/nightly.log') {
         minute  => 0
     }
 
-    # git clone https://github.com/sakaiproject/OAE-model-loader
+    # git clone https://github.com/oaeproject/OAE-model-loader
     vcsrepo { $model_loader_dir:
         ensure    => latest,
         provider  => git,
-        source    => 'https://github.com/sakaiproject/OAE-model-loader',
-        revision  => 'Hilary'
+        source    => 'https://github.com/oaeproject/OAE-model-loader',
+        revision  => 'master'
     }
 
     # npm install -d

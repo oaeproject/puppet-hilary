@@ -10,7 +10,7 @@ class oaeservice::ui {
 
   Class['::oaeservice::deps::common'] -> Vcsrepo[$ux_root_dir]
 
-  # git clone https://github.com/sakaiproject/3akai-ux
+  # git clone https://github.com/oaeproject/3akai-ux
   vcsrepo { $ux_root_dir:
     ensure    => latest,
     provider  => git,
