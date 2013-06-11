@@ -1,7 +1,7 @@
 class dse::cassandra (
     $dse_username,
     $dse_password,
-    $dse_package        = 'dse',
+    $dse_package        = 'dse-full',
     $dse_version        = '3.0.2-1',
     $owner              = 'cassandra',
     $group              = 'cassandra',
@@ -74,7 +74,8 @@ class dse::cassandra (
 
   ## Ensure the data directory exists
   exec { "mkdir_p_${cassandra_data_dir}":
-    command => "/bin/mkdir -p ${cassandra_data_dir}/data ${cassandra_data_dir}/saved_caches"
+    command => "mkdir -p ${cassandra_data_dir}/data ${cassandra_data_dir}/saved_caches",
+    creates => "${cassandra_data_dir}/saved_caches",
   }
 
   exec { "chown_cassandra_data":
