@@ -89,7 +89,7 @@ class dse::cassandra (
   # is stopped.
   service { 'dse':
     ensure     => 'running',
-    require    => [Exec['chown_cassandra'], Exec['chown_cassandra_data']],
+    # require    => [Exec['chown_cassandra'], Exec['chown_cassandra_data']],
   }
 
 #  # Wait till we boot cassandra to boot the agent.
