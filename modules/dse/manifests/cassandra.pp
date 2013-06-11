@@ -2,7 +2,7 @@ class dse::cassandra (
     $dse_username,
     $dse_password,
     $dse_package        = 'dse',
-    $dse_version        = '1.2.5-1',
+    $dse_version        = '3.0.2-1',
     $owner              = 'cassandra',
     $group              = 'cassandra',
     $cluster_name       = 'Apereo OAE Cluster',
