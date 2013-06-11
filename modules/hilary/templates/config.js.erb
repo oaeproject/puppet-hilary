@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -22,9 +22,16 @@ var config = module.exports.config = {};
 
 // UI related config information. By default, we assume that the UI repostory
 // can be found on the same level as the Hilary folder.
+
+/**
+ * `config.ui`
+ *
+ * Configuration namespace for the UI module.
+ *
+ * @param  {String}    path            The path to the UI static assets
+ */
 config.ui = {
-    'path': '<%= ux_root_dir %>',
-    'hashesPath': 'hashes.json'
+    'path': '<%= ux_root_dir %>'
 };
 
 // Cassandra related config information.
@@ -61,19 +68,28 @@ config.redis = {
  * @param   {String}    globalAdminHost         The hostname on which the global admin server can be reached by users.
  * @param   {Number}    globalAdminPort         The network port on which the global admin express server can run.
  * @param   {Number}    tenantPort              The network port on which the tenant express server can run.
+ * @param  {Boolean}    useHttps                Whether or not the server is accessible via HTTPS. Hilary will *not* expose an HTTPS server, it's up to a frontend server such as Apache or Nginx to deal with the actual delivery of HTTPS traffic. This flag is mainly used to generate correct backlinks to the web application.
  */
 config.servers = {
     'globalAdminAlias': 'admin',
     'globalAdminHost': '<%= config_servers_admin_host %>',
     'globalAdminPort': 2000,
-    'tenantPort': 2001
+    'tenantPort': 2001,
+    'useHttps': false
 };
 
-// Configuration regarding file uploads.
-// The `uploadDir` key determines where upload files can be buffered before
-// moving them over to the configured storage backend.
-// The storage backend can be configured in the Admin UI and can be changed
-// at runtime.
+/**
+ * `config.files`
+ *
+ * Configuration namespace for files.
+ *
+ * @param  {String}    tmpDir                   The directory where temporary files can be created. (profile pictures when cropping, ...)
+ * @param  {String}    uploadDir                The directory where upload files can be buffered before moving them over to the configured storage backend.
+ * @param  {Object}    cleaner                  Holds configuration properties for the cleaning job that removes lingering files in the upload directory.
+ * @param  {Boolean}   cleaner.enabled          Whether or not the cleaning job should run.
+ * @param  {Number}    cleaner.interval         Files that haven't been accessed in this amount (of seconds) should be removed.
+ * @param  {String}    localStorageDirectory    The directory where the local storage backend can store its files. By default, the files get stored on the same level as the Hilary directory.
+ */
 config.files = {
     'localStorageDirectory': '<%= upload_files_dir %>',
     'tmpDir': '<%= config_files_tmp_dir %>',
@@ -186,15 +202,17 @@ config.search = {
  *
  * Configuration namespace for the message queue (RabbitMQ).
  *
- * @param   {Object}    connection      The connection description
- * @param   {String}    connection.host The host for the connection
- * @param   {Number}    connection.port The port for the connection
+ * @param   {Object}    connection              The connection description
+ * @param   {String}    connection.host         The host for the connection
+ * @param   {Number}    connection.port         The port for the connection
+ * @param  {Boolean}    [purgeQueuesOnStartup]  If `true`, the application will **delete** all messages in a queue when a worker is first bound. This setting only takes effect if the NODE_ENV environment variable is not set to `production` to indicate a production environment. Default: `false`
  */
 config.mq = {
     'connection': {
         'host': [ '<%= config_mq_hosts.join("', '") %>' ],
         'port': 5672
-    }
+    },
+    'purgeQueuesOnStartup': false
 };
 
 /**
@@ -239,9 +257,8 @@ config.previews = {
  * `config.signing`
  *
  * Configuration namespace for the signing logic
- * FIXME: once https://github.com/sakaiproject/Hilary/issues/331 is addressed, this config can move to the Global Admin Config.
  *
- * @param   {String}    key     This key will be used to sign URLs like profile pictures, content previews, etc.. . It's vital to the security of the system that you change this in production.
+ * @param  {String}    key     This key will be used to sign URLs like profile pictures, content previews, etc.. . It's vital to the security of the system that you change this in production.
  */
 config.signing = {
     'key': '<%= config_signing_key %>'
@@ -320,7 +337,7 @@ config.email = {
  *
  * Configuration namespace for the saml logic
  *
- * @param  {String}    SAMLParserJarPath     The path towards the Java binary that can be used to decrypt SAML messages. This only needs to be configured if you want to enable the Shibboleth strategy. Se
+ * @param  {String}    SAMLParserJarPath     The path towards the Java binary that can be used to decrypt SAML messages. This only needs to be configured if you want to enable the Shibboleth strategy. See https://github.com/oaeproject/SAMLParser
  */
 config.saml = {
     'SAMLParserJarPath': '/opt/org.sakaiproject.Hilary.SAMLParser-1.0-SNAPSHOT-jar-with-dependencies.jar'

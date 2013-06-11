@@ -3,7 +3,7 @@
 # an app server and start fresh.
 
 # Stop the app server.
-svcadm disable node-sakai-oae
+service hilary stop
 
 # Delete the directory.
 sudo rm -rf /opt/oae

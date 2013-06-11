@@ -50,11 +50,11 @@ class etherpad (
         require     =>  Vcsrepo[$etherpad_dir],
     }
 
-    # Install the Sakai OAE etherpad plugin
+    # Install the OAE etherpad plugin
     vcsrepo { $ep_oae_path:
         ensure      =>  present,
         provider    =>  git,
-        source      =>  'https://github.com/sakaiproject/ep_oae',
+        source      =>  'https://github.com/oaeproject/ep_oae',
         revision    =>  $ep_oae_revision,
         require     =>  Exec['install_etherpad_dependencies'],
     }
