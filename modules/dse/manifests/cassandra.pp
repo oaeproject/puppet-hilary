@@ -26,7 +26,7 @@ class dse::cassandra (
   package { $dse_package: ensure => $dse_version }
 
   file { 'cassandra.yaml':
-    path => '/etc/cassandra/cassandra.yaml',
+    path => '/etc/dse/cassandra/cassandra.yaml',
     ensure => present,
     mode => 0640,
     owner => $owner,
@@ -36,7 +36,7 @@ class dse::cassandra (
   }
 
   #file { 'cassandra-env.sh':
-  #  path => '/etc/cassandra/cassandra-env.sh',
+  #  path => '/etc/dse/cassandra/cassandra-env.sh',
   #  ensure => present,
   #  mode => 0755,
   #  owner => $owner,
@@ -46,7 +46,7 @@ class dse::cassandra (
   #}
 
   #file { 'log4j-server.properties':
-  #  path    => '/etc/cassandra/log4j-server.properties',
+  #  path    => '/etc/dse/cassandra/log4j-server.properties',
   #  ensure  => present,
   # mode    => 0755,
   # owner   => $owner,
@@ -66,9 +66,9 @@ class dse::cassandra (
     subscribe =>  File['/etc/security/limits.conf'],
   }
 
-  ## chown all the files in /etc/cassandra to the cassandra user.
+  ## chown all the files in /etc/dse/cassandra to the cassandra user.
   exec { "chown_cassandra":
-    command => '/bin/chown -R cassandra:cassandra /etc/cassandra',
+    command => '/bin/chown -R cassandra:cassandra /etc/dse/cassandra',
     require => File["cassandra.yaml"] #, "cassandra-env.sh", "log4j-server.properties"],
   }
 
