@@ -23,7 +23,7 @@ class dse::cassandra (
     key         => 'B4FE9662',
   }
 
-  package { $dse_package: ensure => $dse_version }
+  package { $dse_package: ensure => $dse_version, require => Apt::Source['dse'] }
 
   #file { 'cassandra.yaml':
   #  path => '/etc/dse/cassandra/cassandra.yaml',
