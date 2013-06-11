@@ -25,15 +25,15 @@ class dse::cassandra (
 
   package { $dse_package: ensure => $dse_version }
 
-  file { 'cassandra.yaml':
-    path => '/etc/dse/cassandra/cassandra.yaml',
-    ensure => present,
-    mode => 0640,
-    owner => $owner,
-    group => $group,
-    content => template('dse/cassandra.yaml.erb'),
-    require => Package[$dse_package],
-  }
+  #file { 'cassandra.yaml':
+  #  path => '/etc/dse/cassandra/cassandra.yaml',
+  #  ensure => present,
+  #  mode => 0640,
+  #  owner => $owner,
+  #  group => $group,
+  #  content => template('dse/cassandra.yaml.erb'),
+  #  require => Package[$dse_package],
+  #}
 
   #file { 'cassandra-env.sh':
   #  path => '/etc/dse/cassandra/cassandra-env.sh',
