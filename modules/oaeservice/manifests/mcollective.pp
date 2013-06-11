@@ -1,30 +1,26 @@
-class oaeservice::mcollective (
-        $mco_version,
-        $mco_puppet_version,
-        $mco_package_version,
-        $mco_service_version) {
+class oaeservice::mcollective {
 
-    package { "mcollective": ensure => $mco_version, alias => 'mcollective' }
+    package { "mcollective": ensure => installed, alias => 'mcollective' }
 
     package { "mcollective-puppet-agent":
-        ensure  => $mco_puppet_version,
+        ensure  => installed,
         require => Package['mcollective'],
         before  => Service['mcollective'],
-        notify => Service['mcollective'],
+        notify  => Service['mcollective'],
     }
 
     package { "mcollective-package-agent":
-        ensure  => $mco_package_version,
+        ensure  => installed,
         require => Package['mcollective'],
         before  => Service['mcollective'],
-        notify => Service['mcollective'],
+        notify  => Service['mcollective'],
     }
 
     package { "mcollective-service-agent":
-        ensure  => $mco_service_version,
+        ensure  => installed,
         require => Package['mcollective'],
         before  => Service['mcollective'],
-        notify => Service['mcollective'],
+        notify  => Service['mcollective'],
     }
 
     service { 'mcollective':

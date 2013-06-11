@@ -25,7 +25,7 @@ dpkg -i puppetlabs-release-precise.deb
 apt-get update
 
 # install puppet 3.1.1
-apt-get -y install puppet=3.1.1-1puppetlabs1
+apt-get -y install puppet
 
 # Now install puppet
 
@@ -78,10 +78,10 @@ sed -i 's/# deb /deb /g' /etc/apt/sources.list.d/puppetlabs.list
 apt-get update
 
 # MCollective server (i.e., on each of the cluster nodes)
-apt-get -y install mcollective=2.3.1-2
+apt-get -y install mcollective
 
 # Agent plugins
-apt-get -y install mcollective-puppet-agent=1.5.1-1
+apt-get -y install mcollective-puppet-agent
 
 # MCollective config
 cat > /etc/mcollective/server.cfg <<EOF
@@ -115,6 +115,6 @@ EOF
 service mcollective restart
 
 # Install the mcollective nrpe agent
-apt-get -y install mcollective-nrpe-agent=3.0.2-1
+apt-get -y install mcollective-nrpe-agent
 
 echo "Setup complete. Needs a reboot to take host change before puppet runs."
