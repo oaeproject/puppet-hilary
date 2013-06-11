@@ -81,7 +81,7 @@ apt-get update
 apt-get -y install mcollective
 
 # Agent plugins
-apt-get -y install mcollective-puppet-agent
+apt-get -y install mcollective-puppet-agent mcollective-package-agent mcollective-service-agent mcollective-nrpe-agent
 
 # MCollective config
 cat > /etc/mcollective/server.cfg <<EOF
@@ -113,8 +113,5 @@ plugin.psk = abcdefghj
 EOF
 
 service mcollective restart
-
-# Install the mcollective nrpe agent
-apt-get -y install mcollective-nrpe-agent
 
 echo "Setup complete. Needs a reboot to take host change before puppet runs."
