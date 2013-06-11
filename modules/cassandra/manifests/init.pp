@@ -25,23 +25,9 @@ class cassandra (
     key_source  => 'http://debian.datastax.com/debian/repo_key',
   }
 
-  ## Sorry for the versioning garbage, should be improved, but how?
-  package { 'cassandra=1.1.4':
-    ensure  => installed,
-    alias   => 'cassandra',
-    require => Class['apt']
-  }
-
-  package { 'python-cql=1.4.0-1':
-    ensure  => installed,
-    alias   => 'python-cql',
-    require => Class['apt']
-  }
-
-  package { "dsc1.1=1.1.4":
-    ensure  => installed,
+  package { 'dsc1.1':
+    ensure  => '1.1.4',
     alias   => 'dsc',
-    require => [ Package['cassandra'], Package['python-cql'] ],
   }
 
   file { 'cassandra.yaml':
@@ -81,7 +67,8 @@ class cassandra (
 
   ## Further set system limits:
   exec { 'sysctl-max-map-count':
-    command =>  '/sbin/sysctl -w vm.max_map_count=131072',
+    command   =>  'sysctl -w vm.max_map_count=131072',
+    subscribe =>  File['/etc/security/limits.conf'],
   }
 
   ## chown all the files in /etc/cassandra to the cassandra user.
