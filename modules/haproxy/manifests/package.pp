@@ -1,3 +1,3 @@
 class haproxy::package ($version) {
-    package { "haproxy=${version}": ensure => installed }
+    package { 'haproxy': ensure => $version }
 }
