@@ -1,6 +1,6 @@
 {
     "classes": [
-        "::oaeservice::deps::package::oraclejava6jre"
+        "::oaeservice::deps::package::oraclejava6jre",
         "::oaeservice::cassandra"
     ]
 }
