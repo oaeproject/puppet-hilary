@@ -11,14 +11,12 @@ class oaeservice::cassandra {
     $rsyslog_host = false
   }
 
-  class { '::cassandra':
+  class { '::dse::cassandra':
     owner               => hiera('db_os_user'),
     group               => hiera('db_os_group'),
     cluster_name        => hiera('db_cluster_name'),
     cassandra_data_dir  => hiera('db_data_dir'),
     hosts               => $hosts,
-    listen_address      => $hosts[$index],
-    initial_token       => $tokens[$index],
     rsyslog_enabled     => $rsyslog_enabled,
     rsyslog_host        => $rsyslog_host
   }
