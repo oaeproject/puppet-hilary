@@ -18,7 +18,7 @@ class oaeservice::deps::package::oraclejava6jre {
     # Allow 5min to download and install java
     exec { 'oab-java.sh':
         command => "$script_dir/oab-java.sh",
-        timeout => 300,
+        timeout => 600,
         creates => '/usr/lib/jvm/java-6-sun/jre/bin/java',
         require => File['oab-java.sh'],
     }
