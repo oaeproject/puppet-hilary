@@ -35,15 +35,15 @@ class dse::cassandra (
     require => Package[$dse_package],
   }
 
-  #file { 'log4j-server.properties':
-  #  path    => '/etc/dse/cassandra/log4j-server.properties',
-  #  ensure  => present,
-  # mode    => 0755,
-  # owner   => $owner,
-  # group   => $group,
-  # content => template('dse/log4j-server.properties.erb'),
-  # require => Package[$dse_package],
-  #}
+  file { 'log4j-server.properties':
+    path    => '/etc/dse/cassandra/log4j-server.properties',
+    ensure  => present,
+    mode    => 0755,
+    owner   => $owner,
+    group   => $group,
+    content => template('dse/log4j-server.properties.erb'),
+    require => Package[$dse_package],
+  }
 
   file { '/etc/security/limits.conf':
     ensure  =>  present,
