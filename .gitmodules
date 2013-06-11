@@ -25,3 +25,6 @@
 [submodule "modules/rabbitmq"]
 	path = modules/rabbitmq
 	url = https://github.com/puppetlabs/puppetlabs-rabbitmq.git
+[submodule "modules/oabjava"]
+	path = modules/oabjava
+	url = https://github.com/nesi/puppet-oabjava.git
