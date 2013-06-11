@@ -23,8 +23,8 @@
     "app_files_parent": "/shared",
     "app_files_dir": "/shared/files",
     "app_files_nfs": {
-        "server": "10.112.0.6",
-        "source_dir": "/vol/joya62690cd_e032_45fc_84d8_c063dd34bcf0"
+        "server": "10.224.16.254",
+        "source_dir": "/zones/nfs/054491a7-81ac-4586-9415-bcafd565bd4c/shared"
     },
 
     "circonus_url": "https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t",
