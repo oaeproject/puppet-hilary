@@ -1,6 +1,6 @@
-# Sakai OAE Performance Testing Environment
+# Open Academic Environment (OAE) Performance Testing Environment
 
-The Sakai performance testing environment is run on a Joyent cluster. The app nodes are run on 2 SmartOS 64bit smartmachines, while the Cassandra nodes are running on 3 CentOS 6 Linux machines. There is a reverse proxy powered by Nginx, running on a 64bit SmartOS smartmachine as well.
+The OAE performance testing environment is run on a Joyent cluster. The app nodes are run on 2 SmartOS 64bit smartmachines, while the Cassandra nodes are running on 3 CentOS 6 Linux machines. There is a reverse proxy powered by Nginx, running on a 64bit SmartOS smartmachine as well.
 
 Currently a puppet master is not installed, so doing things like terminating / recreating nodes and adding new nodes will be difficult. You will need to:
 
@@ -14,7 +14,7 @@ b) Apply the new configuration info manually to each and every node that is affe
 2. After it's created, ssh into it using `ssh admin@<external ip>` . You should have a public key configured on your Joyent account that allows you to do this without a password.
 3. From the admin home directory, run the following command to initialize the app machine:
 
-`curl --insecure https://raw.github.com/sakaiproject/puppet-hilary/master/provisioning/app.sh | sh`
+`curl --insecure https://raw.github.com/oaeproject/puppet-hilary/master/provisioning/app.sh | sh`
 
 4\. Then create a file specifying the node name of this node (as per the `modules/localconfig/manifests/nodes.pp` specs): 
 
@@ -44,7 +44,7 @@ Your app directory is located it `/opt/oae`. The process is called `node` if you
 
 **Note: The file is db.sh, not app.sh**
 
-`curl --insecure https://raw.github.com/sakaiproject/puppet-hilary/master/provisioning/db.sh | sh`
+`curl --insecure https://raw.github.com/oaeproject/puppet-hilary/master/provisioning/db.sh | sh`
 
 4\. Then create a file specifying the node name of this node (as per the `modules/localconfig/manifests/nodes.pp` specs): 
 

@@ -3,7 +3,7 @@
 # a pp server and start fresh.
 
 # Stop the app server.
-stop hilary
+service hilary stop
 
 # Delete the directory.
 sudo rm -rf /opt/oae

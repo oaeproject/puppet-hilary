@@ -1,9 +1,9 @@
-# Puppet configuration for Sakai OAE
+# Open Academic Environment (OAE Project)
 
-Based on Erik Froese's puppet environment management for Sakai OAE (http://www.github.com/efroese/puppet-oae-example)
+Puppet configuration and environment management for the [Open Academic Environment](http://www.oaeproject.org/)
 
 ## Environments
 
 ### Performance Testing Environment
 
-See readme at [environments/performance](https://github.com/sakaiproject/puppet-hilary/tree/master/environments/performance) for more information.
+See README at [environments/performance](https://github.com/oaeproject/puppet-hilary/tree/master/environments/performance) for more information.
