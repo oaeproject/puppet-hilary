@@ -1,5 +1,6 @@
 {
     "classes": [
+        "::oaeservice::opscenter",
         "::oaeservice::puppet",
         "::oaeservice::postfix",
         "::oaeservice::nagios::server",
