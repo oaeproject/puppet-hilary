@@ -28,3 +28,6 @@
 [submodule "modules/oabjava"]
 	path = modules/oabjava
 	url = https://github.com/nesi/puppet-oabjava.git
+[submodule "modules/alternatives"]
+	path = modules/alternatives
+	url = https://github.com/adrienthebo/puppet-alternatives.git
