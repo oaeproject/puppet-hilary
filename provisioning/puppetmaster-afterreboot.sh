@@ -68,7 +68,6 @@ cat > /etc/puppet/hiera.yaml <<EOF
   - %{nodetype}
   - common_hiera_secure
   - common
-  - machines
 EOF
 
 

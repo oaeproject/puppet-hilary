@@ -4,12 +4,13 @@ class dse::opscenter ($version = '3.1.1', $listen_interface = '0.0.0.0', $listen
     require dse::apt
 
     package { 'libssl0.9.8': ensure => installed }
-    package { 'opscenter': ensure => $version }
+    package { 'opscenter': ensure => $version, require => Package['libssl0.9.8'] }
 
     file { 'opscenterd.conf':
         path    => '/etc/opscenter/opscenterd.conf',
         mode    => 0444,
-        content => template('dse/opscenterd.conf.erb')
+        content => template('dse/opscenterd.conf.erb'),
+        require => Package['opscenter'],
     }
 
     service { 'opscenterd':
