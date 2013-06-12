@@ -102,7 +102,7 @@
     "nagios_email_address": "unset",
     "nagios_hostgroup": "misc",
 
-    "oaeservice::deps::package::nodejs::nodejs_version": "0.8.23-1chl1~precise1",
+    "oaeservice::deps::package::nodejs::nodejs_version": "0.8.24-1chl1~precise1",
     "oaeservice::deps::package::nodejs::npm_version": "1.2.18-1chl1~precise1",
 
     "rabbitmq::server::version": "3.1.1-1",
