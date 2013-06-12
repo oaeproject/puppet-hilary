@@ -1,7 +1,6 @@
 {
     "classes": [
         "::oaeservice::hosts",
-        "::oaeservice::ssh",
         "::oaeservice::firewall::open"
     ],
 
