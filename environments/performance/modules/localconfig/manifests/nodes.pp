@@ -194,6 +194,10 @@ node 'syslog' {
   hiera_include(classes)
 }
 
+node 'opscenter' {
+  $nodetype = 'opscenter'
+  hiera_include(classes)
+}
 
 
 #############

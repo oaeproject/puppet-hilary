@@ -1,6 +1,7 @@
 class oaeservice::cassandra {
 
-  Class['::oaeservice::deps::package::oraclejava6jre'] -> Class['::dse::cassandra']
+  ## Cassandra must be installed w/ oracle java
+  require ::oaeservice::deps::package::oraclejava6jre
 
   $hosts = hiera('db_hosts')
   $tokens = hiera('db_tokens')

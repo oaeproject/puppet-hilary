@@ -1,6 +1,4 @@
 class dse::cassandra (
-    $dse_username,
-    $dse_password,
     $dse_package        = 'dse-full',
     $dse_version        = '3.0.2-1',
     $owner              = 'cassandra',
@@ -14,16 +12,10 @@ class dse::cassandra (
     $rsyslog_enabled    = false,
     $rsyslog_host       = '127.0.0.1') {
 
-  include apt
-  apt::source { 'dse':
-    location    => "http://$dse_username:$dse_password@debian.datastax.com/enterprise",
-    repos       => 'stable main',
-    release     => '',
-    key_source  => 'http://debian.datastax.com/debian/repo_key',
-    key         => 'B4FE9662',
-  }
+  # Install the DSE apt repository first
+  require dse::apt
 
-  package { $dse_package: ensure => $dse_version, require => Apt::Source['dse'] }
+  package { $dse_package: ensure => $dse_version }
 
   file { 'cassandra.yaml':
     path => '/etc/dse/cassandra/cassandra.yaml',
@@ -73,20 +65,9 @@ class dse::cassandra (
     require => [ Exec["mkdir_p_${cassandra_data_dir}"], Package[$dse_package] ],
   }
 
-  # Start it.
-  # Note that the default /etc/init.d/cassandra script has an invalid
-  # status command. Puppet relies on a non-zero status code if cassandra
-  # is stopped.
   service { 'dse':
     ensure     => 'running',
     require    => [Exec['chown_cassandra'], Exec['chown_cassandra_data']],
   }
-
-#  # Wait till we boot cassandra to boot the agent.
-#  service { 'opscenter-agent':
-#    ensure  => 'running',
-#    require => Service['cassandra'],
-#    enable  => 'true'
-#  }
 
 }
