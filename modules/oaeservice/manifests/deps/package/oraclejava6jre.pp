@@ -1,4 +1,4 @@
-class oaeservice::deps::package::oraclejava6jre {
+class oaeservice::deps::package::oraclejava6jre ($java_path = '/usr/lib/jvm/java-6-sun/jre/bin/java') {
     
     $script_dir = '/opt'
 
@@ -20,16 +20,17 @@ class oaeservice::deps::package::oraclejava6jre {
         command     => "$script_dir/oab-java.sh",
         timeout     => 600,
         logoutput   => 'on_failure',
-        creates     => '/usr/lib/jvm/java-6-sun/jre/bin/java',
+        creates     => $java_path,
         require     => File['oab-java.sh'],
-    }
-
-    package { 'openjdk-6-jre-headless':
-        ensure  => absent
     }
 
     package { 'sun-java6-jre':
         ensure  => installed,
-        require => [ Exec['oab-java.sh'], Package['openjdk-6-jre-headless'] ],
+        require => Exec['oab-java.sh'],
+    }
+
+    alternatives { 'java':
+        path => $java_path,
+        require => Package['sun-java6-jre']
     }
 }
