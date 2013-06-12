@@ -24,8 +24,12 @@ class oaeservice::deps::package::oraclejava6jre {
         require     => File['oab-java.sh'],
     }
 
+    package { 'openjdk-6-jre-headless':
+        ensure  => absent
+    }
+
     package { 'sun-java6-jre':
         ensure  => installed,
-        require => Exec['oab-java.sh'],
+        require => [ Exec['oab-java.sh'], Package['openjdk-6-jre-headless'] ],
     }
 }
