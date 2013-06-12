@@ -7,6 +7,6 @@ class oaeservice::deps::package::openjdk6 ($java_path = '/usr/lib/jvm/java-6-ope
     # Note: This may intentionall conflict with the oracle java class. Only include one or the other
     alternatives { 'java':
         path => $java_path,
-        require => Package['sun-java6-jre']
+        require => Package['openjdk-6-jdk']
     }
 }
