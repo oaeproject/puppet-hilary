@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Execute the backup script
-SCRIPT_OUTPUT=`<%= db_backup_script_path %>`
+<%= db_backup_script_path %> > /tmp/mailbody.txt
 SCRIPT_RESULT=$?
 
 if [ "$SCRIPT_RESULT" -ne "0" ]; then
@@ -14,7 +14,7 @@ fi
 
 echo "Subject: $SUBJECT"                                >   /tmp/msg.txt
 echo "Content-Type: text/plain; charset=\"iso-8859-1\"" >>  /tmp/msg.txt
-echo $SCRIPT_OUTPUT                                     >>  /tmp/msg.txt
+cat /tmp/mailbody.txt                                   >>  /tmp/msg.txt
 echo ""                                                 >>  /tmp/msg.txt
 
 cat /tmp/msg.txt | sendmail -v -F "cron@<%= db_host %>" mrvisser@gmail.com
