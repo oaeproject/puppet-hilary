@@ -44,8 +44,9 @@ class dse::cassandra (
 
   ## Further set system limits:
   exec { 'sysctl-max-map-count':
-    command   =>  'sysctl -w vm.max_map_count=131072',
-    subscribe =>  File['/etc/security/limits.conf'],
+    command     => 'sysctl -w vm.max_map_count=131072',
+    subscribe   => File['/etc/security/limits.conf'],
+    refreshonly => true,
   }
 
   ## chown all the files in /etc/dse/cassandra to the cassandra user.

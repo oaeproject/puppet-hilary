@@ -129,6 +129,7 @@ node 'activity-cache0' inherits activity-cache {
 }
 
 
+
 #####################
 ## MESSAGING NODES ##
 #####################
@@ -137,6 +138,8 @@ node 'mq0' inherits mq {
   $nodesuffix = 0
   hiera_include(classes)
 }
+
+
 
 #############################
 ## PREVIEW PROCESSOR NODES ##
@@ -183,31 +186,3 @@ node 'proxy0' inherits proxy {
   $nodesuffix = 0
   hiera_include(classes)
 }
-
-
-#################
-## SYSLOG NODE ##
-#################
-
-node 'syslog' {
-  $nodetype = 'syslog'
-  hiera_include(classes)
-}
-
-node 'opscenter' {
-  $nodetype = 'opscenter'
-  hiera_include(classes)
-}
-
-
-#############
-## BASTION ##
-#############
-
-node 'bastion' {
-  $nodetype = 'bastion'
-  hiera_include(classes)
-}
-
-
-
