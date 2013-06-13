@@ -4,7 +4,7 @@ class oaeservice::backup::cassandra {
     $db_backup_nfs = hiera('db_backup_nfs')
 
     $db_backup_parent = hiera('db_backup_parent')
-    $db_host = $::certname
+    $db_host = $::hostname
     $db_backup_dir = "${db_backup_parent}/${db_host}"
 
     $db_backup_script_dir = "/opt/db-backup-script"
