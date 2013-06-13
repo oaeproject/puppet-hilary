@@ -15,4 +15,4 @@ echo "Subject: $SUBJECT"    >   /tmp/msg.txt
 echo $SCRIPT_RESULT         >>  /tmp/msg.txt
 echo ""                     >>  /tmp/msg.txt
 
-cat /tmp/msg.txt | sendmail -v mrvisser@gmail.com
+cat /tmp/msg.txt | sendmail -v -F "cron@<%= db_host %>" -B "text/plain" mrvisser@gmail.com
