@@ -4,10 +4,12 @@ class oaeservice::backup::cassandra {
     $db_backup_nfs = hiera('db_backup_nfs')
 
     $db_backup_parent = hiera('db_backup_parent')
-    $db_backup_dir = "${db_backup_parent}/${::certname}"
+    $db_host = $::certname
+    $db_backup_dir = "${db_backup_parent}/${db_host}"
 
     $db_backup_script_dir = "/opt/db-backup-script"
     $db_backup_script_path = "${db_backup_script_dir}/backup.sh"
+    $db_backup_cron_path = "${db_backup_script_dir}/backup-cron.sh"
 
     require nfs::client
     nfs::mount { $db_backup_parent:
@@ -27,6 +29,12 @@ class oaeservice::backup::cassandra {
         ensure      => exists,
         mode        => 0744,
         content     => template('oaeservice/backup/cassandra/backup.sh.erb')
+    }
+
+    file { $db_backup_cron_path:
+        ensure      => exists,
+        mode        => 0744,
+        content     => template('oaeservice/backup/cassandra/backup-cron.sh.erb')
     }
 
     # TODO: crontab
