@@ -6,7 +6,7 @@ SCRIPT_RESULT=`<%= db_backup_script_path %>`
 if [ "$?" -ne "0" ]; then
     # There was an error performing backups
     SUBJECT="[cassandra backup] FAILED: Failed to perform backup for db node <%= db_host %>"
-elif
+else
     # It was successful
     SUBJECT="[cassandra backup] SUCCEEDED: Successfully performed backup for db node <%= db_host %>"
 fi
