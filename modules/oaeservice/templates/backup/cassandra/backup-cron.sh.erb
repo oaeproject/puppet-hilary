@@ -11,8 +11,9 @@ else
     SUBJECT="[cassandra backup] SUCCEEDED: Successfully performed backup for db node <%= db_host %>"
 fi
 
-echo "Subject: $SUBJECT"    >   /tmp/msg.txt
-echo $SCRIPT_RESULT         >>  /tmp/msg.txt
-echo ""                     >>  /tmp/msg.txt
+echo "Subject: $SUBJECT"                                >   /tmp/msg.txt
+echo "Content-Type: text/plain; charset=\"iso-8859-1\"" >>  /tmp/msg.txt
+echo $SCRIPT_RESULT                                     >>  /tmp/msg.txt
+echo ""                                                 >>  /tmp/msg.txt
 
-cat /tmp/msg.txt | sendmail -v -F "cron@<%= db_host %>" -B "text/plain" mrvisser@gmail.com
+cat /tmp/msg.txt | sendmail -v -F "cron@<%= db_host %>" mrvisser@gmail.com
