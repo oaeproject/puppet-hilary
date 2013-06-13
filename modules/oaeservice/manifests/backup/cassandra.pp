@@ -39,6 +39,13 @@ class oaeservice::backup::cassandra {
         require     => File[$db_backup_script_dir],
     }
 
-    # TODO: crontab
+    cron { 'nightly-backup':
+        ensure  => present,
+        command => "$db_backup_cron_path >> /var/log/nightly-backup.log 2>> /var/log/nightly-backup.log",
+        user    => 'root',
+        target  => 'root',
+        hour    => 4,
+        minute  => 0
+    }
 
 }
