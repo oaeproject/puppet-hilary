@@ -26,14 +26,14 @@ class oaeservice::backup::cassandra {
 
     file { $db_backup_script_dir: ensure => directory }
     file { $db_backup_script_path:
-        ensure      => exists,
+        ensure      => file,
         mode        => 0744,
         content     => template('oaeservice/backup/cassandra/backup.sh.erb'),
         require     => File[$db_backup_script_dir],
     }
 
     file { $db_backup_cron_path:
-        ensure      => exists,
+        ensure      => file,
         mode        => 0744,
         content     => template('oaeservice/backup/cassandra/backup-cron.sh.erb'),
         require     => File[$db_backup_script_dir],
