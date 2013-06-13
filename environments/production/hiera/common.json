@@ -32,6 +32,12 @@
         "source_dir": "zones/nfs/a906ce30-37bb-480c-98a5-794981b27e01/sakai-useruploads"
     },
 
+    "app_files_backup_parent": "/backups",
+    "app_files_backup_nfs": {
+        "server": "10.224.14.126",
+        "source_dir": "zones/nfs/a906ce30-37bb-480c-98a5-794981b27e01/sakai-useruploads-backup"
+    },
+
     "circonus_url": "https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t",
 
     "ux_root_dir": "/opt/3akai-ux",
@@ -49,6 +55,12 @@
     "db_data_dir": "/data/cassandra",
     "db_os_user": "cassandra",
     "db_os_group": "cassandra",
+
+    "db_backup_parent": "/backups",
+    "db_backup_nfs": {
+        "server": "10.224.14.126",
+        "source_dir": "zones/nfs/a906ce30-37bb-480c-98a5-794981b27e01/sakai-cassandra-backup"
+    },
 
     "pp_os_user": "root",
     "pp_os_group": "root",
