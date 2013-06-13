@@ -12,7 +12,7 @@ function say {
 function exit_if_error {
     RESULT="$?"
     if [ "$RESULT" -ne "0" ]; then
-        say $1
+        say "$1"
         exit $RESULT
     fi
 }
