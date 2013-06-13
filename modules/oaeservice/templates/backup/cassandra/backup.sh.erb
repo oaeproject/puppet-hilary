@@ -10,11 +10,14 @@ function say {
 }
 
 function exit_if_error {
-    if [ "$?" -ne "0" ]; then
-        echo $1 | tee -a $TMP_OUTPUT
-        exit $?
+    RESULT="$?"
+    if [ "$RESULT" -ne "0" ]; then
+        say $1
+        exit $RESULT
     fi
 }
+
+
 
 rm -rf $TMP_OUTPUT
 
@@ -28,10 +31,8 @@ say "ls -l $DB_BACKUP_DIR"
 say
 
 ls -l $DB_BACKUP_DIR | tee -a $TMP_OUTPUT
-say
-
 exit_if_error "Error listing backup dir files"
-
+say
 
 
 say "2. Tar, compress, md5 and stream to NFS the source data all in one pass"
@@ -39,10 +40,8 @@ say "tar -c $DB_DATA_DIR | gzip | tee $DB_BACKUP_DIR/_latest.tar.gz | md5sum -b 
 say
 
 tar -c $DB_DATA_DIR | gzip | tee $DB_BACKUP_DIR/_latest.tar.gz | md5sum -b - > $DB_BACKUP_DIR/_latest.tar.gz.md5
-say
-
 exit_if_error "Error transferring source data to NFS"
-
+say
 
 
 say "3. Verify the md5 sum of the file after NFS transfer"
@@ -50,9 +49,8 @@ say "md5sum -c $DB_BACKUP_DIR/_latest.tar.gz.md5 < $DB_BACKUP_DIR/_latest.tar.gz
 say
 
 md5sum -c $DB_BACKUP_DIR/_latest.tar.gz.md5 < $DB_BACKUP_DIR/_latest.tar.gz | tee -a $TMP_OUTPUT
-say
-
 exit_if_error "MD5 sum verification failed"
+say
 
 
 
