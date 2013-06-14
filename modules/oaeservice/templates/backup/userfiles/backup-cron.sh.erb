@@ -16,6 +16,7 @@ else
 fi
 
 echo "Subject: $SUBJECT"                                >   $USER_FILES_MAIL_FILE
+echo "Content-Type: text/html"                          >>  $USER_FILES_MAIL_FILE
 sed 's/$/\<br \/\>/' $USER_FILES_MAIL_BODY_FILE         >>  $USER_FILES_MAIL_FILE
 echo ""                                                 >>  $USER_FILES_MAIL_FILE
 
