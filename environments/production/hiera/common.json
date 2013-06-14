@@ -107,7 +107,7 @@
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
 
     "rsyslog_enabled": true,
-    "rsyslog_host": "10.224.14.33",
+    "rsyslog_host": "10.224.14.87",
 
     "driver_tsung_version": "1.4.2",
 
