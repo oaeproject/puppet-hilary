@@ -32,7 +32,7 @@
         "source_dir": "/zones/nfs/a906ce30-37bb-480c-98a5-794981b27e01/sakai-useruploads"
     },
 
-    "app_files_backup_parent": "/backups",
+    "app_files_backup_dir": "/backups",
     "app_files_backup_nfs": {
         "server": "10.224.14.126",
         "source_dir": "/zones/nfs/a906ce30-37bb-480c-98a5-794981b27e01/sakai-useruploads-backup"
