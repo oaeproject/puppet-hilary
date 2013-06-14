@@ -6,7 +6,7 @@ class dse::cassandra (
     $cluster_name       = 'Apereo OAE Cluster',
     $initial_token      = '',
     $hosts              = [ '127.0.0.1' ],
-    $listen_address     = '',
+    $listen_address     = '127.0.0.1',
     $cassandra_home_dir = '/var/lib/cassandra',
     $cassandra_data_dir = '/data/cassandra/data',
     $rsyslog_enabled    = false,
