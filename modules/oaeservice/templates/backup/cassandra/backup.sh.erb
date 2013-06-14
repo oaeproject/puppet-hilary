@@ -6,7 +6,7 @@ DB_BACKUP_DIR="<%= db_backup_dir %>"
 TMP_OUTPUT="/tmp/backup.out"
 
 function say {
-    echo "$1" | tee -a $TMP_OUTPUT
+    echo "[`date`] $1" | tee -a $TMP_OUTPUT
 }
 
 function exit_if_error {

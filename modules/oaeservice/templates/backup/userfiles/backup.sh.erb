@@ -1,2 +1,43 @@
 #!/bin/bash
 
+USER_FILES_DATA_DIR="<%= user_files_dir_parent %>"
+USER_FILES_BACKUP_DIR="<%= user_files_backup_dir %>"
+
+TMP_OUTPUT_FILE="userfiles-backup.out"
+TMP_OUTPUT="/tmp/$TMP_OUTPUT_FILE"
+
+function say {
+    echo "[`date`] $1" | tee -a $TMP_OUTPUT
+}
+
+function exit_if_error {
+    RESULT="$?"
+    if [ "$RESULT" -ne "0" ]; then
+        say "$1"
+        exit $RESULT
+    fi
+}
+
+
+
+rm -rf $TMP_OUTPUT
+
+
+
+say "Starting User Files backup..."
+say
+
+
+
+say "time rsync -vat $USER_FILES_DATA_DIR/ $USER_FILES_BACKUP_DIR"
+time rsync -vat $USER_FILES_DATA_DIR/ $USER_FILES_BACKUP_DIR
+exit_if_error "Error rsync'ing source data to NFS"
+say
+
+
+mv $TMP_OUTPUT $DB_BACKUP_DIR/$TMP_OUTPUT_FILE
+exit_if_error "Error replacing the latest backup.log"
+
+
+
+say "Backup complete."

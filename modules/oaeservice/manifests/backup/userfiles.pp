@@ -1,6 +1,8 @@
 class oaeservice::backup::userfiles {
     require nfs::client
 
+    $backup_hostname = $::hostname
+
     ####################
     # MOUNT USER FILES #
     ####################
@@ -58,7 +60,7 @@ class oaeservice::backup::userfiles {
     ####################
     # SCHEDULE BACKUPS #
     ####################
-    
+
     cron { 'nightly-userfiles-backup':
         ensure  => present,
         command => "$user_files_backup_cron_path >> /var/log/nightly-userfiles-backup.log 2>> /var/log/nightly-userfiles-backup.log",

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+USER_FILES_MAIL_FILE="/tmp/user_files_mail.txt"
+USER_FILES_MAIL_BODY_FILE="/tmp/user_files_mailbody.txt"
+
+# Execute the backup script
+<%= user_files_backup_script_path %> > $USER_FILES_MAIL_BODY_FILE
+SCRIPT_RESULT=$?
+
+if [ "$SCRIPT_RESULT" -ne "0" ]; then
+    # There was an error performing backups
+    SUBJECT="[userfiles backup] FAILED: Failed to perform backup for the user files"
+else
+    # It was successful
+    SUBJECT="[userfiles backup] SUCCEEDED: Successfully performed backup for the user files"
+fi
+
+echo "Subject: $SUBJECT"                                >   $USER_FILES_MAIL_FILE
+echo "Content-Type: text/plain; charset=\"iso-8859-1\"" >>  $USER_FILES_MAIL_FILE
+cat $USER_FILES_MAIL_BODY_FILE                          >>  $USER_FILES_MAIL_FILE
+echo ""                                                 >>  $USER_FILES_MAIL_FILE
+
+cat $USER_FILES_MAIL_FILE | sendmail -v -F "cron@<%= backup_hostname %>" mrvisser@gmail.com
+
+exit $SCRIPT_RESULT
