@@ -1,7 +1,9 @@
 {
     "classes": [
+        "::oaeservice::postfix",
         "::oaeservice::cassandra",
-        "::oaeservice::nagios::cassandra"
+        "::oaeservice::nagios::cassandra",
+        "::oaeservice::backup::cassandra"
     ],
 
     "nagios_hostgroup": "dbservers"

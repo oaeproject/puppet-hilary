@@ -25,3 +25,6 @@
 [submodule "modules/rabbitmq"]
 	path = modules/rabbitmq
 	url = https://github.com/puppetlabs/puppetlabs-rabbitmq.git
+[submodule "modules/alternatives"]
+	path = modules/alternatives
+	url = https://github.com/adrienthebo/puppet-alternatives.git

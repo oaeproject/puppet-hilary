@@ -251,3 +251,8 @@ node 'puppet' {
   $nodetype = 'puppet'
   hiera_include(classes)
 }
+
+node 'monitor' {
+  $nodetype = 'monitor'
+  hiera_include(classes)
+}

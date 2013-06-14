@@ -1,6 +1,7 @@
 class oaeservice::cassandra {
-  require oaeservice::oracle-java
-  Class['::oaeservice::oracle-java']   -> Class['::cassandra']
+
+  ## Cassandra must be installed w/ oracle java
+  require ::oaeservice::deps::package::oraclejava6jre
 
   $hosts = hiera('db_hosts')
   $tokens = hiera('db_tokens')
@@ -13,14 +14,13 @@ class oaeservice::cassandra {
     $rsyslog_host = false
   }
 
-  class { '::cassandra':
+  class { '::dse::cassandra':
     owner               => hiera('db_os_user'),
     group               => hiera('db_os_group'),
     cluster_name        => hiera('db_cluster_name'),
+    initial_token       => $tokens[$index],
     cassandra_data_dir  => hiera('db_data_dir'),
     hosts               => $hosts,
-    listen_address      => $hosts[$index],
-    initial_token       => $tokens[$index],
     rsyslog_enabled     => $rsyslog_enabled,
     rsyslog_host        => $rsyslog_host
   }

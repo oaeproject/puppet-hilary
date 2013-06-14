@@ -1,7 +1,4 @@
 class oaeservice::elasticsearch {
-  require oaeservice::deps::package::java6
-
-  Class['::oaeservice::deps::package::java6']   -> Class['::elasticsearch']
 
   $search_hosts = hiera('search_hosts')
   $index = hiera('search_index', 0)

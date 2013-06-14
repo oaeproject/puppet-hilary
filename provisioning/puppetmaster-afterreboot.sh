@@ -15,10 +15,8 @@ dpkg -i puppetlabs-release-precise.deb
 # Pull in packages from the puppetlabs repos
 apt-get update
 
-PUPPETDB_VERSION=1.2.0-1puppetlabs1
-
 # Install git and puppetmaster
-apt-get install -y git puppetmaster-passenger=3.1.1-1puppetlabs1 puppetdb=$PUPPETDB_VERSION puppetdb-terminus=$PUPPETDB_VERSION
+apt-get install -y git puppetmaster-passenger puppetdb puppetdb-terminus
 puppet module install puppetlabs/puppetdb
 
 # Configure PuppetMaster
@@ -70,7 +68,6 @@ cat > /etc/puppet/hiera.yaml <<EOF
   - %{nodetype}
   - common_hiera_secure
   - common
-  - machines
 EOF
 
 
@@ -111,7 +108,7 @@ cd $PACKAGE && \
 ruby setup.rb
 
 update-alternatives --install /usr/bin/gem gem /usr/bin/gem1.8 1
-apt-get install -y puppet-dashboard=1.2.23-1puppetlabs1
+apt-get install -y puppet-dashboard
 
 # Create 'dashboard' user with password 'dashboard'
 mysql -u root -proot -e "CREATE DATABASE dashboard CHARACTER SET utf8;"
@@ -358,12 +355,11 @@ sed -i 's/# deb /deb /g' /etc/apt/sources.list.d/puppetlabs.list
 apt-get update
 
 # mcollective packages
-MCOLLECTIVE_VERSION=2.3.1-2
 gem install stomp
-apt-get -y install mcollective=$MCOLLECTIVE_VERSION mcollective-client=$MCOLLECTIVE_VERSION
+apt-get -y install mcollective mcollective-client
 
 # mcollective plugins
-apt-get -y install mcollective-puppet-client=1.5.1-1 mcollective-package-client=4.2.0-1 mcollective-service-client=3.1.2-1
+apt-get -y install mcollective-puppet-client mcollective-package-client mcollective-service-client
 
 cat > /etc/mcollective/client.cfg <<EOF
 # main config

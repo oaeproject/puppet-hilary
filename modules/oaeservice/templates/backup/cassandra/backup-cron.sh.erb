@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Execute the backup script
+<%= db_backup_script_path %> > /tmp/mailbody.txt
+SCRIPT_RESULT=$?
+
+if [ "$SCRIPT_RESULT" -ne "0" ]; then
+    # There was an error performing backups
+    SUBJECT="[cassandra backup] FAILED: Failed to perform backup for db node <%= db_host %>"
+else
+    # It was successful
+    SUBJECT="[cassandra backup] SUCCEEDED: Successfully performed backup for db node <%= db_host %>"
+fi
+
+echo "Subject: $SUBJECT"                                >   /tmp/msg.txt
+echo "Content-Type: text/plain; charset=\"iso-8859-1\"" >>  /tmp/msg.txt
+cat /tmp/mailbody.txt                                   >>  /tmp/msg.txt
+echo ""                                                 >>  /tmp/msg.txt
+
+cat /tmp/msg.txt | sendmail -v -F "cron@<%= db_host %>" mrvisser@gmail.com
+
+exit $SCRIPT_RESULT
