@@ -17,6 +17,6 @@ echo "Content-Type: text/html"                          >>  /tmp/msg.txt
 sed 's/$/\<br \/\>/' /tmp/mailbody.txt                  >>  /tmp/msg.txt
 echo ""                                                 >>  /tmp/msg.txt
 
-cat /tmp/msg.txt | sendmail -v -F "cron@<%= db_host %>" oae-team@collab.sakaiproject.org
+cat /tmp/msg.txt | sendmail -v -F "cron@<%= db_host %>" oae-monitoring@googlegroups.com
 
 exit $SCRIPT_RESULT

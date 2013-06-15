@@ -20,6 +20,6 @@ echo "Content-Type: text/html"                          >>  $USER_FILES_MAIL_FIL
 sed 's/$/\<br \/\>/' $USER_FILES_MAIL_BODY_FILE         >>  $USER_FILES_MAIL_FILE
 echo ""                                                 >>  $USER_FILES_MAIL_FILE
 
-cat $USER_FILES_MAIL_FILE | sendmail -v -F "cron@<%= backup_hostname %>" oae-team@collab.sakaiproject.org
+cat $USER_FILES_MAIL_FILE | sendmail -v -F "cron@<%= backup_hostname %>" oae-monitoring@googlegroups.com
 
 exit $SCRIPT_RESULT
