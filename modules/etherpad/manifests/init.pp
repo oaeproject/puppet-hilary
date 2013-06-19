@@ -59,12 +59,6 @@ class etherpad (
         require     =>  Exec['install_etherpad_dependencies'],
     }
 
-    # Copy the pad.css file.
-    file { "${$etherpad_dir}/src/static/custom/pad.css":
-        ensure      => 'link',
-        target      => "${$etherpad_dir}/node_modules/ep_oae/static/css/pad.css",
-    }
-
     # Install the ep_headings plugin
     exec { "install_ep_headings":
         command     => "npm install ep_headings",
