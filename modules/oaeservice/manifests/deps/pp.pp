@@ -97,7 +97,6 @@ class oaeservice::deps::pp {
     'xfonts-wqy',
     'xfonts-cyrillic',
     'ttf-ancient-fonts',
-    'ttf-bangla-fonts',
     'ttf-bengali-fonts',
     'ttf-bpg-georgian-fonts',
     'ttf-devanagari-fonts',
