@@ -59,6 +59,13 @@ class etherpad (
         require     =>  Exec['install_etherpad_dependencies'],
     }
 
+    # Install the custom CSS for etherpad
+    file { "$etherpad_dir/src/static/custom/pad.css":
+        ensure     => present,
+        source     => "$ep_oae_path/static/css/pad.css",
+        require    => Vcsrepo[$ep_oae_path],
+    }
+
     # Install the ep_headings plugin
     exec { "install_ep_headings":
         command     => "npm install ep_headings",
