@@ -1,10 +1,6 @@
 class oaeservice::deps::package::nodejs ($nodejs_version, $npm_version, $nodegyp_version = '0.9.3') {
 
-  # Apply apt configuration, which should be executed before these packages are installed
-  include apt
-  apt::key { 'chris-lea': key => '4BD6EC30' }
-  apt::ppa { 'ppa:chris-lea/node.js': }
-  apt::ppa { 'ppa:chris-lea/node.js-legacy': }
+  include oaeservice::deps::ppa::nodejs
 
   package { "nodejs":
     ensure  => $nodejs_version,
