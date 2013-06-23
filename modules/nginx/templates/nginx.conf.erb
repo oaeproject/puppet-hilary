@@ -363,24 +363,17 @@ http {
             internal;
             alias <%= files_home %>;
         }
-    }
 
-    ####################
-    ####################
-    # Etherpad Servers #
-    ####################
-    ####################
+        ####################
+        # Etherpad Servers #
+        ####################
 
-    # Generate upstream groups with 1 main server and 1 fallback server.
-    # The fallback server would be the main server of the next group.
-
-    <% internal_etherpad_ips.each_with_index do |ip, index| %>
-    server {
-        listen 80;
-        server_name <%=index %>.<%= etherpad_external_domain_label %>.<%= web_domain %>;
-
-        location / {
+        <% internal_etherpad_ips.each_with_index do |ip, index| -%>
+        location /etherpad/<%=index %> {
             expires 15m;
+
+            rewrite ^/etherpad/<%=index %>(.*)$ $1 break;
+
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header Host $http_host;
@@ -390,13 +383,17 @@ http {
             proxy_buffering off;
         }
 
-        location /socket.io/1/websocket/ {
-            proxy_pass http://<%= ip %>:9001;
+        location /etherpad/<%= index %>/socket.io/1/websocket/ {
+            rewrite ^/etherpad/<%= index %>(.*)$ $1 break;
+
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
             proxy_set_header Host $host;
+            proxy_pass http://<%= ip %>:9001;
+            proxy_redirect off;
+            proxy_buffering off;
         }
+        <% end -%>
     }
-    <% end %>
 }
