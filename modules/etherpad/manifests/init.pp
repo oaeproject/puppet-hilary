@@ -9,7 +9,7 @@ class etherpad (
         $oae_db_strategy_class,
         $oae_sign_key,
 
-        $etherpad_git_revision  = 'consolefix',
+        $etherpad_git_revision  = '1.2.91',
         $etherpad_dir           = '/opt/etherpad',
         $ep_oae_path            = '/opt/etherpad/node_modules/ep_oae',
         $ep_oae_revision        = 'master',
@@ -31,7 +31,7 @@ class etherpad (
     vcsrepo { $etherpad_dir:
         ensure      =>  present,
         provider    =>  git,
-        source      =>  'https://github.com/simong/etherpad-lite',
+        source      =>  'https://github.com/ether/etherpad-lite',
         revision    =>  $etherpad_git_revision,
     }
 
