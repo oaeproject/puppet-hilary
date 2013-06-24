@@ -13,7 +13,6 @@ class nginx (
     $group                            = 'root',
     $nginx_dir                        = '/etc/nginx') {
 
-
   include apt
   apt::source { 'nginx':
     location    => 'http://nginx.org/packages/ubuntu/',
