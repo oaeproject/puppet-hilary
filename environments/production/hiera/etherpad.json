@@ -2,7 +2,7 @@
     "classes": [
         "::oaeservice::etherpad"
     ],
-    
+
     "rsyslog::imfiles": [
         {
             "path": "/var/log/etherpad/access.log",
@@ -22,6 +22,5 @@
         }
     ],
 
-
-    "nagios_hostgroup": "misc"
+    "nagios_hostgroup": "etherpadservers"
 }
