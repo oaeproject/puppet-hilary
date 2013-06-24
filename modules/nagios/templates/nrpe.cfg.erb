@@ -245,6 +245,7 @@ redis_check_critical = (536870912 * 0.85).to_i
 # General checks
 command[check_free_memory]=/usr/lib/nagios/plugins/check_free_memory
 command[check_security_updates]=/usr/lib/nagios/plugins/check_security_updates
+command[check_service]=/usr/lib/nagios/plugins/check_service
 
 
 # The Node.JS app server
@@ -257,7 +258,7 @@ command[check_disk_tmp]=/usr/lib/nagios/plugins/check_disk -w 30% -c 15% -p /tmp
 command[check_disk_shared]=/usr/lib/nagios/plugins/check_disk -w 30% -c 15% -p /shared
 
 # Database checks.
-command[check_cassandra_running]=/usr/lib/nagios/plugins/check_procs -u cassandra -a CassandraDaemon -c 1:1 -w 1:1
+command[check_cassandra_running]=/usr/lib/nagios/plugins/check_procs -u cassandra -a jsvc.exec -c 1:1 -w 1:1
 command[check_cassandra_query]=/usr/lib/nagios/plugins/check_cassandra_query
 command[check_disk_data]=/usr/lib/nagios/plugins/check_disk -w 30% -c 15% -p /data
 
