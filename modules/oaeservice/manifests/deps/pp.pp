@@ -1,5 +1,6 @@
 class oaeservice::deps::pp {
   include oaeservice::deps::common
+  include oaeservice::deps::ppa::oae
 
   $phantomjs_version = hiera('phantomjs_version')
   $phantomjs_checksum = hiera('phantomjs_checksum')
@@ -112,7 +113,10 @@ class oaeservice::deps::pp {
     'ttf-paktype',
     'ttf-tagbanwa'
   ]
-  package { $pp_packages: ensure => installed }
+  package { $pp_packages:
+    ensure => installed,
+    require => Apt::Ppa['ppa:oae/deps']
+  }
 
   archive { 'phantomjs':
     ensure        => present,

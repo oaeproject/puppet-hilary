@@ -4,6 +4,7 @@
         "::oaeservice::firewall::ssh",
         "::oaeservice::firewall::web",
         "::oaeservice::deps::pp",
+        "::oaeservice::deps::ppa::oae",
         "::oaeservice::etherpad",
         "::oaeservice::hilary",
         "::oaeservice::ui",

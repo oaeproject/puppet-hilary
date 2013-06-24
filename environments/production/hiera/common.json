@@ -1,5 +1,6 @@
 {
     "classes": [
+        "::oaeservice::deps::ppa::oae",
         "::oaeservice::hosts",
         "::oaeservice::firewall",
         "::oaeservice::rsyslog",
