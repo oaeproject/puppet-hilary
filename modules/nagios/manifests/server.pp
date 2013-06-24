@@ -300,14 +300,14 @@ class nagios::server (
 
   nagios_command { 'check_rabbitmq_aliveness':
     target              => '/etc/nagios3/conf.d/puppet/commands/check_rabbitmq_aliveness.cfg',
-    command_line        => '/usr/lib/nagios/plugins/check_rabbitmq_aliveness -H $HOSTADDRESS$',
+    command_line        => '/usr/lib/nagios/plugins/check_rabbitmq_aliveness -H $HOSTADDRESS$ --port 15672',
     ensure              => 'present',
     require             =>  File[$nagios_directories],
   }
 
   nagios_command { 'check_rabbitmq_queue':
     target              => '/etc/nagios3/conf.d/puppet/commands/check_rabbitmq_queue.cfg',
-    command_line        => '/usr/lib/nagios/plugins/check_rabbitmq_queue -H $HOSTADDRESS$ --queue $ARG1$ -w $ARG2$ -c $ARG3$',
+    command_line        => '/usr/lib/nagios/plugins/check_rabbitmq_queue -H $HOSTADDRESS$ --queue $ARG1$ -w $ARG2$ -c $ARG3$ --port 15672',
     ensure              => 'present',
     require             =>  File[$nagios_directories],
   }
@@ -316,7 +316,7 @@ class nagios::server (
   # ex: 80,80,80,80 and 90,90,90,90
   nagios_command { 'check_rabbitmq_server':
     target              => '/etc/nagios3/conf.d/puppet/commands/check_rabbitmq_server.cfg',
-    command_line        => '/usr/lib/nagios/plugins/check_rabbitmq_aliveness -H $HOSTADDRESS$ -w $ARG1$ -c $ARG2$',
+    command_line        => '/usr/lib/nagios/plugins/check_rabbitmq_aliveness -H $HOSTADDRESS$ -w $ARG1$ -c $ARG2$ --port 15672',
     ensure              => 'present',
     require             =>  File[$nagios_directories],
   }
