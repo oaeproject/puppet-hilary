@@ -23,8 +23,5 @@ class oracle-java (
         notify      => Alternatives['java'],
     }
 
-    alternatives { 'java':
-        path => $java_path,
-        require => Package['sun-java6-jre']
-    }
+    alternatives { 'java': path => $java_path }
 }
