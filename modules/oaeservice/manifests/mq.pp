@@ -1,16 +1,15 @@
 class oaeservice::mq {
+  require oaeservice::deps::ppa::oae
   require oaeservice::deps::common
   require oaeservice::deps::package::erlang
 
   Class['::oaeservice::deps::common']           -> Class['::rabbitmq::server']
   Class['::oaeservice::deps::package::erlang']  -> Class['::rabbitmq::server']
 
-  class { '::rabbitmq::repo::apt': }
-
   class { '::rabbitmq::server':
     config_cluster      => true,
     cluster_disk_nodes  => hiera('mq_hosts'),
-    require             => Class['::rabbitmq::repo::apt'],
+    require             => Class['apt'],
     notify              => Exec['enable_management_plugin']
   }
 
