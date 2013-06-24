@@ -23,7 +23,7 @@ http {
     proxy_next_upstream error timeout http_502;
 
     # Limit requests per second per remote address
-    limit_req_zone  $binary_remote_addr  zone=addr_api:10m      rate=20r/s;
+    limit_req_zone  $binary_remote_addr  zone=addr_api:10m      rate=90r/s;
     limit_req_log_level error;
 
     ##################
@@ -62,14 +62,21 @@ http {
 
         ## Admin UI
 
-        rewrite ^/$              /admin/index.html last;
-        rewrite ^/tenant/(.*)$   /admin/index.html last;
-
         location /admin/ {
             alias <%= ux_root_dir %>/admin/;
             autoindex off;
             expires max;
         }
+
+        # HTML files under /admin are not hashed and should not be cached
+        location ~* /admin/([^\.]+).html$ {
+            alias <%= ux_root_dir %>/admin/$1.html;
+            expires -1;
+        }
+
+        rewrite ^/$              /admin/index.html last;
+        rewrite ^/tenant/(.*)$   /admin/index.html last;
+
 
         ## Shared Resources
 
@@ -79,13 +86,7 @@ http {
             expires max;
         }
 
-        ## Main UI
-
-        location /ui/ {
-            alias <%= ux_root_dir %>/ui/;
-            autoindex off;
-            expires max;
-        }
+        rewrite ^/favicon.ico /shared/oae/img/favicon.ico last;
 
         #########################
         ## APP SERVER REQUESTS ##
@@ -121,10 +122,20 @@ http {
             proxy_redirect off;
         }
 
-        location /api/ {
-            expires -1;
-            limit_req zone=addr_api burst=60;
+        location /api/ui/skin {
+            expires 15m;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $http_host;
+            proxy_set_header X-NginX-Proxy true;
+            proxy_pass http://globaladminworkers;
+            proxy_redirect off;
+        }
 
+        location /api/ {
+            limit_req zone=addr_api burst=150;
+
+            expires -1;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header Host $http_host;
@@ -181,6 +192,12 @@ http {
             expires max;
         }
 
+        # HTML files under /shared/oae/errors are not hashed and should not be cached
+        location ~* /shared/oae/errors/([^\.]+).html$ {
+            alias <%= ux_root_dir %>/shared/oae/errors/$1.html;
+            expires -1;
+        }
+
         ## Main UI
 
         location /ui/ {
@@ -189,29 +206,36 @@ http {
             expires max;
         }
 
+        # HTML files under /ui are not hashed and should not be cached
+        location ~* /ui/([^\.]+).html$ {
+            alias <%= ux_root_dir %>/ui/$1.html;
+            expires -1;
+        }
+
+        ## Widgets
+
         location /node_modules/ {
             alias <%= ux_root_dir %>/node_modules/;
             autoindex off;
             expires max;
         }
 
-        rewrite ^/content/(.*)      /ui/content.html last;
-        rewrite ^/discussion/(.*)   /ui/discussion.html last;
-        rewrite ^/creategroup       /ui/creategroup.html last;
-        rewrite ^/favicon.ico       /ui/favicon.ico last;
-        rewrite ^/group/(.*)        /ui/group.html last;
+        rewrite ^/content           /ui/content.html last;
+        rewrite ^/discussion        /ui/discussion.html last;
+        rewrite ^/group             /ui/group.html last;
         rewrite ^/index$            /ui/index.html last;
-        rewrite ^/me$               /ui/me.html last;
-        rewrite ^/me/(.*)           /ui/me.html last;
+        rewrite ^/me                /ui/me.html last;
         rewrite ^/$                 /ui/index.html last;
         rewrite ^/search            /ui/search.html last;
-        rewrite ^/user/(.*)         /ui/user.html last;
+        rewrite ^/user              /ui/user.html last;
 
-        rewrite ^/accessdenied      /ui/errors/accessdenied.html last;
-        rewrite ^/maintenance       /ui/errors/maintenance.html last;
-        rewrite ^/noscript          /ui/errors/noscript.html last;
-        rewrite ^/notfound          /ui/errors/notfound.html last;
-        rewrite ^/unavailable       /ui/errors/unavailable.html last;
+        rewrite ^/favicon.ico       /shared/oae/img/favicon.ico last;
+
+        rewrite ^/accessdenied      /shared/oae/errors/accessdenied.html last;
+        rewrite ^/maintenance       /shared/oae/errors/maintenance.html last;
+        rewrite ^/noscript          /shared/oae/errors/noscript.html last;
+        rewrite ^/notfound          /shared/oae/errors/notfound.html last;
+        rewrite ^/unavailable       /shared/oae/errors/unavailable.html last;
 
         ## Admin UI
 
@@ -219,6 +243,12 @@ http {
             alias <%= ux_root_dir %>/admin/;
             autoindex off;
             expires max;
+        }
+
+        # HTML files under /admin are not hashed and should not be cached
+        location ~* /admin/([^\.]+).html$ {
+            alias <%= ux_root_dir %>/admin/$1.html;
+            expires -1;
         }
 
         rewrite ^/admin$  /admin/index.html last;
@@ -230,22 +260,25 @@ http {
             autoindex off;
         }
 
-        rewrite ^/docs$  /docs/index.html last;
-
-        ## Tests
-        location /tests/ {
-            alias <%= ux_root_dir %>/tests/;
-            autoindex off;
+        # HTML files under /docs are not hashed and should not be cached
+        location ~* /docs/([^\.]+).html$ {
+            alias <%= ux_root_dir %>/docs/$1.html;
+            expires -1;
         }
+
+        rewrite ^/docs$                 /docs/index.html last;
+        rewrite ^/docs/backend          /docs/index.html last;
+        rewrite ^/docs/frontend         /docs/index.html last;
 
         #################
         ## ERROR PAGES ##
         #################
 
-        error_page      401     /ui/errors/accessdenied.html;
-        error_page      404     /ui/errors/notfound.html;
-        error_page      502     /ui/errors/unavailable.html;
-        error_page      503     /ui/errors/maintenance.html;
+        error_page      401     /shared/oae/errors/accessdenied.html;
+        error_page      404     /shared/oae/errors/notfound.html;
+        error_page      502     /shared/oae/errors/unavailable.html;
+        error_page      503     /shared/oae/errors/maintenance.html;
+
 
         #########################
         ## APP SERVER REQUESTS ##
@@ -303,8 +336,9 @@ http {
         }
 
         location /api/ {
+            limit_req zone=addr_api burst=150;
+
             expires -1;
-            limit_req zone=addr_api burst=60;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header Host $http_host;
@@ -332,7 +366,9 @@ http {
     }
 
     ####################
+    ####################
     # Etherpad Servers #
+    ####################
     ####################
 
     # Generate upstream groups with 1 main server and 1 fallback server.
