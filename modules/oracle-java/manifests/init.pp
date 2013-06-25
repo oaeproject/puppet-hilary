@@ -20,7 +20,7 @@ class oracle-java (
         cwd         => '/usr/lib/jvm/',
         path        => '/usr/lib/jvm/',
         refreshonly => true,
-        notify      => Alternatives['java'],
+        notify      => Exec['update-alternatives'],
     }
 
     exec { 'update-alternatives':
