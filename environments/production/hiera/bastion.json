@@ -1,6 +1,7 @@
 {
     "classes": [
-        "::oaeservice::bastion",
         "::oaeservice::firewall::ssh"
-    ]
+    ],
+
+    "nagios_hostgroup": "misc"
 }

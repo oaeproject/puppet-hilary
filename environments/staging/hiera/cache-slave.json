@@ -1,5 +1,0 @@
-{
-    "oaeservice::redis::is_slave": true,
-
-    "nagios_hostgroup": "cacheservers"
-}

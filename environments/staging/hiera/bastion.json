@@ -1,6 +1,5 @@
 {
     "classes": [
-        "::oaeservice::bastion",
         "::oaeservice::firewall::ssh"
     ],
 

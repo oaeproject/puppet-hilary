@@ -1,0 +1,13 @@
+{
+    "classes": [ "::oaeservice::haproxy" ],
+
+    "haproxy::version": "1.4.18-0ubuntu1.1",
+    "haproxy::template": "oaeservice/haproxy/haproxy.cfg.erb",
+
+    "oaeservice::haproxy::cache_primary": "cache0",
+    "oaeservice::haproxy::cache_backups": ["cache1"],
+    "oaeservice::haproxy::activity_cache_primary": "activity-cache0",
+    "oaeservice::haproxy::activity_cache_backups": ["activity-cache1"],
+
+    "nagios_hostgroup": "misc"
+}

@@ -177,13 +177,22 @@ node 'pp2' inherits pp {
 ## ETHERPAD NODES ##
 ####################
 
-node 'ep0' inherits ep {
+node 'etherpad0' inherits etherpad {
   $nodesuffix = 0
   hiera_include(classes)
 }
 
-node 'ep1' inherits ep {
+node 'etherpad1' inherits etherpad {
   $nodesuffix = 1
+  hiera_include(classes)
+}
+
+#################
+## PROXY NODES ##
+#################
+
+node 'proxy0' inherits proxy {
+  $nodesuffix = 0
   hiera_include(classes)
 }
 

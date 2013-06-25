@@ -17,7 +17,7 @@
 
     "app_os_user": "root",
     "app_os_group": "root",
-    "app_hosts": [ "app0" ],
+    "app_hosts": [ "app0", "app1", "app2", "app3" ],
     "app_root_dir": "/opt/oae",
     "app_git_user": "oaeproject",
     "app_git_branch": "master",
@@ -41,10 +41,10 @@
 
     "db_cluster_name": "OAE Staging Cluster",
     "db_keyspace": "oae",
-    "db_hosts": [ "db0" ],
-    "db_tokens": [ "0" ],
+    "db_hosts": [ "db0", "db1", "db2" ],
+    "db_tokens": [ "0", "56713727820156407428984779325531226112", "113427455640312814857969558651062452224" ],
     "db_timeout": 5000,
-    "db_replication_factor": 1,
+    "db_replication_factor": 3,
     "db_strategy_class": "SimpleStrategy",
     "db_index": "%{nodesuffix}",
     "db_data_dir": "/data/cassandra",
@@ -56,7 +56,7 @@
     "phantomjs_version": "1.9.0",
     "phantomjs_checksum": "8075fa873d8741c7ae9093c80a589a1f",
 
-    "search_hosts": [ "search0" ],
+    "search_hosts": [ "search0", "search1" ],
     "search_index": "%{nodesuffix}",
     "search_data_dir": "/data/elasticsearch",
     "search_memory_mb": 3072,
@@ -72,13 +72,24 @@
     "etherpad_external_domain_label": "etherpad",
     "etherpad_enable_abiword": true,
 
-    "cache_host": "cache0",
+    "cache_host": "proxy0",
     "cache_port": 6379,
 
-    "activitycache_enabled": false,
-    "activitycache_host": "activity-cache0",
-    "activitycache_port": 6379,
+    "activitycache_enabled": true,
+    "activitycache_host": "proxy0",
+    "activitycache_port": 6380,
 
+    "email_debug": true,
+    "email_customEmailTemplatesDir": "null",
+    "email_transport": "SMTP",
+    "email_sendmail_path": "/usr/sbin/sendmail",
+    "email_smtp_service": "unset",
+    "email_smtp_port": "unset",
+    "email_smtp_host": "unset",
+    "email_smtp_user": "unset",
+    "email_smtp_pass": "unset",
+    "email_blacklisted_domains": ["example.com", "localhost", "127.0.0.1"],
+    
     "mq_hosts": [ "mq0" ],
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],

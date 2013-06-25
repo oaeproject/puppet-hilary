@@ -1,6 +1,6 @@
 {
     "classes": [
-        "::redis",
+        "::oaeservice::redis",
         "::oaeservice::nagios::redis"
     ],
 
