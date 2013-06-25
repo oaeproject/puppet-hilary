@@ -1,20 +1,19 @@
 class oaeservice::ui {
   require ::oaeservice::deps::common
+  require oaeservice::deps::package::git
+  require oaeservice::deps::ppa::oae
 
-  # TODO: This can probably be pushed down to a low-level module which handles distinction between a tarball
-  # deployment and a git deployment
+  Class['::oaeservice::deps::common']                   -> Class['::ui']
+  Class['::oaeservice::deps::package::git']             -> Class['::ui']
+  Class['::oaeservice::deps::ppa::oae']                 -> Class['::ui']
 
-  $ux_root_dir = hiera('ux_root_dir')
-  $ux_git_user = hiera('ux_git_user')
-  $ux_git_branch = hiera('ux_git_branch')
-
-  Class['::oaeservice::deps::common'] -> Vcsrepo[$ux_root_dir]
-
-  # git clone https://github.com/oaeproject/3akai-ux
-  vcsrepo { $ux_root_dir:
-    ensure    => latest,
-    provider  => git,
-    source    => "https://github.com/${ux_git_user}/3akai-ux",
-    revision  => $ux_git_branch
+  # Apply the UI class.
+  class { '::ui':
+    root_dir         => hiera('ux_root_dir'),
+    install_method   => hiera('ux_install_method'),
+    git_user         => hiera('ux_git_user'),
+    git_branch       => hiera('ux_git_branch'),
+    package_name     => hiera('ux_package_name'),
+    package_version  => hiera('ux_package_version')
   }
 }

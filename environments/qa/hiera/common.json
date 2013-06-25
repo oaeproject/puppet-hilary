@@ -23,6 +23,9 @@
     "nodetype": "%{nodetype}",
     "nodesuffix": "%{nodesuffix}",
 
+    "app_install_method": "package",
+    "app_package_name": "hilary",
+    "app_package_version": "0.2.0-1",
     "app_os_user": "root",
     "app_os_group": "root",
     "app_hosts": [ "127.0.0.1" ],
@@ -44,8 +47,11 @@
     "circonus_url": "https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t",
 
     "ux_root_dir": "/opt/3akai-ux",
+    "ux_install_method": "git",
     "ux_git_user": "oaeproject",
     "ux_git_branch": "master",
+    "ux_package_name": "3akai-ux",
+    "ux_package_version": "0.2.0-2",
 
     "db_cluster_name": "OAE QA Cluster",
     "db_keyspace": "oae",
@@ -78,6 +84,11 @@
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_external_domain_label": "etherpad",
+    "etherpad_install_method": "package",
+    "etherpad_package_name": "etherpad-lite",
+    "etherpad_package_version": "1.2.91-4",
+    "etherpad_git_revision": "1.2.91",
+    "etherpad_ep_oae_git_revision": "master",
     "etherpad_enable_abiword": true,
 
     "cache_host": "127.0.0.1",
