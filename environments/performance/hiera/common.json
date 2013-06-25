@@ -24,7 +24,7 @@
     "app_files_parent": "/shared",
     "app_files_dir": "/shared/files",
     "app_files_nfs": {
-        "server": "10.224.16.254",
+        "server": "10.224.16.126",
         "source_dir": "/zones/nfs/6ea8d63c-66c8-47e1-80f0-6e31dfa0e24f/shared"
     },
 
