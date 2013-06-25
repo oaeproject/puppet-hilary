@@ -41,25 +41,25 @@ class oaeservice::limits (
         'soft_memlock':
             ulimit_domain => '*',
             ulimit_type   => 'soft',
-            ulimit_item   => 'nofile',
+            ulimit_item   => 'memlock',
             ulimit_value  => $user_soft_memlock;
 
         'hard_memlock':
             ulimit_domain => '*',
             ulimit_type   => 'hard',
-            ulimit_item   => 'nofile',
+            ulimit_item   => 'memlock',
             ulimit_value  => $user_hard_memlock;
 
         'soft_memlock_root':
             ulimit_domain => 'root',
             ulimit_type   => 'soft',
-            ulimit_item   => 'nofile',
+            ulimit_item   => 'memlock',
             ulimit_value  => $user_soft_memlock;
 
         'hard_memlock_root':
             ulimit_domain => 'root',
             ulimit_type   => 'hard',
-            ulimit_item   => 'nofile',
+            ulimit_item   => 'memlock',
             ulimit_value  => $user_hard_memlock;
     }
 }
