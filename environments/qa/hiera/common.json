@@ -117,7 +117,7 @@
 
     "nginx::ssl_path": "/opt/nginx/ssl",
 
-    "oaeservice::deps::package::nodejs::nodejs_version": "0.8.24-1chl1~precise1",
+    "oaeservice::deps::package::nodejs::nodejs_version": "0.8.25-1chl1~precise1",
     "oaeservice::deps::package::nodejs::npm_version": "1.2.18-1chl1~precise1",
 
     "rabbitmq::server::version": "3.1.1-1",

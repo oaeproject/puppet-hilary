@@ -23,5 +23,9 @@ class oracle-java (
         notify      => Alternatives['java'],
     }
 
-    alternatives { 'java': path => $java_path }
+    exec { 'update-alternatives':
+        command     => "update-alternatives --install /usr/bin/java java /usr/lib/jvm/${package_name}/jre/bin/java 1; update-alternatives --set java /usr/lib/jvm/${package_name}/jre/bin/java",
+        cwd         => '/',
+        refreshonly => true,
+    }
 }
