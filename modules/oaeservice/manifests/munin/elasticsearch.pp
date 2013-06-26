@@ -1,7 +1,7 @@
 class oaeservice::munin::elasticsearch {
 
   # Munin needs to be installed before this class can be applied
-  Class['munin::client'] -> Class['oaeservice::munin::elasticsearch']
+  require '::oaeservice::munin::client'
 
   # The elasticsearch munin plugins need some perl love.
   class { '::cpanm::install':

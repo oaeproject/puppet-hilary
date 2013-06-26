@@ -36,7 +36,7 @@ Tomas Doran (t0m) - c<< <bobtfish@bobtfish.net> >>
 
 =cut
 
-my $host = '<%= scope.lookupvar('::ipaddress_eth1') %>';
+my $host = '<%= scope.lookupvar('::hostname') %>';
 
 my $ua = LWP::UserAgent->new;
 $ua->timeout(10);

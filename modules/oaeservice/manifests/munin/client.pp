@@ -1,4 +1,4 @@
 class oaeservice::munin::client {
-  
-  class { '::munin::client': }
+
+  include '::munin::client'
 }

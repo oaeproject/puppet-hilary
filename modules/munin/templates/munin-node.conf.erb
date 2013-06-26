@@ -48,7 +48,7 @@ allow .*
 # cidr_deny  192.0.2.42/32
 
 # Which address to bind to;
-host <%= scope.lookupvar('::ipaddress_eth1') %>
+host <%= scope.lookupvar('::hostname') %>
 
 # And which port
 port 4949

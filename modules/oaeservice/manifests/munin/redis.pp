@@ -1,7 +1,7 @@
 class oaeservice::munin::redis {
 
   # Munin needs to be installed before this class can be applied
-  Class['munin::client'] -> Class['oaeservice::munin::redis']
+  require '::oaeservice::munin::client'
 
   # Install the redis gem.
   package { 'redis':

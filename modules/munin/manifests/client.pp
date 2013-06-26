@@ -20,7 +20,7 @@ class munin::client {
   }
 
   # Use an exported file statement that gets collected on the client.
-  @@file { "/etc/munin/munin-conf.d/$hostname":
+  @@file { "/etc/munin/munin-conf.d/$::hostname":
      content  => template('munin/munin-client.conf.erb'),
      tag      => 'munin',
   }

@@ -1,7 +1,7 @@
 class oaeservice::munin::cassandra {
 
   # Munin needs to be installed before this class can be applied
-  Class['munin::client'] -> Class['oaeservice::munin::cassandra']
+  require '::oaeservice::munin::client'
 
   # Copy the plugins to the right place.
   file { '/etc/munin/plugins/cassandra_oae_users':

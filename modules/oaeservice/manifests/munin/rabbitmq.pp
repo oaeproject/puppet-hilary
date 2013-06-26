@@ -1,7 +1,7 @@
 class oaeservice::munin::rabbitmq {
 
   # Munin needs to be installed before this class can be applied
-  Class['munin::client'] -> Class['oaeservice::munin::rabbitmq']
+  require '::oaeservice::munin::client'
 
   # Copy the plugins to the right place.
   file { '/etc/munin/plugins/rabbitmq_connections':
