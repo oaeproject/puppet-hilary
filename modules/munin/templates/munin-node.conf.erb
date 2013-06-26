@@ -48,7 +48,8 @@ allow .*
 # cidr_deny  192.0.2.42/32
 
 # Which address to bind to;
-host <%= scope.lookupvar('::hostname') %>
+# Unfortunately munin requires an IP address here.
+host <%= scope.lookupvar('::ipaddress_eth1') %>
 
 # And which port
 port 4949
