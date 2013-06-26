@@ -43,9 +43,10 @@ cd <%= ux_root_dir %>
 npm install -d
 npm install -g grunt-cli
 grunt
-mv target/optimized /tmp/3akai-ux-optimized
+mv target /tmp
 rm -rf <%= ux_root_dir %>
-mv /tmp/3akai-ux-optimized <%= ux_root_dir %>
+mv /tmp/target/optimized <%= ux_root_dir %>
+mv /tmp/target/original <%= ux_root_dir %>/../original
 
 service hilary start
 
