@@ -27,4 +27,4 @@ fi
 # Note that we cannot use the Principals library as that will contain groups as well.
 # Each user will have at least 1 login strategy associated to it, so
 # we can simply count the number of rows in that table.
-nodetool --host db0 cfstats | grep --color=never -A 4 'AuthenticationUserLoginId' | grep --color=never 'Number of Keys' | awk {'print $5'}
+CASSANDRA_CONF=/etc/cassandra/cassandra.yaml nodetool --host db0 cfstats | grep --color=never -A 4 'AuthenticationUserLoginId' | grep --color=never 'Number of Keys' | awk {'print $5'}
