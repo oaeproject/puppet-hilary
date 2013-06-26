@@ -28,3 +28,6 @@
 [submodule "modules/alternatives"]
 	path = modules/alternatives
 	url = https://github.com/adrienthebo/puppet-alternatives.git
+[submodule "modules/ulimit"]
+	path = modules/ulimit
+	url = https://github.com/arioch/puppet-ulimit.git
