@@ -18,7 +18,7 @@
 
     "app_os_user": "root",
     "app_os_group": "root",
-    "app_hosts": [ "app0", "app1", "app2", "app3", "app4", "app5", "app6", "app7" ],
+    "app_hosts": [ "app0", "app1", "app2", "app3" ],
     "app_root_dir": "/opt/oae",
     "app_git_user": "oaeproject",
     "app_git_branch": "master",
@@ -61,6 +61,7 @@
     "search_index": "%{nodesuffix}",
     "search_data_dir": "/data/elasticsearch",
     "search_memory_mb": 3072,
+    "search_newsize_mb": 1024,
     "search_version": "0.20.6",
     "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
 
@@ -96,7 +97,7 @@
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
 
     "rsyslog_enabled": true,
-    "rsyslog_host": "syslog",
+    "rsyslog_host": "10.224.16.238",
 
     "driver_tsung_version": "1.4.2",
 
