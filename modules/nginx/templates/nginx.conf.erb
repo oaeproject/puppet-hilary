@@ -290,6 +290,7 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header Host $http_host;
             proxy_set_header X-NginX-Proxy true;
+            proxy_set_header   Connection "";
             proxy_pass http://tenantworkers;
             proxy_redirect off;
         }
@@ -301,6 +302,7 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header Host $http_host;
             proxy_set_header X-NginX-Proxy true;
+            proxy_set_header   Connection "";
             proxy_pass http://tenantworkers;
             proxy_redirect off;
         }
@@ -311,6 +313,7 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header Host $http_host;
             proxy_set_header X-NginX-Proxy true;
+            proxy_set_header   Connection "";
             proxy_pass http://tenantworkers;
             proxy_redirect off;
         }
@@ -321,6 +324,7 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header Host $http_host;
             proxy_set_header X-NginX-Proxy true;
+            proxy_set_header   Connection "";
             proxy_pass http://tenantworkers;
             proxy_redirect off;
         }
@@ -331,6 +335,7 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header Host $http_host;
             proxy_set_header X-NginX-Proxy true;
+            proxy_set_header   Connection "";
             proxy_pass http://tenantworkers;
             proxy_redirect off;
         }
@@ -343,6 +348,7 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header Host $http_host;
             proxy_set_header X-NginX-Proxy true;
+            proxy_set_header   Connection "";
             proxy_read_timeout 300;
             proxy_pass http://tenantworkers;
             proxy_redirect off;
