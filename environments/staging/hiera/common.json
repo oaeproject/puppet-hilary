@@ -18,7 +18,7 @@
 
     "app_os_user": "root",
     "app_os_group": "root",
-    "app_hosts": [ "app0", "app1", "app2", "app3" ],
+    "app_hosts": [ "app0", "app1", "app2", "app3", "app4", "app5", "app6", "app7" ],
     "app_root_dir": "/opt/oae",
     "app_git_user": "oaeproject",
     "app_git_branch": "master",
