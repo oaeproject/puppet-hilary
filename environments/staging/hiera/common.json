@@ -60,8 +60,8 @@
     "search_hosts": [ "search0", "search1" ],
     "search_index": "%{nodesuffix}",
     "search_data_dir": "/data/elasticsearch",
-    "search_memory_mb": 3072,
-    "search_newsize_mb": 1024,
+    "search_memory_mb": 2048,
+    "search_newsize_mb": 784,
     "search_version": "0.20.6",
     "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
 
