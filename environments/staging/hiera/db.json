@@ -1,6 +1,7 @@
 {
     "classes": [
         "::oaeservice::cassandra",
+        "::oaeservice::munin::cassandra",
         "::oaeservice::nagios::cassandra"
     ],
 
