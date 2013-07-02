@@ -6,6 +6,7 @@
         "::oaeservice::firewall",
         "::oaeservice::rsyslog",
         "::oaeservice::mcollective",
+        "::oaeservice::munin::client",
         "::oaeservice::nagios",
         "::oaeservice::nagios::disk",
         "::oaeservice::nagios::memory"
