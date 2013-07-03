@@ -65,8 +65,8 @@ class nginx (
     ################################
 
     nginx::server { "${app_admin_tenant}.${web_domain}":
-        ssl_crt_source  => ssl_default_crt_source,
-        ssl_key_source  => ssl_default_key_source,
+        ssl_crt_source  => $ssl_default_crt_source,
+        ssl_key_source  => $ssl_default_key_source,
         template        => 'nginx/admin_tenant_nginx.conf.erb'
     }
 
@@ -76,8 +76,8 @@ class nginx (
     #######################################
 
     nginx::server { $web_domain:
-        ssl_crt_source  => ssl_default_crt_source,
-        ssl_key_source  => ssl_default_key_source,
+        ssl_crt_source  => $ssl_default_crt_source,
+        ssl_key_source  => $ssl_default_key_source,
         server_name     => 'default_server',
     }
 

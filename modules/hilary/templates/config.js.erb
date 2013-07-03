@@ -139,6 +139,7 @@ config.log = {
 // We currently support two types of publishers:
 // * displaying data on the console
 // * pushing data to circonus (via httptrap and redis)
+<% if config_telemetry_circonus_url -%>
 config.telemetry = {
     'enabled': true,
     'publisher': 'circonus',
@@ -151,6 +152,20 @@ config.telemetry = {
         'interval': 5000
     }
 };
+<% else -%>
+config.telemetry = {
+    'enabled': false,
+    'publisher': 'console',
+    'circonus': {
+        'url': 'https://trap.noit.circonus.net/module/httptrap/check-uuid/secret-here',
+        'circonusInterval': 30000,
+        'redisInterval': 20000
+    },
+    'console': {
+        'interval': 5000
+    }
+};
+<% end -%>
 
 /**
  * `config.search`

@@ -46,7 +46,7 @@ class oaeservice::hilary {
 
     config_cookie_secret          => hiera('app_cookie_secret'),
     config_signing_key            => hiera('app_signing_key'),
-    config_telemetry_circonus_url => hiera('circonus_url'),
+    config_telemetry_circonus_url => hiera('circonus_url', false),
     config_servers_admin_host     => $admin_domain,
 
     config_cassandra_hosts          => hiera('db_hosts'),

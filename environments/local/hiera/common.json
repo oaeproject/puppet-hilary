@@ -1,0 +1,139 @@
+{
+    "classes": [
+        "::oaeservice::limits",
+        "::oaeservice::firewall::open",
+        "::oaeservice::deps::pp",
+        "::oaeservice::deps::ppa::oae",
+        "::oaeservice::etherpad",
+        "::oaeservice::hilary",
+        "::oaeservice::ui",
+        "::oaeservice::redis",
+        "::oaeservice::elasticsearch",
+        "::oaeservice::nginx",
+        "::cassandra",
+        "::oaeservice::mq",
+        "::oaeservice::postfix",
+
+        "::localconfig::ordering"
+    ],
+
+    "web_domain": "oae.local",
+
+    "nodetype": "%{nodetype}",
+    "nodesuffix": "%{nodesuffix}",
+
+    "app_os_user": "root",
+    "app_os_group": "root",
+    "app_hosts": [ "127.0.0.1" ],
+    "app_root_dir": "/opt/oae",
+    "app_git_user": "oaeproject",
+    "app_git_branch": "master",
+
+    "app_signing_key": "A;SLDFJ984FJW398FJWP4GO5IJSLRTKGJ",
+    "app_cookie_secret": "SODIFJ984FJA984JAFP98WF4PAW984F984FJ9",
+    "app_admin_tenant": "admin",
+
+    "app_files_parent": "/data",
+    "app_files_dir": "/data/files",
+    "app_files_nfs": {
+        "server": "127.0.0.1",
+        "source_dir": "/vol/notinstalled"
+    },
+
+    "ux_root_dir": "/opt/3akai-ux",
+    "ux_git_user": "oaeproject",
+    "ux_git_branch": "master",
+
+    "db_cluster_name": "OAE Dev Cluster",
+    "db_keyspace": "oae",
+    "db_hosts": [ "127.0.0.1" ],
+    "db_tokens": [ "0" ],
+    "db_timeout": 5000,
+    "db_replication_factor": 1,
+    "db_strategy_class": "SimpleStrategy",
+    "db_index": "0",
+    "db_data_dir": "/data/cassandra",
+    "db_os_user": "cassandra",
+    "db_os_group": "cassandra",
+
+    "pp_os_user": "root",
+    "pp_os_group": "root",
+    "phantomjs_version": "1.9.0",
+    "phantomjs_checksum": "8075fa873d8741c7ae9093c80a589a1f",
+
+    "search_hosts": [ "127.0.0.1" ],
+    "search_index": "0",
+    "search_data_dir": "/var/lib/elasticsearch",
+    "search_memory_mb": 512,
+    "search_version": "0.20.6",
+    "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
+
+    "etherpad_internal_hosts": [ "127.0.0.1" ],
+    "etherpad_external_protocol": "http",
+    "etherpad_external_port": "80",
+    "etherpad_index": "%{nodesuffix}",
+    "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
+    "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
+    "etherpad_external_domain_label": "etherpad",
+    "etherpad_enable_abiword": true,
+
+    "cache_host": "127.0.0.1",
+    "cache_port": 6379,
+
+    "activitycache_enabled": false,
+    "activitycache_host": "127.0.0.1",
+    "activitycache_port": 6379,
+
+    "email_debug": true,
+    "email_customEmailTemplatesDir": "null",
+    "email_transport": "SMTP",
+    "email_sendmail_path": "/usr/sbin/sendmail",
+    "email_smtp_service": "unset",
+    "email_smtp_port": "unset",
+    "email_smtp_host": "unset",
+    "email_smtp_user": "unset",
+    "email_smtp_pass": "unset",
+    "email_blacklisted_domains": ["example.com", "localhost", "127.0.0.1"],
+
+    "mq_hosts": [ "127.0.0.1" ],
+
+    "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
+
+    "rsyslog_enabled": false,
+    "rsyslog_host": "127.0.0.1",
+
+    "driver_tsung_version": "1.4.2",
+
+    "nginx::owner": "root",
+    "nginx::group": "root",
+    "redis::owner": "root",
+    "redis::group": "root",
+
+    "hilary::config_activity_enabled": true,
+    "hilary::config_previews_enabled": true,
+    "hilary::ensure_latest": false,
+    "oaeservice::ui::ensure_latest": false,
+
+    "nginx::ssl_path": "/opt/nginx/ssl",
+
+    "oaeservice::deps::package::nodejs::nodejs_version": "0.8.25-1chl1~precise1",
+    "oaeservice::deps::package::nodejs::npm_version": "1.3.0-1chl1~precise1",
+    "oaeservice::deps::package::nodejs::nodegyp_version": "0.10.2",
+
+    "rabbitmq::server::version": "3.1.1-1",
+    "rabbitmq::server::wipe_db_on_cookie_change": true,
+
+    "automation_scripts_dir": "/opt/scripts",
+    "automation_backup_dir": "/opt/backup",
+    "automation_model_loader_dir": "/opt/OAE-model-loader",
+    "automation_flickr_api_key": "unset",
+    "automation_flickr_api_secret": "unset",
+    "automation_slideshare_shared_secret": "unset",
+    "automation_slideshare_api_key": "unset",
+
+    "oaeservice::limits::user_soft_max_files": "8192",
+    "oaeservice::limits::user_hard_max_files": "32000",
+
+    "cassandra::initial_token": 0,
+    "cassandra::listen_address": "127.0.0.1"
+}

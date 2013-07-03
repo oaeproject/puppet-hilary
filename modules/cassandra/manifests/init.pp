@@ -24,6 +24,7 @@ class cassandra (
   package { 'dsc1.1':
     ensure  => '1.1.4',
     alias   => 'dsc',
+    require => Class['apt'],
   }
 
   file { 'cassandra.yaml':
