@@ -1,0 +1,237 @@
+server {
+    listen          80;
+    server_name     <%= server_name %>;
+    return          301 https://$host$request_uri;
+}
+
+server {
+    listen      443 ssl;
+    server_name <%= server_name %>;
+
+    gzip on;
+    gzip_min_length 1000;
+    gzip_http_version 1.1;
+    gzip_comp_level 5;
+    gzip_proxied any;
+    gzip_types text/css text/plain text/xml application/xml application/xml+rss text/javascript application/javascript application/x-javascript application/json;
+
+    # Since using keepalive to the upstream servers, need to set these
+    proxy_http_version 1.1;
+    proxy_set_header Connection "";
+
+    ##################
+    ## STATIC FILES ##
+    ##################
+
+    ## Shared Resources
+
+    location /shared/ {
+        alias <%= ux_root_dir %>/shared/;
+        autoindex off;
+        expires max;
+    }
+
+    # HTML files under /shared/oae/errors are not hashed and should not be cached
+    location ~* /shared/oae/errors/([^\.]+).html$ {
+        alias <%= ux_root_dir %>/shared/oae/errors/$1.html;
+        expires -1;
+    }
+
+    ## Main UI
+
+    location /ui/ {
+        alias <%= ux_root_dir %>/ui/;
+        autoindex off;
+        expires max;
+    }
+
+    # HTML files under /ui are not hashed and should not be cached
+    location ~* /ui/([^\.]+).html$ {
+        alias <%= ux_root_dir %>/ui/$1.html;
+        expires -1;
+    }
+
+    ## Widgets
+
+    location /node_modules/ {
+        alias <%= ux_root_dir %>/node_modules/;
+        autoindex off;
+        expires max;
+    }
+
+    rewrite ^/content           /ui/content.html last;
+    rewrite ^/discussion        /ui/discussion.html last;
+    rewrite ^/group             /ui/group.html last;
+    rewrite ^/index$            /ui/index.html last;
+    rewrite ^/me                /ui/me.html last;
+    rewrite ^/$                 /ui/index.html last;
+    rewrite ^/search            /ui/search.html last;
+    rewrite ^/user              /ui/user.html last;
+
+    rewrite ^/favicon.ico       /shared/oae/img/favicon.ico last;
+
+    rewrite ^/accessdenied      /shared/oae/errors/accessdenied.html last;
+    rewrite ^/maintenance       /shared/oae/errors/maintenance.html last;
+    rewrite ^/noscript          /shared/oae/errors/noscript.html last;
+    rewrite ^/notfound          /shared/oae/errors/notfound.html last;
+    rewrite ^/unavailable       /shared/oae/errors/unavailable.html last;
+
+    ## Admin UI
+
+    location /admin/ {
+        alias <%= ux_root_dir %>/admin/;
+        autoindex off;
+        expires max;
+    }
+
+    # HTML files under /admin are not hashed and should not be cached
+    location ~* /admin/([^\.]+).html$ {
+        alias <%= ux_root_dir %>/admin/$1.html;
+        expires -1;
+    }
+
+    rewrite ^/admin$  /admin/index.html last;
+
+    ## API Documentation
+
+    location /docs/ {
+        alias <%= ux_root_dir %>/docs/;
+        autoindex off;
+    }
+
+    # HTML files under /docs are not hashed and should not be cached
+    location ~* /docs/([^\.]+).html$ {
+        alias <%= ux_root_dir %>/docs/$1.html;
+        expires -1;
+    }
+
+    rewrite ^/docs$                 /docs/index.html last;
+    rewrite ^/docs/backend          /docs/index.html last;
+    rewrite ^/docs/frontend         /docs/index.html last;
+
+    #################
+    ## ERROR PAGES ##
+    #################
+
+    error_page      401     /shared/oae/errors/accessdenied.html;
+    error_page      404     /shared/oae/errors/notfound.html;
+    error_page      502     /shared/oae/errors/unavailable.html;
+    error_page      503     /shared/oae/errors/maintenance.html;
+
+
+    #########################
+    ## APP SERVER REQUESTS ##
+    #########################
+
+    location /api/ui/staticbatch {
+        expires max;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_pass http://tenantworkers;
+        proxy_redirect off;
+    }
+
+    # This can be cached indefinitely because we use signatures that change over time to control invalidation
+    location /api/download/signed {
+        expires max;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_pass http://tenantworkers;
+        proxy_redirect off;
+    }
+
+    location /api/config {
+        expires 15m;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_pass http://tenantworkers;
+        proxy_redirect off;
+    }
+
+    location /api/ui/widgets {
+        expires 15m;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_pass http://tenantworkers;
+        proxy_redirect off;
+    }
+
+    location /api/ui/skin {
+        expires 15m;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_pass http://tenantworkers;
+        proxy_redirect off;
+    }
+
+    location /api/ {
+        limit_req zone=addr_api burst=150;
+
+        expires -1;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_read_timeout 300;
+        proxy_pass http://tenantworkers;
+        proxy_redirect off;
+    }
+
+    ####################
+    ## FILE DOWNLOADS ##
+    ####################
+
+    # Determines the maximum filesize that a user can upload.
+    client_max_body_size 4096M;
+
+    # An internal endpoint that is used by the local file storage backend.
+    # Change the alias so that it points to the directory that will contain the file bodies.
+    # This should match with the oae-content/storage/local-dir config value as configured
+    # in the admin UI.
+    location /files {
+        internal;
+        alias <%= files_home %>;
+    }
+
+    ####################
+    # Etherpad Servers #
+    ####################
+
+<% internal_etherpad_ips.each_with_index do |ip, index| -%>
+    location /etherpad/<%= index %> {
+        expires 15m;
+
+        rewrite ^/etherpad/<%= index %>(.*)$ $1 break;
+
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_pass http://<%= ip %>:9001;
+        proxy_redirect off;
+        proxy_buffering off;
+    }
+
+    location /etherpad/<%= index %>/socket.io/1/websocket/ {
+        rewrite ^/etherpad/<%= index %>(.*)$ $1 break;
+
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_pass http://<%= ip %>:9001;
+        proxy_redirect off;
+        proxy_buffering off;
+    }
+<% end -%>
+}
