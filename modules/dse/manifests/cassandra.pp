@@ -14,8 +14,55 @@ class dse::cassandra (
 
   # Install the DSE apt repository first
   require dse::apt
+  
+  
+  
+  package { 'dse-libtomcat': ensure => $dse_version }
+  package { 'dse-libsqoop': ensure => $dse_version }
+  package { 'dse-liblog4j': ensure => $dse_version }
+  package { 'dse-libmahout': ensure => $dse_version }
+  package { 'dse-libhive': ensure => $dse_version }
+  package { 'dse-libcassandra': ensure => $dse_version }
+  package { 'dse-libhadoop': ensure => $dse_version }
+  package { 'dse-libpig': ensure => $dse_version }
+  
 
-  package { $dse_package: ensure => $dse_version }
+  package { 'dse-libhadoop-native':
+    ensure  => $dse_version,
+    require => Package['dse-libhadoop'],
+  }
+ 
+  package { 'dse':
+    ensure  => $dse_version,
+    require => [ Package['dse-libhadoop'], Package['dse-libcassandra'] ],
+  }
+
+
+  package { 'dse-hive':
+    ensure  => $dse_version,
+    require => [ Package['dse'], Package['dse-libhive'] ],
+  }
+
+  package { 'dse-pig':
+    ensure  => $dse_version,
+    require => [ Package['dse'], Package['dse-libpig'] ],
+  }
+ 
+  package { 'dse-demos':
+    ensure  => $dse_version,
+    require => Package['dse-hive'],
+  }
+  
+  
+  package { 'dse-libsolr':
+    ensure  => $dse_version,
+    require => Package['dse-libtomcat'],
+  }
+ 
+  package { $dse_package:
+    ensure => $dse_version,
+    require => [ Package['dse'], Package['dse-hive'], Package['dse-pig'], Package['dse-demos'], Package['dse-libtomcat'], Package['dse-libsqoop'], Package['dse-liblog4j'], Package['dse-libmahout'] ]
+  }
 
   file { 'cassandra.yaml':
     path => '/etc/dse/cassandra/cassandra.yaml',
