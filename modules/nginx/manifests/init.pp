@@ -9,7 +9,6 @@ class nginx (
     $owner                          = 'nginx',
     $group                          = 'nginx',
     $nginx_dir                      = '/etc/nginx',
-    $nginx_ssl_dir                  = "${nginx_dir}/ssl",
     $ssl_default_crt_source         = 'puppet:///modules/localconfig/server.crt',
     $ssl_default_key_source         = 'puppet:///modules/localconfig/server.key',
     $version                        = '1.4.1-1~precise',) {
@@ -20,6 +19,7 @@ class nginx (
     #############################
 
     $nginx_conf_dir = "${nginx_dir}/conf.d"
+    $nginx_ssl_dir  = "${nginx_dir}/ssl",
 
 
     ###################
