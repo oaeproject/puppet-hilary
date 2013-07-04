@@ -26,8 +26,8 @@ Vagrant.configure("2") do |config|
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
 
-  config.vm.synced_folder "../Hilary", "/opt/oae"
-  config.vm.synced_folder "../3akai-ux", "/opt/3akai-ux"
+  # config.vm.synced_folder "../Hilary", "/opt/oae"
+  # config.vm.synced_folder "../3akai-ux", "/opt/3akai-ux"
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
@@ -36,6 +36,12 @@ Vagrant.configure("2") do |config|
     puppet.options = "--verbose --debug --modulepath environments/local/modules:modules --certname dev --environment local --hiera_config provisioning/vagrant/hiera.yaml"
     puppet.manifests_path = "."
     puppet.manifest_file  = "site.pp"
+  end
+
+
+  # Allow us to create symlinks on the FS
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
   end
 
 end

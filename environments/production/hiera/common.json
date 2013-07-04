@@ -1,7 +1,6 @@
 {
     "classes": [
         "::oaeservice::limits",
-        "::oaeservice::deps::ppa::oae",
         "::oaeservice::hosts",
         "::oaeservice::firewall",
         "::oaeservice::rsyslog",

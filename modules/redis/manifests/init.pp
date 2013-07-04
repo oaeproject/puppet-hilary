@@ -7,18 +7,7 @@ class redis (
     $slave_of             = false,
     $syslog_enabled       = false,) {
 
-  include apt
-  apt::source { 'dotdeb':
-    location    => 'http://packages.dotdeb.org',
-    repos       => 'stable all',
-    release     => '',
-    key         => '89DF5277',
-    key_source  => 'http://www.dotdeb.org/dotdeb.gpg',
-    include_src => false,
-  }
-
-  package { 'redis-server': ensure => installed, require => Class['apt'] }
-
+  package { 'redis-server': ensure => installed }
 
   # Set the configuration file.
   file { 'redis.conf':

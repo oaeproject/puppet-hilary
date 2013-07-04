@@ -20,17 +20,7 @@ class nginx (
     ## NGINX PACKAGE ##
     ###################
 
-    include apt
-    apt::source { 'nginx':
-        location    => 'http://nginx.org/packages/ubuntu/',
-        repos       => 'nginx',
-        key         => 'ABF5BD827BD9BF62',
-    }
-
-    package { 'nginx':
-        ensure  => $version,
-        require => Class['apt'],
-    }
+    package { 'nginx': ensure => $version }
 
 
     ########################

@@ -1,16 +1,13 @@
 {
     "classes": [
         "::oaeservice::limits",
-        "::oaeservice::firewall::open",
-        "::oaeservice::deps::pp",
-        "::oaeservice::deps::ppa::oae",
         "::oaeservice::etherpad",
         "::oaeservice::hilary",
         "::oaeservice::ui",
         "::oaeservice::redis",
         "::oaeservice::elasticsearch",
         "::oaeservice::nginx",
-        "::cassandra",
+        "::oaeservice::cassandra::dsc",
         "::oaeservice::mq",
         "::oaeservice::postfix",
 
@@ -71,7 +68,7 @@
     "etherpad_internal_hosts": [ "127.0.0.1" ],
     "etherpad_external_protocol": "http",
     "etherpad_external_port": "80",
-    "etherpad_index": "%{nodesuffix}",
+    "etherpad_index": 0,
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_external_domain_label": "etherpad",
@@ -104,10 +101,10 @@
 
     "driver_tsung_version": "1.4.2",
 
-    "nginx::owner": "root",
-    "nginx::group": "root",
-    "redis::owner": "root",
-    "redis::group": "root",
+    "nginx::owner": "nginx",
+    "nginx::group": "nginx",
+    "redis::owner": "redis",
+    "redis::group": "redis",
 
     "hilary::config_activity_enabled": true,
     "hilary::config_previews_enabled": true,
@@ -122,14 +119,6 @@
 
     "rabbitmq::server::version": "3.1.1-1",
     "rabbitmq::server::wipe_db_on_cookie_change": true,
-
-    "automation_scripts_dir": "/opt/scripts",
-    "automation_backup_dir": "/opt/backup",
-    "automation_model_loader_dir": "/opt/OAE-model-loader",
-    "automation_flickr_api_key": "unset",
-    "automation_flickr_api_secret": "unset",
-    "automation_slideshare_shared_secret": "unset",
-    "automation_slideshare_api_key": "unset",
 
     "oaeservice::limits::user_soft_max_files": "8192",
     "oaeservice::limits::user_hard_max_files": "32000",

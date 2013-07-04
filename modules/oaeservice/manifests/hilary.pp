@@ -1,13 +1,19 @@
 class oaeservice::hilary {
-  require oaeservice::deps::common
-  require oaeservice::deps::package::git
-  require oaeservice::deps::package::nodejs
-  require oaeservice::deps::package::graphicsmagick
+  include ::oaeservice::deps::common
+  include ::oaeservice::deps::package::git
+  include ::oaeservice::deps::package::nodejs
+  include ::oaeservice::deps::package::graphicsmagick
 
   Class['::oaeservice::deps::common']                   -> Class['::hilary']
   Class['::oaeservice::deps::package::git']             -> Class['::hilary']
   Class['::oaeservice::deps::package::nodejs']          -> Class['::hilary']
   Class['::oaeservice::deps::package::graphicsmagick']  -> Class['::hilary']
+
+  # If previews are enabled, we also need to include those dependencies
+  if (hiera('hilary::config_previews_enabled', false)) {
+    include ::oaeservice::deps::pp
+    Class['::oaeservice::deps::pp'] -> Class['::hilary']
+  }
 
   $rsyslog_enabled = hiera('rsyslog_enabled', false)
   if $rsyslog_enabled {
