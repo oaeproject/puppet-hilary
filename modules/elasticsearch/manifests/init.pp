@@ -6,7 +6,7 @@ class elasticsearch (
     $checksum,
     $host_port        = 9200,
     $heap_size_mb     = 384,
-    $heap_newsize_mb  = null,
+    $heap_newsize_mb  = false,
     $rsyslog_enabled  = false,
     $rsyslog_host     = '127.0.0.1') {
 

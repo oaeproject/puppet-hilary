@@ -10,7 +10,7 @@ class oaeservice::elasticsearch {
     search_hosts      => $search_hosts,
     host_address      => $search_hosts[$index],
     heap_size_mb      => hiera('search_memory_mb'),
-    heap_newsize_mb   => hiera('search_newsize_mb', null),
+    heap_newsize_mb   => hiera('search_newsize_mb', false),
     path_data         => hiera('search_data_dir'),
     version           => hiera('search_version'),
     checksum          => hiera('search_checksum'),
