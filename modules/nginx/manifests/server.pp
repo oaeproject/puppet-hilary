@@ -1,6 +1,6 @@
 define nginx::server (
-    $ssl_crt_source,
-    $ssl_key_source,
+    $ssl_crt_source     = "puppet:///modules/localconfig/${name}/server.crt",
+    $ssl_key_source     = "puppet:///modules/localconfig/${name}/server.key",
     $server_name        = $name,
     $template           = 'nginx/user_tenant_nginx.conf.erb') {
 

@@ -5,7 +5,9 @@ class oaeservice::nginx {
     Class['::oaeservice::deps::common']         -> Class['::nginx']
     Class['::oaeservice::deps::package::pcre']  -> Class['::nginx']
 
-    apt::source { 'nginx':
+    $web_domains_external = hiera_array('web_domains_external', false)
+
+    ::apt::source { 'nginx':
         location    => 'http://nginx.org/packages/ubuntu/',
         repos       => 'nginx',
         key         => 'ABF5BD827BD9BF62',
@@ -21,5 +23,10 @@ class oaeservice::nginx {
 
         ux_root_dir                     => hiera('ux_root_dir'),
         files_home                      => hiera('app_files_dir')
+    }
+
+    # Plant all the external hosts (e.g., oae.gatech.edu) if they are specified
+    if ($web_domains_external) {
+        ::nginx::server { $web_domains_external: }
     }
 }
