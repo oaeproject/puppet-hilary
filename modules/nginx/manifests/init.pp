@@ -9,8 +9,8 @@ class nginx (
     $owner                          = 'nginx',
     $group                          = 'nginx',
     $nginx_dir                      = '/etc/nginx',
-    $ssl_default_crt_source         = 'puppet:///modules/localconfig/server.crt',
-    $ssl_default_key_source         = 'puppet:///modules/localconfig/server.key',
+    $ssl_default_crt_source         = 'puppet:///modules/localconfig/ssl/default/server.crt',
+    $ssl_default_key_source         = 'puppet:///modules/localconfig/ssl/default/server.key',
     $version                        = '1.4.1-1~precise',) {
 
 
