@@ -12,26 +12,29 @@ define nginx::ssl (
     $owner = $::nginx::owner
     $group = $::nginx::group
 
-    exec { $ssl_host_dir:
-        command => "mkdir ${ssl_host_dir}",
-        creates => $ssl_host_dir,
+    file { $ssl_host_dir:
+        ensure  => directory,
+        mode    => 0500,
+        owner   => $owner,
+        group   => $group,
     }
 
     file { $ssl_crt_path:
         ensure  => present,
-        mode    => 0400,
+        mode    => 0640,
         owner   => $owner,
         group   => $group,
         source  => $ssl_crt_source,
-        require => Exec[$ssl_host_dir],
+        require => File[$ssl_host_dir],
     }
 
+    # Private key, when the passphrase is removed, should only be readable by root
     file { $ssl_key_path:
         ensure  => present,
         mode    => 0400,
-        owner   => $owner,
-        group   => $group,
+        owner   => root,
+        group   => root,
         source  => $ssl_key_source,
-        require => Exec[$ssl_host_dir],
+        require => File[$ssl_host_dir],
     }
 }

@@ -36,6 +36,14 @@ class nginx (
     $nginx_config_path  = "${nginx_dir}/nginx.conf"
     $nginx_mimes_path   = "${nginx_dir}/nginx.mime.types"
 
+    file { $nginx_ssl_dir:
+        ensure      => directory,
+        mode        => 0640,
+        owner       => $owner,
+        group       => $group,
+        recurse     => true,
+    }
+
     file { $nginx_config_path:
         ensure  => present,
         mode    => 0640,
