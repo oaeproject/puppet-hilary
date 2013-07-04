@@ -108,10 +108,6 @@
 
     "hilary::config_activity_enabled": true,
     "hilary::config_previews_enabled": true,
-    "hilary::ensure_latest": false,
-    "oaeservice::ui::ensure_latest": false,
-
-    "nginx::ssl_path": "/opt/nginx/ssl",
 
     "oaeservice::deps::package::nodejs::nodejs_version": "0.8.25-1chl1~precise1",
     "oaeservice::deps::package::nodejs::npm_version": "1.3.0-1chl1~precise1",

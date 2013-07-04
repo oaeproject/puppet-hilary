@@ -106,15 +106,13 @@
 
     "driver_tsung_version": "1.4.2",
 
-    "nginx::owner": "root",
-    "nginx::group": "root",
-    "redis::owner": "root",
-    "redis::group": "root",
+    "nginx::owner": "nginx",
+    "nginx::group": "nginx",
+    "redis::owner": "redis",
+    "redis::group": "redis",
 
     "hilary::config_activity_enabled": true,
     "hilary::config_previews_enabled": true,
-
-    "nginx::ssl_path": "/opt/nginx/ssl",
 
     "oaeservice::deps::package::nodejs::nodejs_version": "0.8.25-1chl1~precise1",
     "oaeservice::deps::package::nodejs::npm_version": "1.3.0-1chl1~precise1",

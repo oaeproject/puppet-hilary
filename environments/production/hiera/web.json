@@ -26,8 +26,8 @@
         }
     ],
 
-    "nginx::owner": "root",
-    "nginx::group": "root",
+    "nginx::owner": "nginx",
+    "nginx::group": "nginx",
 
     "nagios_hostgroup": "webservers"
 }
