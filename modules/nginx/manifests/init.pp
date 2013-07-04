@@ -18,7 +18,7 @@ class nginx (
     ## ADDITIONAL PARAM VALUES ##
     #############################
 
-    $nginx_conf_dir = "${nginx_dir}/conf.d"
+    $nginx_conf_dir = "${nginx_dir}/oae.conf.d"
     $nginx_ssl_dir  = "${nginx_dir}/ssl"
 
 
@@ -36,12 +36,21 @@ class nginx (
     $nginx_config_path  = "${nginx_dir}/nginx.conf"
     $nginx_mimes_path   = "${nginx_dir}/nginx.mime.types"
 
+    file { $nginx_conf_dir:
+        ensure      => directory,
+        mode        => 0640,
+        owner       => $owner,
+        group       => $group,
+        require     => Package['nginx'],
+    }
+
     file { $nginx_ssl_dir:
         ensure      => directory,
         mode        => 0640,
         owner       => $owner,
         group       => $group,
         recurse     => true,
+        require     => Package['nginx'],
     }
 
     file { $nginx_config_path:
