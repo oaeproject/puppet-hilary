@@ -19,7 +19,7 @@ class nginx (
     #############################
 
     $nginx_conf_dir = "${nginx_dir}/conf.d"
-    $nginx_ssl_dir  = "${nginx_dir}/ssl",
+    $nginx_ssl_dir  = "${nginx_dir}/ssl"
 
 
     ###################
