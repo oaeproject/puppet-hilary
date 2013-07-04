@@ -8,18 +8,26 @@ server {
     listen      443 ssl;
     server_name <%= server_name %>;
 
-    gzip on;
-    gzip_min_length 1000;
-    gzip_http_version 1.1;
-    gzip_comp_level 5;
-    gzip_proxied any;
-    gzip_types text/css text/plain text/xml application/xml application/xml+rss text/javascript application/javascript application/x-javascript application/json;
+    ssl_certificate      <%= ssl_crt_path %>;
+    ssl_certificate_key  <%= ssl_key_path %>;
 
-    ##################
-    ## STATIC FILES ##
-    ##################
 
-    ## Admin UI
+    ######################
+    ## SHARED RESOURCES ##
+    ######################
+
+    location /shared/ {
+        alias <%= ux_root_dir %>/shared/;
+        autoindex off;
+        expires max;
+    }
+
+    rewrite ^/favicon.ico /shared/oae/img/favicon.ico last;
+
+
+    #####################
+    ## ADMIN RESOURCES ##
+    #####################
 
     location /admin/ {
         alias <%= ux_root_dir %>/admin/;
@@ -37,19 +45,9 @@ server {
     rewrite ^/tenant/(.*)$   /admin/index.html last;
 
 
-    ## Shared Resources
-
-    location /shared/ {
-        alias <%= ux_root_dir %>/shared/;
-        autoindex off;
-        expires max;
-    }
-
-    rewrite ^/favicon.ico /shared/oae/img/favicon.ico last;
-
-    #########################
-    ## APP SERVER REQUESTS ##
-    #########################
+    ##################
+    ## API REQUESTS ##
+    ##################
 
     location /api/ui/staticbatch {
         expires max;

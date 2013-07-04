@@ -8,22 +8,13 @@ server {
     listen      443 ssl;
     server_name <%= server_name %>;
 
-    gzip on;
-    gzip_min_length 1000;
-    gzip_http_version 1.1;
-    gzip_comp_level 5;
-    gzip_proxied any;
-    gzip_types text/css text/plain text/xml application/xml application/xml+rss text/javascript application/javascript application/x-javascript application/json;
+    ssl_certificate      <%= ssl_crt_path %>;
+    ssl_certificate_key  <%= ssl_key_path %>;
 
-    # Since using keepalive to the upstream servers, need to set these
-    proxy_http_version 1.1;
-    proxy_set_header Connection "";
 
-    ##################
-    ## STATIC FILES ##
-    ##################
-
-    ## Shared Resources
+    ######################
+    ## SHARED RESOURCES ##
+    ######################
 
     location /shared/ {
         alias <%= ux_root_dir %>/shared/;
@@ -37,46 +28,17 @@ server {
         expires -1;
     }
 
-    ## Main UI
-
-    location /ui/ {
-        alias <%= ux_root_dir %>/ui/;
-        autoindex off;
-        expires max;
-    }
-
-    # HTML files under /ui are not hashed and should not be cached
-    location ~* /ui/([^\.]+).html$ {
-        alias <%= ux_root_dir %>/ui/$1.html;
-        expires -1;
-    }
-
-    ## Widgets
-
-    location /node_modules/ {
-        alias <%= ux_root_dir %>/node_modules/;
-        autoindex off;
-        expires max;
-    }
-
-    rewrite ^/content           /ui/content.html last;
-    rewrite ^/discussion        /ui/discussion.html last;
-    rewrite ^/group             /ui/group.html last;
-    rewrite ^/index$            /ui/index.html last;
-    rewrite ^/me                /ui/me.html last;
-    rewrite ^/$                 /ui/index.html last;
-    rewrite ^/search            /ui/search.html last;
-    rewrite ^/user              /ui/user.html last;
-
-    rewrite ^/favicon.ico       /shared/oae/img/favicon.ico last;
-
     rewrite ^/accessdenied      /shared/oae/errors/accessdenied.html last;
     rewrite ^/maintenance       /shared/oae/errors/maintenance.html last;
     rewrite ^/noscript          /shared/oae/errors/noscript.html last;
     rewrite ^/notfound          /shared/oae/errors/notfound.html last;
     rewrite ^/unavailable       /shared/oae/errors/unavailable.html last;
+    rewrite ^/favicon.ico       /shared/oae/img/favicon.ico last;
 
-    ## Admin UI
+
+    #####################
+    ## ADMIN RESOURCES ##
+    #####################
 
     location /admin/ {
         alias <%= ux_root_dir %>/admin/;
@@ -92,7 +54,36 @@ server {
 
     rewrite ^/admin$  /admin/index.html last;
 
-    ## API Documentation
+
+    #######################
+    ## MAIN UI RESOURCES ##
+    #######################
+
+    location /ui/ {
+        alias <%= ux_root_dir %>/ui/;
+        autoindex off;
+        expires max;
+    }
+
+    # HTML files under /ui are not hashed and should not be cached
+    location ~* /ui/([^\.]+).html$ {
+        alias <%= ux_root_dir %>/ui/$1.html;
+        expires -1;
+    }
+
+    rewrite ^/content           /ui/content.html last;
+    rewrite ^/discussion        /ui/discussion.html last;
+    rewrite ^/group             /ui/group.html last;
+    rewrite ^/index$            /ui/index.html last;
+    rewrite ^/me                /ui/me.html last;
+    rewrite ^/$                 /ui/index.html last;
+    rewrite ^/search            /ui/search.html last;
+    rewrite ^/user              /ui/user.html last;
+
+
+    ####################
+    ## DOCS RESOURCES ##
+    ####################
 
     location /docs/ {
         alias <%= ux_root_dir %>/docs/;
@@ -109,6 +100,18 @@ server {
     rewrite ^/docs/backend          /docs/index.html last;
     rewrite ^/docs/frontend         /docs/index.html last;
 
+
+    ######################
+    ## WIDGET RESOURCES ##
+    ######################
+
+    location /node_modules/ {
+        alias <%= ux_root_dir %>/node_modules/;
+        autoindex off;
+        expires max;
+    }
+
+
     #################
     ## ERROR PAGES ##
     #################
@@ -119,9 +122,9 @@ server {
     error_page      503     /shared/oae/errors/maintenance.html;
 
 
-    #########################
-    ## APP SERVER REQUESTS ##
-    #########################
+    ##################
+    ## API REQUESTS ##
+    ##################
 
     location /api/ui/staticbatch {
         expires max;

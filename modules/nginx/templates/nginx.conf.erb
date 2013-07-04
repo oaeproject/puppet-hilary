@@ -15,12 +15,38 @@ http {
     # Allows us to have "server_name" strings up to 32 characters
     server_names_hash_bucket_size  64;
 
+
+    ####################
+    ## PROXY SETTINGS ##
+    ####################
+
     # When the back-end server returns a 502, look to the next upstream server
     proxy_next_upstream error timeout http_502;
+
+    # Since using keepalive to the upstream servers, need to set these
+    proxy_http_version 1.1;
+    proxy_set_header Connection "";
+
+    # Only give the app server 15 seconds for a request before assuming it's down and retrying
+    proxy_connect_timeout   5;
+    proxy_read_timeout      15;
 
     # Limit requests per second per remote address
     limit_req_zone          $binary_remote_addr  zone=addr_api:10m  rate=90r/s;
     limit_req_log_level     error;
+
+
+    ###################
+    ## GZIP SETTINGS ##
+    ###################
+
+    gzip on;
+    gzip_min_length 1000;
+    gzip_http_version 1.1;
+    gzip_comp_level 5;
+    gzip_proxied any;
+    gzip_types text/css text/plain text/xml application/xml application/xml+rss text/javascript application/javascript application/x-javascript application/json;
+
 
     ####################
     ## LOAD BALANCING ##
@@ -28,13 +54,15 @@ http {
 
     upstream globaladminworkers {
 <% internal_app_ips.each do |ip| -%>
-        server <%= ip %>:2000;
+        server <%= ip %>:2000   max_fails=3 fail_timeout=30s;
 <% end -%>
+
+        keepalive 64;
     }
 
     upstream tenantworkers {
 <% internal_app_ips.each do |ip| -%>
-        server <%= ip %>:2001;
+        server <%= ip %>:2001   max_fails=3 fail_timeout=30s;
 <% end -%>
 
         keepalive 64;
