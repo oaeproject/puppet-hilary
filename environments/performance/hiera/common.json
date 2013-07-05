@@ -71,7 +71,7 @@
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_external_domain_label": "etherpad",
-    "etherpad_install_method": "apt",
+    "etherpad_install_method": "git",
     "etherpad_apt_package_version": "1.2.91-4",
     "etherpad_git_source": "https://github.com/ether/etherpad-lite",
     "etherpad_git_revision": "1.2.91",
