@@ -44,10 +44,9 @@ class oaeservice::hilary {
   class { '::hilary':
     app_root_dir                  => hiera('app_root_dir'),
     install_method                => hiera('app_install_method'),
-    package_name                  => hiera('app_package_name'),
-    package_version               => hiera('app_package_version'),
-    app_git_user                  => hiera('app_git_user'),
-    app_git_branch                => hiera('app_git_branch'),
+    apt_package_version           => hiera('app_apt_package_version'),
+    git_source                    => hiera('app_git_source'),
+    git_revision                  => hiera('app_git_revision'),
     ux_root_dir                   => hiera('ux_root_dir'),
     os_user                       => hiera('app_os_user'),
     os_group                      => hiera('app_os_group'),

@@ -21,9 +21,10 @@ class oaeservice::etherpad {
     oae_db_strategy_class => hiera('db_strategy_class'),
 
     install_method          => hiera('etherpad_install_method'),
-    package_name            => hiera('etherpad_package_name'),
-    package_version         => hiera('etherpad_package_version'),
+    apt_package_version     => hiera('etherpad_apt_package_version'),
+    etherpad_git_source     => hiera('etherpad_git_source'),
     etherpad_git_revision   => hiera('etherpad_git_revision'),
+    ep_oae_git_source       => hiera('etherpad_ep_oae_git_source'),
     ep_oae_git_revision     => hiera('etherpad_ep_oae_git_revision'),
 
     enable_abiword          => hiera('etherpad_enable_abiword'),

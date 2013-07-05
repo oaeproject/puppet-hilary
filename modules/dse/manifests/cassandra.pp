@@ -14,54 +14,49 @@ class dse::cassandra (
 
   # Install the DSE apt repository first
   require dse::apt
-  
-  
-  
-  package { 'dse-libtomcat': ensure => $dse_version }
-  package { 'dse-libsqoop': ensure => $dse_version }
-  package { 'dse-liblog4j': ensure => $dse_version }
-  package { 'dse-libmahout': ensure => $dse_version }
-  package { 'dse-libhive': ensure => $dse_version }
-  package { 'dse-libcassandra': ensure => $dse_version }
-  package { 'dse-libhadoop': ensure => $dse_version }
-  package { 'dse-libpig': ensure => $dse_version }
-  
+
+
+  $dse_base_packages = ['dse-libtomcat', 'dse-libsqoop', 'dse-liblog4j', 'dse-libmahout', 'dse-libhive', 'dse-libcassandra', 'dse-libhadoop', 'dse-libpig' ]
+  package { $dse_base_packages:
+    ensure => $dse_version
+  }
+
 
   package { 'dse-libhadoop-native':
     ensure  => $dse_version,
-    require => Package['dse-libhadoop'],
+    require => Package[$dse_base_packages],
   }
- 
+
   package { 'dse':
     ensure  => $dse_version,
-    require => [ Package['dse-libhadoop'], Package['dse-libcassandra'] ],
+    require => Package[$dse_base_packages],
   }
 
 
   package { 'dse-hive':
     ensure  => $dse_version,
-    require => [ Package['dse'], Package['dse-libhive'] ],
+    require => [ Package['dse'], Package[ $dse_base_packages ] ],
   }
 
   package { 'dse-pig':
     ensure  => $dse_version,
-    require => [ Package['dse'], Package['dse-libpig'] ],
+    require => [ Package['dse'], Package[ $dse_base_packages ] ],
   }
- 
+
   package { 'dse-demos':
     ensure  => $dse_version,
     require => Package['dse-hive'],
   }
-  
-  
+
+
   package { 'dse-libsolr':
     ensure  => $dse_version,
-    require => Package['dse-libtomcat'],
+    require => Package[$dse_base_packages],
   }
- 
+
   package { $dse_package:
     ensure => $dse_version,
-    require => [ Package['dse'], Package['dse-hive'], Package['dse-pig'], Package['dse-demos'], Package['dse-libtomcat'], Package['dse-libsqoop'], Package['dse-liblog4j'], Package['dse-libmahout'] ]
+    require => [ Package['dse'], Package['dse-hive'], Package['dse-pig'], Package['dse-demos'], Package[$dse_base_packages] ]
   }
 
   file { 'cassandra.yaml':
