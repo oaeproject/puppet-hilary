@@ -5,13 +5,11 @@ class hilary (
     # to pull it as a package.
     # If you're pulling down Hilary as a package, it's assumed you've already setup
     # the PPA / Apt repository where it should be pulled from.
-    # Valid options are 'git' and 'package'
+    # Valid options are 'git' and 'apt'
     $install_method  = 'git',
-    $package_name    = 'hilary',
-    $package_version = '0.2.0-1',
-
-    $app_git_user,
-    $app_git_branch,
+    $apt_package_version = '0.2.0-1',
+    $git_source,
+    $git_revision,
     $ux_root_dir,
     $os_user,
     $os_group,
@@ -89,14 +87,27 @@ class hilary (
   ########################
   ## DEPLOY APPLICATION ##
   ########################
-  class {'hilary::install':
-    install_method    => $install_method,
-    app_root_dir      => $app_root_dir,
-    app_git_user      => $app_git_user,
-    app_git_branch    => $app_git_branch,
-    package_name      => $package_name,
-    package_version   => $package_version,
+
+  case $install_method {
+        'git': {
+            class { '::hilary::install::git':
+                app_root_dir        => $app_root_dir,
+                git_source          => $git_source,
+                git_revision        => $git_revision,
+            }
+        }
+        'apt': {
+            class { '::hilary::install::apt':
+                package_version     => $package_version,
+            }
+        }
+        default: {
+            warning("Unknown install method for hilary passed in: '${install_method}'")
+        }
   }
+
+  Class["::hilary::install::${install_method}"] -> File["/etc/init/hilary.conf"]
+  Class["::hilary::install::${install_method}"] -> File["${app_root_dir}/config.js"]
 
   # recursively create all tmp directories
   exec { 'mkdir_upload_files_dir': command => "mkdir -p $upload_files_dir" }
@@ -137,8 +148,7 @@ class hilary (
       owner   => $os_user,
       group   => $os_group,
       content => template('hilary/config.js.erb'),
-      require => [ Class['hilary::install'], File[$upload_files_dir], File[$config_files_tmp_dir],
-          File[$config_files_tmp_upload_dir] ]
+      require => [ File[$upload_files_dir], File[$config_files_tmp_dir], File[$config_files_tmp_upload_dir] ]
   }
 
 
@@ -150,7 +160,6 @@ class hilary (
   file { "/etc/init/hilary.conf":
     ensure  =>  present,
     content =>  template('hilary/upstart_hilary.conf.erb'),
-    require =>  Class['hilary::install'],
   }
 
   service { 'hilary':

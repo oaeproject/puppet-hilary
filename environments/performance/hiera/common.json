@@ -11,15 +11,14 @@
 
     "web_domain": "oae-performance.oaeproject.org",
 
-    "app_install_method": "package",
-    "app_package_name": "hilary",
-    "app_package_version": "0.2.0-1",
+    "app_install_method": "git",
+    "app_apt_package_version": "0.2.0-1",
     "app_os_user": "root",
     "app_os_group": "root",
     "app_hosts": [ "app0", "app1", "app2", "app3" ],
     "app_root_dir": "/opt/oae",
-    "app_git_user": "oaeproject",
-    "app_git_branch": "master",
+    "app_git_source": "https://github.com/oaeproject/Hilary",
+    "app_git_revision": "master",
 
     "app_signing_key": "A;SLDFJ984FJW398FJWP4GO5IJSLRTKGJ",
     "app_cookie_secret": "SODIFJ984FJA984JAFP98WF4PAW984F984FJ9",
@@ -36,10 +35,9 @@
 
     "ux_root_dir": "/opt/3akai-ux",
     "ux_install_method": "git",
-    "ux_git_user": "oaeproject",
-    "ux_git_branch": "master",
-    "ux_package_name": "3akai-ux",
-    "ux_package_version": "0.2.0-2",
+    "ux_git_source": "https://github.com/oaeproject/3akai-ux",
+    "ux_git_revision": "master",
+    "ux_apt_package_version": "0.2.0-2",
 
     "db_cluster_name": "OAE Performance Testing Cluster",
     "db_keyspace": "oae",
@@ -73,10 +71,11 @@
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_external_domain_label": "etherpad",
-    "etherpad_install_method": "package",
-    "etherpad_package_name": "etherpad-lite",
-    "etherpad_package_version": "1.2.91-4",
+    "etherpad_install_method": "apt",
+    "etherpad_apt_package_version": "1.2.91-4",
+    "etherpad_git_source": "https://github.com/ether/etherpad-lite",
     "etherpad_git_revision": "1.2.91",
+    "etherpad_ep_oae_git_source": "https://github.com/oaeproject/ep_oae",
     "etherpad_ep_oae_git_revision": "master",
     "etherpad_enable_abiword": true,
 
