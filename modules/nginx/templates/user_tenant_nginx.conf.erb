@@ -220,6 +220,7 @@ server {
 
         proxy_pass http://<%= ip %>:9001;
         proxy_buffering off;
+        proxy_read_timeout 60;
     }
 
     location /etherpad/<%= index %>/socket.io/1/websocket/ {
