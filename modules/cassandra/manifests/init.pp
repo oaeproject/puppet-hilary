@@ -12,13 +12,13 @@ class cassandra (
     $dsc_version        = '1.1.4',
     $cassandra_version  = '1.1.5') {
 
-  # package { 'cassandra': ensure => $cassandra_version }
-  # package { 'python-cql': ensure => installed }
+  package { 'cassandra': ensure => $cassandra_version }
+  package { 'python-cql': ensure => installed }
 
   package { 'dsc1.1':
     ensure  => $dsc_version,
     alias   => 'dsc',
-    #require => [ Package['cassandra'], Package['python-cql'] ],
+    require => [ Package['cassandra'], Package['python-cql'] ],
   }
 
   file { 'cassandra.yaml':
