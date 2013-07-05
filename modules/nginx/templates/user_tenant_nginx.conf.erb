@@ -136,66 +136,60 @@ server {
 
     location /api/ui/staticbatch {
         expires max;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-NginX-Proxy true;
         proxy_pass http://tenantworkers;
-        proxy_redirect off;
     }
 
     # This can be cached indefinitely because we use signatures that change over time to control invalidation
     location /api/download/signed {
         expires max;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-NginX-Proxy true;
         proxy_pass http://tenantworkers;
-        proxy_redirect off;
     }
 
     location /api/config {
         expires 15m;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-NginX-Proxy true;
         proxy_pass http://tenantworkers;
-        proxy_redirect off;
     }
 
     location /api/ui/widgets {
         expires 15m;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-NginX-Proxy true;
         proxy_pass http://tenantworkers;
-        proxy_redirect off;
     }
 
     location /api/ui/skin {
         expires 15m;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-NginX-Proxy true;
         proxy_pass http://tenantworkers;
-        proxy_redirect off;
+    }
+
+    location /api/content/create {
+        limit_req zone=addr_api burst=10;
+
+        expires -1;
+        proxy_read_timeout 300;
+        proxy_next_upstream error http_502;
+        proxy_pass http://tenantworkers;
+    }
+
+    location /api/discussion/create {
+        limit_req zone=addr_api burst=10;
+
+        expires -1;
+        proxy_next_upstream error http_502;
+        proxy_pass http://tenantworkers;
+    }
+
+    location /api/group/create {
+        limit_req zone=addr_api burst=10;
+        
+        expires -1;
+        proxy_next_upstream error http_502;
+        proxy_pass http://tenantworkers;
     }
 
     location /api/ {
-        limit_req zone=addr_api burst=150;
+        limit_req zone=addr_api burst=400;
 
         expires -1;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-NginX-Proxy true;
-        proxy_read_timeout 300;
         proxy_pass http://tenantworkers;
-        proxy_redirect off;
     }
 
     ####################
@@ -224,25 +218,18 @@ server {
 
         rewrite ^/etherpad/<%= index %>(.*)$ $1 break;
 
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-NginX-Proxy true;
         proxy_pass http://<%= ip %>:9001;
-        proxy_redirect off;
         proxy_buffering off;
     }
 
     location /etherpad/<%= index %>/socket.io/1/websocket/ {
         rewrite ^/etherpad/<%= index %>(.*)$ $1 break;
 
-        proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
         proxy_pass http://<%= ip %>:9001;
-        proxy_redirect off;
         proxy_buffering off;
+        proxy_read_timeout 60;
     }
 <% end -%>
 }

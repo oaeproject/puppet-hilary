@@ -20,19 +20,23 @@ http {
     ## PROXY SETTINGS ##
     ####################
 
-    # When the back-end server returns a 502, look to the next upstream server
+    # Only give the app server 5 seconds for a request before assuming it's down and retrying
     proxy_next_upstream error timeout http_502;
-
-    # Since using keepalive to the upstream servers, need to set these
-    proxy_http_version 1.1;
-    proxy_set_header Connection "";
-
-    # Only give the app server 15 seconds for a request before assuming it's down and retrying
     proxy_connect_timeout   5;
-    proxy_read_timeout      15;
+    proxy_read_timeout      5;
+
+    # Rewrite http headers to upstream servers
+    proxy_http_version 1.1;
+    proxy_redirect off;
+    proxy_set_header Connection "";
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-NginX-Proxy true;
 
     # Limit requests per second per remote address
-    limit_req_zone          $binary_remote_addr  zone=addr_api:10m  rate=90r/s;
+    limit_req_zone          $binary_remote_addr  zone=addr_api:10m          rate=90r/s;
+    limit_req_zone          $binary_remote_addr  zone=addr_api_create:10m   rate=2r/s;
     limit_req_log_level     error;
 
 

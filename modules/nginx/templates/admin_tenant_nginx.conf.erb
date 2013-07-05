@@ -90,7 +90,7 @@ server {
     }
 
     location /api/ {
-        limit_req zone=addr_api burst=150;
+        limit_req zone=addr_api burst=400;
 
         expires -1;
         proxy_set_header X-Real-IP $remote_addr;
