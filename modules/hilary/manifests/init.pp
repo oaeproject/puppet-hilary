@@ -75,10 +75,7 @@ class hilary (
 
     # Etherpad
     $config_etherpad_internal_hosts,
-    $config_etherpad_external_protocol      = 'https',
-    $config_etherpad_external_port          = 443,
-    $config_etherpad_api_key,
-    $config_etherpad_external_domain_suffix) {
+    $config_etherpad_api_key,) {
 
   $config_files_tmp_upload_dir = "${config_files_tmp_dir}/uploads"
   $config_previews_tmp_dir = "${config_files_tmp_dir}/previews"

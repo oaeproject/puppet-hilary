@@ -70,12 +70,9 @@
     "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
 
     "etherpad_internal_hosts": [ "etherpad0", "etherpad1", "etherpad2" ],
-    "etherpad_external_protocol": "http",
-    "etherpad_external_port": "80",
     "etherpad_index": "%{nodesuffix}",
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
-    "etherpad_external_domain_label": "etherpad",
     "etherpad_install_method": "apt",
     "etherpad_apt_package_version": "1.2.91-4",
     "etherpad_git_source": "https://github.com/ether/etherpad-lite",
