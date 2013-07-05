@@ -1,7 +1,7 @@
 class oaeservice::mq {
-  require oaeservice::deps::ppa::oae
-  require oaeservice::deps::common
-  require oaeservice::deps::package::erlang
+  include ::oaeservice::deps::ppa::oae
+  include ::oaeservice::deps::common
+  include ::oaeservice::deps::package::erlang
 
   Class['::oaeservice::deps::common']           -> Class['::rabbitmq::server']
   Class['::oaeservice::deps::package::erlang']  -> Class['::rabbitmq::server']

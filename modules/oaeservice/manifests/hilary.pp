@@ -3,14 +3,14 @@ class oaeservice::hilary {
   include ::oaeservice::deps::package::git
   include ::oaeservice::deps::package::nodejs
   include ::oaeservice::deps::package::graphicsmagick
-  include ::ui
+  include ::oaeservice::ui
 
   Class['::oaeservice::deps::common']                   -> Class['::hilary']
   Class['::oaeservice::deps::package::git']             -> Class['::hilary']
   Class['::oaeservice::deps::package::nodejs']          -> Class['::hilary']
   Class['::oaeservice::deps::package::graphicsmagick']  -> Class['::hilary']
-  Class['::ui']                                         -> 
   Class['::ui']                                         -> Class['::hilary']
+
   # If previews are enabled, we also need to include those dependencies
   if (hiera('hilary::config_previews_enabled', false)) {
     include ::oaeservice::deps::pp
@@ -45,10 +45,10 @@ class oaeservice::hilary {
 
   class { '::hilary':
     app_root_dir                  => hiera('app_root_dir'),
-    install_method                => hiera('app_install_method'),
-    apt_package_version           => hiera('app_apt_package_version'),
-    git_source                    => hiera('app_git_source'),
-    git_revision                  => hiera('app_git_revision'),
+    install_method                => hiera('app_install_method', 'git'),
+    apt_package_version           => hiera('app_apt_package_version', 'present'),
+    git_source                    => hiera('app_git_source', 'https://github.com/oaeproject/Hilary'),
+    git_revision                  => hiera('app_git_revision', 'master'),
     ux_root_dir                   => hiera('ux_root_dir'),
     os_user                       => hiera('app_os_user'),
     os_group                      => hiera('app_os_group'),
@@ -88,6 +88,6 @@ class oaeservice::hilary {
     config_email_smtp_user                  => hiera('email_smtp_user'),
     config_email_smtp_pass                  => hiera('email_smtp_pass'),
 
-    config_previews_phantomjs_binary  => "/opt/phantomjs-${phantomjs_version}-linux-x86_64/bin/phantomjs"
+    config_previews_phantomjs_binary  => "/opt/phantomjs-${phantomjs_version}-linux-x86_64/bin/phantomjs",
   }
 }

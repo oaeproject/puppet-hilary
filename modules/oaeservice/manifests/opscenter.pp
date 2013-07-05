@@ -1,7 +1,7 @@
 class oaeservice::opscenter {
-    
-  ## OpsCenter must be installed w/ oracle java
-  require ::oaeservice::deps::package::oraclejava6jre
+    include ::oaeservice::deps::package::oraclejava6jre
 
-  class { '::dse::opscenter': }
+    Class['::oaeservice::deps::package::oraclejava6jre']  -> Class['::dse::opscenter']
+
+    class { '::dse::opscenter': }
 }
