@@ -15,7 +15,49 @@ class dse::cassandra (
   # Install the DSE apt repository first
   require dse::apt
 
-  package { $dse_package: ensure => $dse_version }
+
+  $dse_base_packages = ['dse-libtomcat', 'dse-libsqoop', 'dse-liblog4j', 'dse-libmahout', 'dse-libhive', 'dse-libcassandra', 'dse-libhadoop', 'dse-libpig' ]
+  package { $dse_base_packages:
+    ensure => $dse_version
+  }
+
+
+  package { 'dse-libhadoop-native':
+    ensure  => $dse_version,
+    require => Package[$dse_base_packages],
+  }
+
+  package { 'dse':
+    ensure  => $dse_version,
+    require => Package[$dse_base_packages],
+  }
+
+
+  package { 'dse-hive':
+    ensure  => $dse_version,
+    require => [ Package['dse'], Package[ $dse_base_packages ] ],
+  }
+
+  package { 'dse-pig':
+    ensure  => $dse_version,
+    require => [ Package['dse'], Package[ $dse_base_packages ] ],
+  }
+
+  package { 'dse-demos':
+    ensure  => $dse_version,
+    require => Package['dse-hive'],
+  }
+
+
+  package { 'dse-libsolr':
+    ensure  => $dse_version,
+    require => Package[$dse_base_packages],
+  }
+
+  package { $dse_package:
+    ensure => $dse_version,
+    require => [ Package['dse'], Package['dse-hive'], Package['dse-pig'], Package['dse-demos'], Package[$dse_base_packages] ]
+  }
 
   file { 'cassandra.yaml':
     path => '/etc/dse/cassandra/cassandra.yaml',

@@ -3,12 +3,14 @@ class oaeservice::hilary {
   include ::oaeservice::deps::package::git
   include ::oaeservice::deps::package::nodejs
   include ::oaeservice::deps::package::graphicsmagick
+  include ::ui
 
   Class['::oaeservice::deps::common']                   -> Class['::hilary']
   Class['::oaeservice::deps::package::git']             -> Class['::hilary']
   Class['::oaeservice::deps::package::nodejs']          -> Class['::hilary']
   Class['::oaeservice::deps::package::graphicsmagick']  -> Class['::hilary']
-
+  Class['::ui']                                         -> 
+  Class['::ui']                                         -> Class['::hilary']
   # If previews are enabled, we also need to include those dependencies
   if (hiera('hilary::config_previews_enabled', false)) {
     include ::oaeservice::deps::pp
@@ -43,8 +45,10 @@ class oaeservice::hilary {
 
   class { '::hilary':
     app_root_dir                  => hiera('app_root_dir'),
-    app_git_user                  => hiera('app_git_user'),
-    app_git_branch                => hiera('app_git_branch'),
+    install_method                => hiera('app_install_method'),
+    apt_package_version           => hiera('app_apt_package_version'),
+    git_source                    => hiera('app_git_source'),
+    git_revision                  => hiera('app_git_revision'),
     ux_root_dir                   => hiera('ux_root_dir'),
     os_user                       => hiera('app_os_user'),
     os_group                      => hiera('app_os_group'),
