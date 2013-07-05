@@ -3,11 +3,17 @@ class oaeservice::hilary {
   require oaeservice::deps::package::git
   require oaeservice::deps::package::nodejs
   require oaeservice::deps::package::graphicsmagick
+  require oaeservice::deps::ppa::oae
 
   Class['::oaeservice::deps::common']                   -> Class['::hilary']
   Class['::oaeservice::deps::package::git']             -> Class['::hilary']
   Class['::oaeservice::deps::package::nodejs']          -> Class['::hilary']
   Class['::oaeservice::deps::package::graphicsmagick']  -> Class['::hilary']
+  Class['::oaeservice::deps::ppa::oae']                 -> Class['::hilary']
+
+  # The UI needs to be installed before we install Hilary.
+  # This is to prevent we start the Hilary service without the UI being present.
+  Class['::ui']                                         -> Class['::hilary']
 
   $rsyslog_enabled = hiera('rsyslog_enabled', false)
   if $rsyslog_enabled {
@@ -37,8 +43,10 @@ class oaeservice::hilary {
 
   class { '::hilary':
     app_root_dir                  => hiera('app_root_dir'),
-    app_git_user                  => hiera('app_git_user'),
-    app_git_branch                => hiera('app_git_branch'),
+    install_method                => hiera('app_install_method'),
+    apt_package_version           => hiera('app_apt_package_version'),
+    git_source                    => hiera('app_git_source'),
+    git_revision                  => hiera('app_git_revision'),
     ux_root_dir                   => hiera('ux_root_dir'),
     os_user                       => hiera('app_os_user'),
     os_group                      => hiera('app_os_group'),
