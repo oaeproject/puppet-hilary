@@ -21,7 +21,7 @@ class oaeservice::etherpad {
     oae_db_strategy_class => hiera('db_strategy_class'),
 
     install_method          => hiera('etherpad_install_method', 'git'),
-    apt_package_version     => hiera('etherpad_apt_package_version', 'latest'),
+    apt_package_version     => hiera('etherpad_apt_package_version', 'present'),
     etherpad_git_source     => hiera('etherpad_git_source', 'https://github.com/ether/etherpad-lite'),
     etherpad_git_revision   => hiera('etherpad_git_revision', 'develop'),
     ep_oae_git_source       => hiera('etherpad_ep_oae_git_source'),
