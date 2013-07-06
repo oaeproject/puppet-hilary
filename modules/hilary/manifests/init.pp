@@ -102,7 +102,7 @@ class hilary (
             }
         }
         default: {
-            warning("Unknown install method for hilary passed in: '${install_method}'")
+            fail("Unknown install method for hilary passed in: '${install_method}'")
         }
   }
 
