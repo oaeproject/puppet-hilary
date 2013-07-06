@@ -36,7 +36,7 @@ class etherpad (
             }
         }
         default: {
-            warning("Unknown install method for etherpad passed in: '${install_method}'")
+            fail("Unknown install method for etherpad passed in: '${install_method}'")
         }
     }
 

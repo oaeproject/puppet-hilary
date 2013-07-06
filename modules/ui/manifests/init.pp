@@ -44,7 +44,7 @@ class ui (
             }
         }
         default: {
-            notify { "Unknown install method for the ui class passed in: '${install_method}'": }
+            fail("Unknown install method for the ui class passed in: '${install_method}'")
         }
     }
 }
