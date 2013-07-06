@@ -24,12 +24,12 @@
 class ui (
         $root_dir               = '/opt/3akai-ux',
         $install_method         = 'git',
-        $git_source             = 'oaeproject',
+        $git_source             = 'https://github.com/oaeproject/3akai-ux',
         $git_revision           = 'master',
         $apt_package_version    = '0.2.0-2'
     ){
 
-    case $app_install_method {
+    case $install_method {
         'git': {
             vcsrepo { $root_dir:
                 ensure    => latest,
@@ -44,7 +44,7 @@ class ui (
             }
         }
         default: {
-            warning("Unknown install method for the ui class passed in: '${install_method}'")
+            notify { "Unknown install method for the ui class passed in: '${install_method}'": }
         }
     }
 }
