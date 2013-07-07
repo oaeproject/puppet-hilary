@@ -6,7 +6,6 @@ class oaeservice::hilary {
   include ::oaeservice::ui
 
   Class['::oaeservice::deps::common']                   -> Class['::hilary']
-  Class['::oaeservice::deps::package::git']             -> Class['::hilary']
   Class['::oaeservice::deps::package::nodejs']          -> Class['::hilary']
   Class['::oaeservice::deps::package::graphicsmagick']  -> Class['::hilary']
   Class['::ui']                                         -> Class['::hilary']
@@ -15,6 +14,12 @@ class oaeservice::hilary {
   if (hiera('hilary::config_previews_enabled', false)) {
     include ::oaeservice::deps::pp
     Class['::oaeservice::deps::pp'] -> Class['::hilary']
+  }
+
+  $install_method = hiera('app_install_method', 'git')
+  if ($install_method == 'git') {
+    # Ensure the git dependencies get installed before the etherpad git installation if specified
+    Class['::oaeservice::deps::package::git'] -> Class['::hilary::install::git']
   }
 
   $rsyslog_enabled = hiera('rsyslog_enabled', false)
@@ -43,7 +48,7 @@ class oaeservice::hilary {
 
   class { '::hilary':
     app_root_dir                  => hiera('app_root_dir'),
-    install_method                => hiera('app_install_method', 'git'),
+    install_method                => $install_method,
     apt_package_version           => hiera('app_apt_package_version', 'present'),
     git_source                    => hiera('app_git_source', 'https://github.com/oaeproject/Hilary'),
     git_revision                  => hiera('app_git_revision', 'master'),
