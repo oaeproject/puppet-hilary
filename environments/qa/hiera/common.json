@@ -115,6 +115,8 @@
 
     "nginx::owner": "nginx",
     "nginx::group": "nginx",
+    "nginx::ssl_policy": "allow_http",
+    
     "redis::owner": "redis",
     "redis::group": "redis",
 

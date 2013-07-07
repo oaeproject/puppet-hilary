@@ -9,6 +9,7 @@ class nginx (
     $owner                          = 'nginx',
     $group                          = 'nginx',
     $nginx_dir                      = '/etc/nginx',
+    $ssl_policy                     = 'redirect_http',
     $ssl_default_crt_source         = 'puppet:///modules/localconfig/ssl/default/server.crt',
     $ssl_default_key_source         = 'puppet:///modules/localconfig/ssl/default/server.key',
     $version                        = '1.4.1-1~precise',) {
@@ -21,6 +22,14 @@ class nginx (
     $nginx_conf_dir = "${nginx_dir}/oae.conf.d"
     $nginx_ssl_dir  = "${nginx_dir}/ssl"
 
+    # Validate the SSL policy
+    #  * allow_http: We route HTTP requests just the same as HTTPS
+    #  * redirect_http: We redirect all HTTP to HTTPS
+    #  * deny_http: We simply do not listen on HTTP.
+    #
+    if ! ($ssl_policy in ['allow_http', 'deny_http', 'redirect_http']) {
+        fail("Invalid ssl_policy of \"${ssl_policy}\" provided to class ::nginx. Should be one of: allow_http, deny_http, redirect_http")
+    }
 
     ###################
     ## NGINX PACKAGE ##
