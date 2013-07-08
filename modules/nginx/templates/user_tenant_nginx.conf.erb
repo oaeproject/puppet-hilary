@@ -169,7 +169,7 @@ server {
     }
 
     location /api/content/create {
-        limit_req zone=addr_api burst=10;
+        limit_req zone=addr_api_create burst=10;
 
         expires -1;
         proxy_read_timeout 300;
@@ -178,7 +178,7 @@ server {
     }
 
     location /api/discussion/create {
-        limit_req zone=addr_api burst=10;
+        limit_req zone=addr_api_create burst=10;
 
         expires -1;
         proxy_next_upstream error http_502;
@@ -186,7 +186,7 @@ server {
     }
 
     location /api/group/create {
-        limit_req zone=addr_api burst=10;
+        limit_req zone=addr_api_create burst=10;
         
         expires -1;
         proxy_next_upstream error http_502;
