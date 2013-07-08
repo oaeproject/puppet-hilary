@@ -26,3 +26,4 @@ mv <%= app_root_dir %>/server.log "/var/log/oae/$(date +%Y-%m-%d)-app.server.log
 echo "Wiping UI files."
 rm -rf <%= app_root_dir %>
 rm -rf <%= ux_root_dir %>
+rm -rf <%= ux_root_dir %>/../original

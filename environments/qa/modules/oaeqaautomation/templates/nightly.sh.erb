@@ -43,13 +43,15 @@ cd <%= ux_root_dir %>
 npm install -d
 npm install -g grunt-cli
 grunt
-mv target/optimized /tmp/3akai-ux-optimized
+rm -rf /tmp/target
+mv target /tmp
 rm -rf <%= ux_root_dir %>
-mv /tmp/3akai-ux-optimized <%= ux_root_dir %>
+mv /tmp/target/optimized <%= ux_root_dir %>
+mv /tmp/target/original <%= ux_root_dir %>/../original
 
 service hilary start
 
-DELAY=10
+DELAY=30
 
 echo ""
 echo "Sleeping ${DELAY}s to let the app server start up"
