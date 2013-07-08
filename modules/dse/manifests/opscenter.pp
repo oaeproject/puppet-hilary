@@ -1,7 +1,5 @@
 class dse::opscenter ($version = '3.1.1', $listen_interface = '0.0.0.0', $listen_port = 8888) {
-
-    # Install the DSE apt repository
-    require dse::apt
+    include ::dse::apt
 
     package { 'libssl0.9.8': ensure => installed }
     package { 'opscenter': ensure => $version, require => Package['libssl0.9.8'] }

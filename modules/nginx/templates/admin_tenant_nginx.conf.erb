@@ -1,0 +1,108 @@
+<% if ssl_policy ==  'redirect_http' -%>
+server {
+    listen          80;
+    server_name     <%= server_name %>;
+    return          301 https://$host$request_uri;
+}
+<% end -%>
+
+server {
+<% if ssl_policy == 'allow_http' -%>
+    listen      80;
+<% end -%>
+    listen      443 ssl;
+    server_name <%= server_name %>;
+
+    ssl_certificate      <%= ssl_crt_path %>;
+    ssl_certificate_key  <%= ssl_key_path %>;
+
+
+    ######################
+    ## SHARED RESOURCES ##
+    ######################
+
+    location /shared/ {
+        alias <%= ux_root_dir %>/shared/;
+        autoindex off;
+        expires max;
+    }
+
+    rewrite ^/favicon.ico /shared/oae/img/favicon.ico last;
+
+
+    #####################
+    ## ADMIN RESOURCES ##
+    #####################
+
+    location /admin/ {
+        alias <%= ux_root_dir %>/admin/;
+        autoindex off;
+        expires max;
+    }
+
+    # HTML files under /admin are not hashed and should not be cached
+    location ~* /admin/([^\.]+).html$ {
+        alias <%= ux_root_dir %>/admin/$1.html;
+        expires -1;
+    }
+
+    rewrite ^/$              /admin/index.html last;
+    rewrite ^/tenant/(.*)$   /admin/index.html last;
+
+
+    ##################
+    ## API REQUESTS ##
+    ##################
+
+    location /api/ui/staticbatch {
+        expires max;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_pass http://globaladminworkers;
+        proxy_redirect off;
+    }
+
+    location /api/config {
+        expires 15m;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_pass http://globaladminworkers;
+        proxy_redirect off;
+    }
+
+    location /api/ui/widgets {
+        expires 15m;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_pass http://globaladminworkers;
+        proxy_redirect off;
+    }
+
+    location /api/ui/skin {
+        expires 15m;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_pass http://globaladminworkers;
+        proxy_redirect off;
+    }
+
+    location /api/ {
+        limit_req zone=addr_api burst=400;
+
+        expires -1;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_pass http://globaladminworkers;
+        proxy_redirect off;
+    }
+}

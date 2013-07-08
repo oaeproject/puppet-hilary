@@ -1,19 +1,26 @@
 class oaeservice::hilary {
-  require oaeservice::deps::common
-  require oaeservice::deps::package::git
-  require oaeservice::deps::package::nodejs
-  require oaeservice::deps::package::graphicsmagick
-  require oaeservice::deps::ppa::oae
+  include ::oaeservice::deps::common
+  include ::oaeservice::deps::package::git
+  include ::oaeservice::deps::package::nodejs
+  include ::oaeservice::deps::package::graphicsmagick
+  include ::oaeservice::ui
 
   Class['::oaeservice::deps::common']                   -> Class['::hilary']
-  Class['::oaeservice::deps::package::git']             -> Class['::hilary']
   Class['::oaeservice::deps::package::nodejs']          -> Class['::hilary']
   Class['::oaeservice::deps::package::graphicsmagick']  -> Class['::hilary']
-  Class['::oaeservice::deps::ppa::oae']                 -> Class['::hilary']
-
-  # The UI needs to be installed before we install Hilary.
-  # This is to prevent we start the Hilary service without the UI being present.
   Class['::ui']                                         -> Class['::hilary']
+
+  # If previews are enabled, we also need to include those dependencies
+  if (hiera('hilary::config_previews_enabled', false)) {
+    include ::oaeservice::deps::pp
+    Class['::oaeservice::deps::pp'] -> Class['::hilary']
+  }
+
+  $install_method = hiera('app_install_method', 'git')
+  if ($install_method == 'git') {
+    # Ensure the git dependencies get installed before the etherpad git installation if specified
+    Class['::oaeservice::deps::package::git'] -> Class['::hilary::install::git']
+  }
 
   $rsyslog_enabled = hiera('rsyslog_enabled', false)
   if $rsyslog_enabled {
@@ -38,15 +45,13 @@ class oaeservice::hilary {
   $web_domain = hiera('web_domain')
   $app_admin_tenant = hiera('app_admin_tenant')
   $admin_domain = "${app_admin_tenant}.${web_domain}"
-  $etherpad_external_domain_label = hiera('etherpad_external_domain_label')
-  $etherpad_external_domain_suffix = ".${etherpad_external_domain_label}.${web_domain}"
 
   class { '::hilary':
     app_root_dir                  => hiera('app_root_dir'),
-    install_method                => hiera('app_install_method'),
-    apt_package_version           => hiera('app_apt_package_version'),
-    git_source                    => hiera('app_git_source'),
-    git_revision                  => hiera('app_git_revision'),
+    install_method                => $install_method,
+    apt_package_version           => hiera('app_apt_package_version', 'present'),
+    git_source                    => hiera('app_git_source', 'https://github.com/oaeproject/Hilary'),
+    git_revision                  => hiera('app_git_revision', 'master'),
     ux_root_dir                   => hiera('ux_root_dir'),
     os_user                       => hiera('app_os_user'),
     os_group                      => hiera('app_os_group'),
@@ -54,7 +59,7 @@ class oaeservice::hilary {
 
     config_cookie_secret          => hiera('app_cookie_secret'),
     config_signing_key            => hiera('app_signing_key'),
-    config_telemetry_circonus_url => hiera('circonus_url'),
+    config_telemetry_circonus_url => hiera('circonus_url', false),
     config_servers_admin_host     => $admin_domain,
 
     config_cassandra_hosts          => hiera('db_hosts'),
@@ -68,11 +73,8 @@ class oaeservice::hilary {
     config_search_hosts               => hiera('search_hosts'),
     config_mq_hosts                   => hiera('mq_hosts'),
 
-    config_etherpad_internal_hosts          => hiera('etherpad_internal_hosts'),
-    config_etherpad_external_protocol       => hiera('etherpad_external_protocol'),
-    config_etherpad_external_port           => hiera('etherpad_external_port'),
-    config_etherpad_api_key                 => hiera('etherpad_api_key'),
-    config_etherpad_external_domain_suffix  => $etherpad_external_domain_suffix,
+    config_etherpad_internal_hosts    => hiera('etherpad_internal_hosts'),
+    config_etherpad_api_key           => hiera('etherpad_api_key'),
 
     config_log_syslog_ip              => $rsyslog_host,
     config_activity_redis_host        => $activitycache_host,
@@ -86,6 +88,6 @@ class oaeservice::hilary {
     config_email_smtp_user                  => hiera('email_smtp_user'),
     config_email_smtp_pass                  => hiera('email_smtp_pass'),
 
-    config_previews_phantomjs_binary  => "/opt/phantomjs-${phantomjs_version}-linux-x86_64/bin/phantomjs"
+    config_previews_phantomjs_binary  => "/opt/phantomjs-${phantomjs_version}-linux-x86_64/bin/phantomjs",
   }
 }

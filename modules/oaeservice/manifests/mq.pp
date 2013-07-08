@@ -1,7 +1,7 @@
 class oaeservice::mq {
-  require oaeservice::deps::ppa::oae
-  require oaeservice::deps::common
-  require oaeservice::deps::package::erlang
+  include ::oaeservice::deps::ppa::oae
+  include ::oaeservice::deps::common
+  include ::oaeservice::deps::package::erlang
 
   Class['::oaeservice::deps::common']           -> Class['::rabbitmq::server']
   Class['::oaeservice::deps::package::erlang']  -> Class['::rabbitmq::server']
@@ -9,15 +9,12 @@ class oaeservice::mq {
   class { '::rabbitmq::server':
     config_cluster      => true,
     cluster_disk_nodes  => hiera('mq_hosts'),
-    require             => Class['apt'],
     notify              => Exec['enable_management_plugin']
   }
 
-  # Enable the rabbitmq_management plugin and bounce the rabbitmq server.
-  # We need the management plugin in case we want do monitoring.
+  # Enable the rabbitmq_management plugin for monitoring
   exec { 'enable_management_plugin':
-    environment => 'HOME=/root',
-    command     => 'rabbitmq-plugins enable rabbitmq_management',
-    require     => Class['::rabbitmq::server']
+    command => 'rabbitmq-plugins enable rabbitmq_management',
+    require => Class['::rabbitmq::server'],
   }
 }

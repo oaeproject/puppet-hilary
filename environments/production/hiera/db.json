@@ -1,7 +1,7 @@
 {
     "classes": [
         "::oaeservice::postfix",
-        "::oaeservice::cassandra",
+        "::oaeservice::cassandra::dse",
         "::oaeservice::munin::cassandra",
         "::oaeservice::nagios::cassandra",
         "::oaeservice::backup::cassandra"

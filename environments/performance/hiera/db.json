@@ -1,5 +1,5 @@
 {
-    "classes": ["::oaeservice::cassandra"],
+    "classes": ["::oaeservice::cassandra::dse"],
 
     "oaeservice::limits::sys_max_map": "131072",
     "oaeservice::limits::user_soft_memlock": "unlimited",
