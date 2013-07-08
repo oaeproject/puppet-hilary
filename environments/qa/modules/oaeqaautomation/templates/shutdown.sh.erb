@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# Drop all rabbitmq data.
+# Unfortunately we can't do this in the deletedata script
+# as it requires rabbitmq to be still running.
+rabbitmqctl stop_app
+rabbitmqctl reset
+rabbitmqctl start_app
+
 service nginx stop
 service hilary stop
 service etherpad stop
