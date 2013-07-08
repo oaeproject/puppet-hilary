@@ -113,10 +113,7 @@ class oaeservice::deps::pp {
     'ttf-paktype',
     'ttf-tagbanwa'
   ]
-  package { $pp_packages:
-    ensure => installed,
-    require => Apt::Ppa['ppa:oae/deps']
-  }
+  package { $pp_packages: ensure => installed }
 
   archive { 'phantomjs':
     ensure        => present,
@@ -125,7 +122,6 @@ class oaeservice::deps::pp {
     target        => '/opt',
     extension     => 'tar.bz2',
     src_target    => '/opt',
-    require       => [ Package[$pp_packages], Class['::oaeservice::deps::common'] ]
   }
 
 }

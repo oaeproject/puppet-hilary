@@ -1,6 +1,5 @@
 {
     "classes": [
-        "::oaeservice::deps::pp",
         "::oaeservice::hilary",
         "::oaeservice::ui"
     ],

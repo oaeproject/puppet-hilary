@@ -1,15 +1,20 @@
 class oaeservice::etherpad {
-  require oaeservice::deps::common
-  require oaeservice::deps::package::nodejs
-  require oaeservice::deps::ppa::oae
+  include oaeservice::deps::common
+  include oaeservice::deps::package::nodejs
+  include oaeservice::deps::ppa::oae
 
   Class['::oaeservice::deps::common']           -> Class['::etherpad']
-  Class['::oaeservice::deps::package::git']     -> Class['::etherpad']
   Class['::oaeservice::deps::package::nodejs']  -> Class['::etherpad']
   Class['::oaeservice::deps::ppa::oae']         -> Class['::etherpad']
 
   $index = hiera('etherpad_index', 0)
   $hosts = hiera('etherpad_internal_hosts')
+
+  $install_method = hiera('etherpad_install_method', 'git')
+  if ($install_method == 'git') {
+    # Ensure the git dependencies get installed before the etherpad git installation if specified
+    Class['::oaeservice::deps::package::git'] -> Class['::etherpad::install::git']
+  }
 
   class { '::etherpad':
     listen_address        => $hosts[$index],
@@ -20,10 +25,10 @@ class oaeservice::etherpad {
     oae_db_replication    => hiera('db_replication_factor'),
     oae_db_strategy_class => hiera('db_strategy_class'),
 
-    install_method          => hiera('etherpad_install_method'),
-    apt_package_version     => hiera('etherpad_apt_package_version'),
-    etherpad_git_source     => hiera('etherpad_git_source'),
-    etherpad_git_revision   => hiera('etherpad_git_revision'),
+    install_method          => $install_method,
+    apt_package_version     => hiera('etherpad_apt_package_version', 'present'),
+    etherpad_git_source     => hiera('etherpad_git_source', 'https://github.com/ether/etherpad-lite'),
+    etherpad_git_revision   => hiera('etherpad_git_revision', 'develop'),
     ep_oae_git_source       => hiera('etherpad_ep_oae_git_source'),
     ep_oae_git_revision     => hiera('etherpad_ep_oae_git_revision'),
 

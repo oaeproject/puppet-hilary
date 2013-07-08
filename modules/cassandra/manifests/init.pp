@@ -8,22 +8,17 @@ class cassandra (
     $cassandra_data_dir = '/data/cassandra',
     $initial_token      = '',
     $rsyslog_enabled    = false,
-    $rsyslog_host       = '127.0.0.1') {
+    $rsyslog_host       = '127.0.0.1',
+    $dsc_version        = '1.1.4',
+    $cassandra_version  = '1.1.5') {
 
-  $dsc_version = '1.1'
-
-  include apt
-  apt::source { 'datastax':
-    location    => 'http://debian.datastax.com/community',
-    repos       => 'stable main',
-    release     => '',
-    key         => 'B999A372',
-    key_source  => 'http://debian.datastax.com/debian/repo_key',
-  }
+  package { 'cassandra': ensure => $cassandra_version }
+  package { 'python-cql': ensure => installed }
 
   package { 'dsc1.1':
-    ensure  => '1.1.4',
+    ensure  => $dsc_version,
     alias   => 'dsc',
+    require => [ Package['cassandra'], Package['python-cql'] ],
   }
 
   file { 'cassandra.yaml':
