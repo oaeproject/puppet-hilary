@@ -3,5 +3,15 @@
         "::oaeservice::postfix",
         "::oaeservice::opscenter",
         "::oaeservice::backup::userfiles"
-    ]
+    ],
+
+    "duplicity::params::pubkey_id": "471DE501",
+    "duplicity::params::bucket": "userfiles-backup",
+    "duplicity::params::hour": 4,
+    "duplicity::params::minute": 0,
+    "duplicity::params::full_if_older_than": "30D",
+    "duplicity::params::remove_older_than": "3M",
+    "duplicity::params::mail_to": "oae-monitoring@googlegroups.com",
+    "duplicity::params::mail_subject_success": "[userfiles backup] SUCCESS: Successfully backed up userfiles to S3",
+    "duplicity::params::mail_subject_error": "[userfiles backup] ERROR: Failed to back up userfiles to S3"
 }
