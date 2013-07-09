@@ -1,23 +1,29 @@
 #!/bin/sh
 
 # User-uploaded files
+echo "Removing user-uploaded files"
 rm -rf <%= user_files_dir %>/*
 
 # Search index
+echo "Removing the search index"
 rm -rf <%= elasticsearch_data_dir %>/*
 
 # Cassandra data
+echo "Removing the cassandra data"
 rm -rf <%= cassandra_data_dir %>/data/*
 rm -rf <%= cassandra_data_dir %>/saved_caches/*
 rm -rf /var/lib/cassandra/commitlog/*
 
 # Redis db
+echo "Removing all redis data."
 rm -rf /var/lib/redis/*
 
 # Preserve the application logs.
+echo "Moving app logs"
 mv <%= app_root_dir %>/server.log "/var/log/oae/$(date +%Y-%m-%d)-app.server.log"
 
 # Code. Might as well
+echo "Wiping UI files."
 rm -rf <%= app_root_dir %>
 rm -rf <%= ux_root_dir %>
 rm -rf <%= ux_root_dir %>/../original

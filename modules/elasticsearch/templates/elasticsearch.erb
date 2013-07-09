@@ -63,7 +63,11 @@ ES_HOME=/usr/share/$NAME
 ES_HEAP_SIZE=<%= heap_size_mb %>m
 
 # Heap new generation
+<% if heap_newsize_mb -%>
+ES_HEAP_NEWSIZE=<%= heap_newsize_mb %>m
+<% else -%>
 #ES_HEAP_NEWSIZE=
+<% end -%>
 
 # max direct memory
 #ES_DIRECT_SIZE=

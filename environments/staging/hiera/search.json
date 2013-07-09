@@ -1,9 +1,13 @@
 {
     "classes": [
-        "::oaeservice::deps::package::openjdk6",
+        "::oaeservice::deps::package::oraclejava6jre",
         "::oaeservice::elasticsearch",
+        "::oaeservice::munin::elasticsearch",
         "::oaeservice::nagios::elasticsearch"
     ],
+
+    "::oaeservice::limits::user_soft_memlock": "unlimited",
+    "::oaeservice::limits::user_hard_memlock": "unlimited",
 
     "nagios_hostgroup": "searchservers"
 }
