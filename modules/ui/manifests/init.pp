@@ -38,7 +38,7 @@ class ui (
                 revision  => $git_revision,
             }
         }
-        'package': {
+        'apt': {
             package { '3akai-ux':
                 ensure => $apt_package_version,
             }
