@@ -1,7 +1,11 @@
 class oaeservice::elasticsearch {
   include ::oaeservice::deps::package::oraclejava6jre
 
-  Class['::oracle-java'] -> Class['::elasticsearch']
+  # Needed by the elasticsearch deb
+  package { 'openjdk-6-jdk': ensure => installed }
+
+  Package['openjdk-6-jdk']  -> Class['::oracle-java']
+  Class['::oracle-java']    -> Class['::elasticsearch']
 
   $search_hosts = hiera('search_hosts')
   $index = hiera('search_index', 0)
