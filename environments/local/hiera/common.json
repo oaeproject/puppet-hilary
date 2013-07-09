@@ -110,8 +110,10 @@
 
     "nginx::owner": "nginx",
     "nginx::group": "nginx",
+
     "redis::owner": "redis",
     "redis::group": "redis",
+    "redis::version": "2:2.6.14-1~dotdeb.1",
 
     "hilary::config_activity_enabled": true,
     "hilary::config_previews_enabled": true,

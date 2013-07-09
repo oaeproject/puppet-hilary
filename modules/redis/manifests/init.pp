@@ -5,9 +5,10 @@ class redis (
     $eviction_policy      = false,
     $eviction_samples     = false,
     $slave_of             = false,
-    $syslog_enabled       = false,) {
+    $syslog_enabled       = false,
+    $version              = '2:2.6.14-1~dotdeb.1') {
 
-  package { 'redis-server': ensure => installed }
+  package { 'redis-server': ensure => $version }
 
   # Set the configuration file.
   file { 'redis.conf':
