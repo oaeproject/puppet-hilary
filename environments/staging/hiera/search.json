@@ -1,6 +1,5 @@
 {
     "classes": [
-        "::oaeservice::deps::package::oraclejava6jre",
         "::oaeservice::elasticsearch",
         "::oaeservice::munin::elasticsearch",
         "::oaeservice::nagios::elasticsearch"

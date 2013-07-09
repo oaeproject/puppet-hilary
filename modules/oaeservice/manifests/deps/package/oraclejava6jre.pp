@@ -1,3 +1,3 @@
 class oaeservice::deps::package::oraclejava6jre {
-    require ::oracle-java
+    include ::oracle-java
 }

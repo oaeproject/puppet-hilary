@@ -1,5 +1,8 @@
 class oaeservice::cassandra::dse {
+    include ::oaeservice::deps::package::oraclejava6jre
     include ::oaeservice::cassandra::params
+
+    Class['::oracle-java'] -> Class['::dse::cassandra']
 
     class { '::dse::cassandra':
         owner               => $::oaeservice::cassandra::params::owner,
