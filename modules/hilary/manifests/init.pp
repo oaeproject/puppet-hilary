@@ -10,7 +10,6 @@ class hilary (
     $apt_package_version = '0.2.0-1',
     $git_source,
     $git_revision,
-    $ux_root_dir,
     $os_user,
     $os_group,
     $upload_files_dir,
@@ -22,6 +21,9 @@ class hilary (
 
     # Files
     $config_files_tmp_dir             = '/tmp',
+
+    # UI
+    $config_ui_path                   = '/opt/3akai-ux',
 
     # Cassandra
     $config_cassandra_hosts,

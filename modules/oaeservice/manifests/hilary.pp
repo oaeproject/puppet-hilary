@@ -52,11 +52,11 @@ class oaeservice::hilary {
     apt_package_version           => hiera('app_apt_package_version', 'present'),
     git_source                    => hiera('app_git_source', 'https://github.com/oaeproject/Hilary'),
     git_revision                  => hiera('app_git_revision', 'master'),
-    ux_root_dir                   => hiera('ux_root_dir'),
     os_user                       => hiera('app_os_user'),
     os_group                      => hiera('app_os_group'),
     upload_files_dir              => hiera('app_files_dir'),
 
+    config_ui_path                => hiera('app_ui_path', '/opt/3akai-ux'),
     config_cookie_secret          => hiera('app_cookie_secret'),
     config_signing_key            => hiera('app_signing_key'),
     config_telemetry_circonus_url => hiera('circonus_url', false),
