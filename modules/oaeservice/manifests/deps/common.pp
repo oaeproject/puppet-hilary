@@ -1,8 +1,6 @@
 class oaeservice::deps::common {
-    
-    if (defined(Class['::apt::update'])) {
-    	Class['::apt::update'] -> Package <| title != "python-software-properties" and title != "software-properties-common" |>
-    }
+    include ::apt
+    Class['::apt::update'] -> Package <| title != "python-software-properties" and title != "software-properties-common" |>
 
     package { 'build-essential': ensure => installed }
     package { 'automake': ensure => installed }
