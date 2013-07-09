@@ -1,5 +1,6 @@
 {
     "classes": [
+        "::oaeservice::deps::common",
         "::oaeservice::limits",
         "::oaeservice::etherpad",
         "::oaeservice::hilary",
