@@ -2,9 +2,11 @@
     "classes": [
         "::oaeservice::hilary",
         "::oaeservice::ui",
+        "::oaeservice::postfix",
         "::oaeservice::nagios::hilary"
     ],
 
+    "email_debug": false,
     "hilary::config_activity_enabled": true,
     "nagios_hostgroup": "activityservers"
 }
