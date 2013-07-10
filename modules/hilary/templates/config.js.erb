@@ -119,7 +119,7 @@ config.log = {
             'level': 'debug',
             'type': 'raw',
             'stream': bsyslog.createBunyanStream({
-                'type': 'udp',
+                'type': 'tcp',
                 'facility': bsyslog.local0,
                 'host': '<%= config_log_syslog_ip %>',
                 'port': 514
