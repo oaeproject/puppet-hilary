@@ -12,7 +12,7 @@
     "web_domain": "oae-performance.oaeproject.org",
 
     "app_install_method": "git",
-    "app_apt_package_version": "0.2.0-1",
+    "app_apt_package_version": "0.2.0-2",
     "app_os_user": "root",
     "app_os_group": "root",
     "app_hosts": [ "app0", "app1", "app2", "app3" ],
