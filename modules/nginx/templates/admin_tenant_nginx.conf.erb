@@ -22,7 +22,7 @@ server {
     ######################
 
     location /shared/ {
-        alias <%= ux_root_dir %>/shared/;
+        alias <%= app_ui_path %>/shared/;
         autoindex off;
         expires max;
     }
@@ -35,14 +35,14 @@ server {
     #####################
 
     location /admin/ {
-        alias <%= ux_root_dir %>/admin/;
+        alias <%= app_ui_path %>/admin/;
         autoindex off;
         expires max;
     }
 
     # HTML files under /admin are not hashed and should not be cached
     location ~* /admin/([^\.]+).html$ {
-        alias <%= ux_root_dir %>/admin/$1.html;
+        alias <%= app_ui_path %>/admin/$1.html;
         expires -1;
     }
 

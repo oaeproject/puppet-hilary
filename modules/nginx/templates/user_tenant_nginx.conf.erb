@@ -33,14 +33,14 @@ server {
     ######################
 
     location /shared/ {
-        alias <%= ux_root_dir %>/shared/;
+        alias <%= app_ui_path %>/shared/;
         autoindex off;
         expires max;
     }
 
     # HTML files under /shared/oae/errors are not hashed and should not be cached
     location ~* /shared/oae/errors/([^\.]+).html$ {
-        alias <%= ux_root_dir %>/shared/oae/errors/$1.html;
+        alias <%= app_ui_path %>/shared/oae/errors/$1.html;
         expires -1;
     }
 
@@ -57,14 +57,14 @@ server {
     #####################
 
     location /admin/ {
-        alias <%= ux_root_dir %>/admin/;
+        alias <%= app_ui_path %>/admin/;
         autoindex off;
         expires max;
     }
 
     # HTML files under /admin are not hashed and should not be cached
     location ~* /admin/([^\.]+).html$ {
-        alias <%= ux_root_dir %>/admin/$1.html;
+        alias <%= app_ui_path %>/admin/$1.html;
         expires -1;
     }
 
@@ -76,14 +76,14 @@ server {
     #######################
 
     location /ui/ {
-        alias <%= ux_root_dir %>/ui/;
+        alias <%= app_ui_path %>/ui/;
         autoindex off;
         expires max;
     }
 
     # HTML files under /ui are not hashed and should not be cached
     location ~* /ui/([^\.]+).html$ {
-        alias <%= ux_root_dir %>/ui/$1.html;
+        alias <%= app_ui_path %>/ui/$1.html;
         expires -1;
     }
 
@@ -102,13 +102,13 @@ server {
     ####################
 
     location /docs/ {
-        alias <%= ux_root_dir %>/docs/;
+        alias <%= app_ui_path %>/docs/;
         autoindex off;
     }
 
     # HTML files under /docs are not hashed and should not be cached
     location ~* /docs/([^\.]+).html$ {
-        alias <%= ux_root_dir %>/docs/$1.html;
+        alias <%= app_ui_path %>/docs/$1.html;
         expires -1;
     }
 
@@ -122,7 +122,7 @@ server {
     ######################
 
     location /node_modules/ {
-        alias <%= ux_root_dir %>/node_modules/;
+        alias <%= app_ui_path %>/node_modules/;
         autoindex off;
         expires max;
     }

@@ -18,7 +18,7 @@ class oaeservice::nginx {
         internal_etherpad_ips           => hiera('etherpad_internal_hosts', []),
         web_domain                      => hiera('web_domain'),
         app_admin_tenant                => hiera('app_admin_tenant', 'admin'),
-        ux_root_dir                     => hiera('ux_root_dir'),
+        app_ui_path                     => hiera('app_ui_path', '/opt/3akai-ux'),
         files_home                      => hiera('app_files_dir')
     }
 

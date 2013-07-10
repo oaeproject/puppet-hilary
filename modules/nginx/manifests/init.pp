@@ -3,7 +3,7 @@ class nginx (
     $internal_etherpad_ips,
     $web_domain,
     $app_admin_tenant               = 'admin',
-    $ux_root_dir                    = '/opt/3akai-ux',
+    $app_ui_path                    = '/opt/3akai-ux',
     $files_home                     = '/opt/files',
     $owner                          = 'nginx',
     $group                          = 'nginx',
