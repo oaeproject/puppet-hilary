@@ -22,5 +22,7 @@ $InputRunFileMonitor
 
 <% end -%>
 
-# Provides UDP forwarding. The IP is the server's IP address
-*.* @<%= server_host %>
+$MaxMessageSize 32k
+
+# Provides TCP forwarding. The IP is the server's IP address
+*.* @@<%= server_host %>
