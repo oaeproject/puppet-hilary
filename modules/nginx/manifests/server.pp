@@ -11,7 +11,7 @@ define nginx::server (
     # Grab config properties from the central nginx class into scope
     $owner = $::nginx::owner
     $group = $::nginx::group
-    $ux_root_dir = $::nginx::ux_root_dir
+    $app_ui_path = $::nginx::app_ui_path
     $files_home = $::nginx::files_home
     $nginx_dir = $::nginx::nginx_dir
     $ssl_policy = $::nginx::ssl_policy
