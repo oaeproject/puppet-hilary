@@ -6,10 +6,21 @@ class hilary (
     # If you're pulling down Hilary as a package, it's assumed you've already setup
     # the PPA / Apt repository where it should be pulled from.
     # Valid options are 'git' and 'apt'
-    $install_method  = 'git',
-    $apt_package_version = '0.2.0-1',
-    $git_source,
-    $git_revision,
+    $install_method             = 'git',
+
+    # Properties for the 'apt' installation method
+    $apt_package_version        = '0.2.0-1',
+
+    # Properties for the 'archive' installation method
+    $archive_source_parent      = undef,
+    $archive_source_filename    = undef,
+    $archive_source_extension   = undef,
+    $archive_checksum           = undef,
+
+    # Properties for the 'git' installation method
+    $git_source             = 'https://github.com/oaeproject/Hilary',
+    $git_revision           = 'master',
+
     $os_user,
     $os_group,
     $upload_files_dir,
@@ -90,14 +101,23 @@ class hilary (
   case $install_method {
         'git': {
             class { '::hilary::install::git':
-                app_root_dir        => $app_root_dir,
-                git_source          => $git_source,
-                git_revision        => $git_revision,
+                app_root_dir    => $app_root_dir,
+                git_source      => $git_source,
+                git_revision    => $git_revision,
             }
         }
         'apt': {
             class { '::hilary::install::apt':
-                package_version     => $package_version,
+                package_version => $package_version,
+            }
+        }
+        'archive': {
+            class { '::hilary::install::archive':
+                source_parent       => $archive_source_parent,
+                source_filename     => $archive_source_filename,
+                source_extension    => $archive_source_extension,
+                checksum            => $archive_checksum,
+                target_dir          => $app_root_dir,
             }
         }
         default: {

@@ -17,17 +17,17 @@
 
     "web_domain": "oae-staging.oaeproject.org",
 
-    "app_install_method": "apt",
-    "app_apt_package_version": "0.2.0-3",
+    "app_install_method": "archive",
+    "app_archive_source_parent": "https://s3.amazonaws.com/oae-releases/oae-0.2.0",
+    "app_archive_source_filename": "hilary-0.2.0_nodejs-0.8.25",
+    "app_archive_source_extension": "tar.gz",
+    "app_archive_checksum": "4a407b779ad6f4d6b2d918da6d1a2983b1bf55e5",
+
     "app_os_user": "root",
     "app_os_group": "root",
     "app_hosts": [ "app0", "app1", "app2", "app3" ],
     "app_root_dir": "/opt/oae",
-    "app_git_source": "https://github.com/oaeproject/Hilary",
-    "app_git_revision": "master",
 
-    "app_signing_key": "A;SLDFJ984FJW398FJWP4GO5IJSLRTKGJ",
-    "app_cookie_secret": "SODIFJ984FJA984JAFP98WF4PAW984F984FJ9",
     "app_admin_tenant": "admin",
 
     "app_files_parent": "/shared",

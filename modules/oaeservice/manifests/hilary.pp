@@ -48,10 +48,19 @@ class oaeservice::hilary {
 
   class { '::hilary':
     app_root_dir                  => hiera('app_root_dir'),
+
     install_method                => $install_method,
+
     apt_package_version           => hiera('app_apt_package_version', 'present'),
+
+    archive_source_parent         => hiera('app_archive_source_parent', undef),
+    archive_source_filename       => hiera('app_archive_source_filename', undef),
+    archive_source_extension      => hiera('app_archive_source_extension', undef),
+    archive_checksum              => hiera('app_archive_checksum', undef),
+
     git_source                    => hiera('app_git_source', 'https://github.com/oaeproject/Hilary'),
     git_revision                  => hiera('app_git_revision', 'master'),
+
     os_user                       => hiera('app_os_user'),
     os_group                      => hiera('app_os_group'),
     upload_files_dir              => hiera('app_files_dir'),
