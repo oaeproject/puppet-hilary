@@ -34,7 +34,7 @@ class hilary::install::archive (
 	$target_dir = '/opt/oae',) {
 
 	# Download and unpack the archive
-	archive { '${source_filename}':
+	archive { "${source_filename}":
 		ensure 			=> present,
 		url 			=> "${source_parent}/${source_filename}.${source_extension}",
 		target 			=> $target_dir,
