@@ -78,7 +78,7 @@ appender:
   syslog_info:
     type: syslog
     header: true
-    syslogHost: <%= rsyslog_host %>
+    syslogHost: <%= rsyslog_host %>:1514
     facility: local0
     layout:
       type: pattern
@@ -87,7 +87,7 @@ appender:
   syslog_search_slow:
     type: syslog
     header: true
-    syslogHost: <%= rsyslog_host %>
+    syslogHost: <%= rsyslog_host %>:1514
     facility: local1
     layout:
       type: pattern
@@ -96,7 +96,7 @@ appender:
   syslog_index_slow:
     type: syslog
     header: true
-    syslogHost: <%= rsyslog_host %>
+    syslogHost: <%= rsyslog_host %>:1514
     facility: local2
     layout:
       type: pattern
@@ -105,7 +105,7 @@ appender:
   syslog_index_merge_slow:
     type: syslog
     header: true
-    syslogHost: <%= rsyslog_host %>
+    syslogHost: <%= rsyslog_host %>:1514
     facility: local3
     layout:
       type: pattern

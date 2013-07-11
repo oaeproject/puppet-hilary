@@ -32,7 +32,7 @@ log4j.appender.stdout.layout.ConversionPattern=%5p %d{HH:mm:ss,SSS} %m%n
 <% if rsyslog_enabled -%>
 # syslog logging
 log4j.appender.SYSLOG=org.apache.log4j.net.SyslogAppender
-log4j.appender.SYSLOG.syslogHost=<%= rsyslog_host %>
+log4j.appender.SYSLOG.syslogHost=<%= rsyslog_host %>:1514
 log4j.appender.SYSLOG.layout=org.apache.log4j.PatternLayout
 log4j.appender.SYSLOG.layout.ConversionPattern=%5p [%t] %d{ISO8601} %F (line %L) %m%n
 log4j.appender.SYSLOG.Header=true
