@@ -65,7 +65,7 @@
 
     "search_hosts": [ "search0", "search1" ],
     "search_index": "%{nodesuffix}",
-    "search_data_dir": "/var/lib/elasticsearch",
+    "search_data_dir": "/data/elasticsearch",
     "search_memory_mb": 3072,
     "search_newsize_mb": 1024,
     "search_version": "0.20.6",
