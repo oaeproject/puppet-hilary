@@ -40,6 +40,6 @@ class hilary::install::archive (
 		target 			=> $target_dir,
 		digest_string 	=> $checksum,
 		digest_type 	=> $checksum_type,
-		extension 		=> ".${source_extension}",
+		extension 		=> $source_extension,
 	}
 }
