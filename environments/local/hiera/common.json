@@ -21,7 +21,7 @@
     "nodesuffix": "%{nodesuffix}",
 
     "app_install_method": "git",
-    "app_apt_package_version": "0.2.0-2",
+    "app_apt_package_version": "0.2.0-3",
     "app_os_user": "root",
     "app_os_group": "root",
     "app_hosts": [ "127.0.0.1" ],
