@@ -5,14 +5,14 @@ list=/tmp/security_list_only
 grep 'security' /etc/apt/sources.list > $list
 
 # Use that list and check if there are any upgrades.
-apt-get upgrade -qq -s  -o Dir::Etc::SourceList==$list | egrep '^Conf|^Inst' > /dev/null
+apt-get -o Dir::Etc::sourcelist=$list -o Dir::Etc::sourceparts="-" update > /dev/null && apt-get --assume-no upgrade > /dev/null
 EXITCODE=${?}
 
 # Depending on the statuscode there might be updates.
-if [ ${EXITCODE} -eq "0" ]; then
+if [ ${EXITCODE} -eq "1" ]; then
        echo "WARNING: There are updates pending for `hostname`"
        exit 1;
-  elif [ ${EXITCODE} -eq "1" ]; then
+  elif [ ${EXITCODE} -eq "0" ]; then
        echo "OK: No updates are available for `hostname`";
        exit 0;
   else
