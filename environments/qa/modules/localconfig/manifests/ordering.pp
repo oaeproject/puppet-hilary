@@ -6,7 +6,4 @@ class localconfig::ordering {
     Class['::elasticsearch']                -> Class['::hilary']
     Class['::dse::cassandra']               -> Class['::hilary']
     Class['::rabbitmq::server']             -> Class['::hilary']
-
-    ## After the app server is installed, setup the qa-automation.
-    Class['::hilary']                       -> Class['::oaeqaautomation']
 }

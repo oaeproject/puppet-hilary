@@ -13,10 +13,8 @@
         "::oaeservice::nginx",
         "::oaeservice::cassandra::dse",
         "::oaeservice::mq",
-        "::oaeservice::postfix",
 
-        "::localconfig::ordering",
-        "::oaeqaautomation"
+        "::localconfig::ordering"
     ],
 
     "nodetype": "%{nodetype}",

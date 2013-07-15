@@ -70,6 +70,7 @@ class oaeservice::hilary {
     config_signing_key            => hiera('app_signing_key'),
     config_telemetry_circonus_url => hiera('circonus_url', false),
     config_servers_admin_host     => $admin_domain,
+    config_servers_use_https      => hiera('app_use_https', true),
 
     config_cassandra_hosts          => hiera('db_hosts'),
     config_cassandra_keyspace       => hiera('db_keyspace'),

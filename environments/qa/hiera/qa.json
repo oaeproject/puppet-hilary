@@ -1,0 +1,7 @@
+{
+    "classes": [
+        "::oaeservice::postfix",
+        "::oaeqaautomation",
+        "::localconfig::ordering::qa"
+    ]
+}
