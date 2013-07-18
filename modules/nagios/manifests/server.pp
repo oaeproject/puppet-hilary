@@ -8,11 +8,6 @@
 #    http_username        - The username to log onto the nagios web console
 #    http_password        - The (encrypted) password to log onto the nagios web console. This can be generated with `htpasswd`
 #    enable_notifications - Whether or not to enable notifications. Should be 1 or 0.
-#    smtp_server_host     - The hostname of the smtp server that nagios can use to send emails. This will be used to configure postfix.
-#    smtp_server_port     - The post that the smtp server that nagios can used to send emails. This will be used to configure postfix.
-#    smtp_server_user     - The username that the smtp server that nagios can used to send emails. This will be used to configure postfix.
-#    smtp_server_pass     - The password that the smtp server that nagios can used to send emails. This will be used to configure postfix.
-#    email_address        - The email address that should be used in the From header when sending emails.
 #
 class nagios::server (
     $http_username = 'nagiosadmin',
