@@ -3,7 +3,7 @@
         "::oaeservice::deps::common",
         "::oaeservice::limits",
         "::oaeservice::hosts",
-        "::oaeservice::firewall",
+        "::oaeservice::firewall::open",
         "::oaeservice::rsyslog",
         "::oaeservice::mcollective",
         "::oaeservice::munin::client",

@@ -79,7 +79,7 @@ class nagios::client (
   # The above command requires some sudo access
   file { '/etc/sudoers.d/nagios_security_check':
     ensure  => present,
-    content => "nagios localhost=/usr/bin/apt-get upgrade -qq -s -o Dir\:\:Etc\:\:SourceList==/tmp/security_list_only\n",
+    content => "Defaults env_reset\n\nnagios ALL=(ALL) NOPASSWD: /usr/bin/apt-get\n",
     mode    => 0440,
     owner   => root,
     group   => root,
