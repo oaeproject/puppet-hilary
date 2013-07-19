@@ -16,7 +16,7 @@
     "nodesuffix": "%{nodesuffix}",
 
     "web_domain": "oaeproject.org",
-    "web_domains_external": ["collab.lib.cam.ac.uk"],
+    "web_domains_external": ["collab.lib.cam.ac.uk", "oae.gatech.edu"],
 
     "app_install_method": "archive",
     "app_archive_source_parent": "https://s3.amazonaws.com/oae-releases/oae-0.2.0",
