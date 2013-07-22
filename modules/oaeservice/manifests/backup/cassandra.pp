@@ -4,7 +4,7 @@ class oaeservice::backup::cassandra {
 
     # Other param values come from duplicity::params
     duplicity { 'cassandra':
-        directory   => $db_data_dir,
+        directory   => "$db_data_dir/data",
         folder      => $::hostname
     }
 
