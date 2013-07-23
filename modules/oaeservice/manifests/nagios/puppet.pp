@@ -27,8 +27,6 @@ class oaeservice::nagios::puppet {
   #   f = notify when the service starts and stops flapping
   #   n = send no notifications to this contact
 
-  nagios_contacts = hiera('nagios_contacts', [])
-
   @@nagios_contact { 'oae-monitoring':
     target                        => '/etc/nagios3/conf.d/puppet/contacts/oae-monitoring.cfg',
     email                         => hiera('nagios_contact_email'),
