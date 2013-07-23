@@ -122,13 +122,10 @@
 
     "nagios_http_username": "nagiosadmin",
     "nagios_http_password": "$apr1$jdYkGn4R$C/zBGqUA1.Zkra8U4vmNH1",
-    "nagios_enable_notifications": "0",
-    "nagios_smtp_host": "smtp.sendgrid.net",
-    "nagios_smtp_port": "587",
-    "nagios_smtp_user": "unset",
-    "nagios_smtp_pass": "unset",
-    "nagios_email_address": "unset",
+    "nagios_enable_notifications": true,
     "nagios_hostgroup": "misc",
+    "nagios_contact_alias": "OAE Monitoring",
+    "nagios_contact_email": "oae-monitoring@googlegroups.com",
 
     "oaeservice::deps::package::nodejs::nodejs_version": "0.8.25-1chl1~precise1",
     "oaeservice::deps::package::nodejs::npm_version": "1.3.0-1chl1~precise1",
