@@ -7,12 +7,12 @@
 # Parameters:
 #    http_username        - The username to log onto the nagios web console
 #    http_password        - The (encrypted) password to log onto the nagios web console. This can be generated with `htpasswd`
-#    enable_notifications - Whether or not to enable notifications. Should be 1 or 0.
+#    enable_notifications - Whether or not to enable notifications.
 #
 class nagios::server (
     $http_username = 'nagiosadmin',
     $http_password = '$apr1$jdYkGn4R$C/zBGqUA1.Zkra8U4vmNH1',
-    $enable_notifications = 1
+    $enable_notifications = false
   ){
 
   ###################

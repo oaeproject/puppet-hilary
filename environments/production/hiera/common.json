@@ -123,8 +123,10 @@
 
     "nagios_http_username": "nagiosadmin",
     "nagios_http_password": "$apr1$jdYkGn4R$C/zBGqUA1.Zkra8U4vmNH1",
-    "nagios_enable_notifications": "1",
+    "nagios_enable_notifications": true,
     "nagios_hostgroup": "misc",
+    "nagios_contact_alias": "OAE Monitoring",
+    "nagios_contact_email": "oae-monitoring@googlegroups.com",
 
     "oaeservice::deps::package::nodejs::nodejs_version": "0.8.25-1chl1~precise1",
     "oaeservice::deps::package::nodejs::npm_version": "1.3.0-1chl1~precise1",
