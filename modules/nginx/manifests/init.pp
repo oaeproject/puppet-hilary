@@ -104,19 +104,6 @@ class nginx (
     }
 
     ###################
-    ## STATIC ASSETS ##
-    ###################
-
-    if ($enable_static_assets) {
-      file { "/opt/assets":
-        source => "puppet:///modules/localconfig/assets",
-        ensure => "present",
-        mode => 555,
-        recurse => true,
-      }
-    }
-
-    ###################
     ## NGINX SERVICE ##
     ###################
 

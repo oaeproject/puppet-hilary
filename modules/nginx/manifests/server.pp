@@ -15,7 +15,7 @@ define nginx::server (
     $files_home = $::nginx::files_home
     $nginx_dir = $::nginx::nginx_dir
     $ssl_policy = $::nginx::ssl_policy
-    $enable_static_assets = $::nginx::enable_static_assets
+    $static_assets_dir = $::nginx::static_assets_dir
 
     # We need the internal etherpad ips to bind the etherpad path-based sharding to each host
     $internal_etherpad_ips = $::nginx::internal_etherpad_ips

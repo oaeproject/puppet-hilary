@@ -138,14 +138,14 @@ server {
     error_page      503     /shared/oae/errors/maintenance.html;
 
 
-    <% if enable_static_assets -%>
+    <% if static_assets_dir -%>
 
     ###################
     ## STATIC ASSETS ##
     ###################
 
     location /assets/ {
-        alias /opt/assets/;
+        alias <%= static_assets_dir %>;
         autoindex off;
         expires max;
     }
