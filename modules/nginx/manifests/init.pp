@@ -109,7 +109,7 @@ class nginx (
 
     if ($enable_static_assets) {
       file { "/opt/assets":
-        source => "puppet://modules/localconfig/files/assets",
+        source => "puppet://modules/localconfig/assets",
         ensure => "present",
         mode => 555,
         recurse => true,
