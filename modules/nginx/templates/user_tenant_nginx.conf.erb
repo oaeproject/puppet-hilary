@@ -145,7 +145,7 @@ server {
     ###################
 
     location /assets/ {
-        alias <%= static_assets_dir %>;
+        alias <%= static_assets_dir %>/;
         autoindex off;
         expires max;
     }
