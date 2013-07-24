@@ -111,6 +111,8 @@
 
     "driver_tsung_version": "1.4.2",
 
+    "enable_static_assets": true,
+
     "nginx::owner": "nginx",
     "nginx::group": "nginx",
 

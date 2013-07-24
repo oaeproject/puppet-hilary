@@ -15,6 +15,7 @@ define nginx::server (
     $files_home = $::nginx::files_home
     $nginx_dir = $::nginx::nginx_dir
     $ssl_policy = $::nginx::ssl_policy
+    $enable_static_assets = $::nginx::enable_static_assets
 
     # We need the internal etherpad ips to bind the etherpad path-based sharding to each host
     $internal_etherpad_ips = $::nginx::internal_etherpad_ips
@@ -53,4 +54,18 @@ define nginx::server (
         group   => $group,
         content => template($template),
     }
+
+    ##
+    ##
+    ##
+
+    if ($enable_static_assets) {
+      file { "/opt/assets":
+        source => "puppet://modules/localconfig/files/assets",
+        ensure => "present",
+        mode => 555,
+        recurse => true,
+      }
+    }
+
 }

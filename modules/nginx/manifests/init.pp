@@ -4,6 +4,7 @@ class nginx (
     $web_domain,
     $app_admin_tenant               = 'admin',
     $app_ui_path                    = '/opt/3akai-ux',
+    $enable_static_assets           = false,
     $files_home                     = '/opt/files',
     $owner                          = 'nginx',
     $group                          = 'nginx',
