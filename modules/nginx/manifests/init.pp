@@ -4,7 +4,6 @@ class nginx (
     $web_domain,
     $app_admin_tenant               = 'admin',
     $app_ui_path                    = '/opt/3akai-ux',
-    $static_assets_dir              = false,
     $files_home                     = '/opt/files',
     $owner                          = 'nginx',
     $group                          = 'nginx',
@@ -12,6 +11,7 @@ class nginx (
     $ssl_policy                     = 'redirect_http',
     $ssl_default_crt_source         = 'puppet:///modules/localconfig/ssl/default/server.crt',
     $ssl_default_key_source         = 'puppet:///modules/localconfig/ssl/default/server.key',
+    $static_assets_dir              = false,
     $version                        = '1.4.1-1~precise',) {
 
 
