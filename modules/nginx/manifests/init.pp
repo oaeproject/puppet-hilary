@@ -11,6 +11,7 @@ class nginx (
     $ssl_policy                     = 'redirect_http',
     $ssl_default_crt_source         = 'puppet:///modules/localconfig/ssl/default/server.crt',
     $ssl_default_key_source         = 'puppet:///modules/localconfig/ssl/default/server.key',
+    $static_assets_dir              = false,
     $version                        = '1.4.1-1~precise',) {
 
 
@@ -101,7 +102,6 @@ class nginx (
         ssl_key_source  => $ssl_default_key_source,
         server_name     => 'default_server',
     }
-
 
     ###################
     ## NGINX SERVICE ##

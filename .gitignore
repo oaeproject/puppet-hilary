@@ -1,3 +1,4 @@
+.DS_Store
 .environment
 .node
 *_hiera_secure.*
