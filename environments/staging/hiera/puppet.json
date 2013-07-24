@@ -1,6 +1,7 @@
 {
     "classes": [
         "::oaeservice::puppet",
+        "::oaeservice::postfix",
         "::oaeservice::munin::master",
         "::oaeservice::nagios::server",
         "::oaeservice::nagios::puppet"

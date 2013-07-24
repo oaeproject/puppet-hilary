@@ -7,17 +7,12 @@
 # Parameters:
 #    http_username        - The username to log onto the nagios web console
 #    http_password        - The (encrypted) password to log onto the nagios web console. This can be generated with `htpasswd`
-#    enable_notifications - Whether or not to enable notifications. Should be 1 or 0.
-#    smtp_server_host     - The hostname of the smtp server that nagios can use to send emails. This will be used to configure postfix.
-#    smtp_server_port     - The post that the smtp server that nagios can used to send emails. This will be used to configure postfix.
-#    smtp_server_user     - The username that the smtp server that nagios can used to send emails. This will be used to configure postfix.
-#    smtp_server_pass     - The password that the smtp server that nagios can used to send emails. This will be used to configure postfix.
-#    email_address        - The email address that should be used in the From header when sending emails.
+#    enable_notifications - Whether or not to enable notifications.
 #
 class nagios::server (
     $http_username = 'nagiosadmin',
     $http_password = '$apr1$jdYkGn4R$C/zBGqUA1.Zkra8U4vmNH1',
-    $enable_notifications = 1
+    $enable_notifications = false
   ){
 
   ###################
@@ -173,7 +168,8 @@ class nagios::server (
     process_perf_data             =>   1,       # Process performance data
     retain_status_information     =>   1,       # Retain status information across program restarts
     retain_nonstatus_information  =>   1,       # Retain non-status information across program restarts
-    notification_interval         =>   0,       # This directive is used to define the number of "time units" to wait before re-notifying a contact that this service is still in a non-OK state. Unless you've changed the interval_length directive from the default value of 60, this number will mean minutes. If you set this value to 0, Nagios will not re-notify contacts about problems for this service - only one problem notification will be sent out.
+    notification_interval         =>   60,      # This directive is used to define the number of "time units" to wait before re-notifying a contact that this service is still in a non-OK state. Unless you've changed the interval_length directive from the default value of 60, this number will mean minutes. If you set this value to 0, Nagios will not re-notify contacts about problems for this service - only one problem notification will be sent out.
+    first_notification_delay      =>   0,       # This directive is used to define the number of "time units" to wait before sending out the first problem notification when this host enters a non-UP state. Unless you've changed the interval_length directive from the default value of 60, this number will mean minutes. If you set this value to 0, Nagios will start sending out notifications immediately.
     is_volatile                   =>   0,
     check_period                  =>   '24x7',
     normal_check_interval         =>   5,
@@ -187,11 +183,9 @@ class nagios::server (
 
   nagios_contactgroup { 'oae-admins':
     target        => '/etc/nagios3/conf.d/puppet/contacts/oae-admins.cfg',
-    members       => 'simon',
     alias         => 'Administrators',
     require       =>  File[$nagios_directories],
   }
-
 
   # Create all the possible hostgroups.
   nagios_hostgroup {'nagios_hostgroup_webservers':
@@ -252,14 +246,14 @@ class nagios::server (
   # Create the notification commands.
   nagios_command { 'notify-host-by-email':
     target          => '/etc/nagios3/conf.d/puppet/commands/notify-host-by-email.cfg',
-    command_line    => "/usr/bin/printf \"%b\" \"***** OAE Monitoring Alert *****\\n\\nNotification Type: \$NOTIFICATIONTYPE\$\\nHost: \$HOSTNAME\$\\nState: \$HOSTSTATE\$\\nAddress: \$HOSTADDRESS\$\\nInfo: \$HOSTOUTPUT\$\\n\\nDate/Time: \$LONGDATETIME\$\\n\" | /usr/bin/mail -a \"From: $email_address\" -s \"** \$NOTIFICATIONTYPE\$ Host Alert: \$HOSTNAME\$ is \$HOSTSTATE\$ **\" \$CONTACTEMAIL\$",
+    command_line    => "/usr/bin/printf \"%b\" \"***** OAE Monitoring Alert *****\\n\\nNotification Type: \$NOTIFICATIONTYPE\$\\nHost: \$HOSTNAME\$\\nState: \$HOSTSTATE\$\\nAddress: \$HOSTADDRESS\$\\nInfo: \$HOSTOUTPUT\$\\n\\nDate/Time: \$LONGDATETIME\$\\n\" | /usr/bin/mail -a \"From: Nagios Alerting\" -s \"[Nagios]  \$NOTIFICATIONTYPE\$ Host Alert: \$HOSTNAME\$ is \$HOSTSTATE\$\" \$CONTACTEMAIL\$",
     ensure          => 'present',
     require         =>  File[$nagios_directories],
   }
 
   nagios_command { 'notify-service-by-email':
     target          => '/etc/nagios3/conf.d/puppet/commands/notify-service-by-email.cfg',
-    command_line    => "/usr/bin/printf \"%b\" \"***** OAE Monitoring Alert *****\\n\\nNotification Type: \$NOTIFICATIONTYPE\$\\nHost: \$HOSTNAME\$\\nState: \$HOSTSTATE\$\\nAddress: \$HOSTADDRESS\$\\nInfo: \$HOSTOUTPUT\$\\n\\nDate/Time: \$LONGDATETIME\$\\n\" | /usr/bin/mail -a \"From: $email_address\" -s \"** \$NOTIFICATIONTYPE\$ Host Alert: \$HOSTNAME\$ is \$HOSTSTATE\$ **\" \$CONTACTEMAIL\$",
+    command_line    => "/usr/bin/printf \"%b\" \"***** OAE Monitoring Alert *****\\n\\nNotification Type: \$NOTIFICATIONTYPE\$\\nHost: \$HOSTNAME\$\\nState: \$HOSTSTATE\$\\nService output: \$SERVICEOUTPUT\$ \$LONGSERVICEOUTPUT\$\\nAddress: \$HOSTADDRESS\$\\nInfo: \$HOSTOUTPUT\$\\n\\nDate/Time: \$LONGDATETIME\$\\n\" | /usr/bin/mail -a \"From: Nagios Alerting\" -s \"[Nagios] \$NOTIFICATIONTYPE\$ Service Alert on \$HOSTNAME\$: \$SERVICEDESC\$ - \$SERVICESTATE\$\" \$CONTACTEMAIL\$",
     ensure          => 'present',
     require         =>  File[$nagios_directories],
   }
@@ -332,9 +326,18 @@ class nagios::server (
   # Create a command to check if puppet ran on all nodes.
   nagios_command { 'check_puppetmaster':
     target              => '/etc/nagios3/conf.d/puppet/commands/check_puppetmaster.cfg',
-    command_line        => '/usr/lib/nagios/plugins/check_puppetmaster',
+    command_line        => '/usr/bin/sudo /usr/lib/nagios/plugins/check_puppetmaster',
     ensure              => 'present',
     require             =>  File[$nagios_directories],
+  }
+
+  # The above command requires some sudo access
+  file { '/etc/sudoers.d/nagios_puppetmaster_check':
+    ensure  => present,
+    content => "Defaults env_reset\n\nnagios ALL=(ALL) NOPASSWD: /usr/lib/nagios/plugins/check_puppetmaster\n",
+    mode    => 0440,
+    owner   => root,
+    group   => root,
   }
 
 }
