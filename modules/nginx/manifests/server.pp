@@ -54,5 +54,4 @@ define nginx::server (
         group   => $group,
         content => template($template),
     }
-
 }
