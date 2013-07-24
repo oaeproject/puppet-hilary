@@ -139,16 +139,16 @@ server {
 
 
     <% if enable_static_assets -%>
-        
-        ##
-        ##
-        ##
 
-        location /assets/ {
-            alias /opt/assets;
-            autoindex off;
-            expires max;
-        }
+    ###################
+    ## STATIC ASSETS ##
+    ###################
+
+    location /assets/ {
+        alias /opt/assets/;
+        autoindex off;
+        expires max;
+    }
 
     <% end -%>
 

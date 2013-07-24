@@ -103,9 +103,9 @@ class nginx (
         server_name     => 'default_server',
     }
 
-    ##
-    ##
-    ##
+    ###################
+    ## STATIC ASSETS ##
+    ###################
 
     if ($enable_static_assets) {
       file { "/opt/assets":
