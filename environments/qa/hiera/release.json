@@ -1,0 +1,7 @@
+{
+    "app_install_method": "archive",
+    "app_archive_source_parent": "https://s3.amazonaws.com/oae-releases/oae-0.2.0",
+    "app_archive_source_filename": "hilary-0.2.0_nodejs-0.8.25",
+    "app_archive_source_extension": "tar.gz",
+    "app_archive_checksum": "4a407b779ad6f4d6b2d918da6d1a2983b1bf55e5"
+}
