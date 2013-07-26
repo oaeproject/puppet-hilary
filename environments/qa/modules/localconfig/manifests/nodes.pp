@@ -27,3 +27,9 @@ node 'unit0' {
     $nodesuffix = 0
     hiera_include(classes)
 }
+
+node 'release0' {
+    $nodetype = 'release'
+    $nodesuffix = 0
+    hiera_include(classes)
+}
