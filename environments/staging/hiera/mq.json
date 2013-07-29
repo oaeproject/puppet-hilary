@@ -3,6 +3,7 @@
         "::oaeservice::mq",
         "::oaeservice::munin::rabbitmq",
         "::oaeservice::nagios",
+        "::oaeservice::nagios::memory",
         "::oaeservice::nagios::rabbitmq"
     ],
 

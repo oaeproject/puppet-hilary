@@ -3,7 +3,8 @@
         "::oaeservice::hilary",
         "::oaeservice::ui",
         "::oaeservice::postfix",
-        "::oaeservice::nagios::hilary"
+        "::oaeservice::nagios::hilary",
+        "::oaeservice::nagios::memory"
     ],
 
     "email_debug": false,

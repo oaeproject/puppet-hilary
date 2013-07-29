@@ -1,6 +1,7 @@
 {
     "classes": [
-        "::oaeservice::deps::package::nodejs"
+        "::oaeservice::deps::package::nodejs",
+        "::oaeservice::nagios::memory"
     ],
     "rsyslog::clientOrServer": "server",
 
