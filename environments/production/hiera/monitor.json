@@ -2,7 +2,8 @@
     "classes": [
         "::oaeservice::postfix",
         "::oaeservice::opscenter",
-        "::oaeservice::backup::userfiles"
+        "::oaeservice::backup::userfiles",
+        "::oaeservice::nagios::memory"
     ],
 
     "duplicity::params::pubkey_id": "471DE501",

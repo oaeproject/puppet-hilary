@@ -2,7 +2,8 @@
     "classes": [
         "::oaeservice::hilary",
         "::oaeservice::ui",
-        "::oaeservice::nagios::hilary"
+        "::oaeservice::nagios::hilary",
+        "::oaeservice::nagios::memory"
     ],
 
     "hilary::config_previews_enabled": true,
