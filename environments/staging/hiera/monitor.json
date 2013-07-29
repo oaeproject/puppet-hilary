@@ -1,6 +1,7 @@
 {
-    "classes": [
-        "::oaeservice::postfix",
-        "::oaeservice::opscenter"
+    "classes": [,
+        "::oaeservice::nagios::memory",
+        "::oaeservice::opscenter",
+        "::oaeservice::postfix"
     ]
 }

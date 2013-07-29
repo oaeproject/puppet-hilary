@@ -118,11 +118,13 @@ class nagios::client (
   }
 
   @@nagios_service { "${hostname}_check_security_updates":
-    use                 => "generic-service",
-    service_description => "General::Security updates",
-    host_name           => "$hostname",
-    check_command       => "check_nrpe_1arg!check_security_updates",
-    target              => "/etc/nagios3/conf.d/puppet/services/$hostname-check-security-update.cfg",
+    use                   => "generic-service",
+    service_description   => "General::Security updates",
+    host_name             => "$hostname",
+    check_command         => "check_nrpe_1arg!check_security_updates",
+    target                => "/etc/nagios3/conf.d/puppet/services/$hostname-check-security-update.cfg",
+    check_interval        => "1440",      # Run the check once a day
+    notification_interval => "10080",     # Only send out a notification once a week
   }
 
   ##################

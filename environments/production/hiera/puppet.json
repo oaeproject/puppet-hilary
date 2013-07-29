@@ -3,8 +3,9 @@
         "::oaeservice::puppet",
         "::oaeservice::postfix",
         "::oaeservice::munin::master",
-        "::oaeservice::nagios::server",
-        "::oaeservice::nagios::puppet"
+        "::oaeservice::nagios::memory",
+        "::oaeservice::nagios::puppet",
+        "::oaeservice::nagios::server"
     ],
 
     "nagios_hostgroup": "misc"
