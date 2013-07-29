@@ -1,30 +1,15 @@
+#
+# Valid options for install_method and install_config are enumerated in ::hilary::install namespace documentation
+#
 class hilary (
     $app_root_dir,
 
-    # Whether to install Hilary from a GitHub repo (with $app_git_user and $app_git_branch) or
-    # to pull it as a package.
-    # If you're pulling down Hilary as a package, it's assumed you've already setup
-    # the PPA / Apt repository where it should be pulled from.
-    # Valid options are 'git' and 'apt'
-    $install_method             = 'git',
-
-    # Properties for the 'apt' installation method
-    $apt_package_version        = '0.2.0-1',
-
-    # Properties for the 'archive' installation method
-    $archive_source_parent      = undef,
-    $archive_source_filename    = undef,
-    $archive_source_extension   = undef,
-    $archive_checksum           = undef,
-
-    # Properties for the 'git' installation method
-    $git_source             = 'https://github.com/oaeproject/Hilary',
-    $git_revision           = 'master',
+    $install_method     = 'git',
+    $install_config     = {'source' => 'https://github.com/oaeproject/Hilary', 'revision' => 'master'},
 
     $os_user,
     $os_group,
     $upload_files_dir,
-
 
     ############
     ## Config ##
@@ -97,35 +82,14 @@ class hilary (
   $config_previews_tmp_dir = "${config_files_tmp_dir}/previews"
 
 
-  ########################
-  ## DEPLOY APPLICATION ##
-  ########################
 
-  case $install_method {
-        'git': {
-            class { '::hilary::install::git':
-                app_root_dir    => $app_root_dir,
-                git_source      => $git_source,
-                git_revision    => $git_revision,
-            }
-        }
-        'apt': {
-            class { '::hilary::install::apt':
-                package_version => $package_version,
-            }
-        }
-        'archive': {
-            class { '::hilary::install::archive':
-                source_parent       => $archive_source_parent,
-                source_filename     => $archive_source_filename,
-                source_extension    => $archive_source_extension,
-                checksum            => $archive_checksum,
-                target_dir          => $app_root_dir,
-            }
-        }
-        default: {
-            fail("Unknown install method for hilary passed in: '${install_method}'")
-        }
+  ##################
+  ## INSTALLATION ##
+  ##################
+
+  class { "::hilary::install::${install_method}":
+    install_config  => $install_config,
+    app_root_dir    => $app_root_dir,
   }
 
   Class["::hilary::install::${install_method}"] -> File["/etc/init/hilary.conf"]
@@ -175,9 +139,9 @@ class hilary (
 
 
 
-  #######################
-  ## START APPLICATION ##
-  #######################
+  ###################
+  ## CONFIGURATION ##
+  ###################
 
   file { "/etc/init/hilary.conf":
     ensure  =>  present,

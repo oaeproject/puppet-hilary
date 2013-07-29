@@ -1,18 +1,17 @@
 {
     "classes": [
+        "::localconfig::ordering",
+        "::oaeservice::cassandra::dsc",
         "::oaeservice::deps::common",
-        "::oaeservice::limits",
+        "::oaeservice::elasticsearch",
         "::oaeservice::etherpad",
         "::oaeservice::hilary",
-        "::oaeservice::ui",
-        "::oaeservice::redis",
-        "::oaeservice::elasticsearch",
-        "::oaeservice::nginx",
-        "::oaeservice::cassandra::dsc",
+        "::oaeservice::limits",
         "::oaeservice::mq",
+        "::oaeservice::nginx",
         "::oaeservice::postfix",
-
-        "::localconfig::ordering"
+        "::oaeservice::redis",
+        "::oaeservice::ui"
     ],
 
     "web_domain": "oae.local",
@@ -20,15 +19,11 @@
     "nodetype": "%{nodetype}",
     "nodesuffix": "%{nodesuffix}",
 
-    "app_install_method": "git",
-    "app_apt_package_version": "0.2.0-3",
     "app_os_user": "root",
     "app_os_group": "root",
     "app_hosts": [ "127.0.0.1" ],
     "app_root_dir": "/opt/oae",
-    "app_git_source": "https://github.com/oaeproject/Hilary",
-    "app_git_revision": "master",
-
+    
     "app_signing_key": "A;SLDFJ984FJW398FJWP4GO5IJSLRTKGJ",
     "app_cookie_secret": "SODIFJ984FJA984JAFP98WF4PAW984F984FJ9",
     "app_admin_tenant": "admin",
@@ -41,10 +36,6 @@
     },
 
     "ux_root_dir": "/opt/3akai-ux",
-    "ux_install_method": "git",
-    "ux_git_source": "https://github.com/oaeproject/3akai-ux",
-    "ux_git_revision": "master",
-    "ux_apt_package_version": "0.2.0-2",
 
     "db_cluster_name": "OAE Dev Cluster",
     "db_keyspace": "oae",

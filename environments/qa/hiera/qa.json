@@ -1,7 +1,15 @@
 {
     "classes": [
-        "::oaeservice::postfix",
+        "::localconfig::ordering::qa",
         "::oaeqaautomation",
-        "::localconfig::ordering::qa"
+        "::oaeservice::cassandra::dse",
+        "::oaeservice::elasticsearch",
+        "::oaeservice::etherpad",
+        "::oaeservice::hilary",
+        "::oaeservice::mq",
+        "::oaeservice::nginx",
+        "::oaeservice::postfix",
+        "::oaeservice::redis",
+        "::oaeservice::ui"
     ]
 }
