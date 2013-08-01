@@ -7,7 +7,7 @@
         "::oaeservice::mcollective",
         "::oaeservice::munin::client",
         "::oaeservice::nagios",
-        "::oaeservice::nagios::disk"
+        "::oaeservice::nagios::disk",
         "::oaeservice::rsyslog",
         "::oaeservice::ssh",
         "::oaeservice::users::admin",
