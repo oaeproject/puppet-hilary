@@ -9,42 +9,18 @@
 #   Defaults to /opt/3akai-ux
 #
 # [*install_method*]
-#   Whether to use git or the Ubuntu package to install.
-#   Options: `git` or `package`.
+#   How to install the ui
 #
-# [*git_source*]
-#   The full git url to pull the sources from.
-#   ex: https://github.com/oaeproject/3akai-ux
+# [*install_config*]
+#   A hash containing the install method specific configuration parameters
 #
-# [*git_revision*]
-#   Which branch, tag or commit to pull.
-#
-# [*apt_package_version*]
-#   In case you're deploying the UI via a package, this should be the version of the package you wish to deploy.
 class ui (
-        $root_dir               = '/opt/3akai-ux',
-        $install_method         = 'git',
-        $git_source             = 'https://github.com/oaeproject/3akai-ux',
-        $git_revision           = 'master',
-        $apt_package_version    = '0.2.0-2'
-    ){
+    $root_dir               = '/opt/3akai-ux',
+    $install_method         = 'git',
+    $install_config         = {'source' => 'https://github.com/oaeproject/3akai-ux', 'revision' => 'master'}) {
 
-    case $install_method {
-        'git': {
-            vcsrepo { $root_dir:
-                ensure    => latest,
-                provider  => git,
-                source    => $git_source,
-                revision  => $git_revision,
-            }
-        }
-        'apt': {
-            package { '3akai-ux':
-                ensure => $apt_package_version,
-            }
-        }
-        default: {
-            fail("Unknown install method for the ui class passed in: '${install_method}'")
-        }
+    class { "::ui::install::${install_method}":
+        install_config  => $install_config,
+        root_dir        => $root_dir
     }
 }

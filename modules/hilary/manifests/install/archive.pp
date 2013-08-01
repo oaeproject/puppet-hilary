@@ -7,39 +7,44 @@
 # 
 # === Parameters
 #
-# [*source_parent*]
+# [*install_config['url_parent']*]
 #   The part of the archive source URI that would come just before the filename (e.g., https://s3.amazonaws.com/oae-releases/oae-0.2.0
 #
-# [*source_filename*]
+# [*install_config['url_filename']*]
 # 	The filename portion of the archive without the parent directory URI or the extension (e.g., hilary-0.2.0_nodejs-0.8.25)
 #
-# [*source_extension*]
+# [*install_config['url_extension']*]
 #	The extension of the archive, without the filename of the parent directory URI (e.g., tar.gz). Defaults to 'tar.gz'
 #
-# [*checksum*]
+# [*install_config['checksum']*]
 # 	The checksum string of the archive
 #
-# [*checksum_type*]
+# [*install_config['checksum_type']*]
 # 	The type of checksum (e.g., sha1, md5). Defaults to 'sha1'
 #
-# [*target_dir*]
+# [*app_root_dir*]
 # 	The target directory to extract the release archive. Defaults to '/opt/oae'
 #
-class hilary::install::archive (
-	$source_parent,
-	$source_filename,
-	$source_extension = 'tar.gz',
-	$checksum,
-	$checksum_type = 'sha1',
-	$target_dir = '/opt/oae',) {
+class hilary::install::archive ($install_config, $app_root_dir = '/opt/oae') {
+
+	$_install_config = merge({
+		'url_extension' => 'tar.gz',
+		'checksum_type' => 'sha1'
+	}, $install_config)
+
+	$url_parent 	= $_install_config['url_parent']
+	$url_filename 	= $_install_config['url_filename']
+	$url_extension 	= $_install_config['url_extension']
+	$checksum 		= $_install_config['checksum']
+	$checksum_type 	= $_install_config['checksum_type']
 
 	# Download and unpack the archive
-	archive { "${source_filename}":
+	archive { "${url_filename}":
 		ensure 			=> present,
-		url 			=> "${source_parent}/${source_filename}.${source_extension}",
-		target 			=> $target_dir,
+		url 			=> "${url_parent}/${url_filename}.${url_extension}",
+		target 			=> $app_root_dir,
 		digest_string 	=> $checksum,
 		digest_type 	=> $checksum_type,
-		extension 		=> $source_extension,
+		extension 		=> $url_extension,
 	}
 }

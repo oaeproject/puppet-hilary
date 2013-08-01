@@ -1,14 +1,17 @@
-class hilary::install::git (
-        $app_root_dir,
-        $git_source,
-        $git_revision,
-    ) {
+class hilary::install::git ($install_config, $app_root_dir = '/opt/oae') {
+    require ::oaeservice::deps::package::git
+
+    $_install_config = merge({
+        'source'    => 'https://github.com/oaeproject/Hilary',
+        'revision'  => 'master'
+    }, $install_config)
+
     # git clone https://github.com/oaeproject/Hilary
     vcsrepo { $app_root_dir:
         ensure    => latest,
         provider  => git,
-        source    => $git_source,
-        revision  => $git_revision
+        source    => $_install_config['source'],
+        revision  => $_install_config['revision'],
     }
 
     # We need to chown the directory before we can do an npm install

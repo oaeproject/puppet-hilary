@@ -186,3 +186,14 @@ node 'proxy0' inherits proxy {
   $nodesuffix = 0
   hiera_include(classes)
 }
+
+
+
+###################
+## UTILITY NODES ##
+###################
+
+node 'puppet' {
+  $nodetype = 'puppet'
+  hiera_include(classes)
+}

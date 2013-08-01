@@ -30,7 +30,7 @@ class oaeqaautomation ($log_file_path = '/var/log/nightly.log') {
     $model_loader_dir = hiera('automation_model_loader_dir')
 
     $web_domain = hiera('web_domain')
-    $app_admin_tenant = hiera('app_admin_tenant')
+    $app_admin_tenant = hiera('app_admin_tenant', 'admin')
     $admin_host = "${app_admin_tenant}.${web_domain}"
 
 
