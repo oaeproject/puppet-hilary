@@ -1,4 +1,17 @@
 {
+    "classes": [
+        "::localconfig::ordering",
+        "::oaeservice::cassandra::dse",
+        "::oaeservice::elasticsearch",
+        "::oaeservice::etherpad",
+        "::oaeservice::hilary",
+        "::oaeservice::mq",
+        "::oaeservice::nginx",
+        "::oaeservice::postfix",
+        "::oaeservice::redis",
+        "::oaeservice::ui"
+    ],
+
 	"web_domain": "cam.com",
 	"app_use_https": false
 }

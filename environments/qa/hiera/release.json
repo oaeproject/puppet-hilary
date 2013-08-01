@@ -1,7 +1,33 @@
 {
+    "classes": [
+        "::localconfig::ordering",
+        "::oaeservice::cassandra::dse",
+        "::oaeservice::elasticsearch",
+        "::oaeservice::etherpad",
+        "::oaeservice::hilary",
+        "::oaeservice::mq",
+        "::oaeservice::nginx",
+        "::oaeservice::postfix",
+        "::oaeservice::redis",
+        "::oaeservice::ui"
+    ],
+
+    "email_debug": "false",
+
     "app_install_method": "archive",
-    "app_archive_source_parent": "https://s3.amazonaws.com/oae-releases/oae-0.2.0",
-    "app_archive_source_filename": "hilary-0.2.0_nodejs-0.8.25",
-    "app_archive_source_extension": "tar.gz",
-    "app_archive_checksum": "4a407b779ad6f4d6b2d918da6d1a2983b1bf55e5"
+    "app_install_config": {
+        "url_parent": "https://s3.amazonaws.com/oae-releases/oae-0.2.0",
+        "url_filename": "hilary-0.2.0-93-7df7f10_node-0.8.25",
+        "url_extension": "tar.gz",
+        "checksum": "75b0be003309baab699a7545ddd03575fcb37737"
+    },
+    "app_ui_path": "/opt/3akai-ux/optimized",
+
+    "ux_install_method": "archive",
+    "ux_install_config": {
+        "url_parent": "https://s3.amazonaws.com/oae-releases/oae-0.2.0",
+        "url_filename": "3akai-ux-0.2.0-114-61a1934",
+        "url_extension": "tar.gz",
+        "checksum": "5a2997d79ac54c1405654dfd8e8b1adcac4a39d9"
+    }
 }

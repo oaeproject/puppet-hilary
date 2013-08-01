@@ -1,7 +1,8 @@
 {
     "classes": [
         "::oaeservice::firewall::ssh",
-        "::oaeservice::nagios::memory"
+        "::oaeservice::nagios::memory",
+        "::oaeservice::oaefabric"
     ],
 
     "nagios_hostgroup": "misc"

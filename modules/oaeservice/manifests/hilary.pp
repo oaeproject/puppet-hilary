@@ -17,10 +17,7 @@ class oaeservice::hilary {
   }
 
   $install_method = hiera('app_install_method', 'git')
-  if ($install_method == 'git') {
-    # Ensure the git dependencies get installed before the etherpad git installation if specified
-    Class['::oaeservice::deps::package::git'] -> Class['::hilary::install::git']
-  }
+  $install_config = hiera('app_install_config', {source => 'https://github.com/oaeproject/Hilary', revision => 'master'})
 
   $rsyslog_enabled = hiera('rsyslog_enabled', false)
   if $rsyslog_enabled {
@@ -38,28 +35,19 @@ class oaeservice::hilary {
     $activitycache_port = false
   }
 
-  $email_debug = hiera('email_debug')
+  $email_debug = hiera('email_debug', true)
 
   $phantomjs_version = hiera('phantomjs_version')
 
   $web_domain = hiera('web_domain')
-  $app_admin_tenant = hiera('app_admin_tenant')
+  $app_admin_tenant = hiera('app_admin_tenant', 'admin')
   $admin_domain = "${app_admin_tenant}.${web_domain}"
 
   class { '::hilary':
     app_root_dir                  => hiera('app_root_dir'),
 
     install_method                => $install_method,
-
-    apt_package_version           => hiera('app_apt_package_version', 'present'),
-
-    archive_source_parent         => hiera('app_archive_source_parent', undef),
-    archive_source_filename       => hiera('app_archive_source_filename', undef),
-    archive_source_extension      => hiera('app_archive_source_extension', undef),
-    archive_checksum              => hiera('app_archive_checksum', undef),
-
-    git_source                    => hiera('app_git_source', 'https://github.com/oaeproject/Hilary'),
-    git_revision                  => hiera('app_git_revision', 'master'),
+    install_config                => $install_config,
 
     os_user                       => hiera('app_os_user'),
     os_group                      => hiera('app_os_group'),
