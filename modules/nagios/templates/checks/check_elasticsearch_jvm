@@ -10,10 +10,10 @@ def check_value(checkName, value, warningThreshold, criticalThreshold):
     Checks if a value reached a certain threshold
     """
     if value > criticalThreshold:
-        print "CRITICAL:%s was at %d percent" % (checkName, value)
+        print "CRITICAL:%s was at %d" % (checkName, value)
         sys.exit(2)
     elif value > warningThreshold:
-        print "WARNING:%s was at %d percent" % (checkName, value)
+        print "WARNING:%s was at %d" % (checkName, value)
         sys.exit(1)
 
 
@@ -31,12 +31,12 @@ def check_node(node):
     It is assumed that the node was retrieved with the all=true flag
     """
     # Check Garbage Collection
-    check_value('Java GC time', node['jvm']['gc']['collection_time_in_millis'], 5000, 1000)
-    check_value('Java GC ConcurrentMarpSweep time', node['jvm']['gc']['collectors']['ConcurrentMarkSweep']['collection_time_in_millis'], 5000, 1000)
-    check_value('Java GC ParNew time', node['jvm']['gc']['collectors']['ParNew']['collection_time_in_millis'], 5000, 1000)
+    check_value('Java GC time', node['jvm']['gc']['collection_time_in_millis'], 5000, 10000)
+    check_value('Java GC ConcurrentMarpSweep time', node['jvm']['gc']['collectors']['ConcurrentMarkSweep']['collection_time_in_millis'], 5000, 10000)
+    check_value('Java GC ParNew time', node['jvm']['gc']['collectors']['ParNew']['collection_time_in_millis'], 5000, 10000)
 
     # Check memory
-    check_percentage("Heap size", node['jvm']['mem']['heap_used_in_bytes'], node['jvm']['mem']['heap_committed_in_bytes'], 80, 90)
+    check_percentage("Heap size (percentage)", node['jvm']['mem']['heap_used_in_bytes'], node['jvm']['mem']['heap_committed_in_bytes'], 80, 90)
 
     # All checks clear.
     print "OK"
