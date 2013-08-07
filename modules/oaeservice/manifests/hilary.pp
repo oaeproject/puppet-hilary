@@ -88,6 +88,8 @@ class oaeservice::hilary {
 
     config_previews_phantomjs_binary        => "/opt/phantomjs-${phantomjs_version}-linux-x86_64/bin/phantomjs",
     config_previews_credentials_username    => hiera('app_admin_username', 'administrator'),
-    config_previews_credentials_password    => hiera('app_admin_password', 'administrator')
+    config_previews_credentials_password    => hiera('app_admin_password', 'administrator'),
+
+    config_servers_server_internal_address  => hiera('web_internal_address', '127.0.0.1')
   }
 }
