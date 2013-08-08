@@ -100,7 +100,9 @@ server {
     }
 
     location /api/ {
+<% if rate_limit_api -%>
         limit_req zone=addr_api burst=400;
+<% end -%>
 
         expires -1;
         proxy_set_header X-Real-IP $remote_addr;

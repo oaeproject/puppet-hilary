@@ -31,9 +31,6 @@ class hilary::install::git ($install_config, $app_root_dir = '/opt/oae') {
         environment => ['CFLAGS="-std=c99"', 'HOME=/root'],
         command     => 'npm install -d',
         logoutput   => 'on_failure',
-
-        # Exec['npm_reinstall_nodegyp'] is a dependency currently in oaeservice::deps::package::nodejs which ensures nodegyp is the proper version. It's put here because if the dependencies are not assembled properly this failure would be hard to track down
-        require     => [ File[$app_root_dir], Vcsrepo[$app_root_dir], Exec['npm_reinstall_nodegyp'] ],
     }
 
     # chown the application root to the app user again

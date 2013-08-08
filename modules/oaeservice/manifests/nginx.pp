@@ -1,17 +1,12 @@
 class oaeservice::nginx {
     include ::oaeservice::deps::common
     include ::oaeservice::deps::package::pcre
+    include ::oaeservice::deps::apt::nginx
 
     Class['::oaeservice::deps::common']         -> Class['::nginx']
     Class['::oaeservice::deps::package::pcre']  -> Class['::nginx']
 
     $web_domains_external = hiera_array('web_domains_external', false)
-
-    ::apt::source { 'nginx':
-        location    => 'http://nginx.org/packages/ubuntu/',
-        repos       => 'nginx',
-        key         => 'ABF5BD827BD9BF62',
-    }
 
     class { '::nginx':
         internal_app_ips                => hiera('app_hosts'),

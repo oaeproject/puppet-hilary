@@ -63,6 +63,8 @@
         "source_dir": "/zones/nfs/a906ce30-37bb-480c-98a5-794981b27e01/sakai-useruploads"
     },
     "app_ui_path": "/opt/3akai-ux/optimized",
+    "app_use_https": true,
+    "app_strict_https": true,
 
     "circonus_url": "https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t",
 
@@ -159,9 +161,7 @@
     "nagios_contact_alias": "OAE Monitoring",
     "nagios_contact_email": "oae-monitoring@googlegroups.com",
 
-    "oaeservice::deps::package::nodejs::nodejs_version": "0.8.25-1chl1~precise1",
-    "oaeservice::deps::package::nodejs::npm_version": "1.3.0-1chl1~precise1",
-    "oaeservice::deps::package::nodejs::nodegyp_version": "0.10.2",
+    "oaeservice::deps::package::nodejs::nodejs_version": "0.10.16-2chl1~precise1",
 
     "rabbitmq::server::version": "3.1.1-1",
     "rabbitmq::server::wipe_db_on_cookie_change": true,
