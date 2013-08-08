@@ -1,8 +1,9 @@
 class oaeservice::tsung {
     include ::oaeservice::deps::common
-    include ::oaeservice::deps::package::nodejs
     include ::oaeservice::deps::package::erlang
     include ::oaeservice::deps::package::gnuplot
+    include ::oaeservice::deps::package::graphicsmagick
+    include ::oaeservice::deps::package::nodejs
     include ::tsung::install::archive
 
     Class['::oaeservice::deps::package::erlang']    -> Class['::tsung::install::archive']
