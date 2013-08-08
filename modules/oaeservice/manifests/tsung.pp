@@ -1,4 +1,6 @@
-class oaeservice::tsung { 
+class oaeservice::tsung {
+    include ::oaeservice::deps::common
+    include ::oaeservice::deps::package::nodejs
     include ::oaeservice::deps::package::erlang
     include ::oaeservice::deps::package::gnuplot
     include ::tsung::install::archive
