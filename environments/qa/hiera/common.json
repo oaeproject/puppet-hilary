@@ -119,6 +119,7 @@
 
     "nginx::owner": "nginx",
     "nginx::group": "nginx",
+    "nginx::rate_limit_api": false,
     "nginx::ssl_policy": "allow_http",
     "nginx::version": "1.4.2-1~precise",
 
