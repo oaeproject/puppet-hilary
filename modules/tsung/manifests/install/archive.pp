@@ -10,7 +10,7 @@ class tsung::install::archive ($target_dir = '/opt/tsung', $version = '1.5.0') {
 
     exec { 'tsung_configure':
         cwd         => $tsung_src,
-        command     => './configure --prefix=/opt/tsung',
+        command     => 'configure --prefix=/opt/tsung',
         unless      => 'test -d /opt/tsung',
         require     => Archive['tsung'],
     }
