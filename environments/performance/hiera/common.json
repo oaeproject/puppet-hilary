@@ -36,12 +36,10 @@
 
     "web_domain": "oae-performance.oaeproject.org",
 
-    "app_install_method": "archive",
+    "app_install_method": "git",
     "app_install_config": {
-        "url_parent": "https://s3.amazonaws.com/oae-releases/oae-0.2.0",
-        "url_filename": "hilary-0.2.0_nodejs-0.8.25",
-        "url_extension": "tar.gz",
-        "checksum": "4a407b779ad6f4d6b2d918da6d1a2983b1bf55e5"
+        "source": "https://github.com/oaeproject/Hilary",
+        "revision": "master"
     },
 
     "app_os_user": "root",
