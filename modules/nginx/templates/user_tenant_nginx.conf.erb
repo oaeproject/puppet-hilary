@@ -138,7 +138,7 @@ server {
     error_page      503     /shared/oae/errors/maintenance.html;
 
 
-    <% if static_assets_dir -%>
+<% if static_assets_dir -%>
 
     ###################
     ## STATIC ASSETS ##
@@ -150,7 +150,7 @@ server {
         expires max;
     }
 
-    <% end -%>
+<% end -%>
 
     ##################
     ## API REQUESTS ##
@@ -183,7 +183,9 @@ server {
     }
 
     location /api/content/create {
+<% if rate_limit_api -%>
         limit_req zone=addr_api_create burst=10;
+<% end -%>
 
         expires -1;
         proxy_read_timeout 300;
@@ -192,7 +194,9 @@ server {
     }
 
     location /api/discussion/create {
+<% if rate_limit_api -%>
         limit_req zone=addr_api_create burst=10;
+<% end -%>
 
         expires -1;
         proxy_next_upstream error http_502;
@@ -200,15 +204,19 @@ server {
     }
 
     location /api/group/create {
+<% if rate_limit_api -%>
         limit_req zone=addr_api_create burst=10;
-        
+<% end -%>
+
         expires -1;
         proxy_next_upstream error http_502;
         proxy_pass http://tenantworkers;
     }
 
     location /api/ {
+<% if rate_limit_api -%>
         limit_req zone=addr_api burst=400;
+<% end -%>
 
         expires -1;
         proxy_pass http://tenantworkers;

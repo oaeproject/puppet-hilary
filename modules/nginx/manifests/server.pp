@@ -14,6 +14,7 @@ define nginx::server (
     $app_ui_path = $::nginx::app_ui_path
     $files_home = $::nginx::files_home
     $nginx_dir = $::nginx::nginx_dir
+    $rate_limit_api = $::nginx::rate_limit_api
     $ssl_policy = $::nginx::ssl_policy
     $static_assets_dir = $::nginx::static_assets_dir
 
