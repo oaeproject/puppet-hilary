@@ -16,7 +16,7 @@
 
     "app_install_method": "archive",
     "app_install_config": {
-        "url_parent": "https://s3.amazonaws.com/oae-releases/0.2.1",
+        "url_parent": "https://s3.amazonaws.com/oae-releases/oae-0.2.1",
         "url_filename": "hilary-0.2.1-33-ef13347_node-0.8.25",
         "url_extension": "tar.gz",
         "checksum": "94add9cbb33e2662c95a48b4a7a4c67e057bc247"
@@ -25,7 +25,7 @@
 
     "ux_install_method": "archive",
     "ux_install_config": {
-        "url_parent": "https://s3.amazonaws.com/oae-releases/0.2.1",
+        "url_parent": "https://s3.amazonaws.com/oae-releases/oae-0.2.1",
         "url_filename": "3akai-ux-0.2.1-13-02b753c",
         "url_extension": "tar.gz",
         "checksum": "38036f662d80e59ef455548b646a75e026f6837f"
