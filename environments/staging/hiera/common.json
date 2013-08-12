@@ -49,7 +49,7 @@
 
     "app_os_user": "root",
     "app_os_group": "root",
-    "app_hosts": [ "app0", "app1", "app2", "app3" ],
+    "app_hosts": [ "app0" ],
     "app_root_dir": "/opt/oae",
 
     "app_admin_tenant": "admin",
