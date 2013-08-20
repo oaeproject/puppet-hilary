@@ -1,4 +1,4 @@
-class dse::opscenter ($version = '3.1.1', $listen_interface = '0.0.0.0', $listen_port = 8888) {
+class dse::opscenter ($version = '3.2.1', $listen_interface = '0.0.0.0', $listen_port = 8888) {
     include ::dse::apt
 
     package { 'libssl0.9.8': ensure => installed }
