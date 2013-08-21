@@ -16,6 +16,11 @@ server {
     ssl_certificate      <%= ssl_crt_path %>;
     ssl_certificate_key  <%= ssl_key_path %>;
 
+    # Prevent BEAST attack
+    # @see http://www.kb.cert.org/vuls/id/864643
+    ssl_ciphers RC4:HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
+
 
     ######################
     ## SHARED RESOURCES ##
