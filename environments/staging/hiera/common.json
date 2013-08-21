@@ -39,6 +39,7 @@
     "deploy_user_passwd": "$6$KIxK1V/a$HpQSDSjkeh9BKsPWnFJ41pojj3ndVUJlkal8o.dpPxWHLxZYFo44OmwKVj7cm8.enpaiBodlNZ8ix/l2Wm0Ge.",
 
     "web_domain": "oae-staging.oaeproject.org",
+    "web_internal_address": "web0",
 
     "app_install_method": "archive",
     "app_install_config": {
