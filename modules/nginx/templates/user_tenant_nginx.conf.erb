@@ -49,6 +49,7 @@ server {
     rewrite ^/noscript          /shared/oae/errors/noscript.html last;
     rewrite ^/notfound          /shared/oae/errors/notfound.html last;
     rewrite ^/unavailable       /shared/oae/errors/unavailable.html last;
+
     rewrite ^/favicon.ico       /shared/oae/img/favicon.ico last;
 
 
@@ -97,6 +98,17 @@ server {
     rewrite ^/user              /ui/user.html last;
 
 
+    ######################
+    ## WIDGET RESOURCES ##
+    ######################
+
+    location /node_modules/ {
+        alias <%= app_ui_path %>/node_modules/;
+        autoindex off;
+        expires max;
+    }
+
+
     ####################
     ## DOCS RESOURCES ##
     ####################
@@ -115,17 +127,6 @@ server {
     rewrite ^/docs$                 /docs/index.html last;
     rewrite ^/docs/backend          /docs/index.html last;
     rewrite ^/docs/frontend         /docs/index.html last;
-
-
-    ######################
-    ## WIDGET RESOURCES ##
-    ######################
-
-    location /node_modules/ {
-        alias <%= app_ui_path %>/node_modules/;
-        autoindex off;
-        expires max;
-    }
 
 
     #################
@@ -152,12 +153,13 @@ server {
 
     <% end -%>
 
-    ##################
-    ## API REQUESTS ##
-    ##################
 
-    location /api/ui/staticbatch {
-        expires max;
+    #########################
+    ## APP SERVER REQUESTS ##
+    #########################
+
+    location /api/config {
+        expires 15m;
         proxy_pass http://tenantworkers;
     }
 
@@ -167,17 +169,17 @@ server {
         proxy_pass http://tenantworkers;
     }
 
-    location /api/config {
+    location /api/ui/skin {
         expires 15m;
+        proxy_pass http://tenantworkers;
+    }
+
+    location /api/ui/staticbatch {
+        expires max;
         proxy_pass http://tenantworkers;
     }
 
     location /api/ui/widgets {
-        expires 15m;
-        proxy_pass http://tenantworkers;
-    }
-
-    location /api/ui/skin {
         expires 15m;
         proxy_pass http://tenantworkers;
     }
@@ -207,12 +209,14 @@ server {
         proxy_pass http://tenantworkers;
     }
 
+    # Explicitly don't cache any other API requests
     location /api/ {
         limit_req zone=addr_api burst=400;
 
         expires -1;
         proxy_pass http://tenantworkers;
     }
+
 
     ####################
     ## FILE DOWNLOADS ##
@@ -230,9 +234,9 @@ server {
         alias <%= files_home %>;
     }
 
-    ####################
-    # Etherpad Servers #
-    ####################
+    ######################
+    ## ETHERPAD SERVERS ##
+    ######################
 
 <% internal_etherpad_ips.each_with_index do |ip, index| -%>
     location /etherpad/<%= index %> {
