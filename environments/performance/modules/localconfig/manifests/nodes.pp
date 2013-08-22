@@ -1,4 +1,14 @@
 
+#################
+## LOAD DRIVER ##
+#################
+
+node 'driver0' {
+  $nodetype = 'driver'
+  $nodesuffix = 0
+  hiera_include(classes)
+}
+
 ###############
 ## WEB PROXY ##
 ###############

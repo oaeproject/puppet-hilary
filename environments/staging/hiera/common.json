@@ -43,9 +43,9 @@
     "app_install_method": "archive",
     "app_install_config": {
         "url_parent": "https://s3.amazonaws.com/oae-releases/oae-0.2.1",
-        "url_filename": "hilary-0.2.1-33-ef13347_node-0.8.25",
+        "url_filename": "hilary-0.2.1-80-e6182ed_node-0.10.16",
         "url_extension": "tar.gz",
-        "checksum": "94add9cbb33e2662c95a48b4a7a4c67e057bc247"
+        "checksum": "a605c7fd426a88fcecdbf8d2552fe0953de9589e"
     },
 
     "app_os_user": "root",
@@ -62,14 +62,16 @@
         "source_dir": "/zones/nfs/054491a7-81ac-4586-9415-bcafd565bd4c/shared"
     },
     "app_ui_path": "/opt/3akai-ux/optimized",
+    "app_use_https": true,
+    "app_strict_https": true,
 
     "ux_root_dir": "/opt/3akai-ux",
     "ux_install_method": "archive",
     "ux_install_config": {
         "url_parent": "https://s3.amazonaws.com/oae-releases/oae-0.2.1",
-        "url_filename": "3akai-ux-0.2.1-13-02b753c",
+        "url_filename": "3akai-ux-0.2.1-82-85962ff",
         "url_extension": "tar.gz",
-        "checksum": "38036f662d80e59ef455548b646a75e026f6837f"
+        "checksum": "b615358e64d4e51d1c6693a84944316cca750171"
     },
 
     "db_cluster_name": "OAE Staging Cluster",
@@ -156,9 +158,7 @@
     "nagios_contact_alias": "OAE Monitoring",
     "nagios_contact_email": "oae-monitoring@googlegroups.com",
 
-    "oaeservice::deps::package::nodejs::nodejs_version": "0.8.25-1chl1~precise1",
-    "oaeservice::deps::package::nodejs::npm_version": "1.3.0-1chl1~precise1",
-    "oaeservice::deps::package::nodejs::nodegyp_version": "0.10.2",
+    "oaeservice::deps::package::nodejs::nodejs_version": "0.10.16-2chl1~precise1",
 
     "rabbitmq::server::version": "3.1.1-1",
     "rabbitmq::server::wipe_db_on_cookie_change": true,

@@ -35,6 +35,7 @@ class hilary (
     # Servers
     $config_servers_admin_host,
     $config_servers_use_https         = true,
+    $config_servers_strict_https      = true,
 
     # Cookie
     $config_cookie_secret,

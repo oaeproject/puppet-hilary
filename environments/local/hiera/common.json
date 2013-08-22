@@ -35,6 +35,9 @@
         "source_dir": "/vol/notinstalled"
     },
 
+    "app_use_https": false,
+    "app_strict_https": true,
+
     "ux_root_dir": "/opt/3akai-ux",
 
     "db_cluster_name": "OAE Dev Cluster",
@@ -111,9 +114,7 @@
     "hilary::config_activity_enabled": true,
     "hilary::config_previews_enabled": true,
 
-    "oaeservice::deps::package::nodejs::nodejs_version": "0.8.25-1chl1~precise1",
-    "oaeservice::deps::package::nodejs::npm_version": "1.3.0-1chl1~precise1",
-    "oaeservice::deps::package::nodejs::nodegyp_version": "0.10.2",
+    "oaeservice::deps::package::nodejs::nodejs_version": "0.10.16-2chl1~precise1",
 
     "rabbitmq::server::version": "3.1.1-1",
     "rabbitmq::server::wipe_db_on_cookie_change": true,
