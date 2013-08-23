@@ -29,5 +29,7 @@
         "url_filename": "3akai-ux-0.2.2",
         "url_extension": "tar.gz",
         "checksum": "fa9457ea8d25b73ba9e673ebd618aeb9374a087b"
-    }
+    },
+
+    "etherpad_install_method": "apt"
 }
