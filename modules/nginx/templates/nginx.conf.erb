@@ -20,8 +20,8 @@ http {
     ## PROXY SETTINGS ##
     ####################
 
-    # Only give the app server 5 seconds for a request before assuming it's down and retrying
     proxy_next_upstream error timeout http_502;
+    # Only give the app server 5 seconds for a request before assuming it's down and retrying
     proxy_connect_timeout   5;
     proxy_read_timeout      <%= base_read_timeout %>;
 
@@ -49,7 +49,7 @@ http {
     gzip_http_version 1.1;
     gzip_comp_level 5;
     gzip_proxied any;
-    gzip_types text/css text/plain text/xml application/xml application/xml+rss text/javascript application/javascript application/x-javascript application/json;
+    gzip_types application/javascript application/json application/x-javascript application/xml application/xml+rss text/css text/javascript text/plain text/xml;
 
 
     ####################
