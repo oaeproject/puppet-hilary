@@ -159,7 +159,7 @@
     "nagios_contact_alias": "OAE Monitoring",
     "nagios_contact_email": "oae-monitoring@googlegroups.com",
 
-    "oaeservice::deps::package::nodejs::nodejs_version": "0.10.16-2chl1~precise1",
+    "oaeservice::deps::package::nodejs::nodejs_version": "0.10.17-1chl1~precise1",
 
     "rabbitmq::server::version": "3.1.1-1",
     "rabbitmq::server::wipe_db_on_cookie_change": true,
