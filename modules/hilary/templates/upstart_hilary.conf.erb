@@ -10,9 +10,8 @@ stop on shutdown
 respawn
 respawn limit 10 90
 
-# The command to start the node process.
-respawn
-respawn limit 5 60
+# Upstart defaults to 1024 4096, increase it here
+limit nofile 32768 32768
 
 # The node app sometimes creates child processes.
 expect fork
