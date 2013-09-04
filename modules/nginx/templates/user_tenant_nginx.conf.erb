@@ -219,6 +219,17 @@ server {
         proxy_pass http://tenantworkers;
     }
 
+    location /api/user/import {
+        <% if rate_limit_api -%>
+            limit_req zone=addr_api_create burst=10;
+        <% end -%>
+
+        expires -1;
+        proxy_read_timeout 300;
+        proxy_next_upstream error http_502;
+        proxy_pass http://tenantworkers;
+    }
+
     # Explicitly don't cache any other API requests
     location /api/ {
 <% if rate_limit_api -%>
@@ -233,9 +244,6 @@ server {
     ####################
     ## FILE DOWNLOADS ##
     ####################
-
-    # Determines the maximum filesize that a user can upload.
-    client_max_body_size 4096M;
 
     # An internal endpoint that is used by the local file storage backend.
     # Change the alias so that it points to the directory that will contain the file bodies.

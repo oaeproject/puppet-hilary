@@ -74,6 +74,13 @@ server {
         proxy_pass http://globaladminworkers;
     }
 
+    location /api/user/import {
+        expires -1;
+        proxy_read_timeout 300;
+        proxy_next_upstream error http_502;
+        proxy_pass http://globaladminworkers;
+    }
+
     # Explicitly don't cache any other API requests
     location /api/ {
 <% if rate_limit_api -%>

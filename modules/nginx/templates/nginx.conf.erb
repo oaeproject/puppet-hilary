@@ -52,6 +52,14 @@ http {
     gzip_types application/javascript application/json application/x-javascript application/xml application/xml+rss text/css text/javascript text/plain text/xml;
 
 
+    ##########################
+    ## MAXIMUM REQUEST SIZE ##
+    ##########################
+
+    # Determines the maximum filesize that a user can upload.
+    client_max_body_size 4096M;
+
+
     ####################
     ## LOAD BALANCING ##
     ####################
