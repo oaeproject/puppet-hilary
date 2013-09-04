@@ -76,7 +76,7 @@ server {
 
     location /api/user/import {
         <% if rate_limit_api -%>
-                limit_req zone=addr_api burst=10;
+            limit_req zone=addr_api burst=10;
         <% end -%>
 
         expires -1;
@@ -87,9 +87,9 @@ server {
 
     # Explicitly don't cache any other API requests
     location /api/ {
-<% if rate_limit_api -%>
-        limit_req zone=addr_api burst=400;
-<% end -%>
+        <% if rate_limit_api -%>
+            limit_req zone=addr_api burst=400;
+        <% end -%>
 
         expires -1;
         proxy_pass http://globaladminworkers;
