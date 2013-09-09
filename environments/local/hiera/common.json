@@ -54,8 +54,6 @@
 
     "pp_os_user": "root",
     "pp_os_group": "root",
-    "phantomjs_version": "1.9.0",
-    "phantomjs_checksum": "8075fa873d8741c7ae9093c80a589a1f",
 
     "search_hosts": [ "127.0.0.1" ],
     "search_index": "0",
