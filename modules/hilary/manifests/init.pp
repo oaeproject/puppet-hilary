@@ -55,7 +55,6 @@ class hilary (
 
     # Previews
     $config_previews_enabled              = false,
-    $config_previews_phantomjs_binary     = 'phantomjs',
     $config_previews_credentials_username = 'administrator',
     $config_previews_credentials_password = 'administrator',
 
