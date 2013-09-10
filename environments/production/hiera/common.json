@@ -92,8 +92,6 @@
 
     "pp_os_user": "root",
     "pp_os_group": "root",
-    "phantomjs_version": "1.9.0",
-    "phantomjs_checksum": "8075fa873d8741c7ae9093c80a589a1f",
 
     "search_hosts": [ "search0", "search1" ],
     "search_index": "%{nodesuffix}",

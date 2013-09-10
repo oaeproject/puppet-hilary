@@ -37,8 +37,6 @@ class oaeservice::hilary {
 
   $email_debug = hiera('email_debug', true)
 
-  $phantomjs_version = hiera('phantomjs_version')
-
   $web_domain = hiera('web_domain')
   $app_admin_tenant = hiera('app_admin_tenant', 'admin')
   $admin_domain = "${app_admin_tenant}.${web_domain}"
@@ -87,7 +85,6 @@ class oaeservice::hilary {
     config_email_smtp_user                  => hiera('email_smtp_user'),
     config_email_smtp_pass                  => hiera('email_smtp_pass'),
 
-    config_previews_phantomjs_binary        => "/opt/phantomjs-${phantomjs_version}-linux-x86_64/bin/phantomjs",
     config_previews_credentials_username    => hiera('app_admin_username', 'administrator'),
     config_previews_credentials_password    => hiera('app_admin_password', 'administrator'),
 
