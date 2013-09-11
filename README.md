@@ -20,7 +20,12 @@ Clone [Hilary](https://github.com/oaeproject/Hilary), [3akai-ux](https://github.
 |-- + puppet-hilary
 ```
 
-1.2 Configure your hosts file
+1.2 Download the Oracle JDK
+
+Dependencies such as Cassandra and Elasticsearch perform best on the Oracle JDK 6. Unfortunately, we cannot automate the step that downloads the JDK itself
+as you need to accept the Oracle Binary Code License Agreement. You can download the JDK (jdk-6u45-linux-x64.bin) on [Oracle's JDK6 download page](http://www.oracle.com/technetwork/java/javasebusiness/downloads/java-archive-downloads-javase6-419409.html#jdk-6u45-oth-JPR). You should save it at ~/OAE/puppet-hilary/modules/oracle-java/files/jdk-6u45-linux-x64.bin
+
+1.3 Configure your hosts file
 
 The hosts file is a file that allows you to map fake domain names to certain IP addresses. By mapping them to
 the local loopback address we can fake multiple tenants running on one system.
@@ -32,7 +37,7 @@ Edit your hosts file (`/etc/hosts` on UNIX, C:\Windows\System32\drivers\etc\host
 127.0.0.1   tenant3.vagrant.oae
 ```
 
-1.3 Configure the amount of memory Vagrant/VirtualBox can use.
+1.4 Configure the amount of memory Vagrant/VirtualBox can use.
 
 By default the VM will be allotted 3072MB of RAM. If you do not have this much RAM available,
 you can change this in the VagrantFile.
