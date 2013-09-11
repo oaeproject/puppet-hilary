@@ -13,4 +13,3 @@ class oaeservice::deps::pp {
   package { $pp_packages: ensure => installed }
 
 }
-

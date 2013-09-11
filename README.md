@@ -11,7 +11,8 @@ It's possible to get OAE up and running on your local machine with Vagrant by fo
 1. Preparation
 
 1.1 Get the source code
-Clone Hilary, 3akai-ux and puppet-hilary and make sure there are all in the same folder. You should have something like:
+
+Clone [Hilary](https://github.com/oaeproject/Hilary), [3akai-ux](https://github.com/oaeproject/3akai-ux) and [puppet-hilary](https://github.com/oaeproject/puppet-hilary) and make sure they are all in the same folder. You should have something like:
 ```
 + OAE
 |-- + 3akai-ux
@@ -20,6 +21,7 @@ Clone Hilary, 3akai-ux and puppet-hilary and make sure there are all in the same
 ```
 
 1.2 Configure your hosts file
+
 The hosts file is a file that allows you to map fake domain names to certain IP addresses. By mapping them to
 the local loopback address we can fake multiple tenants running on one system.
 Edit your hosts file (`/etc/hosts` on UNIX, C:\Windows\System32\drivers\etc\hosts on Windows) and add the following entries.
@@ -28,19 +30,19 @@ Edit your hosts file (`/etc/hosts` on UNIX, C:\Windows\System32\drivers\etc\host
 127.0.0.1   tenant1.vagrant.oae
 127.0.0.1   tenant2.vagrant.oae
 127.0.0.1   tenant3.vagrant.oae
-127.0.0.1   tenant4.vagrant.oae
 ```
 
 1.3 Configure the amount of memory Vagrant/VirtualBox can use.
-By default the VM will be allotted 3072MB of RAM. If you do not have this much ram available,
+
+By default the VM will be allotted 3072MB of RAM. If you do not have this much RAM available,
 you can change this in the VagrantFile.
 
 2. Getting up and running
 
 cd into the `puppet-hilary` directory and run:
 ```
-vagrant init oae http://files.vagrantup.com/precise32.box
-vagrant up.
+vagrant box add oae http://files.vagrantup.com/precise32.box
+vagrant up
 ```
 This command will pull down a VirtualBox image and deploy all the necessary components onto it.
 Depending on how fast your host machine and internet connection is, this can take quite a while. Initial set-ups of 30-45 minutes are not uncommon.

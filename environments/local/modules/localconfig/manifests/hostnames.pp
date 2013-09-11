@@ -6,5 +6,5 @@ class localconfig::hostnames {
     host { 'tenant2.vagrant.oae': ip => '127.0.0.1' }
     host { 'tenant3.vagrant.oae': ip => '127.0.0.1' }
 
-
 }
+
