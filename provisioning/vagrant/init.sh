@@ -1,5 +1,23 @@
 #!/usr/bin/env bash
 
+cd /vagrant
+
+# Do a basic check to see if we have a good environment to start from
+# Check if the oracle-java binary is present
+ORACLE_JDK_INSTALLER="jdk-6u45-linux-x64.bin"
+if [ ! -f /vagrant/modules/oracle-java/files/$ORACLE_JDK_INSTALLER ] ; then
+    echo "The Oracle JDK installer is not present in the correct location or is not executable."
+    echo "Please download $ORACLE_JDK_INSTALLER from the Oracle website and place it at:"
+    echo "modules/oracle-java/files/$ORACLE_JDK_INSTALLER"
+    exit 1
+fi
+
+# Check if the installer is marked as executable
+if [ ! -x /vagrant/modules/oracle-java/files/$ORACLE_JDK_INSTALLER ] ; then
+    echo "The Oracle JDK installer was not marked as executable, marking it for you."
+    chmod 755 /vagrant/modules/oracle-java/files/$ORACLE_JDK_INSTALLER
+fi
+
 # We need puppet version 3.2.4
 PUPPET_VERSION=$(puppet help | tail -n 1 | cut -f 2 -d " ")
 if [ "${PUPPET_VERSION}" != "v3.2.4" ] ; then
@@ -36,8 +54,10 @@ if [ $STATUS_CODE -ne 0 ] ; then
     apt-get -y install git
 fi
 
+# Make sure all the submodules have been pulled down
+sh bin/pull.sh
+
 # Run puppet
-cd /vagrant
 echo "Applying puppet catalog. This might take a while (~30+ mins is not unreasonable)"
 puppet apply --verbose --debug --modulepath environments/local/modules:modules:/etc/puppet/modules --certname dev --environment local --hiera_config provisioning/vagrant/hiera.yaml site.pp
 

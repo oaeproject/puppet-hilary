@@ -6,9 +6,14 @@ Puppet configuration and environment management for the [Open Academic Environme
 
 ### Local machine / Vagrant
 
-It's possible to get OAE up and running on your local machine with Vagrant by following these steps:
+It's possible to get OAE up and running on your local machine with Vagrant and VirtualBox by following these steps:
 
 #### Preparation
+
+##### Install VirtualBox and Vagrant
+
+* Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+* Install [Vagrant](http://downloads.vagrantup.com)
 
 ##### Get the source code
 
@@ -19,11 +24,15 @@ Clone [Hilary](https://github.com/oaeproject/Hilary), [3akai-ux](https://github.
 |-- + Hilary
 |-- + puppet-hilary
 ```
+You should **NOT** attempt to use these directories straight from your host OS as they will contain linux specific compiled binaries and will not work on your host OS.
+Vice versa, do not try to share anything that you compiled on your host OS with Vagrant.
 
 ##### Download the Oracle JDK
 
 Dependencies such as Cassandra and Elasticsearch perform best on the Oracle JDK 6. Unfortunately, we cannot automate the step that downloads the JDK itself
-as you need to accept the Oracle Binary Code License Agreement. You can download the JDK (jdk-6u45-linux-x64.bin) on [Oracle's JDK6 download page](http://www.oracle.com/technetwork/java/javasebusiness/downloads/java-archive-downloads-javase6-419409.html#jdk-6u45-oth-JPR). You should save it at ~/OAE/puppet-hilary/modules/oracle-java/files/jdk-6u45-linux-x64.bin
+as you need to accept the Oracle Binary Code License Agreement.
+You can download the JDK (jdk-6u45-linux-x64.bin) on [Oracle's JDK6 download page](http://www.oracle.com/technetwork/java/javasebusiness/downloads/java-archive-downloads-javase6-419409.html#jdk-6u45-oth-JPR).
+You should save it at `~/OAE/puppet-hilary/modules/oracle-java/files/jdk-6u45-linux-x64.bin`.
 
 ##### Configure your hosts file
 
@@ -46,7 +55,7 @@ you can change this in the VagrantFile.
 
 cd into the `puppet-hilary` directory and run:
 ```
-vagrant box add oae http://files.vagrantup.com/precise32.box
+vagrant box add oae http://files.vagrantup.com/precise64.box
 vagrant up
 ```
 This command will pull down a VirtualBox image and deploy all the necessary components onto it.
