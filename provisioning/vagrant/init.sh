@@ -55,6 +55,7 @@ if [ $STATUS_CODE -ne 0 ] ; then
 fi
 
 # Make sure all the submodules have been pulled down
+cd /vagrant
 sh bin/pull.sh
 
 # Run puppet
