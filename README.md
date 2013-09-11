@@ -6,7 +6,7 @@ Puppet configuration and environment management for the [Open Academic Environme
 
 ### Local machine / Vagrant
 
-It's possible to get OAE up and running on your local machine with Vagrant and VirtualBox by following these steps:
+It's possible to get OAE up and running on your local machine using [Vagrant(http://www.vagrantup.com)] by following these steps:
 
 #### Preparation
 
@@ -18,12 +18,14 @@ It's possible to get OAE up and running on your local machine with Vagrant and V
 ##### Get the source code
 
 Clone [Hilary](https://github.com/oaeproject/Hilary), [3akai-ux](https://github.com/oaeproject/3akai-ux) and [puppet-hilary](https://github.com/oaeproject/puppet-hilary) and make sure they are all in the same folder. You should have something like:
+
 ```
 + OAE
 |-- + 3akai-ux
 |-- + Hilary
 |-- + puppet-hilary
 ```
+
 You should **NOT** attempt to use these directories straight from your host OS as they will contain linux specific compiled binaries and will not work on your host OS.
 Vice versa, do not try to share anything that you compiled on your host OS with Vagrant.
 
@@ -39,6 +41,7 @@ You should save it at `~/OAE/puppet-hilary/modules/oracle-java/files/jdk-6u45-li
 The hosts file is a file that allows you to map fake domain names to certain IP addresses. By mapping them to
 the local loopback address we can fake multiple tenants running on one system.
 Edit your hosts file (`/etc/hosts` on UNIX, C:\Windows\System32\drivers\etc\hosts on Windows) and add the following entries.
+
 ```
 127.0.0.1   admin.vagrant.oae
 127.0.0.1   tenant1.vagrant.oae
@@ -54,10 +57,12 @@ you can change this in the VagrantFile.
 #### Getting up and running
 
 cd into the `puppet-hilary` directory and run:
+
 ```
 vagrant box add oae http://files.vagrantup.com/precise64.box
 vagrant up
 ```
+
 This command will pull down a VirtualBox image and deploy all the necessary components onto it.
 Depending on how fast your host machine and internet connection is, this can take quite a while. Initial set-ups of 30-45 minutes are not uncommon.
 
