@@ -60,7 +60,7 @@ Notes:
  * The app server logs can be found at /opt/oae/server.log (or at OAE/Hilary/server.log on your host machine).
  * If you make changes to the backend code you will need to restart the app server. This can be done by ssh'ing into the client machine by running `vagrant ssh` and running `service Hilary restart`.
  * Even if you'd install all the components on your host OS, you would not be able to run the server as some of the npm modules are compiled during the provisioning step.
-
+ * If you've finished your development tasks or want to free up some resources for something else, you can run `vagrant halt` which will shutdown the VM.
 
 ### Performance
 
