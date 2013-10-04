@@ -30,11 +30,11 @@ if [ "${PUPPET_VERSION}" != "v3.2.4" ] ; then
     apt-get update
 
     echo "Updating puppet"
-    apt-get -y install puppet=3.2.4-1puppetlabs1
+    apt-get -y install puppet=3.3.0-1puppetlabs1
 fi
 
 # We need puppet/apt
-if [ ! -d /home/vagrant/.puppet/modules/apt ] ; then
+if [ ! -d /home/vagrant/.puppet ] || [ ! -d /home/vagrant/.puppet/modules ] || [ ! -d /home/vagrant/.puppet/modules/apt ]; then
     puppet module install puppetlabs/apt
 fi
 
