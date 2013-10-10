@@ -18,10 +18,10 @@ if [ ! -x /vagrant/modules/oracle-java/files/$ORACLE_JDK_INSTALLER ] ; then
     chmod 755 /vagrant/modules/oracle-java/files/$ORACLE_JDK_INSTALLER
 fi
 
-# We need puppet version 3.2.4
+# We need puppet version 3.3.1
 PUPPET_VERSION=$(puppet help | tail -n 1 | cut -f 2 -d " ")
-if [ "${PUPPET_VERSION}" != "v3.2.4" ] ; then
-    echo "Puppet was on version ${PUPPET_VERSION} but should be on version 3.2.3. Updating."
+if [ "${PUPPET_VERSION}" != "v3.3.1" ] ; then
+    echo "Puppet was on version ${PUPPET_VERSION} but should be on version 3.3.1. Updating."
 
     echo "Installing puppetlabs repo"
     cd /tmp
@@ -30,7 +30,7 @@ if [ "${PUPPET_VERSION}" != "v3.2.4" ] ; then
     apt-get update
 
     echo "Updating puppet"
-    apt-get -y install puppet=3.3.0-1puppetlabs1
+    apt-get -y install puppet=3.3.1-1puppetlabs1
 fi
 
 # We need puppet/apt
