@@ -59,10 +59,19 @@ class etherpad::install::git (
         require    => Vcsrepo["${etherpad_dir}/node_modules/ep_oae"],
     }
 
-    # Install the ep_headings plugin
+    # Install the headings plugin
     exec { "install_ep_headings":
         command     => "npm install ep_headings",
         cwd         => $etherpad_dir,
+        unless      => "npm ls ep_headings@0.1.6 | grep ep_headings",
+        require     => Exec['install_etherpad_dependencies'],
+    }
+
+    # Install the spellchecker plugin
+    exec { "install_ep_spellcheck":
+        command     => "npm install ep_headings",
+        cwd         => $etherpad_dir,
+        unless      => "npm ls ep_spellcheck@0.0.2 | grep ep_spellcheck",
         require     => Exec['install_etherpad_dependencies'],
     }
 }
