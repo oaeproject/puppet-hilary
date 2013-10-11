@@ -69,7 +69,7 @@ class etherpad::install::git (
 
     # Install the spellchecker plugin
     exec { "install_ep_spellcheck":
-        command     => "npm install ep_headings",
+        command     => "npm install ep_spellcheck",
         cwd         => $etherpad_dir,
         unless      => "npm ls ep_spellcheck@0.0.2 | grep ep_spellcheck",
         require     => Exec['install_etherpad_dependencies'],
