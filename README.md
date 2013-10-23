@@ -52,7 +52,7 @@ Edit your hosts file (`/etc/hosts` on UNIX, C:\Windows\System32\drivers\etc\host
 ##### Configure the amount of memory Vagrant/VirtualBox can use.
 
 By default the VM will be allotted 3072MB of RAM. If you do not have this much RAM available,
-you can change this in the VagrantFile.
+you can change this in the VagrantFile found in OAE/puppet-hilary.
 
 #### Getting up and running
 
@@ -76,6 +76,7 @@ Open your browser and go to http://admin.vagrant.oae:8123 and you should be pres
  * If you make changes to the backend code you will need to restart the app server. This can be done by ssh'ing into the client machine by running `vagrant ssh` and running `service Hilary restart`.
  * Even if you'd install all the components on your host OS, you would not be able to run the server as some of the npm modules are compiled during the provisioning step.
  * If you've finished your development tasks or want to free up some resources for something else, you can run `vagrant halt` which will shutdown the VM.
+ * If you restart the VM using 'vagrant up', you may need to start Hilary server manually by running 'vagrant ssh' and 'sudo service hilary start'.
 
 ### Performance
 
