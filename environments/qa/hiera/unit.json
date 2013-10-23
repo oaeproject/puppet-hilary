@@ -12,6 +12,7 @@
         "::oaeservice::ui"
     ],
 
-	"web_domain": "cam.com",
-	"app_use_https": false
+    "web_domain": "cam.com",
+    "web_internal_address": "",
+    "app_use_https": false
 }
