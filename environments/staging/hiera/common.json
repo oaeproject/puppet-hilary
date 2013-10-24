@@ -95,8 +95,8 @@
     "search_data_dir": "/data/elasticsearch",
     "search_memory_mb": 2048,
     "search_newsize_mb": 784,
-    "search_version": "0.20.6",
-    "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
+    "search_version": "0.90.5",
+    "search_checksum": "38b21f8b7d1cedd1fffe3ae928d3b06c6241ea1c",
 
     "etherpad_internal_hosts": [ "etherpad0" ],
     "etherpad_index": "%{nodesuffix}",
