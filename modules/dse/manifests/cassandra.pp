@@ -1,6 +1,6 @@
 class dse::cassandra (
     $dse_package        = 'dse-full',
-    $dse_version        = '3.0.2-1',
+    $dse_version        = '3.1.4-1',
     $owner              = 'cassandra',
     $group              = 'cassandra',
     $cluster_name       = 'Apereo OAE Cluster',
