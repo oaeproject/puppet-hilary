@@ -54,6 +54,11 @@ if [ $STATUS_CODE -ne 0 ] ; then
     apt-get -y install git
 fi
 
+# enable  multiverse repositories
+echo "enable multiverse repositories"
+sudo sed -i "/^# deb.*multiverse/ s/^# //" /etc/apt/sources.list
+sudo apt-get update
+
 # Make sure all the submodules have been pulled down
 cd /vagrant
 sh bin/pull.sh
