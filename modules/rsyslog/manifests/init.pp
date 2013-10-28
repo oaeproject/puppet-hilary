@@ -10,8 +10,8 @@ class rsyslog (
 
     file { $server_logdir:
         ensure  => directory,
-        owner   => 'root',
-        group   => 'root'
+        owner   => $owner,
+        group   => $group,
     }
 
     file { '/etc/rsyslog.conf':
@@ -39,12 +39,13 @@ class rsyslog (
         # Compress all log files that haven't been modified in over 1 day
         cron { 'compress-logs':
             ensure  => present,
-            command => "find ${server_logidr} -type f -mtime +1 -name \"*.log\" -exec bzip2 '{}' \;",
+            command => "find ${server_logdir} -type f -mtime +1 -name \"*.log\" -exec bzip2 '{}' \;",
             user    => 'root',
             target  => 'root',
             hour    => 0,
             minute  => 1
         }
+
     }
 
     service { 'rsyslog':
