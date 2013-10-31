@@ -2,7 +2,6 @@ class oaeservice::nginx {
     include ::oaeservice::deps::common
     include ::oaeservice::deps::package::pcre
     include ::oaeservice::deps::apt::nginx
-    include ::oaeservice::deps::ppa::oae
 
     Class['::oaeservice::deps::common']         -> Class['::nginx']
     Class['::oaeservice::deps::package::pcre']  -> Class['::nginx']
