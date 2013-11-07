@@ -126,7 +126,7 @@ rdbcompression yes
 rdbchecksum yes
 
 # The filename where to dump the DB
-dbfilename dump.rdb
+dbfilename <%= db_filename %>
 
 # The working directory.
 #
@@ -136,7 +136,7 @@ dbfilename dump.rdb
 # Also the Append Only File will be created inside this directory.
 # 
 # Note that you must specify a directory here, not a file name.
-dir /var/run/redis
+dir <%= working_dir %>
 
 ################################# REPLICATION #################################
 
