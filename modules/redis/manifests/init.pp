@@ -4,6 +4,8 @@ class redis (
     $eviction_maxmemory   = false,
     $eviction_policy      = false,
     $eviction_samples     = false,
+    $working_dir          = '/var/run/redis',
+    $db_filename          = 'dump.rdb',
     $slave_of             = false,
     $syslog_enabled       = false,
     $version              = '2:2.6.14-1~dotdeb.1') {
@@ -21,11 +23,16 @@ class redis (
     require => Package['redis-server']
   }
 
+  # Delete any snapshots to avoid loading stale data on cache startup
+  file { "${working_dir}/${db_filename}":
+    ensure => absent,
+  }
+
   # define the service to restart
   service { 'redis-server':
     ensure    => 'running',
     enable    => 'true',
-    require   => File['redis.conf'],
+    require   => File['redis.conf', "${working_dir}/${db_filename}"]
   }
 
 }
