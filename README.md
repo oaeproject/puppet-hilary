@@ -94,3 +94,67 @@ Our production environment. Fully scaled-out for redundancy rather than performa
 ### QA
 
 Contains the configuration for the QA / Release / Unit test servers.
+
+
+### AWS/Vagrant 
+
+Follow [Vagrant-AWS instruction](https://github.com/mitchellh/vagrant-aws) to setup vagrant for aws. Make sure that ssh is allowed default security group
+
+Modify `puppet-hilary/Vagrantfile` according to the example below. 
+Note that this example use Ubuntu 12.04 ami and a medium instance
+
+```
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  # Use the “dummy” box to host
+  config.vm.box = "dummy"
+
+  # Share the backend and front-end code with vagrant.
+  # It's assumed that Hilary and 3akai-ux are on the same level as puppet-hilary.
+  # Note that puppet will change some files in these directories
+  config.vm.synced_folder "../Hilary", "/opt/oae"
+  config.vm.synced_folder "../3akai-ux", "/opt/3akai-ux"
+
+  # Run a shell script that will do some basic bootstrapping and finally runs puppet.
+  config.vm.provision :shell, :path => "provisioning/vagrant/init.sh"
+
+  # configure aws
+  config.vm.provider :aws do |aws, override|
+    aws.access_key_id = "your access key id"
+    aws.secret_access_key = "your secret access key"
+    aws.keypair_name = "your keypair name"
+
+    aws.ami = "ami-7747d01e"
+    aws.instance_type = "m1.medium"
+    aws.tags = {
+      'Name' => 'oae-demo'
+    }
+
+    override.ssh.username = "ubuntu"
+    override.ssh.private_key_path = "full path to your private key"
+  end
+
+end
+```
+
+Change web domain in `puppet-hilary/environments/local/hiera/common.json` to match your domain names
+
+Change host names in `puppet-hilary/environments/local/modules/localconfig/manifests/hostnames.pp` to match your domain names
+
+Add the following to `puppet-hilary/provisioning/vagrant/init.sh` 
+
+```
+# enable  multiverse repositories
+echo "enable multiverse repositories"
+sudo sed -i "/^# deb.*multiverse/ s/^# //" /etc/apt/sources.list
+sudo apt-get update
+```
+Restart server (`sudo reboot`) and assocate a fix IP to the new instance if necessary
+
+Run `vagrant ssh`, and go to `/opt/oae` folder and run `sudo service hilary restart`, then wait for a few minutes, your OAE demo using aws should be ready!
+
+
+
