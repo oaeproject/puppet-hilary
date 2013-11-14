@@ -56,8 +56,8 @@ fi
 
 # Enable  multiverse repositories
 echo "Enable multiverse repositories"
-sudo sed -i "/^# deb.*multiverse/ s/^# //" /etc/apt/sources.list
-sudo apt-get update
+sed -i "/^# deb.*multiverse/ s/^# //" /etc/apt/sources.list
+apt-get update
 
 # Make sure all the submodules have been pulled down
 cd /vagrant
