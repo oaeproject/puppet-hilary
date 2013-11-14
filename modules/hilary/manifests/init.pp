@@ -152,7 +152,7 @@ class hilary (
   service { 'hilary':
     ensure   => running,
     provider => 'upstart',
-    require  => File['/etc/init/hilary.conf']
+    require  => File['/etc/init/hilary.conf', "${app_root_dir}/config.js"]
   }
 
 }
