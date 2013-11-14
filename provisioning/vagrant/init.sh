@@ -54,8 +54,8 @@ if [ $STATUS_CODE -ne 0 ] ; then
     apt-get -y install git
 fi
 
-# enable  multiverse repositories
-echo "enable multiverse repositories"
+# Enable  multiverse repositories
+echo "Enable multiverse repositories"
 sudo sed -i "/^# deb.*multiverse/ s/^# //" /etc/apt/sources.list
 sudo apt-get update
 
