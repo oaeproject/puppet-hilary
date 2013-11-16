@@ -3,5 +3,7 @@
         "::oaeservice::nagios::memory",
         "::oaeservice::opscenter",
         "::oaeservice::postfix"
-    ]
+    ],
+
+    "dse::opscenter::version": "3.2.2"
 }
