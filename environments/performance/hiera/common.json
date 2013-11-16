@@ -143,7 +143,11 @@
 
     "redis::owner": "redis",
     "redis::group": "redis",
-    "redis::version": "2:2.6.16-1~dotdeb.1",
+    "redis::version": "2.6.16-3",
+    "redis::checksums": {
+        "redis-tools": "5af52dcb3da1c4e2dd457521fb7e750d",
+        "redis-server": "e5dbeb3197630db3cf686d1c0925cd30"
+    },
 
     "rsyslog::clientOrServer": "client",
 
