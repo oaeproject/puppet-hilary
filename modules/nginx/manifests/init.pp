@@ -56,7 +56,7 @@ class nginx (
     ## CORE CONFIGURATION ##
     ########################
 
-    $nginx_config_requires = [Package['nnginx'], User[$owner]]
+    $nginx_config_requires = [Package['nginx'], User[$owner]]
     $nginx_config_path  = "${nginx_dir}/nginx.conf"
     $nginx_mimes_path   = "${nginx_dir}/nginx.mime.types"
 
