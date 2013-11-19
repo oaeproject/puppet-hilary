@@ -39,11 +39,24 @@ class nginx (
 
     package { 'nginx': ensure => $version }
 
+    group { $group:
+        ensure  => 'present',
+        require => Package['nginx'],
+    }
+
+    user { $owner:
+        ensure      => 'present',
+        groups      => $group,
+        comment     => 'This user was created by Puppet',
+        managehome  => 'true',
+        require     => Group[$group],
+    }
 
     ########################
     ## CORE CONFIGURATION ##
     ########################
 
+    $nginx_config_requires = [Package['nnginx'], User[$owner]]
     $nginx_config_path  = "${nginx_dir}/nginx.conf"
     $nginx_mimes_path   = "${nginx_dir}/nginx.mime.types"
 
@@ -52,7 +65,7 @@ class nginx (
         mode        => 0640,
         owner       => $owner,
         group       => $group,
-        require     => Package['nginx'],
+        require     => $nginx_config_requires,
     }
 
     file { $nginx_ssl_dir:
@@ -61,7 +74,7 @@ class nginx (
         owner       => $owner,
         group       => $group,
         recurse     => true,
-        require     => Package['nginx'],
+        require     => $nginx_config_requires,
     }
 
     file { $nginx_config_path:
@@ -70,7 +83,7 @@ class nginx (
         owner   => $owner,
         group   => $group,
         content => template('nginx/nginx.conf.erb'),
-        require => Package['nginx'],
+        require => $nginx_config_requires,
     }
 
     file { $nginx_mimes_path:
@@ -80,7 +93,7 @@ class nginx (
         owner   => $owner,
         group   => $group,
         content => template('nginx/nginx.mime.types'),
-        require => Package['nginx'],
+        require => $nginx_config_requires,
     }
 
 
