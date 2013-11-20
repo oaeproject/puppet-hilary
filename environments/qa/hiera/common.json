@@ -123,7 +123,7 @@
     "nginx::group": "nginx",
     "nginx::rate_limit_api": false,
     "nginx::ssl_policy": "allow_http",
-    "nginx::version": "1.4.3-1~precise",
+    "nginx::version": "1.5.6-1~precise0",
 
     "redis::owner": "redis",
     "redis::group": "redis",
