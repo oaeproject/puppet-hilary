@@ -40,7 +40,7 @@
 
     "web_domain": "oaeproject.org",
     "web_domains_external": ["collab.lib.cam.ac.uk", "oae.gatech.edu"],
-    "web_internal_address": "web0",
+    "web_internal_address": "web1",
 
     "app_install_method": "archive",
     "app_install_config": {
