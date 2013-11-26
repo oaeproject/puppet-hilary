@@ -32,6 +32,27 @@ server {
     ssl_ciphers RC4:HIGH:!aNULL:!MD5;
     ssl_prefer_server_ciphers on;
 
+
+    #####################
+    ## BROWSER SUPPORT ##
+    #####################
+
+    set $unsupported_browser_rewrite     do_not_perform;
+
+    if ($ancient_browser){
+        set $unsupported_browser_rewrite   perform;
+    }
+
+    if ($uri ~* (png|css|woff)$) {
+        set $unsupported_browser_rewrite   do_not_perform;
+    }
+
+    if ($unsupported_browser_rewrite = perform){
+        rewrite  ^  /shared/oae/errors/unsupported.html;
+        break;
+    }
+
+
     ######################
     ## SHARED RESOURCES ##
     ######################
