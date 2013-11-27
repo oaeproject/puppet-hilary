@@ -217,17 +217,6 @@ node 'proxy0' inherits proxy {
 
 
 
-#################
-## SYSLOG NODE ##
-#################
-
-node 'syslog' {
-  $nodetype = 'syslog'
-  hiera_include(classes)
-}
-
-
-
 #############
 ## BASTION ##
 #############
@@ -236,6 +225,7 @@ node 'bastion' {
   $nodetype = 'bastion'
   hiera_include(classes)
 }
+
 
 
 ###################
