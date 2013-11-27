@@ -71,7 +71,7 @@ cd $PACKAGE && \
 ruby setup.rb
 
 update-alternatives --install /usr/bin/gem gem /usr/bin/gem1.8 1
-gem install stomp
+gem install stomp -v 1.2.10
 
 # Open up the puppet devel repos
 sed -i 's/# deb /deb /g' /etc/apt/sources.list.d/puppetlabs.list

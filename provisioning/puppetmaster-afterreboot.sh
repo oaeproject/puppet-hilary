@@ -355,7 +355,7 @@ sed -i 's/# deb /deb /g' /etc/apt/sources.list.d/puppetlabs.list
 apt-get update
 
 # mcollective packages
-gem install stomp
+gem install stomp -v 1.2.10
 apt-get -y install mcollective mcollective-client
 
 # mcollective plugins
