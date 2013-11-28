@@ -64,7 +64,7 @@
     },
     "app_ui_path": "/opt/3akai-ux/optimized",
     "app_use_https": true,
-    "app_strict_https": true,
+    "app_strict_https": false,
 
     "ux_root_dir": "/opt/3akai-ux",
     "ux_install_method": "archive",
