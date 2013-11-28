@@ -199,6 +199,17 @@ server {
         proxy_pass http://tenantworkers;
     }
 
+    location ~* /api/content/([^\/]+)/previews {
+<% if rate_limit_api -%>
+        limit_req zone=addr_api_create burst=10;
+<% end -%>
+
+        expires -1;
+        proxy_read_timeout 300;
+        proxy_next_upstream error http_502;
+        proxy_pass http://tenantworkers;
+    }
+
     location /api/discussion/create {
 <% if rate_limit_api -%>
         limit_req zone=addr_api_create burst=10;
