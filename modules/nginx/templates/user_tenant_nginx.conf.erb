@@ -205,7 +205,7 @@ server {
 <% end -%>
 
         expires -1;
-        proxy_read_timeout 300;
+        proxy_read_timeout 1200;
         proxy_next_upstream error http_502;
         proxy_pass http://tenantworkers;
     }
