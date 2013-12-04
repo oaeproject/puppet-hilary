@@ -26,9 +26,9 @@
     "ux_install_method": "archive",
     "ux_install_config": {
         "url_parent": "https://s3.amazonaws.com/oae-releases/oae-2.0.0",
-        "url_filename": "3akai-ux-2.0.0-161-9b604c9",
+        "url_filename": "3akai-ux-2.0.0-163-97c834d",
         "url_extension": "tar.gz",
-        "checksum": "de5911fcedc095005c0116bad38d4678e298ad12"
+        "checksum": "c72c80f7ead1c5e3bf21f37d32fe8d6619a2204d"
     },
 
     "etherpad_install_method": "apt"
