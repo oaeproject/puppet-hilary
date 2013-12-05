@@ -112,11 +112,7 @@
 
     "redis::owner": "redis",
     "redis::group": "redis",
-    "redis::version": "2.8.4-2",
-    "redis::checksums": {
-        "redis-tools": "26de0edf1733d52f8c8e3da1cec8939c",
-        "redis-server": "9549c1d35e6d44fed5cf8b4d60ca152d"
-    },
+    "redis::version": "2:2.8.2-rwky1~precise",
 
     "hilary::config_activity_enabled": true,
     "hilary::config_previews_enabled": true,
