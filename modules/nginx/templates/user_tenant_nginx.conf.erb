@@ -162,6 +162,10 @@ server {
     ## APP SERVER REQUESTS ##
     #########################
 
+    location /api/auth/shibboleth/callback {
+        proxy_read_timeout 1800;
+    }
+
     location /api/config {
         expires 15m;
         proxy_pass http://tenantworkers;
