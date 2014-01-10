@@ -163,7 +163,7 @@ server {
     #########################
 
     location /api/auth/shibboleth/callback {
-        proxy_read_timeout 1800;
+        proxy_read_timeout 120;
         proxy_next_upstream error http_502;
         proxy_pass http://tenantworkers;
     }
