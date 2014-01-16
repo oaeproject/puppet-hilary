@@ -22,6 +22,24 @@ node 'qa2' {
     hiera_include(classes)
 }
 
+node 'qa3' {
+    $nodetype = 'qa'
+    $nodesuffix = 3
+    hiera_include(classes)
+}
+
+node 'qa4' {
+    $nodetype = 'qa'
+    $nodesuffix = 4
+    hiera_include(classes)
+}
+
+node 'qa5' {
+    $nodetype = 'qa'
+    $nodesuffix = 5
+    hiera_include(classes)
+}
+
 node 'unit0' {
     $nodetype = 'unit'
     $nodesuffix = 0
