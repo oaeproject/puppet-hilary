@@ -63,15 +63,15 @@ service nginx restart
 # Create an 'oae' tenant.
 echo ""
 echo "Creating an 'oae' tenant and disabling reCaptcha"
-ADMIN_COOKIE=$(curl -s -e "/" --cookie-jar - -d"username=administrator" -d"password=administrator" https://<%= admin_host %>/api/auth/login | grep connect.sess | cut -f 7)
-curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d "alias=oae" -d"displayName=Open Academic Environment" -d"host=oae.<%= web_domain %>" https://<%= admin_host %>/api/tenant/create
+ADMIN_COOKIE=$(curl --insecure -s -e "/" --cookie-jar - -d"username=administrator" -d"password=administrator" https://<%= admin_host %>/api/auth/login | grep connect.sess | cut -f 7)
+curl --insecure --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d "alias=oae" -d"displayName=Open Academic Environment" -d"host=oae.<%= web_domain %>" https://<%= admin_host %>/api/tenant/create
 
 # Disable reCaptcha
-curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d "oae-principals/recaptcha/enabled=false" https://<%= admin_host %>/api/config/oae
+curl --insecure --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d "oae-principals/recaptcha/enabled=false" https://<%= admin_host %>/api/config/oae
 
 if [[ "<%= flickr_api_key %>" != "unset" ]] ; then
     # Configuring the Flickr and SlideShare Preview Processor
-    curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"oae-preview-processor/flickr/apikey=<%=flickr_api_key %>" -d"oae-preview-processor/flickr/apisecret=<%=flickr_api_secret %>" -d"oae-preview-processor/slideshare/sharedsecret=<%=slideshare_shared_secret %>" -d"oae-preview-processor/slideshare/apikey=<%= slideshare_api_key %>" https://<%= admin_host %>/api/config
+    curl --insecure --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"oae-preview-processor/flickr/apikey=<%=flickr_api_key %>" -d"oae-preview-processor/flickr/apisecret=<%=flickr_api_secret %>" -d"oae-preview-processor/slideshare/sharedsecret=<%=slideshare_shared_secret %>" -d"oae-preview-processor/slideshare/apikey=<%= slideshare_api_key %>" https://<%= admin_host %>/api/config
 fi
 
 # Performing a data load.
