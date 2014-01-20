@@ -2,7 +2,7 @@ Alias /munin /var/cache/munin/www
 <Directory /var/cache/munin/www>
     Order allow,deny
     Allow from all
-    Options None
+    Options +Indexes
 
     AuthName "Munin Access"
     AuthType Basic

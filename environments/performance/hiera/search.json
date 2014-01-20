@@ -1,5 +1,6 @@
 {
     "classes": [
-        "::oaeservice::elasticsearch"
+        "::oaeservice::elasticsearch",
+        "::oaeservice::munin::elasticsearch"
     ]
 }

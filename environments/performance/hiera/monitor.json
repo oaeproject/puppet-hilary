@@ -1,6 +1,7 @@
 {
     "classes": [
-        "::oaeservice::opscenter"
+        "::oaeservice::opscenter",
+        "::oaeservice::munin::master"
     ],
 
     "dse::opscenter::version": "3.2.2"

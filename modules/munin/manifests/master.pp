@@ -6,8 +6,13 @@ class munin::master (
     $data_directory = '/data/munin'
   ) {
 
+  package { 'munin_apache2':
+    name   => 'apache2',
+    ensure => installed,
+  }
+
   package { 'munin':
-    ensure => installed
+    ensure => installed,
   }
 
   file { '/etc/munin/munin.conf':
@@ -31,14 +36,19 @@ class munin::master (
   file { '/etc/apache2/sites-enabled/000-munin':
     ensure  => present,
     content => template('munin/000-munin'),
-    notify  => Service['apache2'],
-    require => Package['munin'],
+    require => [ Package['munin'], Package['munin_apache2'] ],
+    notify  => Service['munin_apache2'],
   }
 
   file { '/etc/munin/htpasswd.users':
     ensure  => present,
     content => "$http_username:$http_password",
     require => Package['munin'],
+  }
+
+  service { 'munin_apache2':
+    name    => 'apache2',
+    ensure  => running,
   }
 
 }
