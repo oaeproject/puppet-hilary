@@ -46,7 +46,7 @@
         "url_parent": "https://s3.amazonaws.com/oae-releases/oae-4.0.0",
         "url_filename": "hilary-4.0.0_node-0.10.17",
         "url_extension": "tar.gz",
-        "checksum": "9a0b9bbff6b48f79521cf8b547dfe5e3f2111ef0"
+        "checksum": "7fd68a04976c624a351934513462920076fcd7e8"
     },
 
     "app_os_user": "root",
