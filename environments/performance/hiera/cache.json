@@ -1,4 +1,8 @@
 {
-    "classes": [ "::oaeservice::redis" ],
+    "classes": [
+        "::oaeservice::redis",
+        "::oaeservice::nagios::redis",
+        "::oaeservice::munin::redis"
+    ],
     "redis::syslog_enabled": true
 }

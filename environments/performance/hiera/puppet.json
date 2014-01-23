@@ -1,6 +1,7 @@
 {
     "classes": [
         "::oaeservice::puppet",
-        "::oaeservice::oaefabric"
+        "::oaeservice::oaefabric",
+        "::oaeservice::nagios::server"
     ]
 }
