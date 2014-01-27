@@ -4,5 +4,5 @@
         "::oaeservice::munin::master"
     ],
 
-    "dse::opscenter::version": "3.2.2"
+    "dse::opscenter::version": "4.0.2"
 }

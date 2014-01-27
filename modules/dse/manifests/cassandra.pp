@@ -21,7 +21,6 @@ class dse::cassandra (
     ensure => $dse_version
   }
 
-
   package { 'dse-libhadoop-native':
     ensure  => $dse_version,
     require => Package[$dse_base_packages],
