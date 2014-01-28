@@ -201,8 +201,6 @@ node 'proxy0' inherits proxy {
   hiera_include(classes)
 }
 
-
-
 ###################
 ## UTILITY NODES ##
 ###################
@@ -214,5 +212,10 @@ node 'puppet' {
 
 node 'monitor' {
   $nodetype = 'monitor'
+  hiera_include(classes)
+}
+
+node 'syslog' {
+  $nodetype = 'syslog'
   hiera_include(classes)
 }

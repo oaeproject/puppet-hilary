@@ -1,9 +1,21 @@
 {
     "classes": [
         "::oaeservice::deps::package::nodejs",
-        "::oaeservice::nagios::memory"
+        "::oaeservice::nagios::memory",
+        "::oaeservice::backup::log"
     ],
     "rsyslog::clientOrServer": "server",
+
+    "duplicity::params::pubkey_id": "471DE501",
+    "duplicity::params::bucket": "oae-log-backup",
+    "duplicity::params::excludes": ["**/*.log"],
+    "duplicity::params::hour": 4,
+    "duplicity::params::minute": 0,
+    "duplicity::params::full_if_older_than": "30D",
+    "duplicity::params::remove_older_than": "3M",
+    "duplicity::params::mail_to": "oae-monitoring@googlegroups.com",
+    "duplicity::params::mail_subject_success": "[syslog backup] SUCCESS: Successfully backed up syslog data to S3",
+    "duplicity::params::mail_subject_error": "[syslog backup] ERROR: Failed to back up syslog data to S3",
 
     "nagios_hostgroup": "misc"
 }
