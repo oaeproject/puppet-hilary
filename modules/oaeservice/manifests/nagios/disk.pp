@@ -11,6 +11,14 @@ class oaeservice::nagios::disk {
     target              => "/etc/nagios3/conf.d/puppet/services/$hostname-check-disk-tmp.cfg",
   }
 
+  @@nagios_service { "${hostname}_check_disk_root":
+    use                 => "generic-service",
+    service_description => "Disk::Root",
+    host_name           => "$hostname",
+    check_command       => "check_nrpe_1arg!check_disk_root",
+    target              => "/etc/nagios3/conf.d/puppet/services/$hostname-check-disk-root.cfg",
+  }
+
   @@nagios_service { "${hostname}_check_disk_data":
     use                 => "generic-service",
     service_description => "Disk::Data",

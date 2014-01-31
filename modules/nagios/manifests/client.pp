@@ -170,4 +170,22 @@ class nagios::client (
     group   => 'nagios',
     require => Package[$packages],
   }
+
+  # Create a check that connects to redis on the local port
+  file { '/usr/lib/nagios/plugins/check_redis_port':
+    content => template('nagios/checks/check_redis_port'),
+    mode    => 0555,
+    owner   => 'nagios',
+    group   => 'nagios',
+    require => Package[$packages],
+  }
+
+  # Create a check that monitors the health of the haproxy proxied servers
+  file { '/usr/lib/nagios/plugins/check_haproxy_status':
+    content => template('nagios/checks/check_haproxy_status'),
+    mode    => 0555,
+    owner   => 'nagios',
+    group   => 'nagios',
+    require => Package[$packages],
+  }
 }
