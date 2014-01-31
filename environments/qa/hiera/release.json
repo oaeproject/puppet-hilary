@@ -17,9 +17,9 @@
     "app_install_method": "archive",
     "app_install_config": {
         "url_parent": "https://s3.amazonaws.com/oae-releases/oae-4.1.0",
-        "url_filename": "hilary-4.1.0_node-0.10.17",
+        "url_filename": "hilary-4.1.1_node-0.10.17",
         "url_extension": "tar.gz",
-        "checksum": "faecf37b2f24151fd3fe0a2e6e7455960caa35c9"
+        "checksum": "1e51b85df45aefd0304cfaf12b918f8fc8797a0c"
     },
     "app_ui_path": "/opt/3akai-ux/optimized",
 
