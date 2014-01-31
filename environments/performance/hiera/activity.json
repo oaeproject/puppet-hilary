@@ -4,6 +4,5 @@
         "::oaeservice::ui"
     ],
 
-    "email_debug": false,
     "hilary::config_activity_enabled": true
 }

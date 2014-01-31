@@ -7,6 +7,7 @@
         "::oaeservice::nagios::memory"
     ],
 
+    "email_debug": false,
     "hilary::config_activity_enabled": true,
     "nagios_hostgroup": "activityservers"
 }
