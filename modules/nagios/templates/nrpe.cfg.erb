@@ -277,5 +277,5 @@ command[check_elasticsearch_jvm]=/usr/lib/nagios/plugins/check_elasticsearch_jvm
 command[check_nginx_running]=/usr/lib/nagios/plugins/check_procs -c 1:15 -C nginx
 
 # HAProxy checks
-command[check_haproxy_running]=/usr/lib/nagios/plugins/check_procs -C haproxy
+command[check_haproxy_running]=/usr/lib/nagios/plugins/check_procs -c 1:1 -C haproxy
 command[check_haproxy_status]=/usr/lib/nagios/plugins/check_haproxy_status
