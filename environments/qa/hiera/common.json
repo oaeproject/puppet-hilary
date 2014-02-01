@@ -100,6 +100,9 @@
 
     "email_debug": true,
     "email_customEmailTemplatesDir": "null",
+    "email_deduplicationInterval": 604800,
+    "email_throttleTimespan": 120,
+    "email_throttleCount": 10,
     "email_transport": "SMTP",
     "email_sendmail_path": "/usr/sbin/sendmail",
     "email_smtp_service": "unset",
