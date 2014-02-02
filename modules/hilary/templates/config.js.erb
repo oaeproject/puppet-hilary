@@ -360,8 +360,10 @@ config.email = {
     'debug': <%= config_email_debug %>,
     'customEmailTemplatesDir': <%= config_email_customEmailTemplatesDir %>,
     'deduplicationInterval': <%= config_email_deduplicationInterval %>,
-    'throttleTimespan': <%= config_email_throttleTimespan %>,
-    'throttleCount': <%= config_email_throttleCount %>,
+    'throttling': {
+        'count': <%= config_email_throttleCount %>,
+        'timespan': <%= config_email_throttleTimespan %>
+    },
     'transport': '<%= config_email_transport %>',
     'sendmailTransport': {
         'path': '<%= config_email_sendmail_path %>'
