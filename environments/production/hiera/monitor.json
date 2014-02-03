@@ -3,10 +3,11 @@
         "::oaeservice::postfix",
         "::oaeservice::opscenter",
         "::oaeservice::backup::userfiles",
+        "::oaeservice::munin::master",
         "::oaeservice::nagios::memory"
     ],
 
-    "dse::opscenter::version": "3.2.2",
+    "dse::opscenter::version": "4.0.2",
 
     "duplicity::params::pubkey_id": "471DE501",
     "duplicity::params::bucket": "userfiles-backup",

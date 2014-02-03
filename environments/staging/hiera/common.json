@@ -43,10 +43,10 @@
 
     "app_install_method": "archive",
     "app_install_config": {
-        "url_parent": "https://s3.amazonaws.com/oae-releases/oae-2.0.0",
-        "url_filename": "hilary-2.0.0_node-0.10.17",
+        "url_parent": "https://s3.amazonaws.com/oae-releases/oae-4.1.0",
+        "url_filename": "hilary-4.1.1_node-0.10.17",
         "url_extension": "tar.gz",
-        "checksum": "1e634dfd049dd82dd0b4f5fe9604a60e646893d0"
+        "checksum": "1e51b85df45aefd0304cfaf12b918f8fc8797a0c"
     },
 
     "app_os_user": "root",
@@ -69,10 +69,10 @@
     "ux_root_dir": "/opt/3akai-ux",
     "ux_install_method": "archive",
     "ux_install_config": {
-        "url_parent": "https://s3.amazonaws.com/oae-releases/oae-2.0.0",
-        "url_filename": "3akai-ux-2.0.0",
+        "url_parent": "https://s3.amazonaws.com/oae-releases/oae-4.1.0",
+        "url_filename": "3akai-ux-4.1.0",
         "url_extension": "tar.gz",
-        "checksum": "d79edea490aa18e1a39ea595d0cdae231422b9a6"
+        "checksum": "78535c70822aa893629d1ef156b697f2e04eb972"
     },
 
     "db_cluster_name": "OAE Staging Cluster",

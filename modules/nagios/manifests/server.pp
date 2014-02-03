@@ -39,6 +39,7 @@ class nagios::server (
                             '/etc/nagios3/conf.d/services_nagios2.cfg',
                             '/etc/nagios3/conf.d/extinfo_nagios2.cfg',
                             '/etc/nagios3/conf.d/generic-service_nagios2.cfg',
+                            '/etc/nagios3/conf.d/generic-host_nagios2.cfg',
                             '/etc/nagios3/commands.cfg',
                           ]
 
@@ -153,8 +154,8 @@ class nagios::server (
 
   # Overwrite the generic service
   nagios_service { 'generic-service':
-    target                        => '/etc/nagios3/conf.d/puppet/generic-command.cfg',
-    require                       =>  File[$nagios_directories],
+    target                        =>   '/etc/nagios3/conf.d/puppet/generic-command.cfg',
+    require                       =>   File[$nagios_directories],
     name                          =>   'generic-service',
     active_checks_enabled         =>   1,       # Active service checks are enabled
     passive_checks_enabled        =>   1,       # Passive service checks are enabled/accepted
@@ -178,6 +179,30 @@ class nagios::server (
     notification_period           =>   '24x7',
     notification_options          =>   'w,u,c,r,f,s',
     contact_groups                =>   'oae-admins',
+    register                      =>   '0',     # Active service checks are enabled
+  }
+
+  # Overwrite the generic host
+  nagios_host { 'generic-host':
+    target                        =>  '/etc/nagios3/conf.d/puppet/generic-host.cfg',
+    require                       =>  File[$nagios_directories],
+    name                          =>  'generic-host',
+    active_checks_enabled         =>   1,       # Active host checks are enabled
+    passive_checks_enabled        =>   1,       # Passive host checks are enabled/accepted
+    notifications_enabled         =>   1,       # Host notifications are enabled
+    event_handler_enabled         =>   1,       # Host event handler is enabled
+    flap_detection_enabled        =>   1,       # Flap detection is enabled
+    failure_prediction_enabled    =>   1,       # Failure prediction is enabled
+    process_perf_data             =>   1,       # Process performance data
+    retain_status_information     =>   1,       # Retain status information across program restarts
+    retain_nonstatus_information  =>   1,       # Retain non-status information across program restarts
+    notification_interval         =>   60,      # This directive is used to define the number of "time units" to wait before re-notifying a contact that this service is still in a non-OK state. Unless you've changed the interval_length directive from the default value of 60, this number will mean minutes. If you set this value to 0, Nagios will not re-notify contacts about problems for this service - only one problem notification will be sent out.
+    first_notification_delay      =>   0,       # This directive is used to define the number of "time units" to wait before sending out the first problem notification when this host enters a non-UP state. Unless you've changed the interval_length directive from the default value of 60, this number will mean minutes. If you set this value to 0, Nagios will start sending out notifications immediately.
+    max_check_attempts            =>   3,       #    This directive is used to define the number of times that Nagios will retry the host check command if it returns any state other than an OK state. Setting this value to 1 will cause Nagios to generate an alert without retrying the host check. Note: If you do not want to check the status of the host, you must still set this to a minimum value of 1. To bypass the host check, just leave the check_command option blank.
+    check_command                 =>   'check-host-alive',
+    contact_groups                =>   'oae-admins',
+    notification_period           =>   '24x7',
+    notification_options          =>   'd,u,r,f,s',
     register                      =>   '0',     # Active service checks are enabled
   }
 

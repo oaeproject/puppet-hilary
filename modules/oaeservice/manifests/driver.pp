@@ -4,9 +4,9 @@ class oaeservice::driver {
     include ::oaeservice::deps::package::gnuplot
     include ::oaeservice::deps::package::graphicsmagick
     include ::oaeservice::deps::package::nodejs
-    include ::tsung::install::archive
+    include ::tsung::install::git
 
-    Class['::oaeservice::deps::package::erlang']    -> Class['::tsung::install::archive']
+    Class['::oaeservice::deps::package::erlang']    -> Class['::tsung::install::git']
     Class['::oaeservice::deps::package::git']       -> Vcsrepo<| |>
 
 
