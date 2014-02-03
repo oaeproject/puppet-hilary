@@ -6,5 +6,7 @@
         "::oaeservice::nagios::memory",
         "::oaeservice::nagios::puppet",
         "::oaeservice::nagios::server"
-    ]
+    ],
+
+    "nagios_hostgroup": "misc"
 }
