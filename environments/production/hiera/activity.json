@@ -5,7 +5,7 @@
         "::oaeservice::postfix",
         "::oaeservice::nagios::hilary",
         "::oaeservice::nagios::memory",
-        "::oaeservice::nagios::postfix"
+        "::oaeservice::nagios::mail"
     ],
 
     "email_debug": false,

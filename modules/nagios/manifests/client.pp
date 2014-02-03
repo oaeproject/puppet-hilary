@@ -188,4 +188,13 @@ class nagios::client (
     group   => 'nagios',
     require => Package[$packages],
   }
+
+  # Create a check that monitors the amount of emails we've sent
+  file { '/usr/lib/nagios/plugins/check_mails_sent':
+    content => template('nagios/checks/check_mails_sent'),
+    mode    => 0555,
+    owner   => 'nagios',
+    group   => 'nagios',
+    require => Package[$packages],
+  }
 }
