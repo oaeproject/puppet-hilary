@@ -1,3 +1,10 @@
 {
-    "classes": [ "::oaeservice::mq" ]
+    "classes": [
+        "::oaeservice::mq",
+        "::oaeservice::munin::rabbitmq",
+        "::oaeservice::nagios::memory",
+        "::oaeservice::nagios::rabbitmq"
+    ],
+
+    "nagios_hostgroup": "misc"
 }

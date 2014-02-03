@@ -4,8 +4,13 @@
         "::oaeservice::deps::package::samlparser",
         "::oaeservice::hilary",
         "::oaeservice::hilary::files",
+        "::oaeservice::nagios::disk::shared",
+        "::oaeservice::nagios::hilary",
+        "::oaeservice::nagios::memory",
         "::oaeservice::ui",
         
         "::localconfig::ordering::app"
-    ]
+    ],
+
+    "nagios_hostgroup": "appservers"
 }

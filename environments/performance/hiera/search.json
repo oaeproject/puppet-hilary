@@ -1,5 +1,8 @@
 {
     "classes": [
-        "::oaeservice::elasticsearch"
+        "::oaeservice::elasticsearch",
+        "::oaeservice::munin::elasticsearch",
+        "::oaeservice::nagios::elasticsearch",
+        "::oaeservice::nagios::memory"
     ]
 }

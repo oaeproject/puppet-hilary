@@ -1,5 +1,9 @@
 {
-    "classes": ["::oaeservice::haproxy"],
+    "classes": [
+        "::oaeservice::haproxy",
+        "::oaeservice::nagios::memory",
+        "::oaeservice::nagios::proxy"
+    ],
 
     "haproxy::version": "1.4.18-0ubuntu1.2",
     "haproxy::template": "oaeservice/haproxy/haproxy.cfg.erb",
