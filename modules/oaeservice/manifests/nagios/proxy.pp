@@ -12,6 +12,14 @@ class oaeservice::nagios::proxy {
         target              => "/etc/nagios3/conf.d/puppet/services/$hostname-check-haproxy-running.cfg",
     }
 
+    @@nagios_service { "${hostname}_check_haproxy_status":
+        use                 => "generic-service",
+        service_description => "HAProxy::Status",
+        host_name           => "$hostname",
+        check_command       => "check_nrpe_1arg!check_haproxy_status",
+        target              => "/etc/nagios3/conf.d/puppet/services/$hostname-check-haproxy-status.cfg",
+    }
+
     @@nagios_service { "${hostname}_check_redis_cache_port":
         use                 => "generic-service",
         service_description => "Redis::Cache::Alive",
