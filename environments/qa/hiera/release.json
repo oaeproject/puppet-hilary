@@ -19,7 +19,7 @@
         "url_parent": "https://s3.amazonaws.com/oae-releases/oae-4.1.0",
         "url_filename": "hilary-4.1.2_node-0.10.17",
         "url_extension": "tar.gz",
-        "checksum": "6a32f09da8b719941494eab0eab5375c0aa17b81"
+        "checksum": "069b701c77fe2a934271f7f61785c48a6de79d6f"
     },
     "app_ui_path": "/opt/3akai-ux/optimized",
 
