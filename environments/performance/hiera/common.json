@@ -8,6 +8,7 @@
         "::oaeservice::munin::client",
         "::oaeservice::nagios",
         "::oaeservice::nagios::disk",
+        "::oaeservice::nagios::memory",
         "::oaeservice::ssh",
         "::oaeservice::users::admin",
         "::oaeservice::users::deploy"

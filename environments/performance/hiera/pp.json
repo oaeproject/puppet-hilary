@@ -2,7 +2,6 @@
     "classes": [
         "::oaeservice::hilary",
         "::oaeservice::nagios::hilary",
-        "::oaeservice::nagios::memory",
         "::oaeservice::ui"
     ],
 

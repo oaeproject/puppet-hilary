@@ -3,8 +3,7 @@
         "::oaeservice::postfix",
         "::oaeservice::opscenter",
         "::oaeservice::backup::userfiles",
-        "::oaeservice::munin::master",
-        "::oaeservice::nagios::memory"
+        "::oaeservice::munin::master"
     ],
 
     "dse::opscenter::version": "4.0.2",

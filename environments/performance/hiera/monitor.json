@@ -1,8 +1,7 @@
 {
     "classes": [
         "::oaeservice::opscenter",
-        "::oaeservice::munin::master",
-        "::oaeservice::nagios::memory"
+        "::oaeservice::munin::master"
     ],
 
     "dse::opscenter::version": "4.0.2"

@@ -2,8 +2,7 @@
     "classes": [
         "::oaeservice::elasticsearch",
         "::oaeservice::munin::elasticsearch",
-        "::oaeservice::nagios::elasticsearch",
-        "::oaeservice::nagios::memory"
+        "::oaeservice::nagios::elasticsearch"
     ],
 
     "nagios_hostgroup": "searchservers"

@@ -4,7 +4,6 @@
         "::oaeservice::ui",
         "::oaeservice::postfix",
         "::oaeservice::nagios::hilary",
-        "::oaeservice::nagios::memory",
         "::oaeservice::nagios::mail"
     ],
 

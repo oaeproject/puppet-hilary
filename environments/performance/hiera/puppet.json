@@ -3,7 +3,6 @@
         "::oaeservice::puppet",
         "::oaeservice::oaefabric",
         "::oaeservice::munin::master",
-        "::oaeservice::nagios::memory",
         "::oaeservice::nagios::puppet",
         "::oaeservice::nagios::server"
     ],

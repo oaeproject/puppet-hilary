@@ -6,7 +6,6 @@
         "::oaeservice::hilary::files",
         "::oaeservice::nagios::disk::shared",
         "::oaeservice::nagios::hilary",
-        "::oaeservice::nagios::memory",
         "::oaeservice::ui",
         
         "::localconfig::ordering::app"

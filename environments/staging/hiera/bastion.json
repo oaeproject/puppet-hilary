@@ -1,7 +1,6 @@
 {
     "classes": [
         "::oaeservice::firewall::ssh",
-        "::oaeservice::nagios::memory",
         "::oaeservice::oaefabric"
     ],
 

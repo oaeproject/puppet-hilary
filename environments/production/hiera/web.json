@@ -5,8 +5,7 @@
         "::oaeservice::hilary::files",
         "::oaeservice::ui",
         "::oaeservice::nagios::nginx",
-        "::oaeservice::nagios::disk::shared",
-        "::oaeservice::nagios::memory"
+        "::oaeservice::nagios::disk::shared"
     ],
     "rsyslog::imfiles": [
         {

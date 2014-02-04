@@ -1,7 +1,6 @@
 {
     "classes": [
         "::oaeservice::haproxy",
-        "::oaeservice::nagios::memory",
         "::oaeservice::nagios::proxy"
     ],
 

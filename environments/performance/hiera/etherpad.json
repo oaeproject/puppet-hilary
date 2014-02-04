@@ -1,7 +1,6 @@
 {
     "classes": [
-        "::oaeservice::etherpad",
-        "::oaeservice::nagios::memory"
+        "::oaeservice::etherpad"
     ],
 
     "nagios_hostgroup": "etherpadservers"

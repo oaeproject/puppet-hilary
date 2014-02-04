@@ -1,6 +1,5 @@
 {
     "classes": [
-        "::oaeservice::nagios::memory",
         "::oaeservice::opscenter",
         "::oaeservice::postfix"
     ],
