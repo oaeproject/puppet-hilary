@@ -46,9 +46,9 @@
     "app_install_method": "archive",
     "app_install_config": {
         "url_parent": "https://s3.amazonaws.com/oae-releases/oae-4.1.0",
-        "url_filename": "hilary-4.1.2_node-0.10.17",
+        "url_filename": "hilary-4.1.3_node-0.10.17",
         "url_extension": "tar.gz",
-        "checksum": "069b701c77fe2a934271f7f61785c48a6de79d6f"
+        "checksum": "ea75e0436df86ec9ea69565ddaf19f6fb643ee45"
     },
 
     "app_os_user": "root",
