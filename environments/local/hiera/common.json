@@ -113,10 +113,10 @@
 
     "redis::owner": "redis",
     "redis::group": "redis",
-    "redis::version": "2.6.16-3",
+    "redis::version": "2.8.4-2",
     "redis::checksums": {
-        "redis-tools": "5af52dcb3da1c4e2dd457521fb7e750d",
-        "redis-server": "e5dbeb3197630db3cf686d1c0925cd30"
+        "redis-tools": "26de0edf1733d52f8c8e3da1cec8939c",
+        "redis-server": "9549c1d35e6d44fed5cf8b4d60ca152d"
     },
 
     "hilary::config_activity_enabled": true,
