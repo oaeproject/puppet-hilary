@@ -1,10 +1,13 @@
 {
     "classes": [
         "::oaeservice::cassandra::dse",
-        "::oaeservice::munin::cassandra"
+        "::oaeservice::munin::cassandra",
+        "::oaeservice::nagios::cassandra"
     ],
 
     "oaeservice::limits::sys_max_map": "131072",
     "oaeservice::limits::user_soft_memlock": "unlimited",
-    "oaeservice::limits::user_hard_memlock": "unlimited"
+    "oaeservice::limits::user_hard_memlock": "unlimited",
+
+    "nagios_hostgroup": "dbservers"
 }

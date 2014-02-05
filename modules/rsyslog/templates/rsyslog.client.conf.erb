@@ -24,5 +24,9 @@ $InputRunFileMonitor
 
 $MaxMessageSize 32k
 
+# Log mail statements locally to a file. This allows monitoring scripts to mine them for info
+$template DailyMailLog,"/var/log/mail/%$YEAR%-%$MONTH%-%$DAY%.log"
+mail.*         ?DailyMailLog
+
 # Provides TCP forwarding. The IP is the server's IP address
 *.* @@<%= server_host %>

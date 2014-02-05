@@ -1,6 +1,10 @@
 {
     "classes": [
         "::oaeservice::puppet",
-        "::oaeservice::oaefabric"
-    ]
+        "::oaeservice::oaefabric",
+        "::oaeservice::nagios::puppet",
+        "::oaeservice::nagios::server"
+    ],
+
+    "nagios_hostgroup": "misc"
 }

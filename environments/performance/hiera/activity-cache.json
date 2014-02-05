@@ -1,11 +1,14 @@
 {
     "classes": [
         "::oaeservice::munin::redis",
-        "::oaeservice::redis"
+        "::oaeservice::nagios::redis",
+        "::oaeservice::redis",
     ],
 
     "redis::syslog_enabled": true,
     "redis::eviction_maxmemory": 3758096384,
     "redis::eviction_policy": "volatile-ttl",
-    "redis::eviction_samples": 3
+    "redis::eviction_samples": 3,
+
+    "nagios_hostgroup": "cacheservers"
 }

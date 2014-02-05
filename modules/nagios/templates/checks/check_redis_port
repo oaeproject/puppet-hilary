@@ -1,0 +1,34 @@
+#!/bin/bash
+#
+# Checks if Redis is accessible on a certain port
+# This script will return:
+#   *  CRITICAL - If a connection cannot be made to Redis
+#   *  OK       - If a connection can be made to Redis
+#
+# Usage:
+#   ./check_redis 6379
+
+
+
+port=$1
+
+# The following ugly one-liner will perform the following:
+#   *   Open a telnet session to the given port
+#   *   Sleep for 2 seconds to give telnet a bit of time to set up the connection
+#   *   Send the info command to Redis
+#   *   Sleep for 2 seconds to give Redis some time to respond
+#   *   Capture all the output in the `data` variable
+#   *   We need to pipe standard error output ("Connection closed by foreign host.") to /dev/null
+#       so nagios doesn't get confused
+data=$( { echo "open localhost $port"; sleep 2; echo "info"; sleep 2; } | telnet 2> /dev/null)
+
+# We determine success by whether redis responded with its version
+echo $data | grep 'redis_version' > /dev/null
+
+if [ "$?" -eq "0" ] ; then
+    echo "OK:Could connect to Redis"
+    exit 0
+else
+    echo "CRITICAL:Could not connect to Redis"
+    exit 2
+fi

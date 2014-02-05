@@ -6,6 +6,9 @@
         "::oaeservice::limits",
         "::oaeservice::mcollective",
         "::oaeservice::munin::client",
+        "::oaeservice::nagios",
+        "::oaeservice::nagios::disk",
+        "::oaeservice::nagios::memory",
         "::oaeservice::ssh",
         "::oaeservice::users::admin",
         "::oaeservice::users::deploy"
@@ -131,6 +134,14 @@
 
     "rsyslog_enabled": false,
     "rsyslog_host": "syslog",
+
+    "nagios_http_username": "nagiosadmin",
+    "nagios_http_password": "$apr1$jdYkGn4R$C/zBGqUA1.Zkra8U4vmNH1",
+    "nagios_enable_notifications": false,
+    "nagios_hostgroup": "misc",
+    "nagios_contact_alias": "OAE Monitoring",
+    "nagios_contact_email": "localhost",
+
 
     "driver_tsung_version": "1.4.2",
 

@@ -2,8 +2,7 @@
     "classes": [
         "::oaeservice::hilary",
         "::oaeservice::ui",
-        "::oaeservice::nagios::hilary",
-        "::oaeservice::nagios::memory"
+        "::oaeservice::nagios::hilary"
     ],
 
     "hilary::config_activity_enabled": true,

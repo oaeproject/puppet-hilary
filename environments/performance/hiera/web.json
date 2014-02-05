@@ -3,7 +3,9 @@
         "::oaeservice::nginx",
         "::oaeservice::ui",
         "::oaeservice::hilary::files",
-        "::localconfig::ordering::web"
+        "::localconfig::ordering::web",
+        "::oaeservice::nagios::nginx",
+        "::oaeservice::nagios::disk::shared"
     ],
     "rsyslog::imfiles": [
         {
@@ -22,5 +24,7 @@
             "facility": "local1",
             "poll_interval_seconds": 10
         }
-    ]
+    ],
+
+    "nagios_hostgroup": "webservers"
 }

@@ -1,0 +1,62 @@
+#!/bin/bash
+#
+# Counts the number of mails that have been sent in the last day.
+# Error and warning thresholds need to be provided as paramaters.
+# The total number of mails sent will be outputted as well
+#
+# Usage:
+#    ./check_mails_sent -w 100 -c 200
+
+warning=""
+critical=""
+
+# Parse the arguments
+while getopts ":w:c:" opt; do
+  case $opt in
+    w)
+      warning=$OPTARG
+      ;;
+    c)
+      critical=$OPTARG
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+
+# Ensure the thresholds were set correctly
+if [[ "$warning" == "" ]] || [[ "$critical" == "" ]] ; then
+    echo "Missing mail thresholds"
+    echo "Usage:"
+    echo "  ./check_mails_sent -w 250 -c 500"
+    exit 3
+elif [[ "$warning" != [0-9]* ]] || [[ "$critical" != [0-9]* ]] ; then
+    echo "The warning and/or critical threshold is not an integer"
+    exit 3
+elif [[ "$warning" -ge "$critical" ]] ; then
+    echo "The warning threshold cannot be higher than or equal to the critical threshold"
+    exit 3
+fi
+
+# Grep the log file and find out how many mails we've sent
+logfile=/var/log/mail/$(date +"%Y-%m-%d").log
+pattern="postfix.*[A-Z0-9]*: removed"
+sent_today=$(grep "$pattern" $logfile 2> /dev/null | wc -l)
+
+# Depending on the thresholds/count we need to exit appropriately
+if [ "$sent_today" -ge "$warning" ] && [ "$sent_today" -lt "$critical" ] ; then
+    echo "WARNING:Sent out $sent_today emails today"
+    exit 1
+elif [ "$sent_today" -ge "$critical" ] ; then
+    echo "CRITICAL:Sent out $sent_today emails today"
+    exit 2
+else
+    echo "OK:Sent out $sent_today emails today"
+    exit 0
+fi
