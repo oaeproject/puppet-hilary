@@ -10,7 +10,6 @@
         "::oaeservice::limits",
         "::oaeservice::mq",
         "::oaeservice::nginx",
-        "::oaeservice::postfix",
         "::oaeservice::redis",
         "::oaeservice::ui"
     ],
