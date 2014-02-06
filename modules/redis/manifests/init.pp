@@ -1,6 +1,5 @@
 class redis (
     $version,
-    $checksums,
     $owner                = 'root',
     $group                = 'root',
     $eviction_maxmemory   = false,
@@ -11,44 +10,10 @@ class redis (
     $slave_of             = false,
     $syslog_enabled       = false,) {
 
-  $redis_tools_filename = "redis-tools_${version}_amd64.deb"
-  $redis_server_filename = "redis-server_${version}_amd64.deb"
-
-  # Download the Redis deb files
-  archive::download { $redis_tools_filename:
-    url           => "http://ftp.us.debian.org/debian/pool/main/r/redis/${redis_tools_filename}",
-    digest_string => $checksums['redis-tools'],
-    digest_type   => 'md5',
-    src_target    => '/usr/src',
-  }
-
-  archive::download { $redis_server_filename:
-    url           => "http://ftp.us.debian.org/debian/pool/main/r/redis/${redis_server_filename}",
-    digest_string => $checksums['redis-server'],
-    digest_type   => 'md5',
-    src_target    => '/usr/src',
-  }
-
-  package { 'libjemalloc1': ensure => 'installed' }
-
-  package { 'redis-tools':
-    ensure    => installed,
-    provider  => dpkg,
-    source    => "/usr/src/${redis_tools_filename}",
-    require   => [
-      Archive::Download[$redis_tools_filename],
-      Package['libjemalloc1'],
-    ],
-  }
-
+  # Install redis-server from the oae PPA
+  # This will include the redis tools (redis-cli, benchmark, ..) as well
   package { 'redis-server':
-    ensure    => installed,
-    provider  => dpkg,
-    source    => "/usr/src/${redis_server_filename}",
-    require   => [
-      Archive::Download[$redis_server_filename],
-      Package['libjemalloc1', 'redis-tools'],
-    ],
+    ensure    => installed
   }
 
   # Set the configuration file
