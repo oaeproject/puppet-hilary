@@ -12,9 +12,7 @@ class redis (
 
   # Install redis-server from the oae PPA
   # This will include the redis tools (redis-cli, benchmark, ..) as well
-  package { 'redis-server':
-    ensure    => installed
-  }
+  package { 'redis-server': ensure => $version }
 
   # Set the configuration file
   file { 'redis.conf':
