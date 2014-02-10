@@ -86,6 +86,25 @@ server {
         expires max;
     }
 
+    # TODO: Remove custom skin handling when we have a better custom skin strategy
+    location /custom/ {
+        alias <%= app_ui_path %>/custom/;
+        autoindex off;
+        expires max;
+    }
+
+    location / {
+        alias <%= app_ui_path %>/;
+        autoindex off;
+        expires max;
+        try_files /custom/$host/index.html @index;
+    }
+
+    location @index {
+        rewrite ^/$                 /ui/index.html last;
+        rewrite ^/index$            /ui/index.html last;
+    }
+
     # HTML files under /ui are not hashed and should not be cached
     location ~* /ui/([^\.]+).html$ {
         alias <%= app_ui_path %>/ui/$1.html;
@@ -95,9 +114,7 @@ server {
     rewrite ^/content           /ui/content.html last;
     rewrite ^/discussion        /ui/discussion.html last;
     rewrite ^/group             /ui/group.html last;
-    rewrite ^/index$            /ui/index.html last;
     rewrite ^/me                /ui/me.html last;
-    rewrite ^/$                 /ui/index.html last;
     rewrite ^/search            /ui/search.html last;
     rewrite ^/user              /ui/user.html last;
 
