@@ -86,7 +86,7 @@ server {
         expires max;
     }
 
-    # TODO: Remove custom skin handling when we have a better custom skin strategy
+    # TODO: Remove custom landing page strategy when we have a better one
     location /custom/ {
         alias <%= app_ui_path %>/custom/;
         autoindex off;
@@ -111,12 +111,17 @@ server {
         expires -1;
     }
 
+    # HTML files under /custom are not hashed and should not be cached
+    location ~* /custom/*/([^\.]+).html$ {
+        alias <%= nginxConf.UX_HOME %>/custom/*/$1.html;
+        expires -1;
+    }
+
     rewrite ^/content           /ui/content.html last;
     rewrite ^/discussion        /ui/discussion.html last;
     rewrite ^/group             /ui/group.html last;
-    # rewrite ^/index$            /ui/index.html last;
     rewrite ^/me                /ui/me.html last;
-    # rewrite ^/$                 /ui/index.html last;
+    # rewrite ^/$               /ui/index.html last;
     rewrite ^/search            /ui/search.html last;
     rewrite ^/user              /ui/user.html last;
 
