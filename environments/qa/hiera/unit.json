@@ -14,5 +14,6 @@
 
     "web_domain": "cam.com",
     "web_internal_address": "",
-    "app_use_https": false
+    "app_use_https": false,
+    "etherpad_install_method": "apt"
 }
