@@ -1,5 +1,5 @@
 global
-    log               <%= scope['::oaeservice::haproxy::syslog_ip'] %> local0
+    log               <%= scope['::oaeservice::haproxy::syslog_ip'] %>:1514 local0
     log-send-hostname <%= scope['::clientcert'] %>
 
 defaults
