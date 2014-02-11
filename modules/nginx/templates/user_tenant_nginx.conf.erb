@@ -86,7 +86,7 @@ server {
         expires max;
     }
 
-    # TODO: Remove custom landing page strategy when we have a better one
+    # TODO: Remove custom landing page strategy when we have configurable landing pages
     location /custom/ {
         alias <%= app_ui_path %>/custom/;
         autoindex off;
