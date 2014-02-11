@@ -80,40 +80,32 @@ server {
     ## MAIN UI RESOURCES ##
     #######################
 
+    # TODO: Remove this custom landing page strategy and /custom handling when we have configurable landing pages
+    location = / {
+        autoindex off;
+        expires -1;
+
+        # Tell Nginx that the root is the UI directory so custom files can be located with try_files
+        root <%= app_ui_path %>;
+
+        try_files /custom/$host/index.html /ui/index.html;
+    }
+
     location /ui/ {
         alias <%= app_ui_path %>/ui/;
         autoindex off;
         expires max;
     }
 
-    # TODO: Remove custom landing page strategy when we have configurable landing pages
     location /custom/ {
         alias <%= app_ui_path %>/custom/;
         autoindex off;
         expires max;
     }
 
-    location / {
-        alias <%= app_ui_path %>/;
-        autoindex off;
-        expires max;
-        try_files /custom/$host/index.html @index;
-    }
-
-    location @index {
-        rewrite ^/$                 /ui/index.html last;
-        rewrite ^/index$            /ui/index.html last;
-    }
-
     # HTML files under /ui are not hashed and should not be cached
     location ~* /ui/([^\.]+).html$ {
         alias <%= app_ui_path %>/ui/$1.html;
-        expires -1;
-    }
-
-    # HTML files under /custom are not hashed and should not be cached
-    location ~* /custom/*/([^\.]+).html$ {
-        alias <%= app_ui_path %>/custom/*/$1.html;
         expires -1;
     }
 
