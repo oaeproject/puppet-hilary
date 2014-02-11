@@ -113,7 +113,7 @@ server {
 
     # HTML files under /custom are not hashed and should not be cached
     location ~* /custom/*/([^\.]+).html$ {
-        alias <%= nginxConf.UX_HOME %>/custom/*/$1.html;
+        alias <%= app_ui_path %>/custom/*/$1.html;
         expires -1;
     }
 
