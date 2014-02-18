@@ -46,9 +46,9 @@
     "app_install_method": "archive",
     "app_install_config": {
         "url_parent": "https://s3.amazonaws.com/oae-releases/oae-4.2.0",
-        "url_filename": "hilary-4.2.1_node-0.10.17",
+        "url_filename": "hilary-4.2.2_node-0.10.17",
         "url_extension": "tar.gz",
-        "checksum": "e1e81ca47f321d9f685b327f9c5968d3fa5f08e3"
+        "checksum": "c15416c840452201bdcf127002b537b24b8b898e"
     },
 
     "app_os_user": "root",
@@ -74,9 +74,9 @@
     "ux_install_method": "archive",
     "ux_install_config": {
         "url_parent": "https://s3.amazonaws.com/oae-releases/oae-4.2.0",
-        "url_filename": "3akai-ux-4.2.0",
+        "url_filename": "3akai-ux-4.2.1",
         "url_extension": "tar.gz",
-        "checksum": "d94ba2ba6304428b94474ed9c97df713dbec4b37"
+        "checksum": "3cd6049d4afe023c7f66997589d95ac2df2b2841"
     },
 
     "db_cluster_name": "OAE Production Cluster",
