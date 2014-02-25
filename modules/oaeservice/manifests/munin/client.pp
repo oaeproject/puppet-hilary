@@ -1,4 +1,3 @@
 class oaeservice::munin::client {
-
-  include '::munin::client'
+  require '::munin::client'
 }
