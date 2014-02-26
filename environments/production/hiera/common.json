@@ -74,9 +74,9 @@
     "ux_install_method": "archive",
     "ux_install_config": {
         "url_parent": "https://s3.amazonaws.com/oae-releases/oae-4.3.0",
-        "url_filename": "3akai-ux-4.3.0",
+        "url_filename": "3akai-ux-4.3.1",
         "url_extension": "tar.gz",
-        "checksum": "b41f3e4009d7440ca4b5f31e6f74f6fd89260731"
+        "checksum": "9e384f8570ad73f67d6782c4852cc730ca6eec65"
     },
 
     "db_cluster_name": "OAE Production Cluster",
