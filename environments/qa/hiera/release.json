@@ -16,7 +16,7 @@
 
     "app_install_method": "archive",
     "app_install_config": {
-        "url_parent": "https://s3.amazonaws.com/oae-releases-travis/4.3",
+        "url_parent": "https://s3-eu-west-1.amazonaws.com/oae-releases-travis/4.3",
         "url_filename": "hilary-4.3.0-4-f794ce6_node-0.10.25.tar.gz",
         "url_extension": "tar.gz",
         "checksum": "e1927c9ecbedab4e8c5b90c1b2fc323989db53a9"
@@ -25,7 +25,7 @@
 
     "ux_install_method": "archive",
     "ux_install_config": {
-        "url_parent": "https://s3.amazonaws.com/oae-releases-travis/4.3",
+        "url_parent": "https://s3-eu-west-1.amazonaws.com/oae-releases-travis/4.3",
         "url_filename": "3akai-ux-4.3.1",
         "url_extension": "tar.gz",
         "checksum": "2eef09b032264f27516573c75663199878d733fd"
