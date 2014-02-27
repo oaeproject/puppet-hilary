@@ -5,6 +5,7 @@ import httplib
 import json
 import sys
 
+
 def check_value(checkName, value, warningThreshold, criticalThreshold):
     """
     Checks if a value reached a certain threshold
@@ -25,15 +26,12 @@ def check_percentage(checkName, used, max, warningThreshold, criticalThreshold):
     percentage = (used * 100) / max
     check_value(checkName, percentage, warningThreshold, criticalThreshold)
 
+
 def check_node(node):
     """
     Checks all the stats on a node.
     It is assumed that the node was retrieved with the all=true flag
     """
-    # Check Garbage Collection
-    check_value('Java GC time', node['jvm']['gc']['collection_time_in_millis'], 5000, 10000)
-    check_value('Java GC ConcurrentMarpSweep time', node['jvm']['gc']['collectors']['ConcurrentMarkSweep']['collection_time_in_millis'], 5000, 10000)
-    check_value('Java GC ParNew time', node['jvm']['gc']['collectors']['ParNew']['collection_time_in_millis'], 5000, 10000)
 
     # Check memory
     check_percentage("Heap size (percentage)", node['jvm']['mem']['heap_used_in_bytes'], node['jvm']['mem']['heap_committed_in_bytes'], 80, 90)
