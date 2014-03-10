@@ -16,19 +16,19 @@
 
     "app_install_method": "archive",
     "app_install_config": {
-        "url_parent": "https://s3-eu-west-1.amazonaws.com/oae-releases-travis/4.3",
-        "url_filename": "hilary-4.3.0-4-f794ce6_node-0.10.25",
+        "url_parent": "https://s3-eu-west-1.amazonaws.com/oae-releases-travis/oae/4.3",
+        "url_filename": "hilary-4.3.0-65-0fff45d_node-0.10.25",
         "url_extension": "tar.gz",
-        "checksum": "e1927c9ecbedab4e8c5b90c1b2fc323989db53a9"
+        "checksum": "5f2d1df7e5ff352ae11490ff6e95f1159bb43929"
     },
     "app_ui_path": "/opt/3akai-ux/optimized",
 
     "ux_install_method": "archive",
     "ux_install_config": {
-        "url_parent": "https://s3-eu-west-1.amazonaws.com/oae-releases-travis/4.3",
-        "url_filename": "3akai-ux-4.3.1",
+        "url_parent": "https://s3-eu-west-1.amazonaws.com/oae-releases-travis/oae/4.3",
+        "url_filename": "3akai-ux-4.3.1-6-da19416.tar.gz",
         "url_extension": "tar.gz",
-        "checksum": "2eef09b032264f27516573c75663199878d733fd"
+        "checksum": "ff9d726ecec3c8a28016d55c6c73fb6671bc7948"
     },
 
     "etherpad_install_method": "apt"
