@@ -26,7 +26,7 @@
     "ux_install_method": "archive",
     "ux_install_config": {
         "url_parent": "https://s3-eu-west-1.amazonaws.com/oae-releases-travis/oae/4.3",
-        "url_filename": "3akai-ux-4.3.1-6-da19416.tar.gz",
+        "url_filename": "3akai-ux-4.3.1-6-da19416",
         "url_extension": "tar.gz",
         "checksum": "ff9d726ecec3c8a28016d55c6c73fb6671bc7948"
     },
