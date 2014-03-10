@@ -1,5 +1,6 @@
 class oaeservice::deps::pp {
   include oaeservice::deps::common
+  include oaeservice::deps::ppa::libreoffice
   include oaeservice::deps::ppa::oae
   include oaeservice::deps::ppa::pdf2htmlex
 
