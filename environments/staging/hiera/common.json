@@ -43,11 +43,10 @@
     "web_domain": "oae-staging.oaeproject.org",
     "web_internal_address": "web0",
 
-    "app_install_method": "archive",
+    "app_install_method": "git",
     "app_install_config": {
-        "version_major_minor": "7.2",
-        "version_patch": "0",
-        "version_nodejs": "0.10.29"
+        "source": "https://github.com/simong/Hilary",
+        "revision": "shibboleth"
     },
 
     "app_os_user": "root",
@@ -63,16 +62,17 @@
         "server": "10.224.16.254",
         "source_dir": "/zones/nfs/054491a7-81ac-4586-9415-bcafd565bd4c/shared"
     },
-    "app_ui_path": "/opt/3akai-ux/optimized",
+    "app_ui_path": "/opt/3akai-ux",
     "app_use_https": true,
     "app_strict_https": false,
 
+    "shibboleth_entity_id": "https://shib-sp.oaeproject.org/shibboleth",
+    "shibboleth_keyname": "shib-sp.oaeproject.org",
+    "shibboleth_subjectname": "CN=shib-sp.oaeproject.org",
+    "shibboleth_sp_host": "shib-sp.oaeproject.org",
+
     "ux_root_dir": "/opt/3akai-ux",
-    "ux_install_method": "archive",
-    "ux_install_config": {
-        "version_major_minor": "7.2",
-        "version_patch": "0"
-    },
+    "ux_install_method": "git",
 
     "db_cluster_name": "OAE Production Cluster",
     "db_keyspace": "oae",

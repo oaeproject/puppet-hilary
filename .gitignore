@@ -3,3 +3,5 @@
 .node
 .vagrant
 *_hiera_secure.*
+sp-key.pem
+sp-cert.pem

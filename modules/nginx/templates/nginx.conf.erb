@@ -80,6 +80,10 @@ http {
         keepalive 64;
     }
 
+    upstream shibworker {
+        server localhost:8080;
+        keepalive 64;
+    }
 
     # Include all the host-specific configs
     include <%= @nginx_conf_dir %>/*.conf;
