@@ -1,0 +1,87 @@
+<SPConfig xmlns="urn:mace:shibboleth:2.0:native:sp:config" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+    clockSkew="1800">
+
+    <!-- The entityID is the name TestShib made for your SP. -->
+    <ApplicationDefaults entityID="https://shib-sp.oae-performance.oaeproject.org/shibboleth" REMOTE_USER="eppn persistent-id targeted-id">
+
+        <!-- You should use secure cookies if at all possible.  See cookieProps in this Wiki article. -->
+        <!-- https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPSessions -->
+        <Sessions lifetime="28800" timeout="3600" checkAddress="false" relayState="ss:mem" handlerSSL="false" consistentAddress="false">
+
+            <!--
+                Create a session initiator that responds to /Shibboleth.sso/Login .
+                The entityID of the Identity provider can be passed in via the query string.
+                e.g.:
+                    Log in with the Cambridge IdP:
+                        /Shibboleth.sso/Login?entityID=https://shib.raven.cam.ac.uk/shibboleth&target=http://collab.cam.ac.uk/api/auth/shibboleth/callback
+
+                    Log in with the GATech IdP:
+                        /Shibboleth.sso/Login?entityID=https://idp.gatech.edu/idp/shibboleth&target=http://oae.gatech.edu/api/auth/shibboleth/callback
+
+                More information can be found at
+                    https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPSessionInitiator and
+                    https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPSessionCreationParameters
+            -->
+            <SessionInitiator type="SAML2" Location="/Login" template="bindingTemplate.html" isDefault="true" acsIndex="1" />
+
+            <!-- Which "authentication methods" we will support. -->
+            <!-- Note that for each tenant we add to our SP, we will have to output these, -->
+            <!-- so it's probably best to keep these as short as possible. -->
+            <md:AssertionConsumerService Location="/SAML2/POST" index="1" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"/>
+
+            <!--
+                Extension service that generates "approximate" metadata based on SP configuration.
+                We override this in Nginx as we need to add all the tenant in there manually.
+                If you make *ANY* changes other than adding an `md:AssertionConsumerService`
+                statement for a tenant, re-enable this, remove the nginx override, get the metadata from Shib
+                so you can edit it properly
+            -->
+            <!-- <Handler type="MetadataGenerator" Location="/Metadata" signing="false"/> -->
+
+            <!-- Status reporting service. -->
+            <!-- <Handler type="Status" Location="/Status" acl="127.0.0.1"/> -->
+
+            <!-- Session diagnostic service. -->
+            <!-- <Handler type="Session" Location="/Session" showAttributeValues="true"/> -->
+
+            <!-- JSON feed of discovery information. -->
+            <!-- <Handler type="DiscoveryFeed" Location="/DiscoFeed"/> -->
+
+        </Sessions>
+
+        <!-- Error pages to display to yourself if something goes horribly wrong. -->
+        <Errors supportContact="support@researchresearch.org" logoLocation="/shibboleth-sp/logo.jpg" 
+                styleSheet="/shibboleth-sp/main.css"/>
+
+         <!-- Loads and trusts a metadata file that describes only the Testshib IdP and how to communicate with it. -->
+         <MetadataProvider type="XML" uri="http://www.testshib.org/metadata/testshib-providers.xml" backingFilePath="testshib-two-idp-metadata.xml" reloadInterval="180000" />
+
+         <!-- Loads and trusts a metadata file that describes the UK federation IdPs and how to communicate with them. -->
+         <MetadataProvider type="XML" path="ukfederation-metadata.xml" reloadInterval="180000" />
+
+        <!-- Default attribute and trust options. -->
+        <AttributeExtractor type="XML" validate="true" path="attribute-map.xml"/>
+        <AttributeResolver type="Query" subjectMatch="true"/>
+        <AttributeFilter type="XML" validate="true" path="attribute-policy.xml"/>
+
+        <!-- The credentials for our SP. It's important to keep these secure, as we share credentials across tenants. -->
+        <CredentialResolver type="File" key="sp-key.pem" certificate="sp-cert.pem"/>
+
+        <!--
+            In order to interact with 3rd-party applications, we might wish to align which attribute we use for identifying a user.
+            That's why we provide an application override for each configured hostname and explicitly specify the remote_user attribute.
+            See https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPApplicationOverride for more information.
+        -->
+        <% @shibboleth_hosts.each do |key, config| -%>
+            <ApplicationOverride id="<%= config['hostname'] %>" REMOTE_USER="<%= config['remote_user'] %>" />
+        <% end -%>
+
+    </ApplicationDefaults>
+    
+    <!-- Security policies you shouldn't change unless you know what you're doing. -->
+    <SecurityPolicyProvider type="XML" validate="true" path="security-policy.xml"/>
+
+    <!-- Low-level configuration about protocols and bindings available for use. -->
+    <ProtocolProvider type="XML" validate="true" reloadChanges="false" path="protocols.xml"/>
+
+</SPConfig>

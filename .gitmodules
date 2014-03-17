@@ -31,3 +31,9 @@
 [submodule "modules/ulimit"]
 	path = modules/ulimit
 	url = https://github.com/arioch/puppet-ulimit.git
+[submodule "modules/apache"]
+	path = modules/apache
+	url = https://github.com/puppetlabs/puppetlabs-apache.git
+[submodule "modules/concat"]
+	path = modules/concat
+	url = https://github.com/puppetlabs/puppetlabs-concat.git

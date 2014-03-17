@@ -11,7 +11,8 @@
         "::oaeservice::mq",
         "::oaeservice::nginx",
         "::oaeservice::redis",
-        "::oaeservice::ui"
+        "::oaeservice::ui",
+        "::oaeservice::shibboleth"
     ],
 
     "web_domain": "vagrant.oae",
@@ -98,6 +99,20 @@
     "rsyslog_host": "127.0.0.1",
 
     "driver_tsung_version": "1.4.2",
+
+    "shibboleth_entity_id": "https://sp.vagrant.oae/shibboleth",
+    "shibboleth_keyname": "web0",
+    "shibboleth_subjectname": "CN=web0",
+    "shibboleth_hosts": {
+        "cam": {
+            "remote_user": "eppn persistent-id targeted-id",
+            "hostname": "cam.vagrant.oae"
+        },
+        "gatech": {
+            "remote_user": "eppn",
+            "hostname": "gt.vagrant.oae"
+        }
+    },
 
     "nginx::owner": "nginx",
     "nginx::group": "nginx",

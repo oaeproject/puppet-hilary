@@ -182,12 +182,6 @@ server {
     ## APP SERVER REQUESTS ##
     #########################
 
-    location /api/auth/shibboleth/callback {
-        proxy_read_timeout 120;
-        proxy_next_upstream error http_502;
-        proxy_pass http://tenantworkers;
-    }
-
     location /api/config {
         expires 15m;
         proxy_pass http://tenantworkers;
@@ -340,6 +334,25 @@ server {
         proxy_pass http://tenantworkers;
     }
 
+    ################
+    ## SHIBBOLETH ##
+    ################
+
+    rewrite ^/Shibboleth.sso/Metadata       /shib/metadata.xml last;
+ 
+    location /shib {
+        alias /opt/shibboleth-sp/;
+    }
+ 
+    location /Shibboleth.sso {
+        proxy_read_timeout 120;
+        proxy_pass http://shibworker;
+    }
+
+    location /api/auth/shibboleth/callback {
+        proxy_read_timeout 120;
+        proxy_pass http://shibworker;
+    }
 
     ####################
     ## FILE DOWNLOADS ##

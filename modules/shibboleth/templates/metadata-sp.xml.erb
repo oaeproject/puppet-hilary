@@ -1,0 +1,22 @@
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" ID="_6494bd01f471ef997d27d44d505aa120b1ce0549" entityID="<%= entity_id %>">
+    <!-- TODO: Contact information -->
+
+    <!-- The SP description -->
+    <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+        <!-- The key that is used by this SP -->
+        <md:KeyDescriptor>
+            <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                <ds:KeyName><%= keyname %></ds:KeyName>
+                <ds:X509Data>
+                    <ds:X509SubjectName><%= subjectname %></ds:X509SubjectName>
+                    <ds:X509Certificate><%= certificate %></ds:X509Certificate>
+                </ds:X509Data>
+            </ds:KeyInfo>
+        </md:KeyDescriptor>
+
+        <!-- All the hostnames this SP covers -->
+        <% @shibboleth_hosts.each_with_index do |item, index| -%>
+            <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://<%= item[1]['hostname'] %>/Shibboleth.sso/SAML2/POST" index="<%= index %>"/>
+        <% end -%>
+    </md:SPSSODescriptor>
+</md:EntityDescriptor>
