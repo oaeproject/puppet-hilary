@@ -338,20 +338,30 @@ server {
     ## SHIBBOLETH ##
     ################
 
+    # Our custom SP metadata file
     rewrite ^/Shibboleth.sso/Metadata       /shib/metadata.xml last;
- 
     location /shib {
         alias /opt/shibboleth-sp/;
     }
- 
+
     location /Shibboleth.sso {
         proxy_read_timeout 120;
         proxy_pass http://shibworker;
     }
 
-    location /api/auth/shibboleth/callback {
+    # The URL when the user comes back from the IdP
+    location /api/auth/shibboleth/returned {
         proxy_read_timeout 120;
         proxy_pass http://shibworker;
+    }
+
+    # The URL that Apache will proxy to on the local loopback interface.
+    # This URL should *NOT* be accessible over any other interface
+    location /api/auth/shibboleth/callback {
+        allow 127.0.0.1;
+        deny all;
+        proxy_read_timeout 120;
+        proxy_pass http://tenantworkers;
     }
 
     ####################

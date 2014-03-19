@@ -10,9 +10,6 @@ class shibboleth::sp (
 
         # An object where each value is an object that contains the mapping for the `remote_user` attribute and the `hostname` they will be available at
         $shibboleth_hosts = {},
-
-        # An array of strings. Each string is an internal hostname where an appserver is running
-        $app_hosts = []
     ) {
 
     # Ensure that the required shibboleth packages have been installed
@@ -90,18 +87,6 @@ class shibboleth::sp (
     include apache::mod::proxy_http
     include apache::mod::proxy_balancer
 
-    # Generate the balancer cluster and its members
-    apache::balancer { 'appnodes':
-        collect_exported  => false
-    }
-    define oae::balancermember {
-        apache::balancermember { $name:
-            balancer_cluster    => 'appnodes',
-            url                 => "http://${name}:2001",
-        }
-    }
-    oae::balancermember { $app_hosts: }
-
     # We need to apply multiple apache::vhost resources. Unfortunately, we can't pass the $shibboleth_hosts
     # object as the namevar AND use the namevar in the parameters (for the `servername` property)
     # That's why we wrap it in our own oae::vhost. This is how we can iterate over the $shibboleth_hosts
@@ -128,10 +113,10 @@ class shibboleth::sp (
                 # We can't do this as our web server might host multiple endpoints
                 UseCanonicalName Off
 
-                # Keep the host header when proxying the request to the app server
+                # Keep the host header when proxying the request back to nginx
                 ProxyPreserveHost On
 
-                # Dont proxy anything under /Shibboleth.sso to the app server as that should go straight to Shibboleth.
+                # Dont proxy anything under /Shibboleth.sso to nginx as that should go straight to Shibboleth.
                 # Keep in mind that /Shibboleth.sso/Metadata is outputted by nginx, as the default Shibboleth metadata files
                 # dont suit us very well (they only include the hostname for the current hostname, not for all the tenants).
                 ProxyPass /Shibboleth.sso !
@@ -141,13 +126,10 @@ class shibboleth::sp (
                     ShibRequestSetting applicationId ${hostname}
                     SetHandler shib
                 </Location>
-
-                # Apache ONLY needs to proxy to the app server when a user has succesfully authenticated with the Shibboleth IdP.
-                # That has happened when the user ended up at /api/auth/shibboleth/callback .
-                # If a user browses directly to this location, we will have stripped any headers he has sent as they are not to be trusted.
-                ProxyPass /api/auth/shibboleth/callback balancer://appnodes/api/auth/shibboleth/callback
                 
-                <Location /api/auth/shibboleth/callback>
+                # When a user returns from the Shibboleth IdP, he will hit this location block. We take the request through
+                # mod_shib so the attributes get properly converted to HTTP headers
+                <Location /api/auth/shibboleth/returned>
                      AuthType shibboleth
                      ShibRequestSetting applicationId ${hostname}
                      ShibRequestSetting requireSession 1
@@ -155,6 +137,12 @@ class shibboleth::sp (
                      ShibUseEnvironment Off
                      Require valid-user
                 </location>
+
+                # Once mod_shib has parsed the request, we proxy it to nginx which can then load balance it over the app servers
+                # Note that Apache will receive a request at .../returned and we proxy it to .../callback.
+                # This is done to avoid a proxy-loop. That does mean that the .../callback endpoint should only be callable over
+                # the local loopback interface. This protection needs to happen in the nginx config.
+                ProxyPass /api/auth/shibboleth/returned http://127.0.0.1:80/api/auth/shibboleth/callback
             ",
         }
     }

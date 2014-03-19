@@ -4,6 +4,5 @@ class oaeservice::shibboleth {
         keyname                 => hiera('shibboleth_keyname'),
         subjectname             => hiera('shibboleth_subjectname'),
         shibboleth_hosts        => hiera('shibboleth_hosts', {}),
-        app_hosts               => hiera('app_hosts')
     }
 }
