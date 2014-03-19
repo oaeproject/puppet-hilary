@@ -32,6 +32,9 @@ server {
     ssl_ciphers RC4:HIGH:!aNULL:!MD5;
     ssl_prefer_server_ciphers on;
 
+    # This is required for passing the `remote_user` header from shib
+    underscores_in_headers on;
+
 
     ######################
     ## SHARED RESOURCES ##
