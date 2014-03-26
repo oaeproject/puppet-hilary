@@ -271,6 +271,7 @@ config.mq = {
  */
 config.previews = {
     'enabled': <%= config_previews_enabled ? true : false %>,
+    // `dir` can be removed after the release of 5.0.0
     'dir': '<%= config_previews_tmp_dir %>',
     'tmpDir': '<%= config_previews_tmp_dir %>',
     'office': {
