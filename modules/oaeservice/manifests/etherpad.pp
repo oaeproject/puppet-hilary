@@ -10,28 +10,27 @@ class oaeservice::etherpad {
   $index = hiera('etherpad_index', 0)
   $hosts = hiera('etherpad_internal_hosts')
 
-  $install_method = hiera('etherpad_install_method', 'git')
-  if ($install_method == 'git') {
-    # Ensure the git dependencies get installed before the etherpad git installation if specified
-    Class['::oaeservice::deps::package::git'] -> Class['::etherpad::install::git']
-  }
+  $install_method = hiera('etherpad_install_method', 'archive')
+  $install_config = hiera('etherpad_install_config', {
+    'url_base'              => 'https://s3.amazonaws.com/oae-releases/etherpad',
+    'version_major_minor'   => '1.2',
+    'version_patch'         => '91',
+    'version_nodejs'        => '0.10.17',
+  })
 
   class { '::etherpad':
     listen_address        => $hosts[$index],
     session_key           => hiera('etherpad_session_key'),
     api_key               => hiera('etherpad_api_key'),
+
     oae_db_hosts          => hiera('db_hosts'),
     oae_db_keyspace       => hiera('db_keyspace'),
     oae_db_replication    => hiera('db_replication_factor'),
     oae_db_strategy_class => hiera('db_strategy_class'),
 
-    install_method          => $install_method,
-    apt_package_version     => hiera('etherpad_apt_package_version', 'present'),
-    etherpad_git_source     => hiera('etherpad_git_source', 'https://github.com/ether/etherpad-lite'),
-    etherpad_git_revision   => hiera('etherpad_git_revision', 'develop'),
-    ep_oae_git_source       => hiera('etherpad_ep_oae_git_source'),
-    ep_oae_git_revision     => hiera('etherpad_ep_oae_git_revision'),
+    install_method        => $install_method,
+    install_config        => $install_config,
 
-    enable_abiword          => hiera('etherpad_enable_abiword'),
+    enable_abiword        => hiera('etherpad_enable_abiword')
   }
 }

@@ -29,7 +29,5 @@
         "url_filename": "3akai-ux-5.0.0",
         "url_extension": "tar.gz",
         "checksum": "632626664edec24e7a97bacaa9ee03335e94876d"
-    },
-
-    "etherpad_install_method": "apt"
+    }
 }

@@ -17,10 +17,6 @@ class etherpad (
         },
 
         $etherpad_dir           = '/opt/etherpad',
-        $etherpad_git_source    = 'https://github.com/ether/etherpad-lite',
-        $etherpad_git_revision  = '1.2.91',
-        $ep_oae_git_source      = 'https://github.com/oaeproject/ep_oae',
-        $ep_oae_git_revision    = 'master',
         $etherpad_user          = 'etherpad',
         $service_name           = 'etherpad',
         $enable_abiword         = false) {
