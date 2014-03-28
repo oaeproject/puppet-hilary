@@ -29,7 +29,5 @@
         "url_filename": "3akai-ux-6.0.0",
         "url_extension": "tar.gz",
         "checksum": "3114692d690332fb2fb4f56fc2141b2f87ed9fd6"
-    },
-
-    "etherpad_install_method": "apt"
+    }
 }
