@@ -8,8 +8,14 @@ class etherpad (
         $oae_db_replication,
         $oae_db_strategy_class,
 
-        $install_method         = 'apt',
-        $apt_package_version    = '1.2.91-4',
+        $install_method         = 'archive',
+        $install_config         = {
+            'url_base'              => 'https://s3.amazonaws.com/oae-releases/etherpad',
+            'version_major_minor'   => '1.2',
+            'version_patch'         => '91',
+            'version_nodejs'        => '0.10.17',
+        },
+
         $etherpad_dir           = '/opt/etherpad',
         $etherpad_git_source    = 'https://github.com/ether/etherpad-lite',
         $etherpad_git_revision  = '1.2.91',
@@ -19,25 +25,10 @@ class etherpad (
         $service_name           = 'etherpad',
         $enable_abiword         = false) {
 
-    # Install etherpad.
-    case $install_method {
-        'git': {
-            class { '::etherpad::install::git':
-                etherpad_dir            => $etherpad_dir,
-                etherpad_git_source     => $etherpad_git_source,
-                etherpad_git_revision   => $etherpad_git_revision,
-                ep_oae_git_source       => $ep_oae_git_source,
-                ep_oae_git_revision     => $ep_oae_git_revision,
-            }
-        }
-        'apt': {
-            class { '::etherpad::install::apt':
-                package_version => $apt_package_version
-            }
-        }
-        default: {
-            fail("Unknown install method for etherpad passed in: '${install_method}'")
-        }
+    # Install etherpad
+    class { "::etherpad::install::${install_method}":
+        install_config      => $install_config,
+        etherpad_root_dir   => $etherpad_dir,
     }
 
     Class["::etherpad::install::${install_method}"] -> File['etherpad_settings_json']
@@ -49,7 +40,6 @@ class etherpad (
             ensure => present,
         }
     }
-
 
     user { "${etherpad_user}": ensure => present }
 
