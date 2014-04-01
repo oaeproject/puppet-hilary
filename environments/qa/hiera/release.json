@@ -26,9 +26,9 @@
     "ux_install_method": "archive",
     "ux_install_config": {
         "url_parent": "https://s3.amazonaws.com/oae-releases/oae/5.0",
-        "url_filename": "3akai-ux-5.0.0",
+        "url_filename": "3akai-ux-5.0.0-504-82a8cbc",
         "url_extension": "tar.gz",
-        "checksum": "632626664edec24e7a97bacaa9ee03335e94876d"
+        "checksum": "76e52a55c1f79a9e5a49bfefd27907b1ff09896c"
     },
 
     "etherpad_install_method": "apt"
