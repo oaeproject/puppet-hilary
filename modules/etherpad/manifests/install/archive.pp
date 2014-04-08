@@ -15,7 +15,6 @@
 #
 # [*install_config['version_major_minor']*]
 #   The major and minor version of the package in the format: "<major>.<minor>" (e.g., 1.2)
-#   The filename portion of the archive without the parent directory URI or the extension (e.g., etherpad-1.2.91_node-0.10.15)
 #
 # [*install_config['version_patch']*]
 #   The patch version of the package (e.g., 0 or 2-<# of commits since tag>-<commit hash>)
@@ -24,7 +23,8 @@
 #   The nodejs version with which this package was prepared (e.g., 0.10.15)
 #
 # [*install_config['checksum_type']*]
-#   The type of checksum (e.g., sha1, md5). Defaults to 'sha1'
+#   The type of checksum (e.g., sha1, md5). Defaults to 'sha1'. It's expected that this is located as a sibling to the package in a file with
+#   `<checksum_type>.txt` suffixed to the end. e.g. https://s3.amazonaws.com/oae-releases/etherpad/1.2/etherpad-1.2.91_node-0.10.15.tar.gz.sha1.txt
 #
 # [*etherpad_root_dir*]
 #   The target directory to extract the release archive. Defaults to '/opt/etherpad'
