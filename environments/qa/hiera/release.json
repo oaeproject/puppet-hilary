@@ -16,19 +16,19 @@
 
     "app_install_method": "archive",
     "app_install_config": {
-        "url_parent": "https://s3.amazonaws.com/oae-releases/oae/6.0",
-        "url_filename": "hilary-6.0.0-26-a13c738_node-0.10.25",
+        "url_parent": "https://s3.amazonaws.com/oae-releases/oae/6.1",
+        "url_filename": "hilary-6.1.0_node-0.10.25",
         "url_extension": "tar.gz",
-        "checksum": "2f4543fed6479f36eee375ab0b929a88d57fe5d5"
+        "checksum": "ddaa836fe2286fd3f9a71b951d141d26b199aef5"
     },
     "app_ui_path": "/opt/3akai-ux/optimized",
 
     "ux_install_method": "archive",
     "ux_install_config": {
-        "url_parent": "https://s3.amazonaws.com/oae-releases/oae/6.0",
-        "url_filename": "3akai-ux-6.0.0-12-aa4c24d",
+        "url_parent": "https://s3.amazonaws.com/oae-releases/oae/6.1",
+        "url_filename": "3akai-ux-6.1.0",
         "url_extension": "tar.gz",
-        "checksum": "f135171483cafaaf7c96fb890259344df27cc0de"
+        "checksum": "92a81a43dfafa7860f2998a500cd1873355cc511"
     },
 
     "etherpad_install_method": "apt"
