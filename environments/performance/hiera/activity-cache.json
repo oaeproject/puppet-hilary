@@ -2,7 +2,7 @@
     "classes": [
         "::oaeservice::munin::redis",
         "::oaeservice::nagios::redis",
-        "::oaeservice::redis",
+        "::oaeservice::redis"
     ],
 
     "redis::syslog_enabled": true,
