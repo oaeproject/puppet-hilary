@@ -8,7 +8,7 @@
 # === Parameters
 #
 # [*install_config['url_parent']*]
-#   The part of the archive source URI that would come just before the filename (e.g., https://s3.amazonaws.com/oae-releases/oae-0.2.0
+#   The part of the archive source URI that would come just before the filename (e.g., https://s3.amazonaws.com/oae-releases/oae/4.2
 #
 # [*install_config['url_filename']*]
 # 	The filename portion of the archive without the parent directory URI or the extension (e.g., hilary-0.2.0_nodejs-0.8.25)
