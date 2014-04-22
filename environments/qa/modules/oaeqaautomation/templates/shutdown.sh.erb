@@ -16,3 +16,6 @@ service dse stop
 service rabbitmq-server stop
 
 killall -9 java
+
+# Ensure elasticsearch doesn't think it's still up
+rm -f /var/run/elasticsearch.pid
