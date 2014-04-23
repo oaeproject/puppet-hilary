@@ -1,4 +1,8 @@
-class oaeqaautomation ($log_file_path = '/var/log/nightly.log') {
+class oaeqaautomation (
+        $log_file_dir = '/var/log/nightly',
+        $cron_hour = 4,
+        $cron_minute = 0,
+    ) {
 
     #
     # This class sets up the necessary files and scripts to
@@ -20,7 +24,8 @@ class oaeqaautomation ($log_file_path = '/var/log/nightly.log') {
     #  * load in a pre-generated set of data via the model loader.
     #
 
-    $backup_dir = hiera('automation_backup_dir')
+    $log_file_path = "${log_file_dir}/`date +'%Y-%m-%d-%H-%M'`.log"
+
     $scripts_dir = hiera('automation_scripts_dir')
     $cassandra_data_dir = hiera('db_data_dir')
     $elasticsearch_data_dir = hiera('search_data_dir')
@@ -33,13 +38,15 @@ class oaeqaautomation ($log_file_path = '/var/log/nightly.log') {
     $app_admin_tenant = hiera('app_admin_tenant', 'admin')
     $admin_host = "${app_admin_tenant}.${web_domain}"
 
-
     $flickr_api_key = hiera('automation_flickr_api_key')
     $flickr_api_secret = hiera('automation_flickr_api_secret')
     $slideshare_shared_secret = hiera('automation_slideshare_shared_secret')
     $slideshare_api_key = hiera('automation_slideshare_api_key')
 
     exec { 'mkdir_scripts': command => "mkdir -p ${scripts_dir}", unless => "test -d ${scripts_dir}" }
+
+    # Create the nightly log file directory
+    file { $log_file_dir: ensure  => directory }
 
     file { 'deletedata.sh':
         path => "${scripts_dir}/deletedata.sh",
@@ -61,13 +68,22 @@ class oaeqaautomation ($log_file_path = '/var/log/nightly.log') {
         require => Exec['mkdir_scripts']
     }
 
-    cron { 'nightly-backup':
+    cron { 'clean-log-dir':
+        ensure  => present,
+        command => "find ${log_file_dir} -type -f -mtime +5 \"*.log\" -exec rm -f {} \;"
+        user    => 'root',
+        target  => 'root',
+        hour    => 0,
+        minute  => 0
+    }
+
+    cron { 'nightly-redeploy':
         ensure  => present,
         command => "${scripts_dir}/nightly.sh >> ${log_file_path} 2>> ${log_file_path}",
         user    => 'root',
         target  => 'root',
-        hour    => 4,
-        minute  => 0
+        hour    => $cron_hour,
+        minute  => $cron_minute,
     }
 
     # git clone https://github.com/oaeproject/OAE-model-loader
