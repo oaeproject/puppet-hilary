@@ -70,11 +70,11 @@ class oaeqaautomation (
 
     cron { 'clean-log-dir':
         ensure  => present,
-        command => "find ${log_file_dir} -type -f -mtime +5 \"*.log\" -exec rm -f {} \;"
+        command => "find ${log_file_dir} -type -f -mtime +5 \"*.log\" -exec rm -f {} \;",
         user    => 'root',
         target  => 'root',
         hour    => 0,
-        minute  => 0
+        minute  => 0,
     }
 
     cron { 'nightly-redeploy':
