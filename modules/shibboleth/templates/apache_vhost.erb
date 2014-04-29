@@ -1,0 +1,34 @@
+# We turn canonical resolution **OFF**, even though the shibboleth documentation claims you should enable it.
+# We can't do this as our web server might host multiple endpoints
+UseCanonicalName Off
+
+# Keep the host header when proxying the request back to nginx
+ProxyPreserveHost On
+
+# Dont proxy anything under /Shibboleth.sso to nginx as that should go straight to Shibboleth.
+# Keep in mind that /Shibboleth.sso/Metadata is outputted by nginx, as the default Shibboleth metadata files
+# dont suit us very well (they only include the hostname for the current hostname, not for all the tenants).
+ProxyPass /Shibboleth.sso !
+
+# When a user hits anything at /Shibboleth.sso, that should go through mod_shib
+<Location /Shibboleth.sso>
+    ShibRequestSetting applicationId <%= hostname %>
+    SetHandler shib
+</Location>
+
+# When a user returns from the Shibboleth IdP, he will hit this location block. We take the request through
+# mod_shib so the attributes get properly converted to HTTP headers
+<Location /api/auth/shibboleth/returned>
+     AuthType shibboleth
+     ShibRequestSetting applicationId <%= hostname %>
+     ShibRequestSetting requireSession 1
+     ShibUseHeaders On
+     ShibUseEnvironment Off
+     Require valid-user
+</location>
+
+# Once mod_shib has parsed the request, we proxy it to nginx which can then load balance it over the app servers
+# Note that Apache will receive a request at .../returned and we proxy it to .../callback.
+# This is done to avoid a proxy-loop. That does mean that the .../callback endpoint should only be callable over
+# the local loopback interface. This protection needs to happen in the nginx config.
+ProxyPass /api/auth/shibboleth/returned http://127.0.0.1:80/api/auth/shibboleth/callback

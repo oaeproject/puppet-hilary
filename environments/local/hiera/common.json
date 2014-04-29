@@ -106,11 +106,11 @@
     "shibboleth_hosts": {
         "cam": {
             "remote_user": "eppn persistent-id targeted-id",
-            "hostname": "cam.vagrant.oae"
+            "hostname": "cam.vagrant.oae:8123"
         },
         "gatech": {
             "remote_user": "eppn",
-            "hostname": "gt.vagrant.oae"
+            "hostname": "gt.vagrant.oae:8123"
         }
     },
 

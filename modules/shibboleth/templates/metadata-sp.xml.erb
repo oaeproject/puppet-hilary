@@ -1,3 +1,15 @@
+<!--
+    Extension service that generates "approximate" metadata based on SP configuration.
+    We override this in Nginx as we need to add all the tenant in there manually.
+    If you make *ANY* changes other than adding an `md:AssertionConsumerService`
+    statement for a tenant, re-enable this, remove the nginx override, get the metadata from Shib
+    so you can edit it properly
+-->
+<!-- <Handler type="MetadataGenerator" Location="/Metadata" signing="false"/> -->
+
+
+
+
 <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" ID="_6494bd01f471ef997d27d44d505aa120b1ce0549" entityID="<%= entity_id %>">
     <!-- TODO: Contact information -->
 
@@ -15,8 +27,8 @@
         </md:KeyDescriptor>
 
         <!-- All the hostnames this SP covers -->
-        <% @shibboleth_hosts.each_with_index do |item, index| -%>
-            <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://<%= item[1]['hostname'] %>/Shibboleth.sso/SAML2/POST" index="<%= index %>"/>
+        <% @shibboleth_hosts.keys.sort.each_with_index do |key, index| -%>
+            <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://<%= shibboleth_hosts[key]['hostname'] %>/Shibboleth.sso/SAML2/POST" index="<%= index %>"/>
         <% end -%>
     </md:SPSSODescriptor>
 </md:EntityDescriptor>
