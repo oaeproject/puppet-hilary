@@ -1,18 +1,5 @@
-<!--
-    Extension service that generates "approximate" metadata based on SP configuration.
-    We override this in Nginx as we need to add all the tenant in there manually.
-    If you make *ANY* changes other than adding an `md:AssertionConsumerService`
-    statement for a tenant, re-enable this, remove the nginx override, get the metadata from Shib
-    so you can edit it properly
--->
-<!-- <Handler type="MetadataGenerator" Location="/Metadata" signing="false"/> -->
-
-
-
-
+<!-- Metadata file for the service provider -->
 <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" ID="_6494bd01f471ef997d27d44d505aa120b1ce0549" entityID="<%= entity_id %>">
-    <!-- TODO: Contact information -->
-
     <!-- The SP description -->
     <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
         <!-- The key that is used by this SP -->
@@ -31,4 +18,16 @@
             <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://<%= shibboleth_hosts[key]['hostname'] %>/Shibboleth.sso/SAML2/POST" index="<%= index %>"/>
         <% end -%>
     </md:SPSSODescriptor>
+
+    <!-- Human-readable information about our SP and who should be contacted -->
+    <md:Organization>
+        <md:OrganizationName xml:lang="en">Research Research</md:OrganizationName>
+        <md:OrganizationDisplayName xml:lang="en">Open Academic Environment</md:OrganizationDisplayName>
+        <md:OrganizationURL xml:lang="en">http://oaeproject.org</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+        <md:GivenName>Steve</md:GivenName>
+        <md:SurName>Potter</md:SurName>
+        <md:EmailAddress>sp@researchresearch.com</md:EmailAddress>
+    </md:ContactPerson>
 </md:EntityDescriptor>
