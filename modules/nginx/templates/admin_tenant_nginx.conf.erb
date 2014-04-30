@@ -34,7 +34,7 @@ server {
 
     # HTML files under /shared/oae/errors are not hashed and should not be cached
     location ~* /shared/oae/errors/([^\.]+).html$ {
-        alias <%= nginxConf.UX_HOME %>/shared/oae/errors/$1.html;
+        alias <%= app_ui_path %>/shared/oae/errors/$1.html;
         expires -1;
     }
 
@@ -52,7 +52,7 @@ server {
     #####################
 
     location /ui/ {
-        alias <%= nginxConf.UX_HOME %>/ui/;
+        alias <%= app_ui_path %>/ui/;
         autoindex off;
         expires max;
     }
@@ -119,7 +119,7 @@ server {
     ######################
 
     location /node_modules/ {
-        alias <%= nginxConf.UX_HOME %>/node_modules/;
+        alias <%= app_ui_path %>/node_modules/;
         autoindex off;
         expires max;
     }
