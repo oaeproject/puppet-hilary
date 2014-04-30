@@ -86,6 +86,16 @@ server {
     }
 
 
+    #################
+    ## ERROR PAGES ##
+    #################
+
+    error_page      401     /shared/oae/errors/accessdenied.html;
+    error_page      404     /shared/oae/errors/notfound.html;
+    error_page      502     /shared/oae/errors/unavailable.html;
+    error_page      503     /shared/oae/errors/maintenance.html;
+
+
     #########################
     ## APP SERVER REQUESTS ##
     #########################
@@ -125,26 +135,5 @@ server {
         expires -1;
         proxy_pass http://globaladminworkers;
     }
-
-
-    ######################
-    ## WIDGET RESOURCES ##
-    ######################
-
-    location /node_modules/ {
-        alias <%= app_ui_path %>/node_modules/;
-        autoindex off;
-        expires max;
-    }
-
-
-    #################
-    ## ERROR PAGES ##
-    #################
-
-    error_page      401     /shared/oae/errors/accessdenied.html;
-    error_page      404     /shared/oae/errors/notfound.html;
-    error_page      502     /shared/oae/errors/unavailable.html;
-    error_page      503     /shared/oae/errors/maintenance.html;
 
 }

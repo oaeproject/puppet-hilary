@@ -32,6 +32,7 @@ server {
     ssl_ciphers RC4:HIGH:!aNULL:!MD5;
     ssl_prefer_server_ciphers on;
 
+
     ######################
     ## SHARED RESOURCES ##
     ######################
@@ -61,7 +62,7 @@ server {
     ## ADMIN RESOURCES ##
     #####################
 
-    location /admin {
+    location /admin/ {
         alias <%= app_ui_path %>/admin/;
         autoindex off;
         expires max;
@@ -73,6 +74,7 @@ server {
         expires -1;
     }
 
+    rewrite ^/admin           /admin/index.html last;
     rewrite ^/admin/tenants   /admin/index.html last;
     rewrite ^/admin/modules   /admin/index.html last;
     rewrite ^/admin/skinning  /admin/index.html last;
