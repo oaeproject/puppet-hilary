@@ -70,7 +70,20 @@ server {
     }
 
     rewrite ^/$              /admin/index.html last;
+    rewrite ^/modules        /admin/index.html last;
+    rewrite ^/tenants        /admin/index.html last;
     rewrite ^/tenant/(.*)$   /admin/index.html last;
+
+
+    ######################
+    ## WIDGET RESOURCES ##
+    ######################
+
+    location /node_modules/ {
+        alias <%= app_ui_path %>/node_modules/;
+        autoindex off;
+        expires max;
+    }
 
 
     #########################
