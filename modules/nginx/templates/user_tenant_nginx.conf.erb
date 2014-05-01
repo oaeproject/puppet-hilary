@@ -74,7 +74,7 @@ server {
         expires -1;
     }
 
-    rewrite ^/admin           /admin/index.html last;
+    rewrite ^/admin$          /admin/index.html last;
     rewrite ^/admin/tenants   /admin/index.html last;
     rewrite ^/admin/modules   /admin/index.html last;
     rewrite ^/admin/skinning  /admin/index.html last;
