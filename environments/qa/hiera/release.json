@@ -16,18 +16,18 @@
 
     "app_install_method": "archive",
     "app_install_config": {
-        "url_parent": "https://s3.amazonaws.com/oae-releases/oae/6.1",
-        "url_filename": "hilary-6.1.1-75-822c843_node-0.10.26",
+        "url_parent": "https://s3.amazonaws.com/oae-releases/oae/6.2",
+        "url_filename": "hilary-6.2.0_node-0.10.26",
         "url_extension": "tar.gz",
-        "checksum": "6659fa3d70c3bd1e360da1d181ddc02c9f6cbd39"
+        "checksum": "f73a7633e3f0a80f5dce0178dedad9f291546a0c"
     },
     "app_ui_path": "/opt/3akai-ux/optimized",
 
     "ux_install_method": "archive",
     "ux_install_config": {
-        "url_parent": "https://s3.amazonaws.com/oae-releases/oae/6.1",
-        "url_filename": "3akai-ux-6.1.1-93-8b74484",
+        "url_parent": "https://s3.amazonaws.com/oae-releases/oae/6.2",
+        "url_filename": "3akai-ux-6.2.0",
         "url_extension": "tar.gz",
-        "checksum": "15076fb1b52365a052d1db65262036425b1f7088"
+        "checksum": "4eaf75676d6c4db05c581e4c3b40d87d46994063"
     }
 }
