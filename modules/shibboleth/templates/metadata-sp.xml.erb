@@ -14,8 +14,13 @@
         </md:KeyDescriptor>
 
         <!-- All the hostnames this SP covers -->
-        <% @shibboleth_hosts.keys.sort.each_with_index do |key, index| -%>
-            <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://<%= shibboleth_hosts[key]['hostname'] %>/Shibboleth.sso/SAML2/POST" index="<%= index %>"/>
+        <%
+            i = 0 
+	    @shibboleth_hosts.keys.sort.each_with_index do |key, index|
+                i = (index*2)
+        -%>
+            <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://<%= shibboleth_hosts[key]['hostname'] %>/Shibboleth.sso/SAML2/POST" index="<%= i %>"/>
+            <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://<%= shibboleth_hosts[key]['hostname'] %>/Shibboleth.sso/SAML2/Redirect" index="<%= i+1 %>"/>
         <% end -%>
     </md:SPSSODescriptor>
 

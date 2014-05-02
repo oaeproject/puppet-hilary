@@ -1,5 +1,20 @@
 {
+
+    "classes": [
+        "::oaeservice::shibboleth"
+    ],
+
     "web_domain": "oae-qa1.oaeproject.org",
+
+    "shibboleth_entity_id": "https://shib-sp.oae-qa1.oaeproject.org/shibboleth",
+    "shibboleth_keyname": "qa1",
+    "shibboleth_subjectname": "CN=qa1",
+    "shibboleth_hosts": {
+        "oae": {
+            "remote_user": "eppn persistent-id",
+            "hostname": "oae.oae-qa1.oaeproject.org"
+        }
+    },
 
     "oaeqaautomation::cron_hour": "*"
 }

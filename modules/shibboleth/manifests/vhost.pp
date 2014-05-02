@@ -7,7 +7,7 @@ define shibboleth::vhost (
         port => '8080',
 
         # We need to pass the url the user arrived at
-        servername => "http://${hostname}:80",
+        servername => "https://${hostname}",
 
         # Unfortunately, the `docroot` parameter is required by the apache::vhost module
         # It's not exposed to users anywhere though
