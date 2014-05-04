@@ -3,12 +3,10 @@
 # This class is responsible for installing the necessary etherpad files from a remote archive. It expects that there will be
 # both a package and a checksum available at a remote URL.
 #
-# The checksum URL should be located at <package url including extension>.<checksum_type>.txt
-#
 # === Parameters
 #
 # [*install_config['url_base']*]
-#   The part of the archive source URI that would come just before the minor version directory (e.g., https://s3.amazonaws.com/oae-releases/etherpad)
+#   The part of the archive source URI that would come just before the minor version directory Default: https://s3.amazonaws.com/oae-releases/etherpad
 #
 # [*install_config['url_extension']*]
 #   The extension of the archive, without the filename of the parent directory URI (e.g., tar.gz). Defaults to 'tar.gz'
@@ -32,8 +30,9 @@
 class etherpad::install::archive ($install_config, $etherpad_root_dir = '/opt/etherpad') {
 
     $_install_config = merge({
+        'url_base'      => 'https://s3.amazonaws.com/oae-releases/etherpad',
         'url_extension' => 'tar.gz',
-        'checksum_type' => 'sha1'
+        'checksum_type' => 'sha1',
     }, $install_config)
 
     $url_base               = $_install_config['url_base']
