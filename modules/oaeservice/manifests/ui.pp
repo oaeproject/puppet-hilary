@@ -9,7 +9,7 @@ class oaeservice::ui {
 
     # Apply the UI class.
     class { '::ui':
-        root_dir        => hiera('ux_root_dir'),
+        ui_root_dir     => hiera('ux_root_dir'),
         install_method  => hiera('ux_install_method', 'git'),
         install_config  => hiera('ux_install_config', {'source' => 'https://github.com/oaeproject/3akai-ux', 'revision' => 'master'})
     }
