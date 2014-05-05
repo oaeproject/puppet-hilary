@@ -22,19 +22,7 @@ class elasticsearch (
     unless    => "test -d ${path_data}",
   }
 
-  archive::download { $filename:
-    url           => "https://download.elasticsearch.org/elasticsearch/elasticsearch/${filename}",
-    digest_string => $checksum,
-    digest_type   => 'sha1',
-    src_target    => '/usr/src'
-  }
-
-  package { 'elasticsearch':
-    ensure    => installed,
-    provider  => dpkg,
-    source    => "/usr/src/${filename}",
-    require   => Archive::Download[$filename]
-  }
+  package { 'elasticsearch': ensure => $version }
 
   file { '/etc/init.d/elasticsearch':
     ensure  => present,
