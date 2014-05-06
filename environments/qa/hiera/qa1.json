@@ -13,6 +13,10 @@
         "oae": {
             "remote_user": "eppn persistent-id",
             "hostname": "oae.oae-qa1.oaeproject.org"
+        },
+        "cam": {
+            "remote_user": "eppn persistent-id",
+            "hostname": "cam.oae-qa1.oaeproject.org"
         }
     },
 

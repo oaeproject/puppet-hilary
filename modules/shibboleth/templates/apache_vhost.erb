@@ -1,13 +1,12 @@
-# We turn canonical resolution **OFF**, even though the shibboleth documentation claims you should enable it.
-# We can't do this as our web server might host multiple endpoints
-UseCanonicalName Off
+# Apache httpd and mod_shib needs a correct host identifier
+UseCanonicalName On
 
 # Keep the host header when proxying the request back to nginx
 ProxyPreserveHost On
 
 # Dont proxy anything under /Shibboleth.sso to nginx as that should go straight to Shibboleth.
 # Keep in mind that /Shibboleth.sso/Metadata is outputted by nginx, as the default Shibboleth metadata files
-# dont suit us very well (they only include the hostname for the current hostname, not for all the tenants).
+# dont suit us very well (they only include the hostname for the current tenant, not for all the tenants).
 ProxyPass /Shibboleth.sso !
 
 # When a user hits anything at /Shibboleth.sso, that should go through mod_shib

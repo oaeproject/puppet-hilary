@@ -52,19 +52,19 @@ class shibboleth::sp (
     }
     file { '/opt/shibboleth-sp/logo.jpg':
         ensure  => present,
-        content => template('shibboleth/logo.jpg'),
+        source  => "puppet:///modules/shibboleth/logo.jpg",
         require => File['/opt/shibboleth-sp'],
     }
     file { '/opt/shibboleth-sp/main.css':
         ensure  => present,
-        content => template('shibboleth/main.css'),
+        source  => "puppet:///modules/shibboleth/main.css",
         require => File['/opt/shibboleth-sp'],
     }
 
     # Ensure that the ukfederation certificate is present
     file { '/etc/shibboleth/ukfederation.cer':
         ensure  => present,
-        content => template('shibboleth/ukfederation.cer'),
+        source  => "puppet:///modules/shibboleth/ukfederation.cer",
         require => Package[$shib_packages],
     }
 
@@ -91,7 +91,7 @@ class shibboleth::sp (
     # Apply the apache vhosts for all of the hosts that wish to have shibboleth enabled
     # We need to apply multiple apache::vhost resources. Unfortunately, we can't pass the $shibboleth_hosts
     # object as the namevar AND use the namevar in the parameters (for the `servername` property)
-    # That's why we wrap it in our own oae::vhost. This is how we can iterate over the $shibboleth_hosts
+    # That's why we wrap it in our own shibboleth::vhost. This is how we can iterate over the $shibboleth_hosts
     # array AND get the value of the namevar in the properties.
     create_resources(shibboleth::vhost, $shibboleth_hosts)
 }
