@@ -3,7 +3,6 @@ class elasticsearch (
     $host_address,
     $path_data,
     $version,
-    $checksum,
     $host_port        = 9200,
     $heap_size_mb     = 384,
     $heap_newsize_mb  = false,
