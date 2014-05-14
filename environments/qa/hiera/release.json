@@ -16,15 +16,15 @@
 
     "app_install_method": "archive",
     "app_install_config": {
-        "version_major_minor": "6.3",
-        "version_patch": "0-19-64884ac",
+        "version_major_minor": "6.4",
+        "version_patch": "0",
         "version_nodejs": "0.10.26"
     },
     "app_ui_path": "/opt/3akai-ux/optimized",
 
     "ux_install_method": "archive",
     "ux_install_config": {
-        "version_major_minor": "6.3",
-        "version_patch": "0-27-bdcdd36"
+        "version_major_minor": "6.4",
+        "version_patch": "0"
     }
 }
