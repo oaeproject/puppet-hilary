@@ -74,8 +74,7 @@
     "search_index": "0",
     "search_data_dir": "/var/lib/elasticsearch",
     "search_memory_mb": 512,
-    "search_version": "0.20.6",
-    "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
+    "search_version": "1.1.1",
 
     "etherpad_internal_hosts": [ "127.0.0.1" ],
     "etherpad_index": "%{nodesuffix}",
