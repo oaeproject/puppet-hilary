@@ -45,7 +45,7 @@
     "app_install_method": "archive",
     "app_install_config": {
         "version_major_minor": "6.4",
-        "version_patch": "0",
+        "version_patch": "0-7-ee6337f",
         "version_nodejs": "0.10.26"
     },
 
