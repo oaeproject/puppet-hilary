@@ -380,3 +380,13 @@ monitor.jvm.gc.young.debug: 400ms
 monitor.jvm.gc.old.warn: 10s
 monitor.jvm.gc.old.info: 5s
 monitor.jvm.gc.old.debug: 2s
+
+################################## Thread Pools ################################
+
+# By default, the queue_size for bulk index pool is 50. In scenarios where OAE does a
+# re-indexall operation, it hammers the bulk indexing operations and exceeds 50, where
+# it begins dropping bulk requests and resulting in a partial re-index. Here, we unbound
+# it so that doesn't happen. This should be fine as bulk index requests are rare in regular
+# production scenarios
+threadpool.bulk.type: fixed
+threadpool.bulk.queue_size: -1
