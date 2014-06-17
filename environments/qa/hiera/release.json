@@ -17,7 +17,7 @@
     "app_install_method": "archive",
     "app_install_config": {
         "version_major_minor": "6.5",
-        "version_patch": "1-133-228c63c",
+        "version_patch": "1-133-c4b81e9",
         "version_nodejs": "0.10.26"
     },
     "app_ui_path": "/opt/3akai-ux/optimized",
