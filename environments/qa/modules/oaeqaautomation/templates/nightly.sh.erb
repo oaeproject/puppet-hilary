@@ -76,7 +76,7 @@ oaesh -U http://<%= admin_host %> -u administrator -p administrator -- \
 
 # Disable reCaptcha
 oaesh -U http://<%= admin_host %> -u administrator -p administrator -- \
-    config-set -k "oae-principals/recaptcha/enabled=true"
+    config-set -k "oae-principals/recaptcha/enabled=false"
 
 if [[ "<%= flickr_api_key %>" != "unset" ]] ; then
     # Configuring the Flickr and SlideShare Preview Processor
