@@ -75,12 +75,12 @@ oaesh -U http://<%= admin_host %> -u administrator -p administrator -- \
     exec -m POST "/api/tenant/create?alias=oae&displayName=Open Academic Environment&host=oae.<%= web_domain %>"
 
 # Disable reCaptcha
-oaesh -U http://admin.oae.com -u administrator -p administrator -- \
+oaesh -U http://<%= admin_host %> -u administrator -p administrator -- \
     config-set -k "oae-principals/recaptcha/enabled=true"
 
 if [[ "<%= flickr_api_key %>" != "unset" ]] ; then
     # Configuring the Flickr and SlideShare Preview Processor
-    oaesh -U http://admin.oae.com -u administrator -p administrator -- \
+    oaesh -U http://<%= admin_host %> -u administrator -p administrator -- \
         config-set \
             -k "oae-preview-processor/flickr/apikey=<%=flickr_api_key %>" \
             -k "oae-preview-processor/flickr/apisecret=<%=flickr_api_secret %>" \
