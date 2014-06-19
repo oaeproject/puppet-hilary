@@ -78,12 +78,13 @@ class oaeqaautomation (
     }
 
     cron { 'nightly-redeploy':
-        ensure  => present,
-        command => "${scripts_dir}/nightly.sh >> ${log_file_path} 2>> ${log_file_path}",
-        user    => 'root',
-        target  => 'root',
-        hour    => $cron_hour,
-        minute  => $cron_minute,
+        ensure      => present,
+        environment => "CWD=\"${scripts_dir}\"",
+        command     => "${scripts_dir}/nightly.sh >> ${log_file_path} 2>> ${log_file_path}",
+        user        => 'root',
+        target      => 'root',
+        hour        => $cron_hour,
+        minute      => $cron_minute,
     }
 
     # git clone https://github.com/oaeproject/OAE-model-loader
