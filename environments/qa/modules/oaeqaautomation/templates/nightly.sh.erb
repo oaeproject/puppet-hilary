@@ -60,22 +60,34 @@ sleep $DELAY
 # Restarting nginx so it finds the app server up quicker
 service nginx restart
 
+echo ""
+echo "Updating oaesh"
+npm install -g
+
 # Create an 'oae' tenant.
 echo ""
 echo "Creating an 'oae' tenant and disabling reCaptcha"
-ADMIN_COOKIE=$(curl -s -e "/" --cookie-jar - -d"username=administrator" -d"password=administrator" http://<%= admin_host %>/api/auth/login | grep connect.sess | cut -f 7)
-curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d "alias=oae" -d"displayName=Open Academic Environment" -d"host=oae.<%= web_domain %>" http://<%= admin_host %>/api/tenant/create
+
+# Create the OAE tenant
+oaesh -U http://<%= admin_host %> -u administrator -p administrator -- \
+    exec -m POST "/api/tenant/create?alias=oae&displayName=Open Academic Environment&host=oae.<%= web_domain %>"
 
 # Disable reCaptcha
-curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d "oae-principals/recaptcha/enabled=false" http://<%= admin_host %>/api/config/oae
+oaesh -U http://admin.oae.com -u administrator -p administrator -- \
+    config-set -k "oae-principals/recaptcha/enabled=true"
 
 if [[ "<%= flickr_api_key %>" != "unset" ]] ; then
     # Configuring the Flickr and SlideShare Preview Processor
-    curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"oae-preview-processor/flickr/apikey=<%=flickr_api_key %>" -d"oae-preview-processor/flickr/apisecret=<%=flickr_api_secret %>" -d"oae-preview-processor/slideshare/sharedsecret=<%=slideshare_shared_secret %>" -d"oae-preview-processor/slideshare/apikey=<%= slideshare_api_key %>" http://<%= admin_host %>/api/config
+    oaesh -U http://admin.oae.com -u administrator -p administrator -- \
+        config-set \
+            -k "oae-preview-processor/flickr/apikey=<%=flickr_api_key %>" \
+            -k "oae-preview-processor/flickr/apisecret=<%=flickr_api_secret %>" \
+            -k "oae-preview-processor/slideshare/sharedsecret=<%=slideshare_shared_secret %>" \
+            -k "oae-preview-processor/slideshare/apikey=<%= slideshare_api_key %>"
 fi
 
-# Performing a data load.
-# An initial set of scripts should already be present on the server (requires manual intervention)
+# Performing a data load. An initial set of scripts should already be present on the server (requires
+# manual intervention)
 echo ""
 echo "Loading data via the model loader"
 cd <%= model_loader_dir %>
