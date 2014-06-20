@@ -24,8 +24,6 @@ class oaeqaautomation (
     #  * load in a pre-generated set of data via the model loader.
     #
 
-    $log_file_path = "${log_file_dir}/`date +'%Y-%m-%d-%H-%M'`.log"
-
     $scripts_dir = hiera('automation_scripts_dir')
     $cassandra_data_dir = hiera('db_data_dir')
     $elasticsearch_data_dir = hiera('search_data_dir')
@@ -77,10 +75,10 @@ class oaeqaautomation (
         minute  => 0,
     }
 
+    $cron_log_file_path = "${log_file_dir}/`date +'\\%Y-\\%m-\\%d-\\%H-\\%M'`.log"
     cron { 'nightly-redeploy':
         ensure      => present,
-        environment => "CWD=\"${scripts_dir}\"",
-        command     => "${scripts_dir}/nightly.sh >> ${log_file_path} 2>> ${log_file_path}",
+        command     => "${scripts_dir}/nightly.sh >> ${cron_log_file_path} 2>> ${cron_log_file_path}",
         user        => 'root',
         target      => 'root',
         hour        => $cron_hour,
