@@ -79,6 +79,9 @@ class oaeservice::hilary {
 
     config_email_debug                      => hiera('email_debug'),
     config_email_customEmailTemplatesDir    => hiera('email_customEmailTemplatesDir'),
+    config_email_deduplicationInterval      => hiera('email_deduplicationInterval'),
+    config_email_throttleTimespan           => hiera('email_throttleTimespan'),
+    config_email_throttleCount              => hiera('email_throttleCount'),
     config_email_transport                  => hiera('email_transport'),
     config_email_sendmail_path              => hiera('email_sendmail_path'),
     config_email_smtp_service               => hiera('email_smtp_service'),
