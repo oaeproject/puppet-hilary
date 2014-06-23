@@ -340,6 +340,16 @@ config.activity = {
     'maxConcurrentRouters': 5,
     'collectionPollingFrequency': 5,
     'collectionBatchSize': 1000,
+    'mail': {
+        'pollingFrequency': 10 * 60,    // Collect every 10 minutes
+        'daily': {
+            'hour': 8                   // Sent daily at 8am
+        },
+        'weekly': {
+            'day': 5,                   // Sent weekly on Friday
+            'hour': 12                  // Sent weekly on Friday @ 12pm
+        }
+    },
 <% if config_activity_redis_host -%>
     'redis': {
         'host': '<%= config_activity_redis_host %>',
