@@ -25,6 +25,6 @@
     "ux_install_method": "archive",
     "ux_install_config": {
         "version_major_minor": "7.0",
-        "version_patch": "0-4-4477c81"
+        "version_patch": "1"
     }
 }
