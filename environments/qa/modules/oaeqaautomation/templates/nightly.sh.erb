@@ -72,7 +72,7 @@ echo "Creating an 'oae' tenant and disabling reCaptcha"
 
 # Create the OAE tenant
 oaesh -U http://<%= admin_host %> -u administrator -p administrator -- \
-    exec -m POST "/api/tenant/create?alias=oae&displayName=Open Academic Environment&host=oae.<%= web_domain %>"
+    exec /api/tenant/create -d "alias=oae" -d "displayName=Open Academic Environment" -d "host=oae.<%= web_domain %>"
 
 # Disable reCaptcha
 oaesh -U http://<%= admin_host %> -u administrator -p administrator -- \
