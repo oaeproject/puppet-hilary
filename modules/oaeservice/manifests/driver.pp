@@ -38,7 +38,7 @@ class oaeservice::driver {
     exec { 'npm_install_modelloader':
         cwd     => $oae_loader_dir,
         command => 'npm install -d',
-        require => Vcsrepo[$oae_loader_dir]
+        require => [Class['::oaeservice::deps::package::nodejs'], Vcsrepo[$oae_loader_dir]]
     }
 
     # Install Nginx, so we have a place to put the data
