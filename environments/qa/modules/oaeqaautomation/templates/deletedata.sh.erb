@@ -18,10 +18,6 @@ rm -rf /var/lib/cassandra/commitlog/*
 echo "Removing all redis data."
 rm -rf /var/lib/redis/*
 
-# Preserve the application logs.
-echo "Moving app logs"
-mv <%= app_root_dir %>/server.log "/var/log/oae/$(date +%Y-%m-%d)-app.server.log"
-
 # Code. Might as well
 echo "Wiping UI files."
 rm -rf <%= app_root_dir %>
