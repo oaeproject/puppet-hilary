@@ -49,6 +49,7 @@ class hilary (
 
     # Search
     $config_search_hosts,
+    $config_search_enabled            = true,
 
     # RabbitMQ
     $config_mq_hosts,

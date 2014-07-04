@@ -7,9 +7,10 @@
         "::oaeservice::nagios::disk::shared",
         "::oaeservice::nagios::hilary",
         "::oaeservice::ui",
-        
+
         "::localconfig::ordering::app"
     ],
 
-    "nagios_hostgroup": "appservers"
+    "nagios_hostgroup": "appservers",
+    "search_enabled": false
 }
