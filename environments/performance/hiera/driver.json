@@ -1,5 +1,7 @@
 {
     "classes": [
-        "::oaeservice::driver"
+        "::oaeservice::driver",
+
+        "::localconfig::ordering::tsung"
     ]
 }
