@@ -39,12 +39,13 @@ server {
     }
 
     rewrite ^/accessdenied            /shared/oae/errors/accessdenied.html last;
-    rewrite ^/servermaintenance       /shared/oae/errors/servermaintenance.html last;
     rewrite ^/noscript                /shared/oae/errors/noscript.html last;
     rewrite ^/notfound                /shared/oae/errors/notfound.html last;
+    rewrite ^/servermaintenance       /shared/oae/errors/servermaintenance.html last;
     rewrite ^/unavailable             /shared/oae/errors/unavailable.html last;
 
-    rewrite ^/favicon.ico /shared/oae/img/favicon.ico last;
+    rewrite ^/favicon.ico             /shared/oae/img/favicon.ico last;
+    rewrite ^/robots.txt              /shared/oae/robots.txt last;
 
 
     #####################
