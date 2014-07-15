@@ -93,9 +93,24 @@
   // restrict socket.io transport methods
   "socketTransportProtocols" : ["websocket", "xhr-polling", "jsonp-polling", "htmlfile"],
 
+  /* The toolbar buttons configuration */
+  "toolbar": {
+    "left": [
+      ["bold", "italic", "underline", "strikethrough"],
+      ["orderedlist", "unorderedlist", "indent", "outdent"],
+      ["undo", "redo"],
+      ["clearauthorship"]
+    ],
+    "right": [
+      ["importexport", "settings", "showusers"]
+    ]
+  },
+
   "sessionKey": "<%= session_key %>",
 
+  /* Enable the spell checker */
   "ep_spellcheck_default": true,
 
+  /* Enable the page breaks */
   "ep_page_view_default": true
 }
