@@ -26,5 +26,11 @@
     "ux_install_config": {
         "version_major_minor": "7.1",
         "version_patch": "1"
+    },
+
+    "etherpad_install_config": {
+        "version_major_minor": "1.4",
+        "version_patch": "0",
+        "version_nodejs": "0.10.17"
     }
 }
