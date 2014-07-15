@@ -90,6 +90,12 @@
   /* The log level we are using, can be: DEBUG, INFO, WARN, ERROR */
   "loglevel": "WARN",
 
+  /* Logging configuration. See log4js documentation for further information
+   * https://github.com/nomiddlename/log4js-node
+   * TODO: Investigate log4js-syslog (https://github.com/Pita/log4js-syslog/blob/master/index.js)
+   */
+  "logconfig": { "appenders": [{ "type": "console" }]},
+
   // restrict socket.io transport methods
   "socketTransportProtocols" : ["websocket", "xhr-polling", "jsonp-polling", "htmlfile"],
 
