@@ -46,7 +46,7 @@
     "app_install_method": "archive",
     "app_install_config": {
         "version_major_minor": "7.1",
-        "version_patch": "0",
+        "version_patch": "1",
         "version_nodejs": "0.10.26"
     },
 
@@ -73,7 +73,7 @@
     "ux_install_method": "archive",
     "ux_install_config": {
         "version_major_minor": "7.1",
-        "version_patch": "0"
+        "version_patch": "1"
     },
 
     "db_cluster_name": "OAE Production Cluster",
