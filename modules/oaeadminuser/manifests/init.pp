@@ -1,7 +1,7 @@
-define oaeadminuser ($pubkey = undef, $passwd = undef, $pubkey_type = 'ssh-rsa', $groups = 'admin') {
+define oaeadminuser ($pubkey = undef, $passwd = undef, $pubkey_type = 'ssh-rsa', $groups = 'admin', $ensure = 'present') {
 
     user { $name:
-        ensure      => 'present',
+        ensure      => $ensure,
         home        => "/home/${name}",
         managehome  => true,
         password    => $passwd,
@@ -9,30 +9,32 @@ define oaeadminuser ($pubkey = undef, $passwd = undef, $pubkey_type = 'ssh-rsa',
         shell       => '/bin/bash',
     }
 
-    file { "/home/${name}":
-        ensure  => directory,
-        mode    => '0755',
-        owner   => $name,
-        group   => $name,
-        require => User[$name],
-    }
+    if ($ensure != 'absent') {
+        file { "/home/${name}":
+            ensure  => directory,
+            mode    => '0755',
+            owner   => $name,
+            group   => $name,
+            require => User[$name],
+        }
 
-    file { "/home/${name}/.ssh":
-        ensure  => directory,
-        mode    => '0750',
-        owner   => $name,
-        group   => $name,
-        require => File["/home/${name}"],
-    }
+        file { "/home/${name}/.ssh":
+            ensure  => directory,
+            mode    => '0750',
+            owner   => $name,
+            group   => $name,
+            require => File["/home/${name}"],
+        }
 
-    if ($pubkey) {
-        ssh_authorized_key { $name:
-            ensure  => 'present',
-            type    => $pubkey_type,
-            key     => $pubkey,
-            user    => $name,
-            name    => $name,
-            require => File["/home/${name}/.ssh"],
+        if ($pubkey) {
+            ssh_authorized_key { $name:
+                ensure  => 'present',
+                type    => $pubkey_type,
+                key     => $pubkey,
+                user    => $name,
+                name    => $name,
+                require => File["/home/${name}/.ssh"],
+            }
         }
     }
 }
