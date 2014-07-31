@@ -227,6 +227,17 @@ server {
         proxy_pass http://tenantworkers;
     }
 
+    location ~* /api/content/([^\/]+)/publish {
+<% if rate_limit_api -%>
+        limit_req zone=addr_api_create burst=10;
+<% end -%>
+
+        expires -1;
+        proxy_read_timeout 300;
+        proxy_next_upstream error http_502;
+        proxy_pass http://tenantworkers;
+    }
+
     location ~* /api/content/([^\/]+)/revisions/([^\/]+)/previews {
 <% if rate_limit_api -%>
         limit_req zone=addr_api_create burst=10;
@@ -234,6 +245,17 @@ server {
 
         expires -1;
         proxy_read_timeout 1200;
+        proxy_next_upstream error http_502;
+        proxy_pass http://tenantworkers;
+    }
+
+    location ~* /api/content/([^\/]+)/revisions/([^\/]+)/restore {
+<% if rate_limit_api -%>
+        limit_req zone=addr_api_create burst=10;
+<% end -%>
+
+        expires -1;
+        proxy_read_timeout 300;
         proxy_next_upstream error http_502;
         proxy_pass http://tenantworkers;
     }
