@@ -150,9 +150,11 @@ server {
         expires -1;
     }
 
-    rewrite ^/docs$                 /docs/index.html last;
-    rewrite ^/docs/backend          /docs/index.html last;
-    rewrite ^/docs/frontend         /docs/index.html last;
+    rewrite ^/docs$                     /docs/index.html last;
+    rewrite ^/docs/internal$            /docs/internal/index.html last;
+    rewrite ^/docs/internal/backend     /docs/internal/index.html last;
+    rewrite ^/docs/internal/frontend    /docs/internal/index.html last;
+    rewrite ^/docs/rest$                /docs/rest/index.html last;
 
 
     #################

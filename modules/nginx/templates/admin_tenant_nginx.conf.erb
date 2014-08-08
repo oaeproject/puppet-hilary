@@ -90,6 +90,28 @@ server {
     }
 
 
+    ####################
+    ## DOCS RESOURCES ##
+    ####################
+
+    location /docs/ {
+        alias <%= app_ui_path %>/docs/;
+        autoindex off;
+    }
+
+    # HTML files under /docs are not hashed and should not be cached
+    location ~* /docs/([^\.]+).html$ {
+        alias <%= app_ui_path %>/docs/$1.html;
+        expires -1;
+    }
+
+    rewrite ^/docs$                     /docs/index.html last;
+    rewrite ^/docs/internal$            /docs/internal/index.html last;
+    rewrite ^/docs/internal/backend     /docs/internal/index.html last;
+    rewrite ^/docs/internal/frontend    /docs/internal/index.html last;
+    rewrite ^/docs/rest$                /docs/rest/index.html last;
+
+
     #################
     ## ERROR PAGES ##
     #################
