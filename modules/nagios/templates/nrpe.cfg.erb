@@ -260,7 +260,7 @@ command[check_disk_shared]=/usr/lib/nagios/plugins/check_disk -w 30% -c 15% -p /
 command[check_disk_data]=/usr/lib/nagios/plugins/check_disk -w 30% -c 15% -p /data
 
 # Database checks
-command[check_cassandra_running]=/usr/lib/nagios/plugins/check_procs -u cassandra -a jsvc.exec -c 1:1 -w 1:1
+command[check_cassandra_running]=/usr/lib/nagios/plugins/check_procs -u cassandra -a java -c 1:1 -w 1:1
 command[check_cassandra_query]=/usr/lib/nagios/plugins/check_cassandra_query
 
 # Redis checks

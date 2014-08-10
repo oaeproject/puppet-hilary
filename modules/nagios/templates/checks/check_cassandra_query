@@ -2,7 +2,7 @@
 #
 # Simple script that tries to execute a query against a local cassandra node.
 
-echo "select * from schema_keyspaces;" > /tmp/cassandra.cql;
+echo "use system; select * from schema_keyspaces;" > /tmp/cassandra.cql;
 cass=$(/usr/bin/cqlsh -f /tmp/cassandra.cql 2>&1)
 
 if [[ "$?" != "0" ]] ; then
