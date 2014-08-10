@@ -1,7 +1,8 @@
 class oracle-java (
-        $file_name    = 'jdk-6u45-linux-x64.bin',
-        $package_name = 'jdk1.6.0_45'
+        $file_name    = 'jdk-7u65-linux-x64.gz',
+        $package_name = 'jdk1.7.0_65'
     ) {
+
 
     file { '/usr/lib/jvm/':
         ensure => directory,
@@ -12,13 +13,12 @@ class oracle-java (
         mode    => 700,
         source  => "puppet:///modules/oracle-java/${file_name}",
         require => File['/usr/lib/jvm/'],
-        notify  => Exec['unpack-java'],
+        notify  => Exec['install-java'],
     }
 
-    exec { 'unpack-java':
-        command     => $file_name,
+    exec { 'install-java':
+        command     => "/bin/tar -xzvf $file_name",
         cwd         => '/usr/lib/jvm/',
-        path        => '/usr/lib/jvm/',
         refreshonly => true,
         notify      => Exec['update-alternatives'],
     }
@@ -29,3 +29,4 @@ class oracle-java (
         refreshonly => true,
     }
 }
+

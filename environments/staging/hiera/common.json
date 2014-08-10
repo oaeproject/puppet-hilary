@@ -74,7 +74,7 @@
         "version_patch": "0"
     },
 
-    "db_cluster_name": "OAE Staging Cluster",
+    "db_cluster_name": "OAE Production Cluster",
     "db_keyspace": "oae",
     "db_hosts": [ "db0", "db1", "db2" ],
     "db_tokens": [ "0", "56713727820156407428984779325531226112", "113427455640312814857969558651062452224" ],
