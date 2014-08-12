@@ -31,10 +31,9 @@ Vice versa, do not try to share anything that you compiled on your host OS with 
 
 ##### Download the Oracle JDK
 
-Dependencies such as Cassandra and Elasticsearch perform best on the Oracle JDK 6. Unfortunately, we cannot automate the step that downloads the JDK itself
-as you need to accept the Oracle Binary Code License Agreement.
-You can download the JDK (jdk-6u45-linux-x64.bin) on [Oracle's JDK6 download page](http://www.oracle.com/technetwork/java/javasebusiness/downloads/java-archive-downloads-javase6-419409.html#jdk-6u45-oth-JPR).
-You should save it at `~/OAE/puppet-hilary/modules/oracle-java/files/jdk-6u45-linux-x64.bin`.
+Dependencies such as Cassandra and Elasticsearch perform best on Oracle JDK 7. Unfortunately, we cannot automate the step that downloads the JDK itself as you need to accept the Oracle Binary Code License Agreement.
+You can download the JDK (jdk-7u65-linux-x64.tar.gz) on [Oracle's JDK7 download page](http://www.oracle.com/technetwork/java/javase/downloads/java-archive-downloads-javase7-521261.html#jdk-7u65-oth-JPR).
+You should save it at `~/OAE/puppet-hilary/modules/oracle-java/files/jdk-7u65-linux-x64.gz`. (Note that Oracle lists the file incorrectly as `.tar.gz` whilst it is actually `.gz`)
 
 ##### Configure your hosts file
 
