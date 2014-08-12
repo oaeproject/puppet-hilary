@@ -76,13 +76,13 @@ EOF
 
 # Run puppet
 echo "Applying puppet catalog. This might take a while (~30+ mins is not unreasonable)"
-puppet apply --verbose --debug --modulepath environments/local/modules:modules:/etc/puppet/modules --certname dev --environment local --hiera_config /etc/puppet/hiera.yaml site.pp
+puppet apply --modulepath environments/local/modules:modules:/etc/puppet/modules --certname dev --environment local --hiera_config /etc/puppet/hiera.yaml site.pp
 
 STATUS_CODE=$?
 if [ $STATUS_CODE -ne 0 ] ; then
     echo "Got a ${STATUS_CODE} status code, which indicates the puppet catalog could not be properly applied."
     echo "There are a couple of possible things you can do:"
-    echo " - Run vagrant ssh and try running cd /vagrant && sudo puppet apply --verbose --debug --modulepath environments/local/modules:modules:/etc/puppet/modules --certname dev --environment local --hiera_config /etc/puppet/hiera.yaml site.pp"
+    echo " - Run vagrant ssh and try running cd /vagrant && sudo puppet apply --modulepath environments/local/modules:modules:/etc/puppet/modules --certname dev --environment local --hiera_config /etc/puppet/hiera.yaml site.pp"
     echo " - If you're familiar with puppet try to analyze the output and tweak the puppet scripts"
     echo " - Hop onto #sakai on irc.freenode.org and ask if anyone has seen your error"
     echo " - Shoot an e-mail to oae-dev@sakaiproject.org with the above output"
@@ -104,8 +104,8 @@ sleep 5
 # Start the app server
 service hilary restart
 
-echo "Sleeping 15 seconds to give the app server a little bit of time to start up"
-sleep 15
+echo "Sleeping 30 seconds to give the app server a little bit of time to start up"
+sleep 30
 
 curl http://localhost:2000/api/me
 

@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "../3akai-ux", "/opt/3akai-ux"
 
   # Run a shell script that will do some basic bootstrapping and finally runs puppet.
-  config.vm.provision :shell, :path => "provisioning/vagrant/init.sh"
+  config.vm.provision "shell", run: "always", :path => "provisioning/vagrant/init.sh"
 
   # Allow us to create symlinks on the FS
   config.vm.provider :virtualbox do |vb|

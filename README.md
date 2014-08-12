@@ -13,7 +13,7 @@ It's possible to get OAE up and running on your local machine using [Vagrant(htt
 ##### Install VirtualBox and Vagrant
 
 * Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-* Install [Vagrant](http://downloads.vagrantup.com)
+* Install [Vagrant](http://downloads.vagrantup.com) - You'll need at least version 1.6
 
 ##### Get the source code
 
