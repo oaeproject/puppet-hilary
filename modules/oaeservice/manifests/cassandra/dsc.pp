@@ -1,5 +1,6 @@
 class oaeservice::cassandra::dsc {
     include ::apt
+    include ::oaeservice::deps::package::oraclejava6jre
     include ::oaeservice::cassandra::params
 
     apt::source { 'datastax':

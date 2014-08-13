@@ -9,16 +9,14 @@ class cassandra (
     $initial_token      = '',
     $rsyslog_enabled    = false,
     $rsyslog_host       = '127.0.0.1',
-    $dsc_version        = '2.0.9-1',
-    $cassandra_version  = '1.2.10') {
+    $dsc_version        = '2.0.9-1') {
 
-  package { 'cassandra': ensure => $cassandra_version }
   package { 'python-cql': ensure => installed }
 
   package { 'dsc20':
     ensure  => $dsc_version,
     alias   => 'dsc',
-    require => [ Package['cassandra'], Package['python-cql'] ],
+    require => Package['python-cql'],
   }
 
   file { 'cassandra.yaml':
