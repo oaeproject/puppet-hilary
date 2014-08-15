@@ -34,13 +34,13 @@ class oaeservice::deps::pp {
     }
 
     # Install more msfonts
-    file { '/tmp/fonts.sh':
+    file { '/root/fonts.sh':
         content  => template('oaeservice/msfonts/fonts.sh'),
         mode     => "0755",
     }
     # Only run if there is a font missing
-    exec {'/tmp/fonts.sh':
+    exec {'/root/fonts.sh':
         creates  => '/usr/share/fonts/truetype/msttcorefonts/MTCORSVA.TTF',
-        require  => [ File['/tmp/fonts.sh'], Package['ttf-mscorefonts-installer'] ]
+        require  => [ File['/root/fonts.sh'], Package['ttf-mscorefonts-installer'] ]
     }
 }
