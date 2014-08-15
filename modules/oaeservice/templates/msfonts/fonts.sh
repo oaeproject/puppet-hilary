@@ -47,3 +47,7 @@ cp fonts/* /usr/share/fonts/truetype/msttcorefonts
 
 # Rebuild the font-cache
 fc-cache -fv
+
+# Clean it all up
+cd ~
+rm -rf $tmp_dir
