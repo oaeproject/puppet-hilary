@@ -39,25 +39,6 @@ node 'app3' inherits app {
   hiera_include(classes)
 }
 
-node 'app4' inherits app {
-  $nodesuffix = 4
-  hiera_include(classes)
-}
-
-node 'app5' inherits app {
-  $nodesuffix = 5
-  hiera_include(classes)
-}
-
-node 'app6' inherits app {
-  $nodesuffix = 6
-  hiera_include(classes)
-}
-
-node 'app7' inherits app {
-  $nodesuffix = 7
-  hiera_include(classes)
-}
 
 ####################
 ## ACTIVITY NODES ##
@@ -98,22 +79,6 @@ node 'db2' inherits db {
   $nodesuffix = 2
   hiera_include(classes)
 }
-
-node 'db3' inherits db {
-  $nodesuffix = 3
-  hiera_include(classes)
-}
-
-node 'db4' inherits db {
-  $nodesuffix = 4
-  hiera_include(classes)
-}
-
-node 'db5' inherits db {
-  $nodesuffix = 5
-  hiera_include(classes)
-}
-
 
 
 ##################
@@ -188,22 +153,6 @@ node 'pp2' inherits pp {
   $nodesuffix = 2
   hiera_include(classes)
 }
-
-node 'pp3' inherits pp {
-  $nodesuffix = 3
-  hiera_include(classes)
-}
-
-node 'pp4' inherits pp {
-  $nodesuffix = 4
-  hiera_include(classes)
-}
-
-node 'pp5' inherits pp {
-  $nodesuffix = 5
-  hiera_include(classes)
-}
-
 
 
 ####################
