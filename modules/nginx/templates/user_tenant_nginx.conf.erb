@@ -1,31 +1,31 @@
-<% if ssl_policy == 'redirect_http' -%>
+<% if @ssl_policy == 'redirect_http' -%>
 server {
-<% if server_name == 'default_server' -%>
+<% if @server_name == 'default_server' -%>
     listen          80 default_server;
 <% else -%>
     listen          80;
-    server_name     <%= server_name %>;
+    server_name     <%= @server_name %>;
 <% end -%>
     return          301 https://$host$request_uri;
 }
 <% end -%>
 
 server {
-<% if server_name == 'default_server' -%>
-<% if ssl_policy == 'allow_http' -%>
+<% if @server_name == 'default_server' -%>
+<% if @ssl_policy == 'allow_http' -%>
     listen      80 default_server;
 <% end -%>
     listen      443 default_server ssl;
 <% else -%>
-<% if ssl_policy == 'allow_http' -%>
+<% if @ssl_policy == 'allow_http' -%>
     listen      80;
 <% end -%>
     listen      443 ssl;
-    server_name <%= server_name %>;
+    server_name <%= @server_name %>;
 <% end -%>
 
-    ssl_certificate      <%= ssl_crt_path %>;
-    ssl_certificate_key  <%= ssl_key_path %>;
+    ssl_certificate      <%= @ssl_crt_path %>;
+    ssl_certificate_key  <%= @ssl_key_path %>;
 
     # Prevent BEAST attack
     # @see http://www.kb.cert.org/vuls/id/864643
@@ -38,14 +38,14 @@ server {
     ######################
 
     location /shared/ {
-        alias <%= app_ui_path %>/shared/;
+        alias <%= @app_ui_path %>/shared/;
         autoindex off;
         expires max;
     }
 
     # HTML files under /shared/oae/errors are not hashed and should not be cached
     location ~* /shared/oae/errors/([^\.]+).html$ {
-        alias <%= app_ui_path %>/shared/oae/errors/$1.html;
+        alias <%= @app_ui_path %>/shared/oae/errors/$1.html;
         expires -1;
     }
 
@@ -64,14 +64,14 @@ server {
     #####################
 
     location /admin/ {
-        alias <%= app_ui_path %>/admin/;
+        alias <%= @app_ui_path %>/admin/;
         autoindex off;
         expires max;
     }
 
     # HTML files under /admin are not hashed and should not be cached
     location ~* /admin/([^\.]+).html$ {
-        alias <%= app_ui_path %>/admin/$1.html;
+        alias <%= @app_ui_path %>/admin/$1.html;
         expires -1;
     }
 
@@ -92,26 +92,26 @@ server {
         expires -1;
 
         # Tell Nginx that the root is the UI directory so custom files can be located with try_files
-        root <%= app_ui_path %>;
+        root <%= @app_ui_path %>;
 
         try_files /custom/$host/index.html /ui/index.html;
     }
 
     location /ui/ {
-        alias <%= app_ui_path %>/ui/;
+        alias <%= @app_ui_path %>/ui/;
         autoindex off;
         expires max;
     }
 
     location /custom/ {
-        alias <%= app_ui_path %>/custom/;
+        alias <%= @app_ui_path %>/custom/;
         autoindex off;
         expires max;
     }
 
     # HTML files under /ui are not hashed and should not be cached
     location ~* /ui/([^\.]+).html$ {
-        alias <%= app_ui_path %>/ui/$1.html;
+        alias <%= @app_ui_path %>/ui/$1.html;
         expires -1;
     }
 
@@ -129,7 +129,7 @@ server {
     ######################
 
     location /node_modules/ {
-        alias <%= app_ui_path %>/node_modules/;
+        alias <%= @app_ui_path %>/node_modules/;
         autoindex off;
         expires max;
     }
@@ -140,13 +140,13 @@ server {
     ####################
 
     location /docs/ {
-        alias <%= app_ui_path %>/docs/;
+        alias <%= @app_ui_path %>/docs/;
         autoindex off;
     }
 
     # HTML files under /docs are not hashed and should not be cached
     location ~* /docs/([^\.]+).html$ {
-        alias <%= app_ui_path %>/docs/$1.html;
+        alias <%= @app_ui_path %>/docs/$1.html;
         expires -1;
     }
 
@@ -167,14 +167,14 @@ server {
     error_page      503     /shared/oae/errors/servermaintenance.html;
 
 
-<% if static_assets_dir -%>
+<% if @static_assets_dir -%>
 
     ###################
     ## STATIC ASSETS ##
     ###################
 
     location /assets/ {
-        alias <%= static_assets_dir %>/;
+        alias <%= @static_assets_dir %>/;
         autoindex off;
         expires max;
     }
@@ -198,7 +198,7 @@ server {
     }
 
     location /api/content/create {
-<% if rate_limit_api -%>
+<% if @rate_limit_api -%>
         limit_req zone=addr_api_create burst=10;
 <% end -%>
 
@@ -209,7 +209,7 @@ server {
     }
 
     location ~* /api/content/([^\/]+)/messages {
-<% if rate_limit_api -%>
+<% if @rate_limit_api -%>
         limit_req zone=addr_api_create burst=400;
 <% end -%>
 
@@ -219,7 +219,7 @@ server {
     }
 
     location ~* /api/content/([^\/]+)/newversion {
-<% if rate_limit_api -%>
+<% if @rate_limit_api -%>
         limit_req zone=addr_api_create burst=10;
 <% end -%>
 
@@ -230,7 +230,7 @@ server {
     }
 
     location ~* /api/content/([^\/]+)/publish {
-<% if rate_limit_api -%>
+<% if @rate_limit_api -%>
         limit_req zone=addr_api_create burst=10;
 <% end -%>
 
@@ -241,7 +241,7 @@ server {
     }
 
     location ~* /api/content/([^\/]+)/revisions/([^\/]+)/previews {
-<% if rate_limit_api -%>
+<% if @rate_limit_api -%>
         limit_req zone=addr_api_create burst=10;
 <% end -%>
 
@@ -252,7 +252,7 @@ server {
     }
 
     location ~* /api/content/([^\/]+)/revisions/([^\/]+)/restore {
-<% if rate_limit_api -%>
+<% if @rate_limit_api -%>
         limit_req zone=addr_api_create burst=10;
 <% end -%>
 
@@ -263,7 +263,7 @@ server {
     }
 
     location /api/discussion/create {
-<% if rate_limit_api -%>
+<% if @rate_limit_api -%>
         limit_req zone=addr_api_create burst=10;
 <% end -%>
 
@@ -273,7 +273,7 @@ server {
     }
 
     location ~* /api/discussion/([^\/]+)/messages {
-<% if rate_limit_api -%>
+<% if @rate_limit_api -%>
         limit_req zone=addr_api_create burst=400;
 <% end -%>
 
@@ -289,7 +289,7 @@ server {
     }
 
     location /api/group/create {
-<% if rate_limit_api -%>
+<% if @rate_limit_api -%>
         limit_req zone=addr_api_create burst=10;
 <% end -%>
 
@@ -299,7 +299,7 @@ server {
     }
 
     location ~* /api/group/([^\/]+)/picture {
-<% if rate_limit_api -%>
+<% if @rate_limit_api -%>
         limit_req zone=addr_api_create burst=10;
 <% end -%>
 
@@ -325,7 +325,7 @@ server {
     }
 
     location /api/user/create {
-<% if rate_limit_api -%>
+<% if @rate_limit_api -%>
         limit_req zone=addr_api_create burst=10;
 <% end -%>
 
@@ -341,7 +341,7 @@ server {
     }
 
     location /api/user/import {
-<% if rate_limit_api -%>
+<% if @rate_limit_api -%>
         limit_req zone=addr_api_create burst=10;
 <% end -%>
 
@@ -352,7 +352,7 @@ server {
     }
 
     location ~* /api/user/([^\/]+)/picture {
-<% if rate_limit_api -%>
+<% if @rate_limit_api -%>
         limit_req zone=addr_api_create burst=10;
 <% end -%>
 
@@ -364,7 +364,7 @@ server {
 
     # Explicitly don't cache any other API requests
     location /api/ {
-<% if rate_limit_api -%>
+<% if @rate_limit_api -%>
         limit_req zone=addr_api burst=400;
 <% end -%>
 
@@ -383,7 +383,7 @@ server {
     # in the admin UI.
     location /files {
         internal;
-        alias <%= files_home %>;
+        alias <%= @files_home %>;
     }
 
     ##########
@@ -406,7 +406,7 @@ server {
     ## ETHERPAD SERVERS ##
     ######################
 
-<% internal_etherpad_ips.each_with_index do |ip, index| -%>
+<% @internal_etherpad_ips.each_with_index do |ip, index| -%>
     location /etherpad/<%= index %> {
         expires 15m;
 

@@ -29,14 +29,14 @@
   "dbType" : "cassandra",
   //the database specific settings
   "dbSettings" : {
-                    "hosts": [ "<%= oae_db_hosts.map { |host| "#{host}:9160" }.join('","') %>" ],
-                    "keyspace": "<%= oae_db_keyspace %>",
+                    "hosts": [ "<%= @oae_db_hosts.map { |host| "#{host}:9160" }.join('","') %>" ],
+                    "keyspace": "<%= @oae_db_keyspace %>",
                     "cfName": "Etherpad",
                     "user": "",
                     "pass": "",
                     "timeout": 3000,
-                    "replication": "<%= oae_db_replication %>",
-                    "strategyClass": "<%= oae_db_strategy_class %>"
+                    "replication": "<%= @oae_db_replication %>",
+                    "strategyClass": "<%= @oae_db_strategy_class %>"
                   },
 
   //the default text of a pad
@@ -58,7 +58,7 @@
 
   /* This is the path to the Abiword executable. Setting it to null, disables abiword.
      Abiword is needed to advanced import/export features of pads*/
-<% if enable_abiword -%>
+<% if @enable_abiword -%>
   "abiword": "/usr/bin/abiword",
 <% else -%>
   "abiword" : null,
@@ -112,7 +112,7 @@
     ]
   },
 
-  "sessionKey": "<%= session_key %>",
+  "sessionKey": "<%= @session_key %>",
 
   /* Enable the spell checker */
   "ep_spellcheck_default": true,

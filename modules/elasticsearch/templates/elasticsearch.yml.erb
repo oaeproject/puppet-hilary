@@ -154,7 +154,7 @@ node.name: "<%= scope.lookupvar('::clientcert') %>"
 #
 # path.data: /path/to/data1,/path/to/data2
 
-path.data: <%= path_data %>
+path.data: <%= @path_data %>
 
 # Path to temporary files:
 #
@@ -211,7 +211,7 @@ bootstrap.mlockall: true
 
 # Set both 'bind_host' and 'publish_host':
 #
-network.host: <%= host_address %>
+network.host: <%= @host_address %>
 
 # Set a custom port for the node to node communication (9300 by default):
 #
@@ -223,7 +223,7 @@ network.host: <%= host_address %>
 
 # Set a custom port to listen for HTTP traffic:
 #
-http.port: <%= host_port %>
+http.port: <%= @host_port %>
 
 # Set a custom allowed content length:
 #
@@ -328,7 +328,7 @@ http.port: <%= host_port %>
 # discovery.zen.ping.unicast.hosts: ["host1", "host2:port"]
 
 discovery.zen.ping.multicast.enabled: false
-discovery.zen.ping.unicast.hosts: [<% search_hosts.each do |host| -%>"<%= host %>",<% end -%>]
+discovery.zen.ping.unicast.hosts: [<% @search_hosts.each do |host| -%>"<%= host %>",<% end -%>]
 
 # EC2 discovery allows to use AWS EC2 API in order to perform discovery.
 #

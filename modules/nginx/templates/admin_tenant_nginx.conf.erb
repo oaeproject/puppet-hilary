@@ -1,20 +1,20 @@
-<% if ssl_policy ==  'redirect_http' -%>
+<% if @ssl_policy ==  'redirect_http' -%>
 server {
     listen          80;
-    server_name     <%= server_name %>;
+    server_name     <%= @server_name %>;
     return          301 https://$host$request_uri;
 }
 <% end -%>
 
 server {
-<% if ssl_policy == 'allow_http' -%>
+<% if @ssl_policy == 'allow_http' -%>
     listen      80;
 <% end -%>
     listen      443 ssl;
-    server_name <%= server_name %>;
+    server_name <%= @server_name %>;
 
-    ssl_certificate      <%= ssl_crt_path %>;
-    ssl_certificate_key  <%= ssl_key_path %>;
+    ssl_certificate      <%= @ssl_crt_path %>;
+    ssl_certificate_key  <%= @ssl_key_path %>;
 
     # Prevent BEAST attack
     # @see http://www.kb.cert.org/vuls/id/864643
@@ -27,14 +27,14 @@ server {
     ######################
 
     location /shared/ {
-        alias <%= app_ui_path %>/shared/;
+        alias <%= @app_ui_path %>/shared/;
         autoindex off;
         expires max;
     }
 
     # HTML files under /shared/oae/errors are not hashed and should not be cached
     location ~* /shared/oae/errors/([^\.]+).html$ {
-        alias <%= app_ui_path %>/shared/oae/errors/$1.html;
+        alias <%= @app_ui_path %>/shared/oae/errors/$1.html;
         expires -1;
     }
 
@@ -53,20 +53,20 @@ server {
     #####################
 
     location /ui/ {
-        alias <%= app_ui_path %>/ui/;
+        alias <%= @app_ui_path %>/ui/;
         autoindex off;
         expires max;
     }
 
     location /admin/ {
-        alias <%= app_ui_path %>/admin/;
+        alias <%= @app_ui_path %>/admin/;
         autoindex off;
         expires max;
     }
 
     # HTML files under /admin are not hashed and should not be cached
     location ~* /admin/([^\.]+).html$ {
-        alias <%= app_ui_path %>/admin/$1.html;
+        alias <%= @app_ui_path %>/admin/$1.html;
         expires -1;
     }
 
@@ -84,7 +84,7 @@ server {
     ######################
 
     location /node_modules/ {
-        alias <%= app_ui_path %>/node_modules/;
+        alias <%= @app_ui_path %>/node_modules/;
         autoindex off;
         expires max;
     }
@@ -95,13 +95,13 @@ server {
     ####################
 
     location /docs/ {
-        alias <%= app_ui_path %>/docs/;
+        alias <%= @app_ui_path %>/docs/;
         autoindex off;
     }
 
     # HTML files under /docs are not hashed and should not be cached
     location ~* /docs/([^\.]+).html$ {
-        alias <%= app_ui_path %>/docs/$1.html;
+        alias <%= @app_ui_path %>/docs/$1.html;
         expires -1;
     }
 
@@ -166,7 +166,7 @@ server {
     }
 
     location /api/user/import {
-        <% if rate_limit_api -%>
+        <% if @rate_limit_api -%>
             limit_req zone=addr_api burst=10;
         <% end -%>
 
@@ -178,7 +178,7 @@ server {
 
     # Explicitly don't cache any other API requests
     location /api/ {
-        <% if rate_limit_api -%>
+        <% if @rate_limit_api -%>
             limit_req zone=addr_api burst=400;
         <% end -%>
 
@@ -197,7 +197,7 @@ server {
     # in the admin UI.
     location /files {
         internal;
-        alias <%= files_home %>;
+        alias <%= @files_home %>;
     }
 
 }

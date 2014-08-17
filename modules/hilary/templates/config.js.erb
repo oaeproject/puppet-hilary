@@ -14,7 +14,7 @@
  */
 
 var bunyan = require('bunyan');
-<% if config_log_syslog_ip -%>
+<% if @config_log_syslog_ip -%>
 var bsyslog = require('bunyan-syslog');
 <% end -%>
 
@@ -31,18 +31,18 @@ var config = module.exports.config = {};
  * @param  {String}    path            The path to the UI static assets
  */
 config.ui = {
-    'path': '<%= config_ui_path %>'
+    'path': '<%= @config_ui_path %>'
 };
 
 // Cassandra related config information.
 config.cassandra = {
-    'hosts': [ '<%= config_cassandra_hosts.join("', '") %>' ],
-    'keyspace': '<%= config_cassandra_keyspace %>',
+    'hosts': [ '<%= @config_cassandra_hosts.join("', '") %>' ],
+    'keyspace': '<%= @config_cassandra_keyspace %>',
     'user': '',
     'pass': '',
-    'timeout': <%= config_cassandra_timeout %>,
-    'replication': <%= config_cassandra_replication %>,
-    'strategyClass': '<%= config_cassandra_strategy_class %>',
+    'timeout': <%= @config_cassandra_timeout %>,
+    'replication': <%= @config_cassandra_replication %>,
+    'strategyClass': '<%= @config_cassandra_strategy_class %>',
     'cqlVersion': '3.0.0'
 };
 
@@ -54,8 +54,8 @@ config.cassandra = {
 //  0 = production
 //  1 = unit tests
 config.redis = {
-    'host': '<%= config_redis_host %>',
-    'port': <%= config_redis_port %>,
+    'host': '<%= @config_redis_host %>',
+    'port': <%= @config_redis_port %>,
     'pass': '',
     'dbIndex': 0
 };
@@ -73,12 +73,12 @@ config.redis = {
  */
 config.servers = {
     'globalAdminAlias': 'admin',
-    'globalAdminHost': '<%= config_servers_admin_host %>',
+    'globalAdminHost': '<%= @config_servers_admin_host %>',
     'globalAdminPort': 2000,
-    'serverInternalAddress': '<%= config_servers_server_internal_address %>',
+    'serverInternalAddress': '<%= @config_servers_server_internal_address %>',
     'tenantPort': 2001,
-    'useHttps': <%= config_servers_use_https %>,
-    'strictHttps': <%= config_servers_strict_https %>
+    'useHttps': <%= @config_servers_use_https %>,
+    'strictHttps': <%= @config_servers_strict_https %>
 };
 
 /**
@@ -95,9 +95,9 @@ config.servers = {
  * @param  {String}    limit                    The maximum file upload size, accepted formats look like "5mb", "200kb", "1gb". You should also adjust your front-end proxy (e.g., Nginx, Apache) to also handle files of this size
  */
 config.files = {
-    'localStorageDirectory': '<%= upload_files_dir %>',
-    'tmpDir': '<%= config_files_tmp_dir %>',
-    'uploadDir': '<%= config_files_tmp_upload_dir %>',
+    'localStorageDirectory': '<%= @upload_files_dir %>',
+    'tmpDir': '<%= @config_files_tmp_dir %>',
+    'uploadDir': '<%= @config_files_tmp_upload_dir %>',
     'cleaner': {
         'enabled': true,
         'interval': 2*60*60
@@ -109,12 +109,12 @@ config.files = {
 // It's strongly recommended that you change this value.
 // Make sure that this value is the same accross each app server.
 config.cookie = {
-    'secret': '<%= config_cookie_secret %>'
+    'secret': '<%= @config_cookie_secret %>'
 };
 
 config.log = {
     'streams': [
-<% if !config_log_syslog_ip -%>
+<% if !@config_log_syslog_ip -%>
         {
             'level': 'info',
             'path': '/opt/oae/server.log'
@@ -126,7 +126,7 @@ config.log = {
             'stream': bsyslog.createBunyanStream({
                 'type': 'tcp',
                 'facility': bsyslog.local0,
-                'host': '<%= config_log_syslog_ip %>',
+                'host': '<%= @config_log_syslog_ip %>',
                 'port': 514
             })
         }
@@ -144,12 +144,12 @@ config.log = {
 // We currently support two types of publishers:
 // * displaying data on the console
 // * pushing data to circonus (via httptrap and redis)
-<% if config_telemetry_circonus_url -%>
+<% if @config_telemetry_circonus_url -%>
 config.telemetry = {
     'enabled': true,
     'publisher': 'circonus',
     'circonus': {
-        'url': '<%= config_telemetry_circonus_url %>',
+        'url': '<%= @config_telemetry_circonus_url %>',
         'circonusInterval': 30000,
         'redisInterval': 20000
     },
@@ -186,7 +186,7 @@ config.telemetry = {
  */
 config.search = {
     'hosts': [
-<% config_search_hosts.each do |host| -%>
+<% @config_search_hosts.each do |host| -%>
         { 'host': '<%= host %>', 'port': 9200 },
 <% end -%>
     ],
@@ -224,7 +224,7 @@ config.search = {
             }
         }
     },
-    'processIndexJobs': <%= config_search_enabled %>
+    'processIndexJobs': <%= @config_search_enabled %>
 };
 
 /**
@@ -239,7 +239,7 @@ config.search = {
  */
 config.mq = {
     'connection': {
-        'host': [ '<%= config_mq_hosts.join("', '") %>' ],
+        'host': [ '<%= @config_mq_hosts.join("', '") %>' ],
         'port': 5672
     },
     'purgeQueuesOnStartup': false
@@ -270,10 +270,10 @@ config.mq = {
  * @param  {String}      credentials.password           The password to login with on the global admin server
  */
 config.previews = {
-    'enabled': <%= config_previews_enabled ? true : false %>,
+    'enabled': <%= @config_previews_enabled ? true : false %>,
     // `dir` can be removed after the release of 5.0.0
-    'dir': '<%= config_previews_tmp_dir %>',
-    'tmpDir': '<%= config_previews_tmp_dir %>',
+    'dir': '<%= @config_previews_tmp_dir %>',
+    'tmpDir': '<%= @config_previews_tmp_dir %>',
     'office': {
         'binary': '/usr/bin/soffice',
         'timeout': 120000
@@ -292,8 +292,8 @@ config.previews = {
         'embeddableCheckTimeout': 15000
     },
     'credentials': {
-        'username': '<%= config_previews_credentials_username %>',
-        'password': '<%= config_previews_credentials_password %>'
+        'username': '<%= @config_previews_credentials_username %>',
+        'password': '<%= @config_previews_credentials_password %>'
     }
 };
 
@@ -305,7 +305,7 @@ config.previews = {
  * @param  {String}    key     This key will be used to sign URLs like profile pictures, content previews, etc.. . It's vital to the security of the system that you change this in production.
  */
 config.signing = {
-    'key': '<%= config_signing_key %>'
+    'key': '<%= @config_signing_key %>'
 };
 
 /**
@@ -330,7 +330,7 @@ config.signing = {
  * @param  {Number}     [redis.dbIndex]                 The index number of the dedicated redis server index
  */
 config.activity = {
-    'processActivityJobs': <%= config_activity_enabled ? true : false %>,
+    'processActivityJobs': <%= @config_activity_enabled ? true : false %>,
     'activityTtl': 2 * 30 * 24 * 60 * 60,
     'aggregateIdleExpiry': 3 * 60 * 60,
     'aggregateMaxExpiry': 24 * 60 * 60,
@@ -350,10 +350,10 @@ config.activity = {
             'hour': 12                  // Sent weekly on Friday @ 12pm
         }
     },
-<% if config_activity_redis_host -%>
+<% if @config_activity_redis_host -%>
     'redis': {
-        'host': '<%= config_activity_redis_host %>',
-        'port': <%= config_activity_redis_port %>,
+        'host': '<%= @config_activity_redis_host %>',
+        'port': <%= @config_activity_redis_port %>,
         'pass': '',
         'dbIndex': 0
     }
@@ -379,16 +379,16 @@ config.activity = {
  * @param  {Object}     [smtpTransport]             The SMTP connection information for sending emails. This is the settings object that will be used by nodemailer to form an smtp connection: https://github.com/andris9/Nodemailer
  */
 config.email = {
-    'debug': <%= config_email_debug %>,
-    'customEmailTemplatesDir': <%= config_email_customEmailTemplatesDir %>,
-    'deduplicationInterval': <%= config_email_deduplicationInterval %>,
+    'debug': <%= @config_email_debug %>,
+    'customEmailTemplatesDir': <%= @config_email_customEmailTemplatesDir %>,
+    'deduplicationInterval': <%= @config_email_deduplicationInterval %>,
     'throttling': {
-        'count': <%= config_email_throttleCount %>,
-        'timespan': <%= config_email_throttleTimespan %>
+        'count': <%= @config_email_throttleCount %>,
+        'timespan': <%= @config_email_throttleTimespan %>
     },
-    'transport': '<%= config_email_transport %>',
+    'transport': '<%= @config_email_transport %>',
     'sendmailTransport': {
-        'path': '<%= config_email_sendmail_path %>'
+        'path': '<%= @config_email_sendmail_path %>'
     },
     'smtpTransport': {
         'host': 'localhost',
@@ -420,9 +420,9 @@ config.saml = {
  * @param  {Number}     hosts[i].port   The port number on which Hilary will be accessing the etherpad API.
  */
 config.etherpad = {
-    'apikey': '<%= config_etherpad_api_key %>',
+    'apikey': '<%= @config_etherpad_api_key %>',
     'hosts': [
-<% config_etherpad_internal_hosts.each_with_index do |ip, index| %>
+<% @config_etherpad_internal_hosts.each_with_index do |ip, index| %>
         {
             'host': '<%= ip %>',
             'port': 9001

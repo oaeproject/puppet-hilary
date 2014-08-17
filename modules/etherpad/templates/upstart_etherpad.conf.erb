@@ -3,9 +3,9 @@ description "etherpad"
 start on started networking
 stop on runlevel [!2345]
 
-env EPHOME=<%= etherpad_dir %>
+env EPHOME=<%= @etherpad_dir %>
 env EPLOGS=/var/log/etherpad
-env EPUSER=<%= etherpad_user %>
+env EPUSER=<%= @etherpad_user %>
 
 respawn
 

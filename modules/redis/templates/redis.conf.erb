@@ -74,7 +74,7 @@ loglevel notice
 # output for logging but daemonize, logs will be sent to /dev/null
 logfile /var/log/redis/redis.log
 
-<% if syslog_enabled -%>
+<% if @syslog_enabled -%>
 # To enable logging to the system logger, just set 'syslog-enabled' to yes,
 # and optionally update the other syslog parameters to suit your needs.
 syslog-enabled yes
@@ -148,7 +148,7 @@ rdbcompression yes
 rdbchecksum yes
 
 # The filename where to dump the DB
-dbfilename <%= db_filename %>
+dbfilename <%= @db_filename %>
 
 # The working directory.
 #
@@ -158,7 +158,7 @@ dbfilename <%= db_filename %>
 # The Append Only File will also be created inside this directory.
 # 
 # Note that you must specify a directory here, not a file name.
-dir <%= working_dir %>
+dir <%= @working_dir %>
 
 ################################# REPLICATION #################################
 
@@ -169,8 +169,8 @@ dir <%= working_dir %>
 #
 # slaveof <masterip> <masterport>
 
-<% if slave_of -%>
-slaveof <%= slave_of %> 6379
+<% if @slave_of -%>
+slaveof <%= @slave_of %> 6379
 <% end -%>
 
 # If the master is password protected (using the "requirepass" configuration
@@ -373,8 +373,8 @@ slave-priority 100
 #
 # maxmemory <bytes>
 
-<% if eviction_maxmemory %>
-maxmemory <%= eviction_maxmemory %>
+<% if @eviction_maxmemory %>
+maxmemory <%= @eviction_maxmemory %>
 <% end %>
 
 
@@ -401,8 +401,8 @@ maxmemory <%= eviction_maxmemory %>
 #
 # maxmemory-policy volatile-lru
 
-<% if eviction_policy %>
-maxmemory-policy <%= eviction_policy %>
+<% if @eviction_policy %>
+maxmemory-policy <%= @eviction_policy %>
 <% end %>
 
 # LRU and minimal TTL algorithms are not precise algorithms but approximated
@@ -413,8 +413,8 @@ maxmemory-policy <%= eviction_policy %>
 #
 # maxmemory-samples 3
 
-<% if eviction_samples %>
-maxmemory-samples <%= eviction_samples %>
+<% if @eviction_samples %>
+maxmemory-samples <%= @eviction_samples %>
 <% end %>
 
 ############################## APPEND ONLY MODE ###############################
