@@ -38,8 +38,8 @@ class etherpad (
     user { "${etherpad_user}": ensure => present }
 
     # Install the custom CSS for etherpad from the ep_oae plugin. This is being put in
-    # both the src/ and ep_etherpad-lite/ because it doesn't always work for some reason
-    # when put in src/
+    # both the src/ and ep_etherpad-lite/ because the symlink from ep_etherpad-lite
+    # to src/ gets lost when tarring up the directory for releases
     file { "${etherpad_dir}/node_modules/ep_etherpad-lite/static/custom/pad.css":
         ensure     => present,
         source     => "${etherpad_dir}/node_modules/ep_oae/static/css/pad.css",
@@ -49,6 +49,13 @@ class etherpad (
     file { "${etherpad_dir}/src/static/custom/pad.css":
         ensure     => present,
         source     => "${etherpad_dir}/node_modules/ep_oae/static/css/pad.css",
+        require    => Class["::etherpad::install::${install_method}"],
+    }
+
+    # Overwrite ep_headings editbarButton template file
+    file { "${etherpad_dir}/node_modules/ep_headings/templates/editbarButtons.ejs":
+        ensure     => present,
+        source     => "${etherpad_dir}/node_modules/ep_oae/static/templates/editbarButtons.ejs",
         require    => Class["::etherpad::install::${install_method}"],
     }
 
@@ -91,6 +98,7 @@ class etherpad (
         provider    => upstart,
         require     => [
             File["${etherpad_dir}/node_modules/ep_etherpad-lite/static/custom/pad.css"],
+            File["${etherpad_dir}/node_modules/ep_headings/templates/editbarButtons.ejs"],
             File["${etherpad_dir}/src/static/custom/pad.css"],
             File['etherpad_settings_json'],
             File['etherpad_apikey_txt'],
