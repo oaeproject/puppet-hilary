@@ -102,15 +102,19 @@
   /* The toolbar buttons configuration */
   "toolbar": {
     "left": [
-      ["bold", "italic", "underline", "strikethrough"],
-      ["orderedlist", "unorderedlist", "indent", "outdent"],
-      ["undo", "redo"],
-      ["clearauthorship"]
+      ["bold", "italic", "underline", "strikethrough", "orderedlist", "unorderedlist", "indent", "outdent"]
     ],
     "right": [
-      ["importexport", "settings", "showusers"]
+      ["showusers"]
     ]
   },
+
+  "ep_oae": {
+    "mq": {
+        "host": [ '<%= @oae_mq_hosts.join("', '") %>' ],
+        "port": 5672
+    }
+  }
 
   "sessionKey": "<%= @session_key %>",
 

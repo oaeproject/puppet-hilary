@@ -8,6 +8,8 @@ class etherpad (
         $oae_db_replication,
         $oae_db_strategy_class,
 
+        $oae_mq_hosts,
+
         $install_method         = 'archive',
         $install_config         = {
             'url_base'              => 'https://s3.amazonaws.com/oae-releases/etherpad',

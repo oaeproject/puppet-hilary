@@ -28,6 +28,8 @@ class oaeservice::etherpad {
     oae_db_replication    => hiera('db_replication_factor'),
     oae_db_strategy_class => hiera('db_strategy_class'),
 
+    oae_mq_hosts          => hiera('mq_hosts'),
+
     install_method        => $install_method,
     install_config        => $install_config,
 
