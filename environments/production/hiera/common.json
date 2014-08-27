@@ -46,9 +46,9 @@
 
     "app_install_method": "archive",
     "app_install_config": {
-        "version_major_minor": "7.2",
+        "version_major_minor": "8.0",
         "version_patch": "0",
-        "version_nodejs": "0.10.29"
+        "version_nodejs": "0.10.30"
     },
 
     "app_os_user": "root",
@@ -73,7 +73,7 @@
     "ux_root_dir": "/opt/3akai-ux",
     "ux_install_method": "archive",
     "ux_install_config": {
-        "version_major_minor": "7.2",
+        "version_major_minor": "8.0",
         "version_patch": "0"
     },
 
@@ -106,7 +106,7 @@
     "etherpad_enable_abiword": true,
     "etherpad_install_config": {
         "version_major_minor": "1.4",
-        "version_patch": "0-63-14f9c91",
+        "version_patch": "0-66-e34a4ea",
         "version_nodejs": "0.10.17"
     },
 
