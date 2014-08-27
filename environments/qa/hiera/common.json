@@ -83,7 +83,7 @@
     "etherpad_enable_abiword": true,
     "etherpad_install_config": {
         "version_major_minor": "1.4",
-        "version_patch": "0-63-14f9c91",
+        "version_patch": "0-66-e34a4ea",
         "version_nodejs": "0.10.17"
     },
 
