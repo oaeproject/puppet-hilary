@@ -39,7 +39,7 @@ class oaeservice::deps::pp {
     }
     # Only run if there is a font missing
     exec {'/root/fonts.sh':
-        creates  => '/usr/share/fonts/truetype/msttcorefonts/calist.ttf',
+        creates  => '/usr/share/fonts/truetype/msttcorefonts/OpenSans-Regular.ttf',
         require  => [ File['/root/fonts.sh'], Package['ttf-mscorefonts-installer'] ]
     }
 }
