@@ -89,6 +89,7 @@ service cassandra restart
 service elasticsearch restart
 service rabbitmq-server restart
 service redis-server restart
+service etherpad restart
 service nginx restart
 
 echo "All the dependencies have been restarted, sleeping for a bit to give them time to start up properly"
