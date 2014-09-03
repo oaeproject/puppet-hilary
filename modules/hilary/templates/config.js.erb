@@ -1,10 +1,10 @@
 /*
- * Copyright 2013 Apereo Foundation (AF) Licensed under the
+ * Copyright 2014 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
  *
- *     http://www.osedu.org/licenses/ECL-2.0
+ *     http://opensource.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
@@ -65,11 +65,13 @@ config.redis = {
  *
  * Configuration namespace for servers.
  *
- * @param   {String}    globalAdminAlias        The tenant alias that will be used for the global admins.
- * @param   {String}    globalAdminHost         The hostname on which the global admin server can be reached by users.
- * @param   {Number}    globalAdminPort         The network port on which the global admin express server can run.
- * @param   {Number}    tenantPort              The network port on which the tenant express server can run.
- * @param  {Boolean}    useHttps                Whether or not the server is accessible via HTTPS. Hilary will *not* expose an HTTPS server, it's up to a frontend server such as Apache or Nginx to deal with the actual delivery of HTTPS traffic. This flag is mainly used to generate correct backlinks to the web application.
+ * @param  {String}     globalAdminAlias            The tenant alias that will be used for the global admins
+ * @param  {String}     globalAdminHost             The hostname on which the global admin server can be reached by users
+ * @param  {Number}     globalAdminPort             The network port on which the global admin express server can run
+ * @param  {String}     [serverInternalAddress]     The internal hostname on which the server can be reached by OAE services such as the preview processor
+ * @param  {Number}     tenantPort                  The network port on which the tenant express server can run
+ * @param  {Boolean}    useHttps                    Whether or not the server is accessible via HTTPS. Hilary will *not* expose an HTTPS server, it's up to a frontend server such as Apache or Nginx to deal with the actual delivery of HTTPS traffic. This flag is mainly used to generate correct backlinks to the web application
+ * @param  {Boolean}    [strictHttps]               Whether or not the server is using a valid SSL certificate. If `true`, any attempts to connect to the REST endpoints using an invalid certificate should result in an error and not be ignored. If `false`, a valid certificate will not be required
  */
 config.servers = {
     'globalAdminAlias': 'admin',
@@ -95,14 +97,14 @@ config.servers = {
  * @param  {String}    limit                    The maximum file upload size, accepted formats look like "5mb", "200kb", "1gb". You should also adjust your front-end proxy (e.g., Nginx, Apache) to also handle files of this size
  */
 config.files = {
-    'localStorageDirectory': '<%= @upload_files_dir %>',
     'tmpDir': '<%= @config_files_tmp_dir %>',
     'uploadDir': '<%= @config_files_tmp_upload_dir %>',
     'cleaner': {
         'enabled': true,
         'interval': 2*60*60
     },
-    'limit': '4096mb'
+    'limit': '4096mb',
+    'localStorageDirectory': '<%= @upload_files_dir %>'
 };
 
 // The configuration that can be used to generate secure HTTP cookies.
@@ -139,14 +141,23 @@ config.log = {
     }
 };
 
-// This object holds the configuration for the telemetry monitoring.
-// By default telemetry is disabled.
-// We currently support two types of publishers:
-// * displaying data on the console
-// * pushing data to circonus (via httptrap and redis)
+/**
+ * `config.telemetry`
+ *
+ * Configuration namespace for API telemetry
+ *
+ * @param  {Boolean}    [enabled]               Whether or not to enable telemetry. When `false`, no data will be published to the publishers. Default: `false`
+ * @param  {Number}     [publishInterval]       How often (in seconds) to push data to the configured publisher. Default: 30 seconds
+ * @param  {Number}     [resetInterval]         How often (in seconds) telemetry counters should be reset to 0. You want this to be fairly large as its reset can disrupt rate statistics for one publish interval on each reset. Set this to a value that controls insane numeric overflows such as 2^31-1. Default: 86400 seconds (once per day)
+ * @param  {String}     [publisher]             The publisher implementation to use to publish data. Should be one of `console` or `circonus`. Default: `console`
+ * @param  {Object}     [circonus]              Custom circonus configuration, only applicable if the selected publisher is `circonus` (required param if circonus is the publisher)
+ * @param  {String}     [circonus.url]          The Circonus url to which data should be published (required param if circonus is the publisher)
+ */
 <% if @config_telemetry_circonus_url -%>
 config.telemetry = {
     'enabled': true,
+    'publishInterval': 30,
+    'resetInterval': 86400,
     'publisher': 'circonus',
     'circonus': {
         'url': '<%= @config_telemetry_circonus_url %>',
@@ -160,6 +171,8 @@ config.telemetry = {
 <% else -%>
 config.telemetry = {
     'enabled': false,
+    'publishInterval': 30,
+    'resetInterval': 86400,
     'publisher': 'console',
     'circonus': {
         'url': 'https://trap.noit.circonus.net/module/httptrap/check-uuid/secret-here',
@@ -222,7 +235,8 @@ config.search = {
                     }
                 }
             }
-        }
+        },
+        'destroyOnStartup': false
     },
     'processIndexJobs': <%= @config_search_enabled %>
 };
@@ -232,9 +246,9 @@ config.search = {
  *
  * Configuration namespace for the message queue (RabbitMQ).
  *
- * @param   {Object}    connection              The connection description
- * @param   {String}    connection.host         The host for the connection
- * @param   {Number}    connection.port         The port for the connection
+ * @param  {Object}     connection              The connection description
+ * @param  {String}     connection.host         The host for the connection
+ * @param  {Number}     connection.port         The port for the connection
  * @param  {Boolean}    [purgeQueuesOnStartup]  If `true`, the application will **delete** all messages in a queue when a worker is first bound. This setting only takes effect if the NODE_ENV environment variable is not set to `production` to indicate a production environment. Default: `false`
  */
 config.mq = {
@@ -253,7 +267,7 @@ config.mq = {
  * @param  {Boolean}     enabled                        Whether or not the preview processor should be running
  * @param  {String}      tmpDir                         A directory that can be used to store temporary files in
  * @param  {Object}      office                         Holds the configuration for anything Office related
- * @param  {String}      office.binary                  The path to the 'soffice.bin' binary that starts up Libre Office. ex: On OS X it is `/Applications/LibreOffice.app/Contents/MacOS/soffice.bin` with a default install
+ * @param  {String}      office.binary                  The path to the 'soffice' binary that starts up Libre Office. ex: On OS X it is `/Applications/LibreOffice.app/Contents/MacOS/soffice` with a default install
  * @param  {Number}      office.timeout                 Defines the timeout (in ms) when the Office process should be killed
  * @param  {Object}      pdf                            Holds the configuration for anything related to PDF splitting
  * @param  {String}      pdf.binary                     The path to the `pdftk` binary that can be used to split a PDF file into a PDF-per-page
@@ -271,8 +285,6 @@ config.mq = {
  */
 config.previews = {
     'enabled': <%= @config_previews_enabled ? true : false %>,
-    // `dir` can be removed after the release of 5.0.0
-    'dir': '<%= @config_previews_tmp_dir %>',
     'tmpDir': '<%= @config_previews_tmp_dir %>',
     'office': {
         'binary': '/usr/bin/soffice',
@@ -317,12 +329,19 @@ config.signing = {
  * @param  {Number}     [activityTtl]                   The time-to-live (in seconds) for generated activities. After this period of time, an activity in an activity feed is lost permanently. Defaults to 2 months
  * @param  {Number}     [aggregateIdleExpiry]           The amount of time (in seconds) an aggregate can be idle until it expires. The "idle" time of an aggregate is reset when a new activity occurs that matches the aggregate. Defaults to 3 hours
  * @param  {Number}     [aggregateMaxExpiry]            An upper-bound on the amount of time (in seconds) for which an aggregate can live. Defaults to 1 day
- * @param  {Number}     [numberOfProcessingBuckets]     The number of buckets available for parallel processing of activities. Defaults to 5
+ * @param  {Number}     [numberOfProcessingBuckets]     The number of buckets available for parallel processing of activities. Defaults to 3
  * @param  {Number}     [collectionExpiry]              The maximum amount of time (in seconds) a processing bucket can be locked for at one time. If this is not long enough for an activity processor to collect the number of activities as configured by `collectionBatchSize`, then it will be possible for multiple processors to collect the same bucket concurrently. This will result in duplicate activities, which is not desired. Defaults to 1 minute
  * @param  {Number}     [maxConcurrentCollections]      The maximum number of concurrent collection cycles that can be active on a process at once. Defaults to 3
- * @param  {Number}     [maxConcurrentRouters]          The maximum number of activities that will be routed by one node at one time. This should be used to ensure activities are not routed faster than they can be collected, to ensure the redis collection buckets do not grow in size uncontrollably under unanticipated load. Defaults to 8
+ * @param  {Number}     [maxConcurrentRouters]          The maximum number of activities that will be routed by one node at one time. This should be used to ensure activities are not routed faster than they can be collected, to ensure the redis collection buckets do not grow in size uncontrollably under unanticipated load. Defaults to 5
  * @param  {Number}     [collectionPollingFrequency]    How often (in seconds) the processing buckets are polled for new activities. If -1, polling will be disabled. If polling is disabled, activities will not function, so do not set to -1 in production. Defaults to 5 seconds.
- * @param  {Number}     [collectionBatchSize]           The number of items to process at a time when collecting bucketed activities. After one batch has been collected, the activity processor will immediately continue to process the next batch from that bucket, and so on. Defaults to 500
+ * @param  {Number}     [collectionBatchSize]           The number of items to process at a time when collecting bucketed activities. After one batch has been collected, the activity processor will immediately continue to process the next batch from that bucket, and so on. Defaults to 1000
+ * @param  {Object}     [mail]                          Configuration for aggregated emails
+ * @param  {Number}     [mail.pollingFrequency]         How often (in seconds) the email processing buckets are polled for new activities. This frequency will roughly determine the delay between an activity and sending an email for a user who has selected `immediate` and is involved in the activity. It should always be less than an hour
+ * @param  {Object}     [mail.daily]                    Configuration for the daily email aggregate collection cycle
+ * @param  {Number}     [mail.daily.hour]               At what hour during the day email should be collected for daily aggregates
+ * @param  {Object}     [mail.weekly]                   Configuration for the weekly email aggregate collection cycle
+ * @param  {Number}     [mail.weekly.day]               On which day emails should be sent for weekly aggregates. Zero-based where `0` is sunday. Default is `5`
+ * @param  {Number}     [mail.weekly.hour]              On which hour emails should be sent for weekly aggregates. You should probably keep this different to the `mail.daily.hour` value in order to spread the load
  * @param  {Object}     [redis]                         Configuration for dedicated redis server. If not specified, will use the same pool as the rest of the container (i.e., as specified by `config.redis`)
  * @param  {String}     [redis.host]                    The host of the dedicated redis server
  * @param  {Number}     [redis.port]                    The port of the dedicated redis server
@@ -331,10 +350,10 @@ config.signing = {
  */
 config.activity = {
     'processActivityJobs': <%= @config_activity_enabled ? true : false %>,
-    'activityTtl': 2 * 30 * 24 * 60 * 60,
+    'activityTtl': 6 * 30 * 24 * 60 * 60,
+    'numberOfProcessingBuckets': 3,
     'aggregateIdleExpiry': 3 * 60 * 60,
     'aggregateMaxExpiry': 24 * 60 * 60,
-    'numberOfProcessingBuckets': 3,
     'collectionExpiry': 60,
     'maxConcurrentCollections': 1,
     'maxConcurrentRouters': 5,
@@ -371,7 +390,7 @@ config.activity = {
  * @param  {String}     transport                   Which method of e-mail transport should be used. Either `SMTP` or `sendmail`.
  * @param  {String}     deduplicationInterval       Specifies the interval in seconds in which the same email can't be sent out again
  * @param  {Object}     throttling                  The throttling configuration
- * @param  {Number}     throttling.count            Specifies the number of emails a user can receive in `timespan` seconds before throttling takes effect
+ * @param  {Number}     throttling.count            Specifies the number of emails a user can receive in `throttling.timespan` seconds before throttling takes effect
  * @param  {Number}     throttling.timespan         Specifies the throttling timespan in seconds
  * @param  {String}     [customEmailTemplatesDir]   Specifies a directory that holds the tenant-specific email template overrides
  * @param  {Object}     [sendmailTransport]         The sendmail information for sending emails.
@@ -412,7 +431,11 @@ config.saml = {
 /**
  * `config.etherpad`
  *
- * Configuration namespace for the etherpad logic.
+ * Configuration namespace for the etherpad logic. If you are deploying a cluster of etherpad instances, note that the order of the hosts
+ * in the array is sensitive to the indexes assigned in the accompanying front-end reverse proxy configuration (e.g., Nginx). More
+ * information on deploying etherpad clusters can be found here:
+ *
+ *  https://github.com/oaeproject/Hilary/wiki/Deployment-Documentation
  *
  * @param  {String}     apikey          The key that can be used to communicate with the etherpad API.
  * @param  {Object[]}   hosts           The internal hosts or IP addresses where etherpad instances can be found. It's important that you add *all* your etherpad instances in this array, as the number of configured servers will be used to do (some very rudimentary) sharding.
@@ -422,12 +445,12 @@ config.saml = {
 config.etherpad = {
     'apikey': '<%= @config_etherpad_api_key %>',
     'hosts': [
-<% @config_etherpad_internal_hosts.each_with_index do |ip, index| %>
+<% @config_etherpad_internal_hosts.each_with_index do |ip, index| -%>
         {
             'host': '<%= ip %>',
             'port': 9001
         },
-<% end %>
+<% end -%>
     ]
 };
 
