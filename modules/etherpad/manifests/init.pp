@@ -77,11 +77,19 @@ class etherpad (
         require => Class["::etherpad::install::${install_method}"],
     }
 
+    # Ensure that the /var directory exists and is writeable by the Etherpad user
+    # as this is the directory that contains the minified assets
+    file { 'etherpad_var_dir':
+        path    => "${etherpad_dir}/var",
+        ensure  => directory,
+        mode    => "744",
+    }
+
     # Ensure the etherpad user owns all the etherpad resources
     exec { 'chown_etherpad_dir':
         command => "chown -R ${etherpad_user}:${etherpad_user} ${etherpad_dir}",
         cwd     => $etherpad_dir,
-        require => [File['etherpad_apikey_txt'], User[$etherpad_user]],
+        require => [File['etherpad_apikey_txt'], File['etherpad_var_dir'], User[$etherpad_user]],
     }
 
     # Daemon script for the etherpad service
