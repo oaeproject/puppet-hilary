@@ -117,9 +117,9 @@ server {
 
     rewrite ^/content           /ui/content.html last;
     rewrite ^/discussion        /ui/discussion.html last;
+    rewrite ^/folder            /ui/folder.html last;
     rewrite ^/group             /ui/group.html last;
     rewrite ^/me                /ui/me.html last;
-    # rewrite ^/$               /ui/index.html last;
     rewrite ^/search            /ui/search.html last;
     rewrite ^/user              /ui/user.html last;
 
@@ -361,6 +361,18 @@ server {
         proxy_next_upstream error http_502;
         proxy_pass http://tenantworkers;
     }
+
+    location /api/folder {
+<% if @rate_limit_api -%>
+        limit_req zone=addr_api_create burst=10;
+<% end -%>
+
+        expires -1;
+        proxy_read_timeout 60;
+        proxy_next_upstream error http_502;
+        proxy_pass http://tenantworkers;
+    }
+
 
     # Explicitly don't cache any other API requests
     location /api/ {
