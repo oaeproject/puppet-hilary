@@ -1,0 +1,61 @@
+#!/bin/bash
+#
+# Simple script that tries to get the errors from Redis
+#
+# Usage:
+#  ./check_hilary-errors -w 5 -c 10
+
+warning=""
+critical=""
+
+# Parse the arguments
+while getopts ":w:c:" opt; do
+  case $opt in
+    w)
+      warning=$OPTARG
+      ;;
+    c)
+      critical=$OPTARG
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+
+# Ensure the thresholds were set correctly
+if [[ "$warning" == "" ]] || [[ "$critical" == "" ]] ; then
+    echo "Missing threshold(s)"
+    echo "Usage:"
+    echo "  ./check_hilary_errors -w 5 -c 10"
+    exit 3
+elif [[ "$warning" != [0-9]* ]] || [[ "$critical" != [0-9]* ]] ; then
+    echo "The warning and/or critical threshold is not an integer"
+    exit 3
+elif [[ "$warning" -ge "$critical" ]] ; then
+    echo "The warning threshold cannot be higher than or equal to the critical threshold"
+    exit 3
+fi
+
+# Get the error count across the entire cluster. This is similar to:
+#     redis-cli --raw hget oae-telemetry:counts:data logger:error.count
+# except there is no dependency on redis-cly
+data=$( { echo "open cache0 6379"; sleep 2; echo "hget oae-telemetry:counts:data logger:error.count"; sleep 2; } | telnet 2> /dev/null)
+count=$(echo $data | awk 'NF>1{print $NF}')
+
+# Depending on the thresholds/count we need to exit appropriately
+if [ "$count" -ge "$warning" ] && [ "$count" -lt "$critical" ] ; then
+    echo "WARNING:$count Hilary errors detected"
+    exit 1
+elif [ "$count" -ge "$critical" ] ; then
+    echo "CRITICAL:$count Hilary errors detected"
+    exit 2
+else
+    echo "OK:$count Hilary errors detected"
+    exit 0
+fi

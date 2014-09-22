@@ -197,4 +197,13 @@ class nagios::client (
     group   => 'nagios',
     require => Package[$packages],
   }
+
+  # Create a check that monitors the amount of errors that Hilary produced
+  file { '/usr/lib/nagios/plugins/check_hilary_errors':
+    content => template('nagios/checks/check_hilary_errors'),
+    mode    => 0555,
+    owner   => 'nagios',
+    group   => 'nagios',
+    require => Package[$packages],
+  }
 }
