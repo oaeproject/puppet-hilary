@@ -3,3 +3,5 @@
 .node
 .vagrant
 *_hiera_secure.*
+environments/qa/modules/localconfig/files/ssl
+modules/oracle-java/files/jdk-*
