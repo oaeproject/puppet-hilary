@@ -115,19 +115,19 @@
             <!-- Australian Access Federation (AAF) -->
             <MetadataProvider type="XML" uri="https://ds.aaf.edu.au/distribution/metadata/metadata.aaf.signed.complete.xml" backingFilePath="aaf-au-federation.xml" reloadInterval="7200">
                 <MetadataFilter type="RequireValidUntil" maxValidityInterval="2419200"/>
-                <MetadataFilter type="Signature" certificate="aaf-au-federation.pem"/>
+                <MetadataFilter type="Signature" certificate="federations/aaf-au-federation.pem"/>
             </MetadataProvider>
 
             <!-- Metadata for New Zealand federation -->
             <MetadataProvider type="XML" uri="https://directory.tuakiri.ac.nz/metadata/tuakiri-metadata-signed.xml" backingFilePath="tuakiri-nz-federation-metadata.xml" reloadInterval="7200">
                 <MetadataFilter type="RequireValidUntil" maxValidityInterval="2419200"/>
-                <MetadataFilter type="Signature" certificate="tuakiri-nz-federation.pem"/>
+                <MetadataFilter type="Signature" certificate="federations/tuakiri-nz-federation.pem"/>
             </MetadataProvider>
         
             <!-- Metadata for Swedish Federated Authentication Association -->
             <MetadataProvider type="XML" uri="http://md.swamid.se/md/swamid-idp-transitive.xml" backingFilePath="swamid-idp-transitive.xml" reloadInterval="7200">
                     <MetadataFilter type="RequireValidUntil" maxValidityInterval="2419200"/>
-                    <MetadataFilter type="Signature" certificate="swamid-idp-transitive.pem"/>
+                    <MetadataFilter type="Signature" certificate="federations/swamid-idp-transitive.pem"/>
             </MetadataProvider>
 
             <!--
