@@ -32,6 +32,9 @@ server {
     ssl_ciphers RC4:HIGH:!aNULL:!MD5;
     ssl_prefer_server_ciphers on;
 
+    # This is required for passing the `remote_user` header from shib
+    underscores_in_headers on;
+
 
     ######################
     ## SHARED RESOURCES ##
@@ -185,12 +188,6 @@ server {
     #########################
     ## APP SERVER REQUESTS ##
     #########################
-
-    location /api/auth/shibboleth/callback {
-        proxy_read_timeout 120;
-        proxy_next_upstream error http_502;
-        proxy_pass http://tenantworkers;
-    }
 
     location /api/config {
         expires 15m;
@@ -384,6 +381,37 @@ server {
         proxy_pass http://tenantworkers;
     }
 
+    ################
+    ## SHIBBOLETH ##
+    ################
+
+    # Proxy everything under /Shibboleth.sso to Apache
+    location /Shibboleth.sso {
+        proxy_read_timeout 120;
+        proxy_pass http://shibworker;
+    }
+
+    # The URL when the user comes back from the IdP
+    location /api/auth/shibboleth/sp/returned {
+        proxy_read_timeout 120;
+        proxy_pass http://shibworker;
+    }
+
+    # The URL that Apache will proxy to on the local loopback interface.
+    # This URL should *NOT* be accessible over any other interface
+    location /api/auth/shibboleth/sp/callback {
+        allow 127.0.0.1;
+        deny all;
+        proxy_read_timeout 120;
+        proxy_pass http://tenantworkers;
+    }
+
+    # The /shib folder is used to load the CSS and logo for error pages
+    location /shib/ {
+        alias /usr/share/doc/shibboleth/;
+        autoindex off;
+        expires max;
+    }
 
     ####################
     ## FILE DOWNLOADS ##

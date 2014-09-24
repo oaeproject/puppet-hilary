@@ -1,0 +1,33 @@
+# Apache httpd and mod_shib needs a correct host identifier to construct the callback URLs
+# By setting canonical name to `On`, it will use the value that is defined in `ServerName`
+UseCanonicalName On
+
+# Keep the host header when proxying the request back to nginx
+ProxyPreserveHost On
+
+# We will proxy back to nginx over https
+SSLProxyEngine On
+
+# Dont proxy anything under /Shibboleth.sso to nginx as that should go straight to Shibboleth.
+ProxyPass /Shibboleth.sso !
+
+# When a user hits anything at /Shibboleth.sso, that should go through mod_shib
+<Location /Shibboleth.sso>
+    SetHandler shib
+</Location>
+
+# When a user returns from the Shibboleth IdP, he will hit this location block. We take the request through
+# mod_shib so the attributes get properly converted to HTTP headers
+<Location /api/auth/shibboleth/sp/returned>
+     AuthType shibboleth
+     ShibRequestSetting requireSession 1
+     ShibUseHeaders On
+     ShibUseEnvironment Off
+     Require valid-user
+</location>
+
+# Once mod_shib has parsed the request, we proxy it to nginx which can then load balance it over the app servers
+# Note that Apache will receive a request at .../returned and we proxy it to .../sp/callback.
+# This is done to avoid a proxy-loop. That does mean that the .../sp/callback endpoint should only be callable over
+# the local loopback interface. This protection needs to happen in the nginx config.
+ProxyPass /api/auth/shibboleth/sp/returned https://127.0.0.1:443/api/auth/shibboleth/sp/callback

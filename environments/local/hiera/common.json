@@ -11,7 +11,8 @@
         "::oaeservice::mq",
         "::oaeservice::nginx",
         "::oaeservice::redis",
-        "::oaeservice::ui"
+        "::oaeservice::ui",
+        "::oaeservice::shibboleth"
     ],
 
     "web_domain": "vagrant.oae",
@@ -105,6 +106,11 @@
     "rsyslog_host": "127.0.0.1",
 
     "driver_tsung_version": "1.4.2",
+
+    "shibboleth_entity_id": "https://shib-sp.vagrant.oae/shibboleth",
+    "shibboleth_keyname": "web0",
+    "shibboleth_subjectname": "CN=web0",
+    "shibboleth_sp_host": "shib-sp.vagrant.oae",
 
     "nginx::owner": "nginx",
     "nginx::group": "nginx",

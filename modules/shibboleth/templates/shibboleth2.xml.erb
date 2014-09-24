@@ -1,0 +1,172 @@
+<!-- DEVIATION: I removed the unused namespaces -->
+<SPConfig xmlns="urn:mace:shibboleth:2.0:native:sp:config" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" clockSkew="300">
+
+    <!-- The entityID of our service provider -->
+    <ApplicationDefaults entityID="<%= @entity_id %>" REMOTE_USER="eppn persistent-id targeted-id">
+
+        <!-- DEVIATION: handlerSSL should be true. We do not want to deal with private/secure information over plain http -->
+        <!-- https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPSessions -->
+        <Sessions lifetime="28800" timeout="3600" checkAddress="false" relayState="ss:mem" handlerSSL="true" consistentAddress="false">
+
+            <!--
+                Create a session initiator that responds to /Shibboleth.sso/Login .
+                The entityID of the Identity provider can be passed in via the query string.
+                e.g.:
+                    Log in with the Cambridge IdP:
+                        /Shibboleth.sso/Login?entityID=https://shib.raven.cam.ac.uk/shibboleth&target=http://collab.lib.cam.ac.uk/api/auth/shibboleth/returned
+
+                    Log in with the GATech IdP:
+                        /Shibboleth.sso/Login?entityID=https://idp.gatech.edu/idp/shibboleth&target=http://oae.gatech.edu/api/auth/shibboleth/returned
+
+                More information can be found at
+                    https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPSessionInitiator and
+                    https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPSessionCreationParameters
+            -->
+            <SSO>
+              SAML2 SAML1
+            </SSO>
+
+            <!-- SAML and local-only logout. -->
+            <Logout>SAML2 Local</Logout>
+
+            <!-- A handler that generates the metadata exposed at the /Shibboleth.sso/Metadata endpoint -->
+            <Handler type="MetadataGenerator" Location="/Metadata" signing="false">
+                <!-- ePPN -->
+                        <!--SAML 1.1 Version -->
+                        <md:RequestedAttribute FriendlyName="eduPersonPrincipalName"
+                                               Name="urn:mace:dir:attribute-def:eduPersonPrincipalName"
+                                               NameFormat="urn:mace:shibboleth:1.0:attributeNamespace:uri"
+                                               isRequired="false"/>
+                         <!-- SAML2 version -->
+                         <md:RequestedAttribute FriendlyName="eduPersonPrincipalName"
+                                                Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6"
+                                                NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"
+                                                isRequired="false"/>
+
+                <!-- ePTID -->
+                        <!--SAML 1.1 Version -->
+                        <md:RequestedAttribute FriendlyName="eduPersonTargetedID"
+                                               Name="urn:mace:dir:attribute-def:eduPersonTargetedID"
+                                               NameFormat="urn:mace:shibboleth:1.0:attributeNamespace:uri"
+                                               isRequired="false"/>
+
+                        <!-- SAML2 version -->
+                        <md:RequestedAttribute FriendlyName="eduPersonTargetedID"
+                                               Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.10"
+                                               NameFormat="urn:mace:shibboleth:1.0:attributeNamespace:uri"
+                                               isRequired="false"/>
+
+
+                <!-- EmployeeId -->
+                        <md:RequestedAttribute FriendlyName="employeeID"
+                                               Name="urn:oid:1.2.840.113556.1.4.35"
+                                               isRequired="false"/>
+
+                <md:Organization>
+                    <md:OrganizationName xml:lang="en">Research Research Ltd.</md:OrganizationName>
+                    <md:OrganizationDisplayName xml:lang="en">Research Research</md:OrganizationDisplayName>
+                    <md:OrganizationURL xml:lang="en">https://researchresearch.com/</md:OrganizationURL>
+                </md:Organization>
+
+                <md:ContactPerson contactType="support">
+                    <md:GivenName>Unity SSO Support</md:GivenName>
+                    <md:EmailAddress>unity-sso@researchresearch.com</md:EmailAddress>
+                </md:ContactPerson>
+            </Handler>
+
+            <!-- Status reporting service. -->
+            <Handler type="Status" Location="/Status" acl="127.0.0.1"/>
+
+            <!-- Session diagnostic service. -->
+            <Handler type="Session" Location="/Session" showAttributeValues="true"/>
+
+            <!-- JSON feed of discovery information. -->
+            <!-- <Handler type="DiscoveryFeed" Location="/DiscoFeed"/> -->
+
+        </Sessions>
+
+        <!-- Error pages to display to yourself if something goes horribly wrong. -->
+        <Errors supportContact="sp@researchresearch.com" logoLocation="/shib/logo.jpg" styleSheet="/shib/main.css"/>
+
+        <MetadataProvider type="Chaining">
+            <!--
+                ###############
+                # Federations #
+                ###############
+            -->
+            <!-- Meta data for uk federation. The federation includes various UK institutions -->
+            <MetadataProvider type="XML" uri="http://metadata.ukfederation.org.uk/ukfederation-metadata.xml" backingFilePath="uk-federation-metadata.xml" reloadInterval="14400">
+                <MetadataFilter type="RequireValidUntil" maxValidityInterval="2592000"/>
+                <MetadataFilter type="Signature" certificate="federations/uk.pem"/>
+            </MetadataProvider>
+
+            <!-- Meta data for InCommon federation. The federation includes various US institutions -->
+            <MetadataProvider type="XML" uri="http://md.incommon.org/InCommon/InCommon-metadata.xml" backingFilePath="InCommon-metadata.xml" reloadInterval="14400">
+                <MetadataFilter type="RequireValidUntil" maxValidityInterval="2592000"/>
+                <MetadataFilter type="Signature" certificate="federations/incommon.pem"/>
+            </MetadataProvider>
+
+            <!-- Meta data for ie federation. The federation includes various IE institutions -->
+            <MetadataProvider type="XML" uri="https://edugate.heanet.ie/rr3/signedmetadata/provider/aHR0cHM6Ly93d3cucmVzZWFyY2hwcm9mZXNzaW9uYWwuY29tL3NoaWJib2xldGg~/metadata.xml" backingFilePath="edugate-ie-federation-metadata.xml" reloadInterval="14400">
+                <MetadataFilter type="RequireValidUntil" maxValidityInterval="2592000"/>
+                <MetadataFilter type="Signature" certificate="federations/ie.pem"/>
+            </MetadataProvider>
+
+            <!-- Australian Access Federation (AAF) -->
+            <MetadataProvider type="XML" uri="https://ds.aaf.edu.au/distribution/metadata/metadata.aaf.signed.complete.xml" backingFilePath="aaf-au-federation.xml" reloadInterval="7200">
+                <MetadataFilter type="RequireValidUntil" maxValidityInterval="2419200"/>
+                <MetadataFilter type="Signature" certificate="aaf-au-federation.pem"/>
+            </MetadataProvider>
+
+            <!-- Metadata for New Zealand federation -->
+            <MetadataProvider type="XML" uri="https://directory.tuakiri.ac.nz/metadata/tuakiri-metadata-signed.xml" backingFilePath="tuakiri-nz-federation-metadata.xml" reloadInterval="7200">
+                <MetadataFilter type="RequireValidUntil" maxValidityInterval="2419200"/>
+                <MetadataFilter type="Signature" certificate="tuakiri-nz-federation.pem"/>
+            </MetadataProvider>
+        
+            <!-- Metadata for Swedish Federated Authentication Association -->
+            <MetadataProvider type="XML" uri="http://md.swamid.se/md/swamid-idp-transitive.xml" backingFilePath="swamid-idp-transitive.xml" reloadInterval="7200">
+                    <MetadataFilter type="RequireValidUntil" maxValidityInterval="2419200"/>
+                    <MetadataFilter type="Signature" certificate="swamid-idp-transitive.pem"/>
+            </MetadataProvider>
+
+            <!--
+                #########################
+                # Specific Institutions #
+                #########################
+            -->
+
+            <!-- Meta data for Politecnico di Milano -->
+            <MetadataProvider type="XML" uri="https://shibidp.polimi.it/idp/shibboleth" backingFilePath="polimi-it-metadata.xml" reloadInterval="180000"/>
+
+            <!-- Meta data for Macerata University -->
+            <MetadataProvider type="XML" uri="https://idp.unimc.it/idp/shibboleth" backingFilePath="unimc-it-metadata.xml" reloadInterval="180000"/>
+
+            <!-- Meta data for Utrecht University -->
+            <MetadataProvider type="XML" uri="https://login.services.uu.nl/nidp/saml2/metadata" backingFilePath="utrecht-metadata.xml" reloadInterval="180000"/>
+
+            <!-- Meta data for the TestShib IdP (for debugging purposes only) -->
+            <MetadataProvider type="XML" uri="http://www.testshib.org/metadata/testshib-providers.xml" backingFilePath="testshib-two-idp-metadata.xml" reloadInterval="14400" />
+        </MetadataProvider>
+
+        <!-- Map to extract attributes from SAML assertions. -->
+        <AttributeExtractor type="XML" validate="true" path="attribute-map.xml"/>
+
+        <!-- Use a SAML query if no attributes are supplied during SSO. -->
+        <AttributeResolver type="Query" subjectMatch="true"/>
+
+        <!-- Default filtering policy for recognized attributes, lets other data pass. -->
+        <AttributeFilter type="XML" validate="true" path="attribute-policy.xml"/>
+
+        <!-- Simple file-based resolver for using a single keypair. -->
+        <CredentialResolver type="File" key="sp-key.pem" certificate="sp-cert.pem"/>
+
+    </ApplicationDefaults>
+    
+    <!-- Security policies you shouldn't change unless you know what you're doing. -->
+    <SecurityPolicyProvider type="XML" validate="true" path="security-policy.xml"/>
+
+    <!-- Low-level configuration about protocols and bindings available for use. -->
+    <ProtocolProvider type="XML" validate="true" reloadChanges="false" path="protocols.xml"/>
+
+</SPConfig>
