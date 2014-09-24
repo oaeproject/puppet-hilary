@@ -5,3 +5,4 @@
 *_hiera_secure.*
 sp-key.pem
 sp-cert.pem
+*localconfig/files/ssl*
