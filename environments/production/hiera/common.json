@@ -46,8 +46,8 @@
 
     "app_install_method": "archive",
     "app_install_config": {
-        "version_major_minor": "8.0",
-        "version_patch": "2",
+        "version_major_minor": "9.0",
+        "version_patch": "0",
         "version_nodejs": "0.10.30"
     },
 
@@ -78,8 +78,8 @@
     "ux_root_dir": "/opt/3akai-ux",
     "ux_install_method": "archive",
     "ux_install_config": {
-        "version_major_minor": "8.0",
-        "version_patch": "2"
+        "version_major_minor": "9.0",
+        "version_patch": "0"
     },
 
     "db_cluster_name": "OAE Production Cluster",
