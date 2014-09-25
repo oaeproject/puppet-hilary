@@ -95,39 +95,63 @@
                 ###############
             -->
             <!-- Meta data for uk federation. The federation includes various UK institutions -->
-            <MetadataProvider type="XML" uri="http://metadata.ukfederation.org.uk/ukfederation-metadata.xml" backingFilePath="uk-federation-metadata.xml" reloadInterval="14400">
+            <MetadataProvider type="XML" uri="http://metadata.ukfederation.org.uk/ukfederation-metadata.xml" backingFilePath="uk-federation-metadata.xml" reloadInterval="43200">
                 <MetadataFilter type="RequireValidUntil" maxValidityInterval="2592000"/>
                 <MetadataFilter type="Signature" certificate="federations/uk.pem"/>
+                <MetadataFilter type="EntityRoleWhiteList">
+                    <RetainedRole>md:IDPSSODescriptor</RetainedRole>
+                    <RetainedRole>md:AttributeAuthorityDescriptor</RetainedRole>
+               </MetadataFilter>
             </MetadataProvider>
 
             <!-- Meta data for InCommon federation. The federation includes various US institutions -->
-            <MetadataProvider type="XML" uri="http://md.incommon.org/InCommon/InCommon-metadata.xml" backingFilePath="InCommon-metadata.xml" reloadInterval="14400">
+            <MetadataProvider type="XML" uri="http://md.incommon.org/InCommon/InCommon-metadata.xml" backingFilePath="InCommon-metadata.xml" reloadInterval="43200">
                 <MetadataFilter type="RequireValidUntil" maxValidityInterval="2592000"/>
                 <MetadataFilter type="Signature" certificate="federations/incommon.pem"/>
+                <MetadataFilter type="EntityRoleWhiteList">
+                    <RetainedRole>md:IDPSSODescriptor</RetainedRole>
+                    <RetainedRole>md:AttributeAuthorityDescriptor</RetainedRole>
+               </MetadataFilter>
             </MetadataProvider>
 
             <!-- Meta data for ie federation. The federation includes various IE institutions -->
-            <MetadataProvider type="XML" uri="https://edugate.heanet.ie/rr3/signedmetadata/provider/aHR0cHM6Ly93d3cucmVzZWFyY2hwcm9mZXNzaW9uYWwuY29tL3NoaWJib2xldGg~/metadata.xml" backingFilePath="edugate-ie-federation-metadata.xml" reloadInterval="14400">
+            <MetadataProvider type="XML" uri="https://edugate.heanet.ie/rr3/signedmetadata/provider/aHR0cHM6Ly93d3cucmVzZWFyY2hwcm9mZXNzaW9uYWwuY29tL3NoaWJib2xldGg~/metadata.xml" backingFilePath="edugate-ie-federation-metadata.xml" reloadInterval="43200">
                 <MetadataFilter type="RequireValidUntil" maxValidityInterval="2592000"/>
                 <MetadataFilter type="Signature" certificate="federations/ie.pem"/>
+                <MetadataFilter type="EntityRoleWhiteList">
+                    <RetainedRole>md:IDPSSODescriptor</RetainedRole>
+                    <RetainedRole>md:AttributeAuthorityDescriptor</RetainedRole>
+               </MetadataFilter>
             </MetadataProvider>
 
             <!-- Australian Access Federation (AAF) -->
-            <MetadataProvider type="XML" uri="https://ds.aaf.edu.au/distribution/metadata/metadata.aaf.signed.complete.xml" backingFilePath="aaf-au-federation.xml" reloadInterval="7200">
+            <MetadataProvider type="XML" uri="https://ds.aaf.edu.au/distribution/metadata/metadata.aaf.signed.complete.xml" backingFilePath="aaf-au-federation.xml" reloadInterval="43200">
                 <MetadataFilter type="RequireValidUntil" maxValidityInterval="2419200"/>
                 <MetadataFilter type="Signature" certificate="federations/aaf-au-federation.pem"/>
+                <MetadataFilter type="EntityRoleWhiteList">
+                    <RetainedRole>md:IDPSSODescriptor</RetainedRole>
+                    <RetainedRole>md:AttributeAuthorityDescriptor</RetainedRole>
+               </MetadataFilter>
             </MetadataProvider>
 
             <!-- Metadata for New Zealand federation -->
-            <MetadataProvider type="XML" uri="https://directory.tuakiri.ac.nz/metadata/tuakiri-metadata-signed.xml" backingFilePath="tuakiri-nz-federation-metadata.xml" reloadInterval="7200">
+            <MetadataProvider type="XML" uri="https://directory.tuakiri.ac.nz/metadata/tuakiri-metadata-signed.xml" backingFilePath="tuakiri-nz-federation-metadata.xml" reloadInterval="43200">
                 <MetadataFilter type="RequireValidUntil" maxValidityInterval="2419200"/>
                 <MetadataFilter type="Signature" certificate="federations/tuakiri-nz-federation.pem"/>
+                <MetadataFilter type="EntityRoleWhiteList">
+                    <RetainedRole>md:IDPSSODescriptor</RetainedRole>
+                    <RetainedRole>md:AttributeAuthorityDescriptor</RetainedRole>
+               </MetadataFilter>
             </MetadataProvider>
         
             <!-- Metadata for Swedish Federated Authentication Association -->
-            <MetadataProvider type="XML" uri="http://md.swamid.se/md/swamid-idp-transitive.xml" backingFilePath="swamid-idp-transitive.xml" reloadInterval="7200">
-                    <MetadataFilter type="RequireValidUntil" maxValidityInterval="2419200"/>
-                    <MetadataFilter type="Signature" certificate="federations/swamid-idp-transitive.pem"/>
+            <MetadataProvider type="XML" uri="http://md.swamid.se/md/swamid-idp-transitive.xml" backingFilePath="swamid-idp-transitive.xml" reloadInterval="43200">
+                <MetadataFilter type="RequireValidUntil" maxValidityInterval="2419200"/>
+                <MetadataFilter type="Signature" certificate="federations/swamid-idp-transitive.pem"/>
+                <MetadataFilter type="EntityRoleWhiteList">
+                    <RetainedRole>md:IDPSSODescriptor</RetainedRole>
+                    <RetainedRole>md:AttributeAuthorityDescriptor</RetainedRole>
+               </MetadataFilter>
             </MetadataProvider>
 
             <!--
@@ -144,9 +168,6 @@
 
             <!-- Meta data for Utrecht University -->
             <MetadataProvider type="XML" uri="https://login.services.uu.nl/nidp/saml2/metadata" backingFilePath="utrecht-metadata.xml" reloadInterval="180000"/>
-
-            <!-- Meta data for the TestShib IdP (for debugging purposes only) -->
-            <MetadataProvider type="XML" uri="http://www.testshib.org/metadata/testshib-providers.xml" backingFilePath="testshib-two-idp-metadata.xml" reloadInterval="14400" />
         </MetadataProvider>
 
         <!-- Map to extract attributes from SAML assertions. -->
