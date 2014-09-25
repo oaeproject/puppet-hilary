@@ -17,7 +17,7 @@ if [ ! -d <%= model_loader_dir %> ] ; then
 elif [ ! -f <%= model_loader_dir %>/scripts/users/0.txt ] ; then
     echo "There was no batch found in the model loader."
     echo "You can generate a batch with:"
-    echo "cd <%= model_loader_dir %> && node generate.js -b 1 -t oae -u 100 -g 200 -c 500 -d 500 -f 200"
+    echo "cd <%= model_loader_dir %> && node generate.js -b 1 -t oae -u 200 -g 400 -c 1000 -d 200 -f 200"
     exit 1
 fi
 
