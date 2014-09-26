@@ -41,6 +41,11 @@
     "app_use_https": false,
     "app_strict_https": true,
 
+    "shibboleth_entity_id": "https://shib-sp.vagrant.oae/shibboleth",
+    "shibboleth_keyname": "shib-sp.vagrant.oae",
+    "shibboleth_subjectname": "CN=shib-sp.vagrant.oae",
+    "shibboleth_sp_host": "shib-sp.vagrant.oae",
+
     "ux_root_dir": "/opt/3akai-ux",
     "ux_install_method": "vagrant",
     "ux_install_config": {},

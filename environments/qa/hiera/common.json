@@ -53,6 +53,11 @@
     "app_use_https": true,
     "app_strict_https": false,
 
+    "shibboleth_entity_id": "https://shib-sp.oae-qa.oaeproject.org/shibboleth",
+    "shibboleth_keyname": "shib-sp.oae-qa.oaeproject.org",
+    "shibboleth_subjectname": "CN=shib-sp.oae-qa.oaeproject.org",
+    "shibboleth_sp_host": "shib-sp.oae-qa.oaeproject.org",
+
     "ux_root_dir": "/opt/3akai-ux",
     
     "db_cluster_name": "OAE QA Cluster",
