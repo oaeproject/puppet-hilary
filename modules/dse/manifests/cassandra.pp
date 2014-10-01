@@ -16,7 +16,7 @@ class dse::cassandra (
   require dse::apt
 
 
-  $dse_base_packages = ['dse-libtomcat', 'dse-libsqoop', 'dse-liblog4j', 'dse-libmahout', 'dse-libhive', 'dse-libcassandra', 'dse-libhadoop', 'dse-libpig' ]
+  $dse_base_packages = ['dse-libtomcat', 'dse-libsqoop', 'dse-liblog4j', 'dse-libmahout', 'dse-libhive', 'dse-libcassandra', 'dse-libhadoop', 'dse-libpig', 'dse-libspark' ]
   package { $dse_base_packages:
     ensure => $dse_version
   }
