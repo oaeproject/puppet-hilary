@@ -42,7 +42,7 @@ service hilary stop
 cd <%= ux_root_dir %>
 npm install -d
 npm install -g grunt-cli
-grunt
+CDN_URL="https://static.<%= web_domain %>" grunt
 rm -rf /tmp/target
 mv target /tmp
 rm -rf <%= ux_root_dir %>
