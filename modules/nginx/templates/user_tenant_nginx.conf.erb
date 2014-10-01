@@ -43,7 +43,7 @@ server {
     # Enable CORS support for the font-awesome webfont
     # so we can load it from our CDN
     location /shared/vendor/css/font-awesome/fonts/ {
-        alias <%= nginxConf.UX_HOME %>/shared/vendor/css/font-awesome/fonts/;
+        alias <%= @app_ui_path %>/shared/vendor/css/font-awesome/fonts/;
         add_header Access-Control-Allow-Origin "*";
         expires max;
     }
