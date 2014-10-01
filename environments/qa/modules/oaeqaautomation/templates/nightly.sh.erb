@@ -42,7 +42,13 @@ service hilary stop
 cd <%= ux_root_dir %>
 npm install -d
 npm install -g grunt-cli
-CDN_URL="https://static.<%= web_domain %>" grunt
+
+# Only cdnify QA0
+if [ "<%= web_domain %>" == "oae-qa0.oaeproject.org" ] ; then
+    CDN_URL="https://qa0-researchresearch-researchresearch.netdna-ssl.com" grunt
+else
+    grunt
+fi
 rm -rf /tmp/target
 mv target /tmp
 rm -rf <%= ux_root_dir %>
