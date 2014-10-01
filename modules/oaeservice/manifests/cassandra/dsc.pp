@@ -11,6 +11,8 @@ class oaeservice::cassandra::dsc {
         key_source  => 'http://debian.datastax.com/debian/repo_key',
     }
 
+    Class['::oracle-java'] -> Class['::cassandra']
+
     class { '::cassandra':
         owner               => $::oaeservice::cassandra::params::owner,
         group               => $::oaeservice::cassandra::params::group,

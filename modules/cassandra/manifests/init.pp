@@ -13,10 +13,14 @@ class cassandra (
 
   package { 'python-cql': ensure => installed }
 
+  package { 'cassandra':
+    ensure  => '2.0.9',
+  }
+
   package { 'dsc20':
     ensure  => $dsc_version,
     alias   => 'dsc',
-    require => Package['python-cql'],
+    require => [ Package['python-cql'], Package['cassandra'] ]
   }
 
   file { 'cassandra.yaml':
