@@ -15,7 +15,7 @@ server {
 <% if @ssl_policy == 'allow_http' -%>
     listen      80 default_server;
 <% end -%>
-    listen      443 default_server ssl;
+    listen      443 default_server ssl spdy;
 <% else -%>
 <% if @ssl_policy == 'allow_http' -%>
     listen      80;

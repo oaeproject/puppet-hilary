@@ -14,7 +14,9 @@ class nginx (
     $ssl_default_crt_source         = 'puppet:///modules/localconfig/ssl/default/server.crt',
     $ssl_default_key_source         = 'puppet:///modules/localconfig/ssl/default/server.key',
     $static_assets_dir              = false,
-    $version                        = '1.4.3-1~precise',) {
+    $version                        = '1.7.6-1+precise1',
+    $rsyslog_enabled                = false,
+    $rsyslog_host                   = '127.0.0.1') {
 
 
     #############################

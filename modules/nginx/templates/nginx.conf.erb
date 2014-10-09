@@ -1,6 +1,10 @@
 user                    <%= @owner %> <%= @group %>;
 worker_processes        5;
 worker_rlimit_nofile    8192;
+<% if @rsyslog_enabled -%>
+access_log syslog:<%= @rsyslog_host %>,facility=local0,severity=info,tag=access combined;
+error_log syslog:<%= @rsyslog_host %>,facility=local0,severity=error,tag=error error;
+<% end -%>
 
 pid         /var/run/nginx.pid;
 lock_file   /var/run/nginx.lock;
