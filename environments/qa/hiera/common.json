@@ -127,7 +127,7 @@
     "nginx::group": "nginx",
     "nginx::rate_limit_api": false,
     "nginx::ssl_policy": "redirect_http",
-    "nginx::version": "1.5.6-1~precise0",
+    "nginx::version": "1.7.6-1+precise1",
 
     "redis::owner": "redis",
     "redis::group": "redis",

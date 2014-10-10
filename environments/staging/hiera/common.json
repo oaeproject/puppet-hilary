@@ -147,7 +147,7 @@
 
     "nginx::owner": "nginx",
     "nginx::group": "nginx",
-    "nginx::version": "1.5.6-1~precise0",
+    "nginx::version": "1.7.6-1+precise1",
 
     "redis::owner": "redis",
     "redis::group": "redis",
