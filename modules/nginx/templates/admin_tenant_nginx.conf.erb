@@ -10,7 +10,7 @@ server {
 <% if @ssl_policy == 'allow_http' -%>
     listen      80;
 <% end -%>
-    listen      443 ssl spdy;
+    listen      443 ssl;
     server_name <%= @server_name %>;
 
     ssl_certificate      <%= @ssl_crt_path %>;
