@@ -12,10 +12,10 @@ events {
 http {
     include <%= @nginx_mimes_path %>;
 
-    <% if @rsyslog_enabled -%>
-    access_log syslog:<%= @rsyslog_host %>,facility=local0,severity=info,tag=access combined;
-    error_log syslog:<%= @rsyslog_host %>,facility=local0,severity=error,tag=error error;
-    <% end -%>
+<% if @rsyslog_enabled -%>
+    access_log syslog:server=<%= @rsyslog_host %>,facility=local0,severity=info,tag=access combined;
+    error_log syslog:server=<%= @rsyslog_host %>,facility=local0,severity=error,tag=error error;
+<% end -%>
 
     # Allows us to have "server_name" strings up to 32 characters
     server_names_hash_bucket_size  64;
