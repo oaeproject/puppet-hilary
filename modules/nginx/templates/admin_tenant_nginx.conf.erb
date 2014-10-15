@@ -24,6 +24,9 @@ server {
     # Prevent POODLE by not using SSL v3
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 
+    # Enable HSTS which tells browsers not to use http:// for at least a year
+    add_header Strict-Transport-Security "max-age=31536000; includeSubdomains";
+
 
     ######################
     ## SHARED RESOURCES ##
