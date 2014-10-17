@@ -5,8 +5,7 @@
         "::oaeservice::hilary::files",
         "::localconfig::ordering::web",
         "::oaeservice::nagios::nginx",
-        "::oaeservice::nagios::disk::shared",
-        "::oaeservice::shibboleth"
+        "::oaeservice::nagios::disk::shared"
     ],
     "rsyslog::imfiles": [
         {
