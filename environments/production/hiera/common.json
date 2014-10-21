@@ -68,10 +68,10 @@
     "app_use_https": true,
     "app_strict_https": true,
 
-    "shibboleth_entity_id": "https://shib-sp.oaeproject.org/shibboleth",
-    "shibboleth_keyname": "shib-sp.oaeproject.org",
-    "shibboleth_subjectname": "CN=shib-sp.oaeproject.org",
-    "shibboleth_sp_host": "shib-sp.oaeproject.org",
+    "shibboleth_entity_id": "https://shib-sp.unity.ac/shibboleth",
+    "shibboleth_keyname": "shib-sp.unity.ac",
+    "shibboleth_subjectname": "CN=shib-sp.unity.ac",
+    "shibboleth_sp_host": "shib-sp.unity.ac",
 
     "circonus_url": "https://trap.noit.circonus.net/module/httptrap/5655b0c9-5246-68b3-e456-edfb512d4ea1/mys3cr3t",
 
