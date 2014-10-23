@@ -26,27 +26,5 @@
         }
     ],
 
-    "shibboleth_entity_id": "https://shib-sp.oae-performance.oaeproject.org/shibboleth",
-    "shibboleth_keyname": "web0",
-    "shibboleth_subjectname": "CN=web0",
-    "shibboleth_hosts": {
-        "oae": {
-            "remote_user": "persistent-id",
-            "hostname": "oae.oae-performance.oaeproject.org"
-        },
-        "cam": {
-            "remote_user": "eppn persistent-id targeted-id",
-            "hostname": "cam.oae-performance.oaeproject.org"
-        },
-        "gatech": {
-            "remote_user": "eppn",
-            "hostname": "gt.oae-performance.oaeproject.org"
-        },
-        "marist": {
-            "remote_user": "cn",
-            "hostname": "marist.oae-performance.oaeproject.org"
-        }
-    },
-
     "nagios_hostgroup": "webservers"
 }
