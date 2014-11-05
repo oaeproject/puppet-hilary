@@ -82,7 +82,12 @@ class hilary (
 
     # Etherpad
     $config_etherpad_internal_hosts,
-    $config_etherpad_api_key,) {
+    $config_etherpad_api_key,
+
+    # Mixpanel
+    $config_mixpanel_enabled          = false,
+    $config_mixpanel_token            = '',
+    ) {
 
   $config_files_tmp_upload_dir = "${config_files_tmp_dir}/uploads"
   $config_previews_tmp_dir = "${config_files_tmp_dir}/previews"

@@ -75,6 +75,9 @@ class oaeservice::hilary {
     config_etherpad_internal_hosts    => hiera('etherpad_internal_hosts'),
     config_etherpad_api_key           => hiera('etherpad_api_key'),
 
+    config_mixpanel_enabled           => hiera('mixpanel_enabled', false),
+    config_mixpanel_token             => hiera('mixpanel_token', ''),
+
     config_log_syslog_ip              => $rsyslog_host,
     config_activity_redis_host        => $activitycache_host,
     config_activity_redis_port        => $activitycache_port,
