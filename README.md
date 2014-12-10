@@ -58,6 +58,8 @@ you can change this in the VagrantFile found in OAE/puppet-hilary.
 cd into the `puppet-hilary` directory and run:
 
 ```
+git submodule sync
+git submodule update --init
 vagrant box add oae http://files.vagrantup.com/precise64.box
 vagrant up
 ```
