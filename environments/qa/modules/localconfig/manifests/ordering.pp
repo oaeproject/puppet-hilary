@@ -5,5 +5,5 @@ class localconfig::ordering {
     Class['::redis']                        -> Class['::hilary']
     Class['::elasticsearch']                -> Class['::hilary']
     Class['::dse::cassandra']               -> Class['::hilary']
-    Class['::rabbitmq::server']             -> Class['::hilary']
+    Class['::rabbitmq']                     -> Class['::hilary']
 }
