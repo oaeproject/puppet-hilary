@@ -221,6 +221,11 @@ config.search = {
                         'type': 'custom',
                         'tokenizer': 'letter',
                         'filter': ['lowercase', 'message_edgengram']
+                    },
+                    'text_content': {
+                        'type': 'custom',
+                        'tokenizer': 'letter',
+                        'filter': ['lowercase', 'content_edgengram']
                     }
                 },
                 'filter': {
