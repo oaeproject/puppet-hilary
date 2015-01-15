@@ -11,7 +11,8 @@ class oaeservice::deps::pp {
         'ttf-liberation',
         'texlive-fonts-recommended',
         'fonts-international',
-        'pdf2htmlex'
+        'pdf2htmlex',
+        'poppler-utils'
     ]
     package { $pp_packages:
         ensure   => installed
