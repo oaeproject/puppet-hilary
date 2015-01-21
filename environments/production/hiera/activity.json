@@ -1,6 +1,7 @@
 {
     "classes": [
         "::oaeservice::hilary",
+        "::oaeservice::hilary::files",
         "::oaeservice::ui",
         "::oaeservice::postfix",
         "::oaeservice::nagios::hilary",
