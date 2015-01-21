@@ -330,6 +330,11 @@ server {
         proxy_pass http://tenantworkers;
     }
 
+    location /api/tenant/landingPage {
+        expires 15m;
+        proxy_pass http://tenantworkers;
+    }
+
     location /api/ui/widgets {
         expires 15m;
         proxy_pass http://tenantworkers;
