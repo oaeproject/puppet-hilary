@@ -206,7 +206,7 @@ service puppet-dashboard-workers start
 apt-get -y install openjdk-6-jre
 
 cd /opt
-wget http://apache.mirror.vexxhost.com/activemq/apache-activemq/5.8.0/apache-activemq-5.8.0-bin.tar.gz
+wget http://archive.apache.org/dist/activemq/apache-activemq/5.8.0/apache-activemq-5.8.0-bin.tar.gz
 tar -zxvf apache-activemq-5.8.0-bin.tar.gz
 mv apache-activemq-5.8.0 activemq
 
