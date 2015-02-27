@@ -1,6 +1,5 @@
 {
     "classes": [
-        "::oaeservice::deps::package::openjdk6",
         "::oaeservice::hilary",
         "::oaeservice::hilary::files",
         "::oaeservice::ui",
