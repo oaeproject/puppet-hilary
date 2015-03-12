@@ -7,7 +7,7 @@
         "::oaeservice::backup::cassandra"
     ],
 
-    "duplicity::params::excludes": ["**/snapshots"],
+    "duplicity::params::excludes": ["**/snapshots","**/OpsCenter"],
     "duplicity::params::pubkey_id": "471DE501",
     "duplicity::params::bucket": "oae-cassandra-backup",
     "duplicity::params::hour": 4,

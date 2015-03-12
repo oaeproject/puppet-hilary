@@ -1,9 +1,22 @@
 {
     "classes": [
+        "::oaeservice::postfix",
         "::oaeservice::cassandra::dse",
         "::oaeservice::munin::cassandra",
-        "::oaeservice::nagios::cassandra"
+        "::oaeservice::nagios::cassandra",
+        "::oaeservice::backup::cassandra"
     ],
+
+    "duplicity::params::excludes": ["**/snapshots","**/OpsCenter"],
+    "duplicity::params::pubkey_id": "471DE501",
+    "duplicity::params::bucket": "oae-cassandra-backup",
+    "duplicity::params::hour": 4,
+    "duplicity::params::minute": 0,
+    "duplicity::params::full_if_older_than": "30D",
+    "duplicity::params::remove_older_than": "3M",
+    "duplicity::params::mail_to": "oae-monitoring@googlegroups.com",
+    "duplicity::params::mail_subject_success": "[cassandra backup] SUCCESS: Successfully backed up database to S3",
+    "duplicity::params::mail_subject_error": "[cassandra backup] ERROR: Failed to back up database to S3",
 
     "oaeservice::limits::sys_max_map": "131072",
     "oaeservice::limits::user_soft_memlock": "unlimited",
