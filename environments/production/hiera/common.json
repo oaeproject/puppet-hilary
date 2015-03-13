@@ -46,7 +46,7 @@
 
     "app_install_method": "archive",
     "app_install_config": {
-        "version_major_minor": "10.0",
+        "version_major_minor": "10.1",
         "version_patch": "0",
         "version_nodejs": "0.10.30"
     },
@@ -78,7 +78,7 @@
     "ux_root_dir": "/opt/3akai-ux",
     "ux_install_method": "archive",
     "ux_install_config": {
-        "version_major_minor": "10.0",
+        "version_major_minor": "10.1",
         "version_patch": "0"
     },
 
