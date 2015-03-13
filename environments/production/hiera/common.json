@@ -21,8 +21,7 @@
 
     "admin_users": {
         "branden": {
-            "pubkey": "AAAAB3NzaC1yc2EAAAABIwAAAQEAr9l2yQjCoZO6D9ANFX0VNSQi7uN1ucqXISjgIcr37D0aAF+/7+fKwvwfAYNj++4rUeWJmzSXDgdVWLBTfQ8bZpb2jx8bvCFbl0jMBiNxhL849iJR/mfpQeXqJ8cYg00lkzuxWtbpynl4kVa+8m1z2v5RBTB9qjpkag7xPj5aplb7pirBgdSOOFeF2hyWkwXwDXfbzPAfCaei9eSTQhgiHqGzKPFz4rdyswT+SWmBusVsFYlclRB5Ig72PgBAt0lb677PI32ZFIWy3wnY0eZVNvmWYj64zWP+nNpidx3BnhNYV2p95vwXf3WLaOTWCgcseRVYKLk0B0VeYN67grLcfQ==",
-            "ensure": "absent"
+            "pubkey": "AAAAB3NzaC1yc2EAAAADAQABAAABAQCw4+hHSSV1XRF1JNEdmOmhnV3qqw4cz38Wek32dATUkBbrXohX2+Z/zhtfdt8V4inEcW2gto/OQJC+FOxUTGGgZT17TWDDM30KwhkyfVOcsCDixmYmfkwqeWAJYd8B4LXpu4ge5s/w6HnMKJ9d+LXCa0pKyOTJODycpGhea41Y6MPJs1/8d3O5njN5rpTIHy1CLE4LSJYe7QMa91PNvG8w1lzW5cdpxqKPnfQgNAMSi0n5PkpyVlKdRDIxCydiPlPoTHY7B4udjiaOXra4yLAm3lEhOjziJ4psHDSwYxC6Qqbp4HUvdljU5CyD+Zsgo/0vWz5d7PEVKfeYZ13+yYYp",
         },
         "stuartf": {
             "pubkey": "AAAAB3NzaC1yc2EAAAABIwAAAQEAtmHx7EdE6WVfyfh4K6veFhZLjmbsts99sgmAbqfmsAO/Nxx9/F7ggNe7LnytgsSCqEzqR+kvy32CFEKJjNuF3APJ4o3O8IavsnskVSJ5wDR/Z+KWyzMCecDp7OqVjfNasGY0G4W/SWbWIo+PQFNBC1W7LPdYq6V59Ar/5/ommk0Mxrh8ggS9hFdJlX8/JhBXgp/sLOCoL12jHFkb/Vei+X3ksL9jP2YTAMm0bhT3N7cBz9NJPxnxPAlnCaRiEHQ6NdAzRJ1lA1SH3wfQFkpcShobvHdGIs3kAsqZAXTEwvEFheXHdqB/rUzKRbsdTZLrCtMjxDdZZF1/w7U7MbH0JQ=="
