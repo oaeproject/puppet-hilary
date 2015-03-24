@@ -35,8 +35,9 @@ echo "Deleting data..."
 
 echo ""
 echo "Restoring services with puppet"
-puppet agent -t
-
+# removing --test as it's just too dam verbose, esp --show_diff
+#puppet agent -t
+puppet agent --onetime --no-daemonize --verbose
 
 echo ""
 echo "Performing production build (this will take a little while)"
@@ -44,8 +45,8 @@ echo "Performing production build (this will take a little while)"
 service hilary stop
 
 cd <%= ux_root_dir %>
-npm install -d
-npm install -g grunt-cli
+npm install -d --loglevel warn
+npm install -g grunt-cli --loglevel warn
 
 # Only cdnify QA0
 if [ "<%= web_domain %>" == "oae-qa0.oaeproject.org" ] ; then
@@ -77,7 +78,7 @@ cd <%= scripts_dir %>
 
 echo ""
 echo "Updating oaesh"
-npm install -g oaesh
+npm install -g oaesh --loglevel warn
 
 # Create an 'oae' tenant.
 echo ""
