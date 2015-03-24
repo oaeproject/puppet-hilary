@@ -1,20 +1,24 @@
-#!/bin/sh
+#!/bin/bash
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
 
+# ensure we're initially not somewhere that's going to be removed
+mycwd=$(pwd)
+cd /
+
 echo ""
 echo ""
 echo ""
-echo "Nightly Run: `date`"
+echo "Nightly Run: $(date)"
 echo "========================================================="
 echo ""
 
 
 # Simple requirement check
-if [ ! -d <%= model_loader_dir %> ] ; then
+if [ ! -d "<%= model_loader_dir %>" ] ; then
     echo "The model loader was not found. Exitting"
     exit 1
-elif [ ! -f <%= model_loader_dir %>/scripts/users/0.txt ] ; then
+elif [ ! -f "<%= model_loader_dir %>/scripts/users/0.txt" ] ; then
     echo "There was no batch found in the model loader."
     echo "You can generate a batch with:"
     echo "cd <%= model_loader_dir %> && node generate.js -b 1 -t oae -u 200 -g 400 -c 1000 -d 200 -f 200"
@@ -51,9 +55,12 @@ else
 fi
 rm -rf /tmp/target
 mv target /tmp
+cd /
 rm -rf <%= ux_root_dir %>
 mv /tmp/target/optimized <%= ux_root_dir %>
+rm -rf <%= ux_root_dir %>/../original
 mv /tmp/target/original <%= ux_root_dir %>/../original
+cd <%= ux_root_dir %>
 
 service hilary start
 
@@ -100,3 +107,7 @@ echo ""
 echo "Loading data via the model loader"
 cd <%= model_loader_dir %>
 node loaddata.js -b 1 -s 0 -h https://oae.<%= web_domain %>
+
+# go back to where the script was run from
+cd $mycwd
+
