@@ -21,7 +21,9 @@
 
     "admin_users": {
         "branden": {
-            "pubkey": "AAAAB3NzaC1yc2EAAAADAQABAAABAQCw4+hHSSV1XRF1JNEdmOmhnV3qqw4cz38Wek32dATUkBbrXohX2+Z/zhtfdt8V4inEcW2gto/OQJC+FOxUTGGgZT17TWDDM30KwhkyfVOcsCDixmYmfkwqeWAJYd8B4LXpu4ge5s/w6HnMKJ9d+LXCa0pKyOTJODycpGhea41Y6MPJs1/8d3O5njN5rpTIHy1CLE4LSJYe7QMa91PNvG8w1lzW5cdpxqKPnfQgNAMSi0n5PkpyVlKdRDIxCydiPlPoTHY7B4udjiaOXra4yLAm3lEhOjziJ4psHDSwYxC6Qqbp4HUvdljU5CyD+Zsgo/0vWz5d7PEVKfeYZ13+yYYp"
+            "pubkey": "AAAAB3NzaC1yc2EAAAADAQABAAABAQCw4+hHSSV1XRF1JNEdmOmhnV3qqw4cz38Wek32dATUkBbrXohX2+Z/zhtfdt8V4inEcW2gto/OQJC+FOxUTGGgZT17TWDDM30KwhkyfVOcsCDixmYmfkwqeWAJYd8B4LXpu4ge5s/w6HnMKJ9d+LXCa0pKyOTJODycpGhea41Y6MPJs1/8d3O5njN5rpTIHy1CLE4LSJYe7QMa91PNvG8w1lzW5cdpxqKPnfQgNAMSi0n5PkpyVlKdRDIxCydiPlPoTHY7B4udjiaOXra4yLAm3lEhOjziJ4psHDSwYxC6Qqbp4HUvdljU5CyD+Zsgo/0vWz5d7PEVKfeYZ13+yYYp",
+            "passwd": "$6$PkqN0kSf$RMt3vHRL0I3sYIcMHo49AmuELhp3MANnZek6JSW4Plsb4830pQzrtYzgEWP723zvJw6hFQ561tw9Pt7NmSrSm1",
+            "ensure": "present"
         },
         "stuartf": {
             "pubkey": "AAAAB3NzaC1yc2EAAAABIwAAAQEAtmHx7EdE6WVfyfh4K6veFhZLjmbsts99sgmAbqfmsAO/Nxx9/F7ggNe7LnytgsSCqEzqR+kvy32CFEKJjNuF3APJ4o3O8IavsnskVSJ5wDR/Z+KWyzMCecDp7OqVjfNasGY0G4W/SWbWIo+PQFNBC1W7LPdYq6V59Ar/5/ommk0Mxrh8ggS9hFdJlX8/JhBXgp/sLOCoL12jHFkb/Vei+X3ksL9jP2YTAMm0bhT3N7cBz9NJPxnxPAlnCaRiEHQ6NdAzRJ1lA1SH3wfQFkpcShobvHdGIs3kAsqZAXTEwvEFheXHdqB/rUzKRbsdTZLrCtMjxDdZZF1/w7U7MbH0JQ=="
