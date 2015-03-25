@@ -127,6 +127,8 @@
 
     "driver_tsung_version": "1.4.2",
 
+    "static_assets_dir": "/data/assets",
+
     "nginx::owner": "nginx",
     "nginx::group": "nginx",
     "nginx::rate_limit_api": false,
