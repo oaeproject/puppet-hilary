@@ -12,25 +12,5 @@
         "::oaeservice::ui"
     ],
 
-    "email_debug": "false",
-
-    "app_install_method": "archive",
-    "app_install_config": {
-        "version_major_minor": "7.1",
-        "version_patch": "1",
-        "version_nodejs": "0.10.26"
-    },
-    "app_ui_path": "/opt/3akai-ux/optimized",
-
-    "ux_install_method": "archive",
-    "ux_install_config": {
-        "version_major_minor": "7.1",
-        "version_patch": "1"
-    },
-
-    "etherpad_install_config": {
-        "version_major_minor": "1.4",
-        "version_patch": "0",
-        "version_nodejs": "0.10.17"
-    }
+    "email_debug": "false"
 }
