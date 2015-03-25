@@ -1,4 +1,8 @@
 {
+    "classes": [
+        "::oaeqaautomation"
+    ],
+
     "web_domain": "oae-qa0.oaeproject.org",
     "email_debug": "false"
 }

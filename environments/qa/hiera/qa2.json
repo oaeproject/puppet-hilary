@@ -1,3 +1,4 @@
 {
-    "web_domain": "oae-qa2.oaeproject.org"
+    "web_domain": "oae-qa2.oaeproject.org",
+    "web_domains_external": ["olympia.unity.ac"]
 }
