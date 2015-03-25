@@ -35,8 +35,6 @@ echo "Deleting data..."
 
 echo ""
 echo "Restoring services with puppet"
-# removing --test as it's just too dam verbose, esp --show_diff
-#puppet agent -t
 puppet agent --onetime --no-daemonize --verbose
 
 echo ""
