@@ -36,6 +36,14 @@ class rsyslog (
             require => [ Package['rsyslog'], File[$server_logdir] ],
         }
 
+        file { "${server_logdir}/tail-hilary.sh":
+            content => template('rsyslog/tail-hilary.sh.erb'),
+            owner   => 'root',
+            group   => 'root',
+            mode    => 0754,
+            require => [ Package['rsyslog'], File[$server_logdir] ],
+        }
+
         # Compress all log files that haven't been modified in over 1 day
         cron { 'compress-logs':
             ensure  => present,

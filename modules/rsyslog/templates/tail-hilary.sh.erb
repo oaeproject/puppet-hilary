@@ -1,0 +1,38 @@
+#!/bin/bash
+#
+# Tail the logs outputted by all the Hilary application servers
+# Options:
+#   -n K    output the last K lines, instead of the last 10; or use -n +K to output lines starting with the Kth
+#   -l L    output lines of at least this level. Defaults to 30. For reference: 30=info, 40=warn, 50=error
+#
+
+# Reset in case getopts has been used previously in the shell
+OPTIND=1
+
+# Get the arguments
+lines=10
+level=30
+while getopts "n:l:" opt; do
+    case "$opt" in
+    n)  lines=$OPTARG
+        ;;
+    l)  level=$OPTARG
+        ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+# Hilary logs to local0-2015-03-26.log
+today_log="local0-$(date +%Y-%m-%d).log"
+
+# Generate a shitty regex that we can use to grep out log lines of a certain level
+regex='level":'$level
+level=$(($level + 10))
+while [ $level -lt 51 ] ; do
+    regex=$regex'\|level":'$level
+    level=$(($level + 10))
+done
+
+# Tail and filter the logs
+tail -n $lines -f app*/$today_log pp*/$today_log activity*/$today_log | grep $regex
