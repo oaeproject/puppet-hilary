@@ -23,4 +23,4 @@ shift $((OPTIND-1))
 today_log="local0-$(date +%Y-%m-%d).log"
 
 # Tail and filter the logs
-tail -n $lines -f ${server_logdir}/app*/$today_log ${server_logdir}/pp*/$today_log ${server_logdir}/activity*/$today_log
+tail -n $lines -f <%= @server_logdir %>/app*/$today_log <%= @server_logdir %>/pp*/$today_log <%= @server_logdir %>/activity*/$today_log
