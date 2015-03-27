@@ -28,7 +28,7 @@ class rsyslog (
             mode    => 0644
         }
 
-        file { "${server_logdir}/filter-bunyan":
+        file { "/usr/local/bin/filter-bunyan":
             content => template('rsyslog/filter-bunyan.erb'),
             owner   => 'root',
             group   => 'root',
@@ -36,8 +36,8 @@ class rsyslog (
             require => [ Package['rsyslog'], File[$server_logdir] ],
         }
 
-        file { "${server_logdir}/tail-hilary.sh":
-            content => template('rsyslog/tail-hilary.sh.erb'),
+        file { "/usr/local/bin/tail-hilary":
+            content => template('rsyslog/tail-hilary.erb'),
             owner   => 'root',
             group   => 'root',
             mode    => 0754,

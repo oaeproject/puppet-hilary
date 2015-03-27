@@ -8,12 +8,22 @@
 # or:
 #
 # head -100 <path to log> | filter-bunyan
+#
+# Getting the errors out of a log:
+#
+# tail -f <path to log> | filter-bunyan -l error
 
-# * stdbuf 			- I think it defers flushing the buffer to stdout until a full line has been read. This seems to be necessary
+# * stdbuf 			            - I think it defers flushing the buffer to stdout until a full line has been read. This seems to be necessary
 # for both the tr and cut for tail -f to actually be formatted properly by bunyan.
 #
-# * tr -s ' ' 		- This "squeezes" spaces, as multiple spaces will trip up the parsing by "cut"
+# * tr -s ' ' 		            - This "squeezes" spaces, as multiple spaces will trip up the parsing by "cut"
 #
-# * cut -d' ' -f 6- - This takes columns 6 and on from a space-separated line. Basically slices out the syslog preamble
+# * cut -d' ' -f 6-             - This takes columns 6 and on from a space-separated line. Basically slices out the syslog preamble
+#
+# * bunyan $* -o bunyan         - Pipe the output to bunyan and pass the filters that were arguments to this script. The output will be standard json bunyan again
+#
+# * grep -v '^$'                - Because of stdbuf if bunyan filters a line we'd still end up with a blank line. Filter those out
+#
+# * bunyan                      - Pretty-print the remaining logs
 
-stdbuf -oL tr -s ' ' | stdbuf -oL cut -d' ' -f 6- | bunyan
+stdbuf -oL tr -s ' ' | stdbuf -oL cut -d' ' -f 6- | bunyan $* -o bunyan | grep -v '^$' | bunyan
