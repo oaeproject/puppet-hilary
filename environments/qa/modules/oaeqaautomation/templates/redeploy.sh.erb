@@ -1,17 +1,30 @@
 #!/bin/bash
+#
+# redeploy script
+# is run by cronjob each night on qa0
+# can also be run at any time to redeploy
+#
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
+
+# reduced verboseness of puppet and npm...
+MYPUPPETOPTIONS='--onetime --no-daemonize --verbose'
+MYNPMOPTIONS='--loglevel warn'
+# ...unless debug...
+if [ "Z$ARG[1]" == "Z--debug" -o "Z$ARG[1]" == "Z-d" -o ! -z "$DEBUG" ]
+then
+    MYPUPPETOPTIONS=-t
+    MYNPMOPTIONS=
+fi
 
 # ensure we're initially not somewhere that's going to be removed
 mycwd=$(pwd)
 cd /
 
-echo ""
-echo ""
-echo ""
-echo "Nightly Run: $(date)"
+echo
+echo "Re-deploying $HOSTNAME: $(date)"
 echo "========================================================="
-echo ""
+echo
 
 
 # Simple requirement check
@@ -29,37 +42,51 @@ fi
 echo "Shutting down services..."
 <%= scripts_dir %>/shutdown.sh
 
-echo ""
+echo
 echo "Deleting data..."
 <%= scripts_dir %>/deletedata.sh
 
-echo ""
+echo
 echo "Restoring services with puppet"
 puppet agent --onetime --no-daemonize --verbose
 
-echo ""
+# at this point we need to determine if we're using a tarball or master
+# better to find a more definitive check but this'll do
+if [ -f "<%= ux_root_dir %>/package.json" ]
+then
+    installtype=master
+else
+    installtype=tarball
+fi
+
+echo
 echo "Performing production build (this will take a little while)"
 
 service hilary stop
 
 cd <%= ux_root_dir %>
-npm install -d --loglevel warn
 npm install -g grunt-cli --loglevel warn
 
-# Only cdnify QA0
-if [ "<%= web_domain %>" == "oae-qa0.oaeproject.org" ] ; then
-    CDN_URL="https://qa0-researchresearch-researchresearch.netdna-ssl.com" grunt
-else
-    grunt
+if [ "$installtype" == "master" ]
+then
+    npm install -d --loglevel warn
+
+    # Only cdnify QA0
+    if [ "<%= web_domain %>" == "oae-qa0.oaeproject.org" ] ; then
+        CDN_URL="https://qa0-researchresearch-researchresearch.netdna-ssl.com" grunt
+    else
+        grunt
+    fi
+
+    rm -rf /tmp/target
+    mv target /tmp
+    cd /
+    rm -rf <%= ux_root_dir %>
+    mv /tmp/target/optimized <%= ux_root_dir %>
+    rm -rf <%= ux_root_dir %>/../original
+    mv /tmp/target/original <%= ux_root_dir %>/../original
+    cd <%= ux_root_dir %>
 fi
-rm -rf /tmp/target
-mv target /tmp
-cd /
-rm -rf <%= ux_root_dir %>
-mv /tmp/target/optimized <%= ux_root_dir %>
-rm -rf <%= ux_root_dir %>/../original
-mv /tmp/target/original <%= ux_root_dir %>/../original
-cd <%= ux_root_dir %>
 
 service hilary start
 
