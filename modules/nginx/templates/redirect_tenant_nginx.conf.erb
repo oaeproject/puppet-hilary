@@ -1,0 +1,21 @@
+server {
+    listen          80;
+    server_name     <%= @server_name %>.oaeproject.org;
+    return          301 https://<%= @redirect_to %>.unity.ac$request_uri;
+}
+server {
+    listen          443 ssl;
+    server_name     <%= @server_name %>.oaeproject.org;
+    return          301 https://<%= @redirect_to %>.unity.ac$request_uri;
+
+    ssl_certificate      <%= @ssl_crt_path %>;
+    ssl_certificate_key  <%= @ssl_key_path %>;
+
+    ssl_ciphers EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:EECDH+RC4:RSA+RC4:!MD5;
+    ssl_prefer_server_ciphers on;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+    add_header Strict-Transport-Security "max-age=31536000; includeSubdomains";
+    underscores_in_headers on;
+}
+
