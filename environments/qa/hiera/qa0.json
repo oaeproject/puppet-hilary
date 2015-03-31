@@ -3,6 +3,8 @@
         "::oaeqaautomation"
     ],
 
-    "web_domain": "oae-qa0.oaeproject.org",
+    "web_domain": "unity.ac",
+    "web_domains_external": "*.oaeproject.org",
+    "web_domains_redirect": ["oae-qa0"],
     "email_debug": "false"
 }
