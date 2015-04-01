@@ -13,16 +13,8 @@ define nginx::redirect (
     # Grab config properties from the central nginx class into scope
     $owner = $::nginx::owner
     $group = $::nginx::group
-    $app_ui_path = $::nginx::app_ui_path
-    $files_home = $::nginx::files_home
     $nginx_dir = $::nginx::nginx_dir
-    $rate_limit_api = $::nginx::rate_limit_api
     $ssl_policy = $::nginx::ssl_policy
-    $static_assets_dir = $::nginx::static_assets_dir
-
-    # We need the internal etherpad ips to bind the etherpad path-based sharding to each host
-    $internal_etherpad_ips = $::nginx::internal_etherpad_ips
-
 
     ############################
     ## SERVER SSL CERTIFICATE ##
@@ -32,14 +24,6 @@ define nginx::redirect (
     $ssl_host_dir = "${nginx_ssl_dir}/*.${web_domain_redirect_from}"
     $ssl_crt_path = "${ssl_host_dir}/server.crt"
     $ssl_key_path = "${ssl_host_dir}/server.key"
-
-    nginx::ssl { $ssl_host_dir:
-        ssl_crt_source  => $ssl_crt_source,
-        ssl_crt_path    => $ssl_crt_path,
-        ssl_key_source  => $ssl_key_source,
-        ssl_key_path    => $ssl_key_path,
-    }
-
 
     ###############################
     ## SERVER CONFIGURATION FILE ##
