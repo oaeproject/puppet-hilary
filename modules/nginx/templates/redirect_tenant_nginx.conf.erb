@@ -1,12 +1,12 @@
 server {
     listen          80;
-    server_name     <%= @server_name %>.oaeproject.org;
-    return          301 https://<%= @redirect_to %>.unity.ac$request_uri;
+    server_name     <%= @server_name %>.<%= @web_domain_redirect_from %>;
+    return          301 https://<%= @server_name %>.<%= @web_domain %>$request_uri;
 }
 server {
     listen          443 ssl;
-    server_name     <%= @server_name %>.oaeproject.org;
-    return          301 https://<%= @redirect_to %>.unity.ac$request_uri;
+    server_name     <%= @server_name %>.<%= @web_domain_redirect_from %>;
+    return          301 https://<%= @server_name %>.<%= @web_domain %>$request_uri;
 
     ssl_certificate      <%= @ssl_crt_path %>;
     ssl_certificate_key  <%= @ssl_key_path %>;
