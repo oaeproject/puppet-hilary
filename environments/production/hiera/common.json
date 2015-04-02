@@ -48,7 +48,7 @@
     "web_domain": "unity.ac",
     "web_domains_external": ["*.oaeproject.org"],
     "web_domains_redirect": ["testtenancy"],
-    "__web_domains_external": ["collab.lib.cam.ac.uk", "oae.gatech.edu", "oae.its.txstate.edu",
+    "web_domains_external": ["collab.lib.cam.ac.uk", "oae.gatech.edu", "oae.its.txstate.edu",
                              "shib-sp.unity.ac", "open.vu.nl",
                              "aar.oaeproject.org", "ace.oaeproject.org", "anu.oaeproject.org",
                              "apereo.oaeproject.org", "bath.oaeproject.org", "britishcouncil.oaeproject.org",
