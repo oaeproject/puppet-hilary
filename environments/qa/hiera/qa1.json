@@ -4,16 +4,5 @@
         "::oaeservice::shibboleth"
     ],
 
-    "web_domain": "oae-qa1.oaeproject.org",
-
-    "app_ui_path": "/opt/3akai-ux",
-    "app_install_method": "git",
-    "app_install_config": {
-        "source": "https://github.com/stuartf/Hilary",
-        "revision": "cors"
-    },
-    "ux_root_dir": "/opt/3akai-ux",
-    "ux_install_method": "git",
-    "ux_install_config": {}
-
+    "web_domain": "oae-qa1.oaeproject.org"
 }
