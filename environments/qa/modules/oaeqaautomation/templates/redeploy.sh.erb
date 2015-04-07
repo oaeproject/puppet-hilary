@@ -67,6 +67,8 @@ service hilary stop
 cd <%= ux_root_dir %>
 npm install -g grunt-cli --loglevel warn
 
+# so...in theory a tarball release can be handled by the puppet run earlier
+# however if we like to use the master branch by default in qa0
 if [ "$installtype" == "master" ]
 then
     npm install -d --loglevel warn
@@ -78,6 +80,7 @@ then
         grunt
     fi
 
+    # jiggle arround the ux files until they're all in the right place
     rm -rf /tmp/target
     mv target /tmp
     cd /
@@ -91,8 +94,7 @@ fi
 service hilary start
 
 DELAY=60
-
-echo ""
+echo
 echo "Sleeping ${DELAY}s to let the app server start up"
 sleep $DELAY
 
@@ -101,15 +103,13 @@ service nginx restart
 
 cd <%= scripts_dir %>
 
-echo ""
+echo
 echo "Updating oaesh"
 npm install -g oaesh --loglevel warn
 
 # Create an 'oae' tenant.
-echo ""
+echo
 echo "Creating an 'oae' tenant and disabling reCaptcha"
-
-# Create the OAE tenant
 oaesh -i -U https://<%= admin_host %> -u administrator -p administrator -- \
     exec /api/tenant/create -d "alias=oae" -d "displayName=Open Academic Environment" -d "host=oae.<%= web_domain %>"
 
@@ -129,7 +129,7 @@ fi
 
 # Performing a data load. An initial set of scripts should already be present on the server (requires
 # manual intervention)
-echo ""
+echo
 echo "Loading data via the model loader"
 cd <%= model_loader_dir %>
 node loaddata.js -b 1 -s 0 -h https://oae.<%= web_domain %>
