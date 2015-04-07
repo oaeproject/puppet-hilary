@@ -1,6 +1,4 @@
 define nginx::redirect (
-    $web_domain		= hiera("web_domain"),
-    $web_domain_redirect_from = hiera("web_domain_redirect_from"),
     $ssl_crt_source     = "puppet:///modules/localconfig/ssl/*.${web_domain_redirect_from}/server.crt",
     $ssl_key_source     = "puppet:///modules/localconfig/ssl/*.${web_domain_redirect_from}/server.key",
     $server_name        = $name,
