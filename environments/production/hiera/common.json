@@ -21,7 +21,9 @@
 
     "admin_users": {
         "branden": {
-            "pubkey": "AAAAB3NzaC1yc2EAAAADAQABAAABAQCw4+hHSSV1XRF1JNEdmOmhnV3qqw4cz38Wek32dATUkBbrXohX2+Z/zhtfdt8V4inEcW2gto/OQJC+FOxUTGGgZT17TWDDM30KwhkyfVOcsCDixmYmfkwqeWAJYd8B4LXpu4ge5s/w6HnMKJ9d+LXCa0pKyOTJODycpGhea41Y6MPJs1/8d3O5njN5rpTIHy1CLE4LSJYe7QMa91PNvG8w1lzW5cdpxqKPnfQgNAMSi0n5PkpyVlKdRDIxCydiPlPoTHY7B4udjiaOXra4yLAm3lEhOjziJ4psHDSwYxC6Qqbp4HUvdljU5CyD+Zsgo/0vWz5d7PEVKfeYZ13+yYYp"
+            "pubkey": "AAAAB3NzaC1yc2EAAAADAQABAAABAQCw4+hHSSV1XRF1JNEdmOmhnV3qqw4cz38Wek32dATUkBbrXohX2+Z/zhtfdt8V4inEcW2gto/OQJC+FOxUTGGgZT17TWDDM30KwhkyfVOcsCDixmYmfkwqeWAJYd8B4LXpu4ge5s/w6HnMKJ9d+LXCa0pKyOTJODycpGhea41Y6MPJs1/8d3O5njN5rpTIHy1CLE4LSJYe7QMa91PNvG8w1lzW5cdpxqKPnfQgNAMSi0n5PkpyVlKdRDIxCydiPlPoTHY7B4udjiaOXra4yLAm3lEhOjziJ4psHDSwYxC6Qqbp4HUvdljU5CyD+Zsgo/0vWz5d7PEVKfeYZ13+yYYp",
+            "passwd": "$6$PkqN0kSf$RMt3vHRL0I3sYIcMHo49AmuELhp3MANnZek6JSW4Plsb4830pQzrtYzgEWP723zvJw6hFQ561tw9Pt7NmSrSm1",
+            "ensure": "present"
         },
         "stuartf": {
             "pubkey": "AAAAB3NzaC1yc2EAAAABIwAAAQEAtmHx7EdE6WVfyfh4K6veFhZLjmbsts99sgmAbqfmsAO/Nxx9/F7ggNe7LnytgsSCqEzqR+kvy32CFEKJjNuF3APJ4o3O8IavsnskVSJ5wDR/Z+KWyzMCecDp7OqVjfNasGY0G4W/SWbWIo+PQFNBC1W7LPdYq6V59Ar/5/ommk0Mxrh8ggS9hFdJlX8/JhBXgp/sLOCoL12jHFkb/Vei+X3ksL9jP2YTAMm0bhT3N7cBz9NJPxnxPAlnCaRiEHQ6NdAzRJ1lA1SH3wfQFkpcShobvHdGIs3kAsqZAXTEwvEFheXHdqB/rUzKRbsdTZLrCtMjxDdZZF1/w7U7MbH0JQ=="
@@ -43,14 +45,16 @@
     },
     "deploy_user_passwd": "$6$KIxK1V/a$HpQSDSjkeh9BKsPWnFJ41pojj3ndVUJlkal8o.dpPxWHLxZYFo44OmwKVj7cm8.enpaiBodlNZ8ix/l2Wm0Ge.",
 
-    "web_domain": "oaeproject.org",
-    "web_domains_external": ["collab.lib.cam.ac.uk", "oae.gatech.edu", "oae.its.txstate.edu", "shib-sp.unity.ac", "open.vu.nl"],
+    "web_domain": "unity.ac",
+    "web_domains_external": ["*.oaeproject.org", "collab.lib.cam.ac.uk", "oae.gatech.edu", "oae.its.txstate.edu", "shib-sp.unity.ac", "open.vu.nl"],
+    "web_domains_redirect": ["research"],
+    "web_domain_redirect_from": "oaeproject.org",
     "web_internal_address": "web0",
 
     "app_install_method": "archive",
     "app_install_config": {
-        "version_major_minor": "10.2",
-        "version_patch": "0",
+        "version_major_minor": "10.3",
+        "version_patch": "1",
         "version_nodejs": "0.10.30"
     },
 
@@ -81,8 +85,8 @@
     "ux_root_dir": "/opt/3akai-ux",
     "ux_install_method": "archive",
     "ux_install_config": {
-        "version_major_minor": "10.2",
-        "version_patch": "0"
+        "version_major_minor": "10.3",
+        "version_patch": "1"
     },
 
     "db_cluster_name": "OAE Production Cluster",

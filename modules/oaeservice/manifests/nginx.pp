@@ -26,4 +26,14 @@ class oaeservice::nginx {
     if ($web_domains_external) {
         ::nginx::server { $web_domains_external: }
     }
+
+    # Redirect tenancies moved to unity
+    $web_domains_redirect = hiera_array('web_domains_redirect', false)
+    if ($web_domains_redirect) {
+        ::nginx::redirect { $web_domains_redirect:
+            web_domain			=> hiera('web_domain'),
+            web_domain_redirect_from	=> hiera('web_domain_redirect_from')
+        }
+    }
+
 }

@@ -1,8 +1,8 @@
 {
-
     "classes": [
-        "::oaeservice::shibboleth"
+        "::oaeqaautomation"
     ],
 
-    "web_domain": "oae-qa1.oaeproject.org"
+    "web_domain": "oae-qa1.oaeproject.org",
+    "email_debug": "false"
 }

@@ -28,12 +28,18 @@ class rsyslog (
             mode    => 0644
         }
 
-        file { "${server_logdir}/filter-bunyan":
+        file { "/usr/local/bin/filter-bunyan":
             content => template('rsyslog/filter-bunyan.erb'),
             owner   => 'root',
             group   => 'root',
             mode    => 0754,
-            require => [ Package['rsyslog'], File[$server_logdir] ],
+        }
+
+        file { "/usr/local/bin/tail-hilary":
+            content => template('rsyslog/tail-hilary.erb'),
+            owner   => 'root',
+            group   => 'root',
+            mode    => 0754,
         }
 
         # Compress all log files that haven't been modified in over 1 day

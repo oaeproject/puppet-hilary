@@ -1,7 +1,6 @@
 {
     "classes": [
         "::localconfig::ordering::qa",
-        "::oaeqaautomation",
         "::oaeservice::cassandra::dse",
         "::oaeservice::elasticsearch",
         "::oaeservice::etherpad",
