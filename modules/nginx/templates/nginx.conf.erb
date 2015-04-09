@@ -13,8 +13,8 @@ http {
     include <%= @nginx_mimes_path %>;
 
 <% if @rsyslog_enabled -%>
-    access_log syslog:server=<%= @rsyslog_host %>,facility=local0,severity=info,tag=access combined;
-    error_log syslog:server=<%= @rsyslog_host %>,facility=local0,severity=error,tag=error error;
+    access_log syslog:server=<%= @rsyslog_host %>:1514,facility=local0,severity=info,tag=access combined;
+    error_log syslog:server=<%= @rsyslog_host %>:1514,facility=local0,severity=error,tag=error error;
 <% end -%>
 
     # Allows us to have "server_name" strings up to 32 characters
