@@ -50,15 +50,6 @@ echo
 echo "Restoring services with puppet"
 puppet agent --onetime --no-daemonize --verbose
 
-# at this point we need to determine if we're using a tarball or master
-# better to find a more definitive check but this'll do
-if [ -f "<%= ux_root_dir %>/package.json" ]
-then
-    installtype=master
-else
-    installtype=tarball
-fi
-
 echo
 echo "Performing production build (this will take a little while)"
 
@@ -69,8 +60,15 @@ npm install -g grunt-cli --loglevel warn
 
 # so...in theory a tarball release can be handled by the puppet run earlier
 # however if we like to use the master branch by default in qa0
-if [ "$installtype" == "master" ]
-then
+if [ "Z<%= ux_install_method %>" == "Zarchive" ]
+then # tarball install
+
+    # reset config.ui path
+    # I suspect that the ux files jiggle around could be done to resolve this instead but this seems to work so far
+    sed -i "s/'path': '\/opt\/3akai-ux'/'path': '\/opt\/3akai-ux\/optimized'/" /opt/oae/config.js
+
+else # git master install
+
     npm install -d --loglevel warn
 
     # Only cdnify QA0
