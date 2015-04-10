@@ -30,6 +30,7 @@ class oaeqaautomation (
     $user_files_dir = hiera('app_files_dir')
     $app_root_dir = hiera('app_root_dir')
     $ux_root_dir = hiera('ux_root_dir')
+    $ux_install_method = hiera('ux_install_method', false)
     $model_loader_dir = hiera('automation_model_loader_dir')
 
     $web_domain = hiera('web_domain')
