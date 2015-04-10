@@ -79,7 +79,7 @@ class oaeqaautomation (
     $cron_log_file_path = "${log_file_dir}/`date +'\\%Y-\\%m-\\%d-\\%H-\\%M'`.log"
     cron { 'nightly-redeploy':
         ensure      => present,
-        command     => "${scripts_dir}/redeploy.sh >> ${cron_log_file_path} 2>> ${cron_log_file_path}",
+        command     => "test -e /var/lock/redeploy || ${scripts_dir}/redeploy.sh >> ${cron_log_file_path} 2>> ${cron_log_file_path}",
         user        => 'root',
         target      => 'root',
         hour        => $cron_hour,
