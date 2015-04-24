@@ -11,11 +11,15 @@ class oaeservice::deps::pp {
         'ttf-liberation',
         'texlive-fonts-recommended',
         'fonts-international',
-        'pdf2htmlex',
         'poppler-utils'
     ]
     package { $pp_packages:
         ensure   => installed
+    }
+
+    # Install the correct version of pdf2htmlex
+    package { 'pdf2htmlex':
+        ensure	=> '0.11-1~git201311150048r23755-0ubuntu1~precise1'
     }
 
     # Install the correct version of libreoffice
