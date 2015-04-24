@@ -85,6 +85,11 @@ node 'db3' inherits db {
   hiera_include(classes)
 }
 
+node 'db4' inherits db {
+  $nodesuffix = 4
+  hiera_include(classes)
+}
+
 
 ##################
 ## SEARCH NODES ##
