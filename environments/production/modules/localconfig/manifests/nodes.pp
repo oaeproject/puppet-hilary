@@ -195,6 +195,11 @@ node 'proxy0' inherits proxy {
   hiera_include(classes)
 }
 
+node 'proxy1' inherits proxy {
+  $nodesuffix = 1
+  hiera_include(classes)
+}
+
 
 
 #################

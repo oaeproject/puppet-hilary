@@ -122,11 +122,11 @@
         "version_nodejs": "0.10.17"
     },
 
-    "cache_host": "proxy0",
+    "cache_host": "proxy1",
     "cache_port": 6379,
 
     "activitycache_enabled": true,
-    "activitycache_host": "proxy0",
+    "activitycache_host": "proxy1",
     "activitycache_port": 6380,
 
     "email_debug": true,
