@@ -81,7 +81,7 @@ node 'db2' inherits db {
 }
 
 node 'db3' inherits db {
-  $nodesuffix = 2
+  $nodesuffix = 3
   hiera_include(classes)
 }
 
