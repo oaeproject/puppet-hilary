@@ -94,7 +94,7 @@
     "db_hosts": [ "db0", "db1", "db2", "db3", "db4" ],
     "db_tokens": [ "0", "56713727820156407428984779325531226112", "113427455640312814857969558651062452224" ],
     "db_timeout": 5000,
-    "db_replication_factor": 3,
+    "db_replication_factor": 5,
     "db_strategy_class": "SimpleStrategy",
     "db_index": "%{nodesuffix}",
     "db_data_dir": "/data/cassandra",
