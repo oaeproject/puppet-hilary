@@ -47,7 +47,7 @@
 
     "web_domain": "unity.ac",
     "web_domains_external": ["*.oaeproject.org", "collab.lib.cam.ac.uk", "oae.gatech.edu", "oae.its.txstate.edu", "shib-sp.unity.ac", "open.vu.nl"],
-    "web_domains_redirect": ["research", "bath", "britishcouncil", "gla", "kingston", "plymouth", "sun", "sussex"],
+    "web_domains_redirect": ["research", "bath", "gla", "kingston", "plymouth", "sun", "sussex"],
     "web_domain_redirect_from": "oaeproject.org",
     "web_internal_address": "web0",
 
