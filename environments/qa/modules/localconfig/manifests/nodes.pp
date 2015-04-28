@@ -42,7 +42,7 @@ node 'qa5' {
 
 node 'qadavid' {
     $nodetype = 'qa'
-    $nodesuffex = ''
+    $nodesuffix = ''
     hiera_include(classes)
 }
 
