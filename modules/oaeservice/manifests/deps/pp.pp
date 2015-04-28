@@ -6,6 +6,7 @@ class oaeservice::deps::pp {
     $pp_packages = [
         'pdftk',
         'chrpath',
+        'pdf2htmlex',
         'libfontconfig1-dev',
         'ttf-liberation',
         'texlive-fonts-recommended',
@@ -14,11 +15,6 @@ class oaeservice::deps::pp {
     ]
     package { $pp_packages:
         ensure   => installed
-    }
-
-    # Install the correct version of pdf2htmlex
-    package { 'pdf2htmlex':
-        ensure	=> '0.11-1~git201311150048r23755-0ubuntu1~precise1'
     }
 
     # Install the correct version of libreoffice
