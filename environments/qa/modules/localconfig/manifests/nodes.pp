@@ -40,6 +40,12 @@ node 'qa5' {
     hiera_include(classes)
 }
 
+node 'qadavid' {
+    $nodetype = 'qa'
+    $nodesuffex = ''
+    hiera_include(classes)
+}
+
 node 'unit0' {
     $nodetype = 'unit'
     $nodesuffix = 0
