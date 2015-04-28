@@ -1,7 +1,6 @@
 class oaeservice::deps::pp {
     include oaeservice::deps::common
     include oaeservice::deps::ppa::oae
-    include oaeservice::deps::ppa::pdf2htmlex
 
     # Necessary packages for the preview processor
     $pp_packages = [
