@@ -10,7 +10,5 @@
         "::oaeservice::postfix",
         "::oaeservice::redis",
         "::oaeservice::ui"
-    ],
-
-    "email_debug": "false"
+    ]
 }
