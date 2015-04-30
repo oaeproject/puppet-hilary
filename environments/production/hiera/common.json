@@ -50,6 +50,7 @@
     "web_domains_redirect": ["research", "bath", "gla", "kingston", "plymouth", "sun", "sussex"],
     "web_domain_redirect_from": "oaeproject.org",
     "web_internal_address": "web0",
+    "web_favicon": "/assets/favicon.ico",
 
     "app_install_method": "archive",
     "app_install_config": {

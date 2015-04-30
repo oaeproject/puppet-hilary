@@ -15,6 +15,7 @@ class nginx (
     $ssl_default_key_source         = 'puppet:///modules/localconfig/ssl/default/server.key',
     $static_assets_dir              = false,
     $version                        = '1.7.6-1+precise1',
+    $favicon                        = undef,
     $rsyslog_enabled                = false,
     $rsyslog_host                   = '127.0.0.1') {
 
@@ -106,7 +107,8 @@ class nginx (
     nginx::server { "${app_admin_tenant}.${web_domain}":
         ssl_crt_source  => $ssl_default_crt_source,
         ssl_key_source  => $ssl_default_key_source,
-        template        => 'nginx/admin_tenant_nginx.conf.erb'
+        template        => 'nginx/admin_tenant_nginx.conf.erb',
+        favicon         => $favicon
     }
 
 
@@ -118,6 +120,7 @@ class nginx (
         ssl_crt_source  => $ssl_default_crt_source,
         ssl_key_source  => $ssl_default_key_source,
         server_name     => 'default_server',
+        favicon         => $favicon
     }
 
     ###################
