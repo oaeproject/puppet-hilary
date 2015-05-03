@@ -72,7 +72,11 @@ server {
     rewrite ^/servermaintenance     /shared/oae/errors/servermaintenance.html last;
     rewrite ^/unavailable           /shared/oae/errors/unavailable.html last;
 
+    <% if @favicon -%>
+    rewrite ^/favicon.ico           <%= @favicon %> last;
+    <% else -%>
     rewrite ^/favicon.ico           /shared/oae/img/favicon.ico last;
+    <% end -%>
     rewrite ^/robots.txt            /shared/oae/robots.txt last;
 
 
