@@ -2,6 +2,7 @@
     "classes": [
         "::oaeservice::hilary",
         "::oaeservice::hilary::files",
+        "::localconfig::nfsmigration",
         "::oaeservice::ui",
         "::oaeservice::nagios::hilary"
     ],

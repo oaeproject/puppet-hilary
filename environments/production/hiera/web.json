@@ -3,6 +3,7 @@
         "::oaeservice::firewall::web",
         "::oaeservice::nginx",
         "::oaeservice::hilary::files",
+        "::localconfig::nfsmigration",
         "::oaeservice::ui",
         "::oaeservice::nagios::nginx",
         "::oaeservice::nagios::disk::shared",
