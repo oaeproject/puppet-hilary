@@ -66,8 +66,8 @@
 
     "app_admin_tenant": "admin",
 
-    "app_files_parent": "/shared",
-    "app_files_dir": "/shared/files",
+    "app_files_parent": "/sharedmonitor",
+    "app_files_dir": "/sharedmonitor/files",
     "app_files_nfs": {
         "server": "10.224.14.126",
         "source_dir": "/zones/nfs/a906ce30-37bb-480c-98a5-794981b27e01/sakai-useruploads"
@@ -153,7 +153,7 @@
 
     "driver_tsung_version": "1.4.2",
 
-    "static_assets_dir": "/shared/assets",
+    "static_assets_dir": "/sharedmonitor/assets",
 
     "nginx::owner": "nginx",
     "nginx::group": "nginx",
