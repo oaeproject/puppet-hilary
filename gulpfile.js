@@ -1,13 +1,27 @@
+/*
+ * Copyright 2014 Apereo Foundation (AF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://opensource.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 
 // used by travis-ci to check the hiera json files
 
-var gulp = require("gulp");
-var jsonlint = require("gulp-jsonlint");
 var expect = require('gulp-expect-file');
+var gulp = require("gulp");
 var gutil = require('gulp-util');
+var jsonlint = require("gulp-jsonlint");
 
 // custom reporter that should throw exception on lint fail
-var myFailReporter = function (file) {
+var myFailReporter = function(file) {
     if (file.jsonlint && !file.jsonlint.success) {
         throw new gutil.PluginError('gulp-jsonlint', 'json lint failed for ' + file.relative);
     }

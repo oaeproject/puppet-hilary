@@ -1,4 +1,11 @@
 {
+  "name": "Travis-tests",
+  "description": "Get travis to perform various tests on puppet-hilary",
+  "license": "Educational Community License, Version 2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oaeproject/puppet-hilary.git"
+  },
   "dependencies": {
     "gulp": "3.8.11",
     "gulp-jsonlint": "1.0.2",
