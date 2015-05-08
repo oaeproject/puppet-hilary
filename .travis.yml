@@ -1,0 +1,11 @@
+language:
+  - node_js
+node_js:
+  - 0.10.25
+
+before_install:
+  - npm install
+
+script:
+  - ./node_modules/.bin/gulp default
+

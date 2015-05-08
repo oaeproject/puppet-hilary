@@ -7,3 +7,4 @@ modules/oracle-java/files/jdk-*
 sp-key.pem
 sp-cert.pem
 *localconfig/files/ssl*
+node_modules
