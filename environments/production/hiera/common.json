@@ -1,6 +1,6 @@
 {
     "classes": [
-        "::oaeservice::bash"
+        "::oaeservice::bash",
         "::oaeservice::deps::common",
         "::oaeservice::firewall",
         "::oaeservice::hosts",
