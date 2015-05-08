@@ -2,6 +2,9 @@
 
 Puppet configuration and environment management for the [Open Academic Environment](http://www.oaeproject.org/)
 
+## Build status
+[![Build Status](https://travis-ci.org/oaeproject/puppet-hilary.png?branch=master)](https://travis-ci.org/oaeproject/puppet-hilary)
+
 ## Environments
 
 ### Local machine / Vagrant
