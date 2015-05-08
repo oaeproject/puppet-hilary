@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "gulp": "3.8.11",
+    "gulp-jsonlint": "1.0.2",
+    "gulp-expect-file": "0.0.7",
+    "gulp-util": "3.0.4"
+  }
+}
