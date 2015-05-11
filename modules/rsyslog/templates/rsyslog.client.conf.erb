@@ -1,3 +1,7 @@
+# Allow for very large messages to be logged. This needs to go before any network related
+# configuration gets set
+$MaxMessageSize 32k
+
 <% if not imfiles -%>
 $ModLoad imuxsock   # provides support for local system logging (e.g. via logger command)
 $ModLoad imklog     # provides kernel logging support (previously done by rklogd)
@@ -21,8 +25,6 @@ $InputRunFileMonitor
 <% end -%>
 
 <% end -%>
-
-$MaxMessageSize 32k
 
 # Log mail statements locally to a file. This allows monitoring scripts to mine them for info
 $template DailyMailLog,"/var/log/mail/%$YEAR%-%$MONTH%-%$DAY%.log"
