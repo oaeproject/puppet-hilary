@@ -29,7 +29,7 @@ server {
 
     # Prevent BEAST attack
     # @see http://www.kb.cert.org/vuls/id/864643
-    ssl_ciphers EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:EECDH+RC4:RSA+RC4:!MD5;
+    ssl_ciphers EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
     ssl_prefer_server_ciphers on;
 
     # Prevent POODLE by not using SSL v3
