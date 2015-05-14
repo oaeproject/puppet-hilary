@@ -102,7 +102,7 @@
     "search_data_dir": "/var/lib/elasticsearch",
     "search_memory_mb": 3072,
     "search_newsize_mb": 1024,
-    "search_version": "1.1.1",
+    "search_version": "1.5.2",
 
     "etherpad_internal_hosts": [ "etherpad0", "etherpad1", "etherpad2" ],
     "etherpad_index": "%{nodesuffix}",

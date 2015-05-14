@@ -25,7 +25,7 @@
     "app_os_group": "root",
     "app_hosts": [ "127.0.0.1" ],
     "app_root_dir": "/opt/oae",
-    
+
     "app_signing_key": "A;SLDFJ984FJW398FJWP4GO5IJSLRTKGJ",
     "app_cookie_secret": "SODIFJ984FJA984JAFP98WF4PAW984F984FJ9",
     "app_admin_tenant": "admin",
@@ -63,7 +63,7 @@
     "search_index": "0",
     "search_data_dir": "/var/lib/elasticsearch",
     "search_memory_mb": 512,
-    "search_version": "1.1.1",
+    "search_version": "1.5.2",
 
     "etherpad_internal_hosts": [ "127.0.0.1" ],
     "etherpad_index": 0,
