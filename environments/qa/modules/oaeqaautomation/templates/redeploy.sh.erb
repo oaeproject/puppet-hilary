@@ -1,17 +1,30 @@
 #!/bin/bash
+#
+# redeploy script
+# is run by cronjob each night on qa0
+# can also be run at any time to redeploy
+#
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
+
+# reduced verboseness of puppet and npm...
+MYPUPPETOPTIONS='--onetime --no-daemonize --verbose'
+MYNPMOPTIONS='--loglevel warn'
+# ...unless debug...
+if [ "Z$ARG[1]" == "Z--debug" -o "Z$ARG[1]" == "Z-d" -o ! -z "$DEBUG" ]
+then
+    MYPUPPETOPTIONS=-t
+    MYNPMOPTIONS=
+fi
 
 # ensure we're initially not somewhere that's going to be removed
 mycwd=$(pwd)
 cd /
 
-echo ""
-echo ""
-echo ""
-echo "Nightly Run: $(date)"
+echo
+echo "Re-deploying $HOSTNAME: $(date)"
 echo "========================================================="
-echo ""
+echo
 
 
 # Simple requirement check
@@ -29,43 +42,62 @@ fi
 echo "Shutting down services..."
 <%= scripts_dir %>/shutdown.sh
 
-echo ""
+echo
 echo "Deleting data..."
 <%= scripts_dir %>/deletedata.sh
 
-echo ""
+# I'm having less hassles when the app & ux dirs are removed
+rm -rf "<%= app_root_dir %>" "<%= ux_root_dir %>"
+
+echo
 echo "Restoring services with puppet"
 puppet agent --onetime --no-daemonize --verbose
 
-echo ""
+echo
 echo "Performing production build (this will take a little while)"
 
 service hilary stop
 
 cd <%= ux_root_dir %>
-npm install -d --loglevel warn
 npm install -g grunt-cli --loglevel warn
 
-# Only cdnify QA0
-if [ "<%= web_domain %>" == "oae-qa0.oaeproject.org" ] ; then
-    CDN_URL="https://qa0-researchresearch-researchresearch.netdna-ssl.com" grunt
+# so...in theory a tarball release can be handled by the puppet run earlier
+# however if we like to use the master branch by default in qa0
+if [ "Z<%= ux_install_method %>" == "Zarchive" ]
+then
+    echo "Detected tarball install"
+
+    # reset config.ui path
+    # I suspect that the ux files jiggle around could be done to resolve this instead but this seems to work so far
+    sed -i "s/'path': '\/opt\/3akai-ux'/'path': '\/opt\/3akai-ux\/optimized'/" /opt/oae/config.js
+
 else
-    grunt
+    echo "Detected git master install"
+
+    npm install -d --loglevel warn
+
+    # Only cdnify QA0
+    if [ "<%= web_domain %>" == "oae-qa0.oaeproject.org" ] ; then
+        CDN_URL="https://qa0-researchresearch-researchresearch.netdna-ssl.com" grunt
+    else
+        grunt
+    fi
+
+    # jiggle arround the ux files until they're all in the right place
+    rm -rf /tmp/target
+    mv target /tmp
+    cd /
+    rm -rf <%= ux_root_dir %>
+    mv /tmp/target/optimized <%= ux_root_dir %>
+    rm -rf <%= ux_root_dir %>/../original
+    mv /tmp/target/original <%= ux_root_dir %>/../original
+    cd <%= ux_root_dir %>
 fi
-rm -rf /tmp/target
-mv target /tmp
-cd /
-rm -rf <%= ux_root_dir %>
-mv /tmp/target/optimized <%= ux_root_dir %>
-rm -rf <%= ux_root_dir %>/../original
-mv /tmp/target/original <%= ux_root_dir %>/../original
-cd <%= ux_root_dir %>
 
 service hilary start
 
 DELAY=60
-
-echo ""
+echo
 echo "Sleeping ${DELAY}s to let the app server start up"
 sleep $DELAY
 
@@ -74,15 +106,13 @@ service nginx restart
 
 cd <%= scripts_dir %>
 
-echo ""
+echo
 echo "Updating oaesh"
 npm install -g oaesh --loglevel warn
 
 # Create an 'oae' tenant.
-echo ""
+echo
 echo "Creating an 'oae' tenant and disabling reCaptcha"
-
-# Create the OAE tenant
 oaesh -i -U https://<%= admin_host %> -u administrator -p administrator -- \
     exec /api/tenant/create -d "alias=oae" -d "displayName=Open Academic Environment" -d "host=oae.<%= web_domain %>"
 
@@ -102,7 +132,7 @@ fi
 
 # Performing a data load. An initial set of scripts should already be present on the server (requires
 # manual intervention)
-echo ""
+echo
 echo "Loading data via the model loader"
 cd <%= model_loader_dir %>
 node loaddata.js -b 1 -s 0 -h https://oae.<%= web_domain %>
