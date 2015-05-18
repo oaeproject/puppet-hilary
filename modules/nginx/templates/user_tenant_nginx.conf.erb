@@ -464,7 +464,7 @@ server {
         proxy_read_timeout 60;
     }
 
-    location /etherpad/<%= index %>/socket.io/1/websocket/ {
+    location /etherpad/<%= index %>/socket.io/ {
         rewrite ^/etherpad/<%= index %>(.*)$ $1 break;
 
         proxy_set_header Upgrade $http_upgrade;
