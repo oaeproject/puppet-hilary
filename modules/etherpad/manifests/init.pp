@@ -35,6 +35,10 @@ class etherpad (
         }
     }
 
+    package { 'tidy':
+        ensure => present,
+    }
+
     user { "${etherpad_user}": ensure => present }
 
     # Install the custom CSS for etherpad from the ep_oae plugin. This is being put in

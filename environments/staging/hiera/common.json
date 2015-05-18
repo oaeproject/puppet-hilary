@@ -110,8 +110,8 @@
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_enable_abiword": true,
     "etherpad_install_config": {
-        "version_major_minor": "1.4",
-        "version_patch": "0-66-e34a4ea",
+        "version_major_minor": "1.5",
+        "version_patch": "6-46-5615bab",
         "version_nodejs": "0.10.17"
     },
 
