@@ -85,6 +85,15 @@ class oaeqaautomation (
         minute      => $cron_minute,
     }
 
+    cron { 'apt-clean':
+        ensure      => present,
+        command     => "/usr/bin/apt-get clean >/dev/null 2>/dev/null",
+        user        => 'root',
+        target      => 'root',
+        hour        => '*/2',
+        minute      => '14',
+    }
+
     # git clone https://github.com/oaeproject/OAE-model-loader
     vcsrepo { $model_loader_dir:
         ensure    => latest,
