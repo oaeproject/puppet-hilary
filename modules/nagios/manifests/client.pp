@@ -117,6 +117,15 @@ class nagios::client (
     target              => "/etc/nagios3/conf.d/puppet/services/$hostname-check-users.cfg",
   }
 
+  @@nagios_service { "${hostname}_check_ntp_time":
+    use                   => "generic-service",
+    service_description   => "General::ntp::time",
+    host_name             => "$hostname",
+    check_command         => "check_nrpe_1arg!check_ntp_time",
+    target                => "/etc/nagios3/conf.d/puppet/services/$hostname-check-ntp-time.cfg",
+  }
+
+
   @@nagios_service { "${hostname}_check_security_updates":
     use                   => "generic-service",
     service_description   => "General::Security updates",
