@@ -340,6 +340,15 @@ class nagios::server (
     require             =>  File[$nagios_directories],
   }
 
+  # Checks ntp drift
+  nagios_command { 'check_ntp_time':
+    command_name        => 'check_ntp_time',
+    target              => '/etc/nagios3/conf.d/puppet/commands/check_ntp_time.cfg',
+    command_line        => '/usr/lib/nagios/plugins/check_ntp_time',
+    ensure              => 'present',
+    require             =>  File[$nagios_directories],
+  }
+
   # Create a command that runs a query against cassandra
   nagios_command { 'check_cassandra_query':
     target              => '/etc/nagios3/conf.d/puppet/commands/check_cassandra_query.cfg',
