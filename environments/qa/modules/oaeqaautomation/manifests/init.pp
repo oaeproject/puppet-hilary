@@ -26,7 +26,7 @@ class oaeqaautomation (
 
     $scripts_dir = hiera('automation_scripts_dir')
     $cassandra_data_dir = hiera('db_data_dir')
-    $ui_cdn_urlelasticsearch_data_dir = hiera('search_data_dir')
+    $elasticsearch_data_dir = hiera('search_data_dir')
     $user_files_dir = hiera('app_files_dir')
     $app_root_dir = hiera('app_root_dir')
     $ux_root_dir = hiera('ux_root_dir')
