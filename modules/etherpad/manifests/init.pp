@@ -35,6 +35,10 @@ class etherpad (
         }
     }
 
+    package { 'tidy':
+        ensure => present,
+    }
+
     user { "${etherpad_user}": ensure => present }
 
     # Install the custom CSS for etherpad from the ep_oae plugin. This is being put in
@@ -53,7 +57,7 @@ class etherpad (
     }
 
     # Overwrite ep_headings editbarButton template file
-    file { "${etherpad_dir}/node_modules/ep_headings/templates/editbarButtons.ejs":
+    file { "${etherpad_dir}/node_modules/ep_headings2/templates/editbarButtons.ejs":
         ensure     => present,
         source     => "${etherpad_dir}/node_modules/ep_oae/static/templates/editbarButtons.ejs",
         require    => Class["::etherpad::install::${install_method}"],
@@ -106,7 +110,7 @@ class etherpad (
         provider    => upstart,
         require     => [
             File["${etherpad_dir}/node_modules/ep_etherpad-lite/static/custom/pad.css"],
-            File["${etherpad_dir}/node_modules/ep_headings/templates/editbarButtons.ejs"],
+            File["${etherpad_dir}/node_modules/ep_headings2/templates/editbarButtons.ejs"],
             File["${etherpad_dir}/src/static/custom/pad.css"],
             File['etherpad_settings_json'],
             File['etherpad_apikey_txt'],

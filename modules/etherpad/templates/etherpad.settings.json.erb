@@ -29,24 +29,43 @@
   "dbType" : "cassandra",
   //the database specific settings
   "dbSettings" : {
-                    "hosts": [ "<%= @oae_db_hosts.map { |host| "#{host}:9160" }.join('","') %>" ],
-                    "keyspace": "<%= @oae_db_keyspace %>",
-                    "cfName": "Etherpad",
-                    "user": "",
-                    "pass": "",
-                    "timeout": 3000,
-                    "replication": "<%= @oae_db_replication %>",
-                    "strategyClass": "<%= @oae_db_strategy_class %>"
-                  },
+    "clientOptions": {
+        "keyspace": "oae",
+        "contactPoints": ["<%= @oae_db_hosts.map { |host| "#{host}" }.join('","') %>"]
+    },
+    "columnFamily": "Etherpad"
+  },
 
   //the default text of a pad
   "defaultPadText" : "",
+
+  /* Default Pad behavior, users can override by changing */
+  "padOptions": {
+    /* This needs to remain false as the "toggle authorship colors" button becomes useless otherwise */
+    "noColors": false,
+    "showControls": true,
+    "showChat": false,
+    "showLineNumbers": false,
+    "useMonospaceFont": false,
+    "userName": false,
+    "userColor": false,
+    "rtl": false,
+    "alwaysShowChat": false,
+    "chatAndUsers": false,
+    "lang": "en-gb"
+  },
+
+  /* Shoud we suppress errors from being visible in the default Pad Text? */
+  "suppressErrorsInPadText" : false,
 
   /* Users must have a session to access pads. This effectively allows only group pads to be accessed. */
   "requireSession" : true,
 
   /* Users may edit pads but not create new ones. Pad creation is only via the API. This applies both to group pads and regular pads. */
   "editOnly" : true,
+
+  /* Users, who have a valid session, automatically get granted access to password protected pads */
+  "sessionNoPassword" : false,
 
   /* if true, all css & js will be minified before sending to the client. This will improve the loading performance massivly,
      but makes it impossible to debug the javascript/css */
@@ -64,12 +83,25 @@
   "abiword" : null,
 <% end -%>
 
+  /* This is the path to the Tidy executable. Setting it to null, disables Tidy.
+     Tidy is used to improve the quality of exported pads*/
+  "tidyHtml" : "/usr/bin/tidy",
+
+  /* Allow import of file types other than the supported types: txt, doc, docx, rtf, odt, html & htm */
+  "allowUnknownFileEnds" : false,
+
   /* This setting is used if you require authentication of all users.
      Note: /admin always requires authentication. */
   "requireAuthentication": false,
 
   /* Require authorization by a module, or a user with is_admin set, see below. */
   "requireAuthorization": false,
+
+  /*when you use NginX or another proxy/ load-balancer set this to true*/
+  "trustProxy" : true,
+
+  /* Privacy: disable IP logging */
+  "disableIPlogging" : false,
 
   /* Users for basic authentication. is_admin = true gives access to /admin.
      If you do not uncomment this, /admin will not be available!
@@ -87,17 +119,11 @@
   },
   */
 
-  /* The log level we are using, can be: DEBUG, INFO, WARN, ERROR */
-  "loglevel": "WARN",
-
-  /* Logging configuration. See log4js documentation for further information
-   * https://github.com/nomiddlename/log4js-node
-   * TODO: Investigate log4js-syslog (https://github.com/Pita/log4js-syslog/blob/master/index.js)
-   */
-  "logconfig": { "appenders": [{ "type": "console" }]},
-
   // restrict socket.io transport methods
   "socketTransportProtocols" : ["websocket", "xhr-polling", "jsonp-polling", "htmlfile"],
+
+  // Allow Load Testing tools to hit the Etherpad Instance.  Warning this will disable security on the instance.
+  "loadTest": false,
 
   /* The toolbar buttons configuration */
   "toolbar": {
@@ -108,6 +134,15 @@
       ["showusers"]
     ]
   },
+
+  /* The log level we are using, can be: DEBUG, INFO, WARN, ERROR */
+  "loglevel": "WARN",
+
+  /* Logging configuration. See log4js documentation for further information
+   * https://github.com/nomiddlename/log4js-node
+   * TODO: Investigate log4js-syslog (https://github.com/Pita/log4js-syslog/blob/master/index.js)
+   */
+  "logconfig": { "appenders": [{ "type": "console" }]},
 
   "ep_oae": {
     "mq": {
