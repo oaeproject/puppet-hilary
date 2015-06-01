@@ -71,9 +71,6 @@ echo
 echo "Deleting data..."
 <%= scripts_dir %>/deletedata.sh
 
-# I'm having less hassles when the app & ux dirs are removed
-rm -rf "<%= app_root_dir %>" "<%= ux_root_dir %>"
-
 echo
 echo "Restoring services with puppet"
 puppet agent --onetime --no-daemonize --verbose
@@ -90,20 +87,17 @@ npm install -g grunt-cli --loglevel warn
 if [ -e /opt/oae/build-info.json ]
 then
     echo "Detected tarball install"
-
-    # reset config.ui path
-    # I suspect that the ux files jiggle around could be done to resolve this instead but this seems to work so far
-    sed -i "s/'path': '\/opt\/3akai-ux'/'path': '\/opt\/3akai-ux\/optimized'/" /opt/oae/config.js
-
+    # no longer required to reset config.ui path
 else
 # but a git master release needs some processing
     echo "Detected git master install"
 
     npm install -d --loglevel warn
 
-    # Only cdnify QA0
-    if [ "<%= web_domain %>" == "oae-qa0.oaeproject.org" ] ; then
-        CDN_URL="https://qa0-researchresearch-researchresearch.netdna-ssl.com" grunt
+    # Only cdnify if ui_cdn_url is set in hiera
+    ui_cdn_url="<%= ui_cdn_url %>"
+    if [ ! -z "$ui_cdn_url" ]; then
+        CDN_URL="$ui_cdn_url" grunt
     else
         grunt
     fi

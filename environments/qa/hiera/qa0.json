@@ -3,6 +3,7 @@
         "::oaeqaautomation"
     ],
 
+    "ui_cdn_url": "https://qa0-researchresearch-researchresearch.netdna-ssl.com",
     "web_domain": "oae-qa0.oaeproject.org",
     "email_debug": "false"
 }
