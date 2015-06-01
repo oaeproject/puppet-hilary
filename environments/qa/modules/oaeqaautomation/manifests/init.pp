@@ -26,11 +26,12 @@ class oaeqaautomation (
 
     $scripts_dir = hiera('automation_scripts_dir')
     $cassandra_data_dir = hiera('db_data_dir')
-    $elasticsearch_data_dir = hiera('search_data_dir')
+    $ui_cdn_urlelasticsearch_data_dir = hiera('search_data_dir')
     $user_files_dir = hiera('app_files_dir')
     $app_root_dir = hiera('app_root_dir')
     $ux_root_dir = hiera('ux_root_dir')
     $model_loader_dir = hiera('automation_model_loader_dir')
+    $ui_cdn_url = hiera('ui_cdn_url', '')
 
     $web_domain = hiera('web_domain')
     $app_admin_tenant = hiera('app_admin_tenant', 'admin')
