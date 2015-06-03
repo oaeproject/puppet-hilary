@@ -65,6 +65,7 @@ cat > /etc/puppet/hiera.yaml <<EOF
   :datadir: /vagrant/environments/%{::environment}/hiera
 :hierarchy:
   - common
+  - default
 EOF
 
 # Run puppet
