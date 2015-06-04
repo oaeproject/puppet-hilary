@@ -12,7 +12,7 @@ class oaeservice::puppet {
   # the report dir is not in puppet-hilary anywhere so extracted direct from puppet.conf
   cron { 'clean-puppet-reports':
     ensure  => present,
-    command => "find $(awk -F= '/^reportdir/ { print $2 }' /etc/puppet/puppet.conf) -type f -iname \*.yaml -ctime +7 -delete",
+    command => "find $(awk -F= '/^reportdir/ { print $2 }' /etc/puppet/puppet.conf) -type f -iname \*.yaml -ctime +30 -delete",
     user    => 'root',
     hour    => '3',
     weekday => 'Sunday',
