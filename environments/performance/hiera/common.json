@@ -17,28 +17,6 @@
     "nodetype": "%{nodetype}",
     "nodesuffix": "%{nodesuffix}",
 
-    "admin_users": {
-        "branden": {
-            "pubkey": "AAAAB3NzaC1yc2EAAAADAQABAAABAQCw4+hHSSV1XRF1JNEdmOmhnV3qqw4cz38Wek32dATUkBbrXohX2+Z/zhtfdt8V4inEcW2gto/OQJC+FOxUTGGgZT17TWDDM30KwhkyfVOcsCDixmYmfkwqeWAJYd8B4LXpu4ge5s/w6HnMKJ9d+LXCa0pKyOTJODycpGhea41Y6MPJs1/8d3O5njN5rpTIHy1CLE4LSJYe7QMa91PNvG8w1lzW5cdpxqKPnfQgNAMSi0n5PkpyVlKdRDIxCydiPlPoTHY7B4udjiaOXra4yLAm3lEhOjziJ4psHDSwYxC6Qqbp4HUvdljU5CyD+Zsgo/0vWz5d7PEVKfeYZ13+yYYp",
-            "passwd": "$6$PkqN0kSf$RMt3vHRL0I3sYIcMHo49AmuELhp3MANnZek6JSW4Plsb4830pQzrtYzgEWP723zvJw6hFQ561tw9Pt7NmSrSm1"
-        },
-        "stuartf": {
-            "pubkey": "AAAAB3NzaC1yc2EAAAABIwAAAQEAtmHx7EdE6WVfyfh4K6veFhZLjmbsts99sgmAbqfmsAO/Nxx9/F7ggNe7LnytgsSCqEzqR+kvy32CFEKJjNuF3APJ4o3O8IavsnskVSJ5wDR/Z+KWyzMCecDp7OqVjfNasGY0G4W/SWbWIo+PQFNBC1W7LPdYq6V59Ar/5/ommk0Mxrh8ggS9hFdJlX8/JhBXgp/sLOCoL12jHFkb/Vei+X3ksL9jP2YTAMm0bhT3N7cBz9NJPxnxPAlnCaRiEHQ6NdAzRJ1lA1SH3wfQFkpcShobvHdGIs3kAsqZAXTEwvEFheXHdqB/rUzKRbsdTZLrCtMjxDdZZF1/w7U7MbH0JQ=="
-        },
-        "nicolaas": {
-            "pubkey": "AAAAB3NzaC1yc2EAAAABIwAAAQEAq1HCf4BjEswCl2SfoYoC2agdRtINYyLAsnrv7bPSaZr3XsX8/yJcgzDcbQVpdOlLzbngNVGTt7Q3MvqIH65FB+AAqymWxzzNqEATUdXxVNBV9/ZbNkcJOTK3TJraIIQc3mD1q/Cf9AmMzyErqGWntIiuqHx1yGQ1gEZEMF7mbpDqicVPOhQAzjPIxx8mTOHev1GTXEplBxz0OSeTC107PWnbJdJi6D1gmwEIFvImI3XYUEjQMf7RKRe2KLgtf6lTSWiT27uMtP/eyBVYSjvTU+zfT8H33UD/IzHu7wnzj3KSYeZNeu3vOSimTs2hTc8qq3i9lvmxUemhjeJvGL9/jQ==",
-            "passwd": "$6$US1xSb5O$lL/qguPCoLkqyCVxtyLwtWvQXCTUca99QrA7DLiSr0Qk9vQ1wAG3RIUKBTIyBF8/fH/3zcB8iLm0ZWE5owtu00"
-        },
-        "simong": {
-            "pubkey": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0soT8Mx3eHVbfpqevzdoVSNU7QlQETqqH1N9vIMNucjT4/lEd2Hwb+taHNtx/PA8x4vPIoOjpAp2A9uzjgjLiKZ9spKt3+P+TrmqWysgImFDAIQ0isrA+IsQpjWPB1bxpnoNihiAnYAG5A3G4r6WByVVnmZumPCzDTsKda5USoyu0pNIZMoCUVMZLiFiDfORje83AH0Z81E7DDF6Gatw4vJhtR/FApgGm0MgDjfjW73Jww3PmQkgB4cIzLFugc87xWEDYbrVglg/nDqzPLMyjqnAeaKMUe6ztVGmIGISAoqnUFB5wnD9Z2Is3CQMszsh/tuV1ROXa1o88Bx0l7uVZQ=="
-        },
-        "davidoae": {
-            "pubkey": "AAAAB3NzaC1yc2EAAAADAQABAAABAQC0RoWMv8pGnN1T/OKbA8j70G66p0b9k+L50kLmJ1lcNZ7ZoFkYRV0YVyjlP9xoelVQjcTu/CKQsF3k+5K3mDiL7LwPXliWvLd/ENbsuapjzuyYV61v+tPyiuoIRc/3uP0bs0ASfZqH8WR9bO8z8ibEItp/5Q3rjz5VLzQVglkhNVVnqQzfAv1FqauG6zELFNwfXXmuVi/6eHyo88ywc/+KOC53e8zleaRscQQxBsxmCOi31bBLyssnFywRnVN/UBjqTZYfeP6crz/oJH0nXm14JYpieQNfabxzv7CP8nK1lqPt0wZHeq6DqhRmUWReSIpqecGYxl4QcPZ+gBW3yyHf",
-            "passwd": "$6$uWjbBlEL$X1yM.Yp6al2raqAwYTjYG3xN1Cy9kn7Sp8wBI1rCsdfBQETJ9Yrp/BzEnSd1t4Z5Gbop1lkFNKZYq6LLsGEoe/"
-        }
-    },
-    "deploy_user_passwd": "$6$KIxK1V/a$HpQSDSjkeh9BKsPWnFJ41pojj3ndVUJlkal8o.dpPxWHLxZYFo44OmwKVj7cm8.enpaiBodlNZ8ix/l2Wm0Ge.",
-
     "web_domain": "oae-performance.oaeproject.org",
     "web_internal_address": "web0",
 
@@ -48,10 +26,7 @@
         "revision": "master"
     },
 
-    "app_os_user": "root",
-    "app_os_group": "root",
     "app_hosts": [ "app0", "app1", "app2", "app3" ],
-    "app_root_dir": "/opt/oae",
 
     "app_signing_key": "A;SLDFJ984FJW398FJWP4GO5IJSLRTKGJ",
     "app_cookie_secret": "SODIFJ984FJA984JAFP98WF4PAW984F984FJ9",
@@ -72,7 +47,6 @@
     "shibboleth_subjectname": "CN=shib-sp.oae-performance.oaeproject.org",
     "shibboleth_sp_host": "shib-sp.oae-performance.oaeproject.org",
 
-    "ux_root_dir": "/opt/3akai-ux",
     "ux_install_method": "git",
     "ux_install_config": {
         "source": "https://github.com/oaeproject/3akai-ux",
@@ -80,29 +54,18 @@
     },
 
     "db_cluster_name": "OAE Performance Testing Cluster",
-    "db_keyspace": "oae",
     "db_hosts": [ "db0", "db1", "db2" ],
     "db_tokens": [ "0", "56713727820156410577229101238628035242", "113427455640312821154458202477256070484" ],
-    "db_timeout": 5000,
     "db_replication_factor": 3,
-    "db_strategy_class": "SimpleStrategy",
     "db_index": "%{nodesuffix}",
-    "db_data_dir": "/data/cassandra",
-    "db_os_user": "cassandra",
-    "db_os_group": "cassandra",
-
-    "pp_os_user": "root",
-    "pp_os_group": "root",
 
     "search_hosts": [ "search0", "search1" ],
     "search_index": "%{nodesuffix}",
     "search_data_dir": "/var/lib/elasticsearch",
     "search_memory_mb": 3072,
     "search_newsize_mb": 1024,
-    "search_version": "1.5.2",
 
     "etherpad_internal_hosts": [ "etherpad0", "etherpad1", "etherpad2" ],
-    "etherpad_index": "%{nodesuffix}",
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_enable_abiword": true,
@@ -119,26 +82,11 @@
     "activitycache_host": "proxy0",
     "activitycache_port": 6380,
 
-    "email_debug": true,
-    "email_customEmailTemplatesDir": "null",
-    "email_deduplicationInterval": 604800,
-    "email_throttleTimespan": 120,
-    "email_throttleCount": 10,
-    "email_transport": "SMTP",
-    "email_sendmail_path": "/usr/sbin/sendmail",
-    "email_smtp_service": "unset",
-    "email_smtp_port": "unset",
-    "email_smtp_host": "unset",
-    "email_smtp_user": "unset",
-    "email_smtp_pass": "unset",
-    "email_blacklisted_domains": ["example.com", "localhost", "127.0.0.1"],
-
     "mq_hosts": [ "mq0" ],
-
-    "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
 
     "rsyslog_enabled": false,
     "rsyslog_host": "syslog",
+    "rsyslog::clientOrServer": "client",
 
     "nagios_http_username": "nagiosadmin",
     "nagios_http_password": "$apr1$jdYkGn4R$C/zBGqUA1.Zkra8U4vmNH1",
@@ -147,27 +95,11 @@
     "nagios_contact_alias": "OAE Monitoring",
     "nagios_contact_email": "localhost",
 
-
-    "driver_tsung_version": "1.4.2",
-
-    "nginx::owner": "nginx",
-    "nginx::group": "nginx",
     "nginx::base_read_timeout": 15,
     "nginx::rate_limit_api": false,
     "nginx::ssl_policy": "allow_http",
-    "nginx::version": "1.7.6-1+precise1",
-
-    "redis::owner": "redis",
-    "redis::group": "redis",
-    "redis::version": "2:2.8.2-rwky1~precise",
-
-    "rsyslog::clientOrServer": "client",
 
     "oaeservice::deps::package::nodejs::nodejs_version": "present",
 
-    "rabbitmq::server::version": "3.1.1-1",
-    "rabbitmq::server::wipe_db_on_cookie_change": true,
-
     "oaeservice::limits::user_soft_max_files": "16000",
-    "oaeservice::limits::user_hard_max_files": "32000"
 }
