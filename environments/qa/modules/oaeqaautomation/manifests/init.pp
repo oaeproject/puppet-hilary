@@ -31,6 +31,7 @@ class oaeqaautomation (
     $app_root_dir = hiera('app_root_dir')
     $ux_root_dir = hiera('ux_root_dir')
     $model_loader_dir = hiera('automation_model_loader_dir')
+    $ui_cdn_url = hiera('ui_cdn_url', '')
 
     $web_domain = hiera('web_domain')
     $app_admin_tenant = hiera('app_admin_tenant', 'admin')
@@ -52,10 +53,10 @@ class oaeqaautomation (
         content => template('oaeqaautomation/deletedata.sh.erb')
     }
 
-    file { 'nightly.sh':
-        path => "${scripts_dir}/nightly.sh",
+    file { 'redeploy.sh':
+        path => "${scripts_dir}/redeploy.sh",
         mode => 0755,
-        content => template('oaeqaautomation/nightly.sh.erb'),
+        content => template('oaeqaautomation/redeploy.sh.erb'),
         require => Exec['mkdir_scripts']
     }
 
@@ -78,7 +79,7 @@ class oaeqaautomation (
     $cron_log_file_path = "${log_file_dir}/`date +'\\%Y-\\%m-\\%d-\\%H-\\%M'`.log"
     cron { 'nightly-redeploy':
         ensure      => present,
-        command     => "${scripts_dir}/nightly.sh >> ${cron_log_file_path} 2>> ${cron_log_file_path}",
+        command     => "${scripts_dir}/redeploy.sh >> ${cron_log_file_path} 2>&1",
         user        => 'root',
         target      => 'root',
         hour        => $cron_hour,

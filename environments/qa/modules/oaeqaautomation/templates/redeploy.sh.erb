@@ -1,17 +1,55 @@
 #!/bin/bash
+#
+# redeploy script
+# puppet sets a cronjob to run each night in qa
+# can also be run at any time to redeploy
+#
 
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+function usage {
+  echo "$0 [ --debug ] [ --force ]"
+  echo "Redeploys environment for qa and reinserts fake data."
+  echo " --debug      prints bunch more puppet and npm output."
+  echo " --force      overrides lock file '$lockFile'"
+  exit 1
+}
+
+# default reduced verboseness of puppet and npm...
+MYPUPPETOPTIONS='--onetime --no-daemonize --verbose'
+MYNPMOPTIONS='--loglevel warn'
+lockFile=/var/lock/redeploy
+# poor mans option processing, as I like --long-options
+for arg in "$@"
+do
+  shift
+  case "$arg" in
+    "--debug") echo "Debug on."
+               MYPUPPETOPTIONS=-t
+               MYNPMOPTIONS=
+               ;;
+    "--force") echo "Overriding lock file."
+               lockFile=/NoChanceOfThisExisting
+               ;;
+    *) usage ;;
+  esac
+done
+
+# quit if lockFile exists
+if [ -e "$lockFile" ]
+then
+  echo "Lockfile $lockFile exists!"
+  exit 2
+fi
 
 # ensure we're initially not somewhere that's going to be removed
 mycwd=$(pwd)
 cd /
 
-echo ""
-echo ""
-echo ""
-echo "Nightly Run: $(date)"
+echo
+echo "Re-deploying $HOSTNAME: $(date)"
 echo "========================================================="
-echo ""
+echo
 
 
 # Simple requirement check
@@ -29,43 +67,56 @@ fi
 echo "Shutting down services..."
 <%= scripts_dir %>/shutdown.sh
 
-echo ""
+echo
 echo "Deleting data..."
 <%= scripts_dir %>/deletedata.sh
 
-echo ""
+echo
 echo "Restoring services with puppet"
 puppet agent --onetime --no-daemonize --verbose
 
-echo ""
+echo
 echo "Performing production build (this will take a little while)"
 
 service hilary stop
 
 cd <%= ux_root_dir %>
-npm install -d --loglevel warn
 npm install -g grunt-cli --loglevel warn
 
-# Only cdnify QA0
-if [ "<%= web_domain %>" == "oae-qa0.oaeproject.org" ] ; then
-    CDN_URL="https://qa0-researchresearch-researchresearch.netdna-ssl.com" grunt
+# so...in theory a tarball release can be handled by the puppet run earlier
+if [ -e /opt/oae/build-info.json ]
+then
+    echo "Detected tarball install"
+    # no longer required to reset config.ui path
 else
-    grunt
+# but a git master release needs some processing
+    echo "Detected git master install"
+
+    npm install -d --loglevel warn
+
+    # Only cdnify if ui_cdn_url is set in hiera
+    ui_cdn_url="<%= ui_cdn_url %>"
+    if [ ! -z "$ui_cdn_url" ]; then
+        CDN_URL="$ui_cdn_url" grunt
+    else
+        grunt
+    fi
+
+    # jiggle arround the ux files until they're all in the right place
+    rm -rf /tmp/target
+    mv target /tmp
+    cd /
+    rm -rf <%= ux_root_dir %>
+    mv /tmp/target/optimized <%= ux_root_dir %>
+    rm -rf <%= ux_root_dir %>/../original
+    mv /tmp/target/original <%= ux_root_dir %>/../original
+    cd <%= ux_root_dir %>
 fi
-rm -rf /tmp/target
-mv target /tmp
-cd /
-rm -rf <%= ux_root_dir %>
-mv /tmp/target/optimized <%= ux_root_dir %>
-rm -rf <%= ux_root_dir %>/../original
-mv /tmp/target/original <%= ux_root_dir %>/../original
-cd <%= ux_root_dir %>
 
 service hilary start
 
 DELAY=60
-
-echo ""
+echo
 echo "Sleeping ${DELAY}s to let the app server start up"
 sleep $DELAY
 
@@ -74,15 +125,13 @@ service nginx restart
 
 cd <%= scripts_dir %>
 
-echo ""
+echo
 echo "Updating oaesh"
 npm install -g oaesh --loglevel warn
 
 # Create an 'oae' tenant.
-echo ""
+echo
 echo "Creating an 'oae' tenant and disabling reCaptcha"
-
-# Create the OAE tenant
 oaesh -i -U https://<%= admin_host %> -u administrator -p administrator -- \
     exec /api/tenant/create -d "alias=oae" -d "displayName=Open Academic Environment" -d "host=oae.<%= web_domain %>"
 
@@ -102,7 +151,7 @@ fi
 
 # Performing a data load. An initial set of scripts should already be present on the server (requires
 # manual intervention)
-echo ""
+echo
 echo "Loading data via the model loader"
 cd <%= model_loader_dir %>
 node loaddata.js -b 1 -s 0 -h https://oae.<%= web_domain %>
