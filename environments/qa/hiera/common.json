@@ -82,5 +82,5 @@
     "automation_slideshare_shared_secret": "unset",
     "automation_slideshare_api_key": "unset",
 
-    "oaeservice::limits::user_soft_max_files": "8192",
+    "oaeservice::limits::user_soft_max_files": "8192"
 }

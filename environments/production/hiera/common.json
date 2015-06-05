@@ -106,5 +106,5 @@
     "nagios_contact_alias": "OAE Monitoring",
     "nagios_contact_email": "oae-monitoring@googlegroups.com",
 
-    "oaeservice::limits::user_soft_max_files": "16000",
+    "oaeservice::limits::user_soft_max_files": "16000"
 }

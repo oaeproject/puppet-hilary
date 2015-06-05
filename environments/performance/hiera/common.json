@@ -101,5 +101,5 @@
 
     "oaeservice::deps::package::nodejs::nodejs_version": "present",
 
-    "oaeservice::limits::user_soft_max_files": "16000",
+    "oaeservice::limits::user_soft_max_files": "16000"
 }
