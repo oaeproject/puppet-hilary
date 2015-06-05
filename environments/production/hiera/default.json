@@ -63,7 +63,7 @@
     "nodetype": "%{nodetype}",
 
     "oaeservice::deps::package::nodejs::nodejs_version": "0.10.17-1chl1~precise1",
-    "oaeservice::limits::user_hard_max_files": "32000"
+    "oaeservice::limits::user_hard_max_files": "32000",
 
     "pp_os_group": "root",
     "pp_os_user": "root",
