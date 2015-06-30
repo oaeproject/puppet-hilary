@@ -139,14 +139,29 @@ oaesh -i -U https://<%= admin_host %> -u administrator -p administrator -- \
 oaesh -i -U https://<%= admin_host %> -u administrator -p administrator -- \
     config-set -k "oae-principals/recaptcha/enabled=false"
 
-if [[ "<%= flickr_api_key %>" != "unset" ]] ; then
-    # Configuring the Flickr and SlideShare Preview Processor
+# Configuring the Flickr Preview Processor
+if [[ "<%= flickr_api_key %>" != "unset" ]] && [[ "<%=flickr_api_secret %>" != "unset"  ]] ; then
     oaesh -i -U https://<%= admin_host %> -u administrator -p administrator -- \
         config-set \
             -k "oae-preview-processor/flickr/apikey=<%=flickr_api_key %>" \
-            -k "oae-preview-processor/flickr/apisecret=<%=flickr_api_secret %>" \
+            -k "oae-preview-processor/flickr/apisecret=<%=flickr_api_secret %>"
+fi
+
+
+# Configuring the SlideShare Preview Processor
+if [[ "<%= slideshare_api_key %>" != "unset" ]] && [[ "<%= slideshare_shared_secret %>" != "unset" ]] ; then
+    oaesh -i -U https://<%= admin_host %> -u administrator -p administrator -- \
+        config-set \
             -k "oae-preview-processor/slideshare/sharedsecret=<%=slideshare_shared_secret %>" \
             -k "oae-preview-processor/slideshare/apikey=<%= slideshare_api_key %>"
+fi
+
+
+# Configuring the Youtube Preview Processor
+if [[ "<%= youtube_api_key %>" != "unset" ]] ; then
+    oaesh -i -U https://<%= admin_host %> -u administrator -p administrator -- \
+        config-set \
+            -k "oae-preview-processor/youtube/key=<%=youtube_api_key %>"
 fi
 
 # Performing a data load. An initial set of scripts should already be present on the server (requires
