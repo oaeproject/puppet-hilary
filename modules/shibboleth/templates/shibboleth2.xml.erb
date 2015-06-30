@@ -136,11 +136,21 @@
                     <RetainedRole>md:AttributeAuthorityDescriptor</RetainedRole>
                </MetadataFilter>
             </MetadataProvider>
-        
+
             <!-- Metadata for Swedish Federated Authentication Association -->
             <MetadataProvider type="XML" uri="http://md.swamid.se/md/swamid-idp-transitive.xml" backingFilePath="swamid-idp-transitive.xml" reloadInterval="43200">
                 <MetadataFilter type="RequireValidUntil" maxValidityInterval="2419200"/>
                 <MetadataFilter type="Signature" certificate="federations/swamid-idp-transitive.pem"/>
+                <MetadataFilter type="EntityRoleWhiteList">
+                    <RetainedRole>md:IDPSSODescriptor</RetainedRole>
+                    <RetainedRole>md:AttributeAuthorityDescriptor</RetainedRole>
+               </MetadataFilter>
+            </MetadataProvider>
+
+            <!-- Metadata for the Dutch SURFConext Federation -->
+            <MetadataProvider type="XML" uri="https://engine.surfconext.nl/authentication/proxy/idps-metadata?sp-entity-id=https://shib-sp.unity.ac/shibboleth" backingFilePath="surfconext.xml" reloadInterval="43200">
+                <MetadataFilter type="RequireValidUntil" maxValidityInterval="2592000"/>
+                <MetadataFilter type="Signature" certificate="federations/surfconext.pem"/>
                 <MetadataFilter type="EntityRoleWhiteList">
                     <RetainedRole>md:IDPSSODescriptor</RetainedRole>
                     <RetainedRole>md:AttributeAuthorityDescriptor</RetainedRole>
@@ -176,7 +186,7 @@
         <CredentialResolver type="File" key="sp-key.pem" certificate="sp-cert.pem"/>
 
     </ApplicationDefaults>
-    
+
     <!-- Security policies you shouldn't change unless you know what you're doing. -->
     <SecurityPolicyProvider type="XML" validate="true" path="security-policy.xml"/>
 
