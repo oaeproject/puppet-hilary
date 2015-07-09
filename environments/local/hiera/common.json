@@ -21,10 +21,7 @@
 
     "app_install_method": "vagrant",
     "app_install_config": {},
-    "app_os_user": "root",
-    "app_os_group": "root",
     "app_hosts": [ "127.0.0.1" ],
-    "app_root_dir": "/opt/oae",
 
     "app_signing_key": "A;SLDFJ984FJW398FJWP4GO5IJSLRTKGJ",
     "app_cookie_secret": "SODIFJ984FJA984JAFP98WF4PAW984F984FJ9",
@@ -40,24 +37,15 @@
     "app_use_https": false,
     "app_strict_https": true,
 
-    "ux_root_dir": "/opt/3akai-ux",
     "ux_install_method": "vagrant",
     "ux_install_config": {},
 
     "db_cluster_name": "OAE Dev Cluster",
-    "db_keyspace": "oae",
     "db_hosts": [ "127.0.0.1" ],
     "db_tokens": [ "0" ],
-    "db_timeout": 5000,
     "db_replication_factor": 1,
-    "db_strategy_class": "SimpleStrategy",
     "db_index": "0",
     "db_data_dir": "/opt/cassandra",
-    "db_os_user": "cassandra",
-    "db_os_group": "cassandra",
-
-    "pp_os_user": "root",
-    "pp_os_group": "root",
 
     "search_hosts": [ "127.0.0.1" ],
     "search_index": "0",
@@ -83,20 +71,6 @@
     "activitycache_host": "127.0.0.1",
     "activitycache_port": 6379,
 
-    "email_debug": true,
-    "email_customEmailTemplatesDir": "null",
-    "email_deduplicationInterval": 604800,
-    "email_throttleTimespan": 120,
-    "email_throttleCount": 10,
-    "email_transport": "SMTP",
-    "email_sendmail_path": "/usr/sbin/sendmail",
-    "email_smtp_service": "unset",
-    "email_smtp_port": "unset",
-    "email_smtp_host": "unset",
-    "email_smtp_user": "unset",
-    "email_smtp_pass": "unset",
-    "email_blacklisted_domains": ["example.com", "localhost", "127.0.0.1"],
-
     "mq_hosts": [ "127.0.0.1" ],
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
@@ -104,32 +78,17 @@
     "rsyslog_enabled": false,
     "rsyslog_host": "127.0.0.1",
 
-    "driver_tsung_version": "1.4.2",
-
     "shibboleth_entity_id": "https://shib-sp.vagrant.oae/shibboleth",
     "shibboleth_keyname": "web0",
     "shibboleth_subjectname": "CN=web0",
     "shibboleth_sp_host": "shib-sp.vagrant.oae",
 
-    "nginx::owner": "nginx",
-    "nginx::group": "nginx",
     "nginx::ssl_policy": "allow_http",
-    "nginx::version": "1.7.6-1+precise1",
-
-    "redis::owner": "redis",
-    "redis::group": "redis",
-    "redis::version": "2:2.8.2-rwky1~precise",
 
     "hilary::config_activity_enabled": true,
     "hilary::config_previews_enabled": true,
 
-    "oaeservice::deps::package::nodejs::nodejs_version": "0.10.17-1chl1~precise1",
-
-    "rabbitmq::server::version": "3.1.1-1",
-    "rabbitmq::server::wipe_db_on_cookie_change": true,
-
     "oaeservice::limits::user_soft_max_files": "8192",
-    "oaeservice::limits::user_hard_max_files": "32000",
 
     "cassandra::initial_token": 0,
     "cassandra::listen_address": "127.0.0.1"
