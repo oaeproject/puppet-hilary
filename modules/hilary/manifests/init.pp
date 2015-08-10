@@ -35,6 +35,7 @@ class hilary (
     # Servers
     $config_servers_admin_host,
     $config_servers_shib_host,
+    $config_servers_guest_host,
     $config_servers_use_https         = true,
     $config_servers_strict_https      = true,
     $config_servers_server_internal_address = '127.0.0.1',
