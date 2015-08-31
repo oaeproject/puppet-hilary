@@ -2,6 +2,7 @@
     "classes": [
         "::oaeservice::puppet",
         "::oaeservice::oaefabric",
+        "::oaeservice::munin::server",
         "::oaeservice::nagios::puppet",
         "::oaeservice::nagios::server"
     ],
