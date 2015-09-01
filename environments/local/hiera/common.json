@@ -132,5 +132,6 @@
     "oaeservice::limits::user_hard_max_files": "32000",
 
     "cassandra::initial_token": 0,
-    "cassandra::listen_address": "127.0.0.1"
+    "cassandra::listen_address": "127.0.0.1",
+    "mixpanel_enabled": false
 }
