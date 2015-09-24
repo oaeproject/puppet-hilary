@@ -291,7 +291,7 @@ class nagios::server (
 
   # We need some perl voodoo so we can install the Nagios::Plugin
   class { 'cpanm::install':
-    libraries => [ 'URI', 'JSON', 'LWP::UserAgent', 'Nagios::Plugin' ]
+    libraries => [ 'URI', 'JSON', 'LWP::UserAgent', 'http://search.cpan.org/CPAN/authors/id/T/TO/TONVOON/Nagios-Plugin-0.36.tar.gz' ]
   }
 
 
