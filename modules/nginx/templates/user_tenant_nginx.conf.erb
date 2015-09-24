@@ -66,6 +66,7 @@ server {
         expires -1;
     }
 
+    rewrite ^/me(.*)                /$1 permenant;
     rewrite ^/accessdenied          /shared/oae/errors/accessdenied.html last;
     rewrite ^/noscript              /shared/oae/errors/noscript.html last;
     rewrite ^/notfound              /shared/oae/errors/notfound.html last;
