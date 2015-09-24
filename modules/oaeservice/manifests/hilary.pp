@@ -40,6 +40,7 @@ class oaeservice::hilary {
   $web_domain = hiera('web_domain')
   $app_admin_tenant = hiera('app_admin_tenant', 'admin')
   $admin_domain = "${app_admin_tenant}.${web_domain}"
+  $guest_domain = "network.${web_domain}"
   $shib_domain = hiera('shibboleth_sp_host', 'shib-sp.oae.com')
 
   class { '::hilary':
@@ -57,6 +58,7 @@ class oaeservice::hilary {
     config_signing_key            => hiera('app_signing_key'),
     config_telemetry_circonus_url => hiera('circonus_url', false),
     config_servers_admin_host     => $admin_domain,
+    config_servers_guest_host     => $guest_domain,
     config_servers_shib_host      => $shib_domain,
     config_servers_use_https      => hiera('app_use_https', true),
     config_servers_strict_https   => hiera('app_strict_https', true),
