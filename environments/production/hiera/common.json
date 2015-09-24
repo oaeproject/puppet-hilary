@@ -84,7 +84,7 @@
     "ux_install_method": "archive",
     "ux_install_config": {
         "version_major_minor": "12.0",
-        "version_patch": "0",
+        "version_patch": "0"
     },
 
     "db_cluster_name": "OAE Production Cluster",
