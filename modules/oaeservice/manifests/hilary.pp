@@ -40,7 +40,7 @@ class oaeservice::hilary {
   $web_domain = hiera('web_domain')
   $app_admin_tenant = hiera('app_admin_tenant', 'admin')
   $admin_domain = "${app_admin_tenant}.${web_domain}"
-  $guest_domain = "guest.${web_domain}"
+  $guest_domain = "network.${web_domain}"
   $shib_domain = hiera('shibboleth_sp_host', 'shib-sp.oae.com')
 
   class { '::hilary':
