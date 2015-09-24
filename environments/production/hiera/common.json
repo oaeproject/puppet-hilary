@@ -127,7 +127,7 @@
     "activitycache_host": "proxy0",
     "activitycache_port": 6380,
 
-    "email_debug": false,
+    "email_debug": true,
     "email_customEmailTemplatesDir": "null",
     "email_deduplicationInterval": 604800,
     "email_throttleTimespan": 120,

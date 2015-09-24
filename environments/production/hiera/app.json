@@ -5,8 +5,10 @@
         "::oaeservice::ui",
         "::oaeservice::nagios::disk::shared",
         "::oaeservice::nagios::hilary",
+        "::oaeservice::postfix",
         "::localconfig::ordering::app"
     ],
 
+    "email_debug": false,
     "nagios_hostgroup": "appservers"
 }
