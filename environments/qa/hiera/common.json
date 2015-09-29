@@ -138,6 +138,8 @@
 
     "hilary::config_activity_enabled": true,
     "hilary::config_previews_enabled": true,
+    "hilary::config_activity_mail_polling_frequency": "60",
+    "hilary::config_activity_mail_grace_period": "10",
 
     "oaeservice::deps::package::nodejs::nodejs_version": "0.10.17-1chl1~precise1",
 

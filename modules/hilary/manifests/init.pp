@@ -65,9 +65,11 @@ class hilary (
     $config_signing_key,
 
     # Activity
-    $config_activity_enabled          = false,
-    $config_activity_redis_host       = false,
-    $config_activity_redis_port       = 6379,
+    $config_activity_enabled                = false,
+    $config_activity_redis_host             = false,
+    $config_activity_redis_port             = 6379,
+    $config_activity_mail_polling_frequency = '10 * 60'
+    $config_activity_mail_grace_period      = '3 * 60'
 
     # Email notifications
     $config_email_debug                      = false,
