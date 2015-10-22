@@ -5,8 +5,8 @@
 
     "app_install_method": "archive",
     "app_install_config": {
-        "version_major_minor": "11.2",
-        "version_patch": "0",
+        "version_major_minor": "12.1",
+        "version_patch": "1",
         "version_nodejs": "0.10.30"
     },
     "app_ui_path": "/opt/3akai-ux/optimized",
@@ -14,8 +14,8 @@
     "ux_root_dir": "/opt/3akai-ux",
     "ux_install_method": "archive",
     "ux_install_config": {
-        "version_major_minor": "11.2",
-        "version_patch": "0"
+        "version_major_minor": "12.1",
+        "version_patch": "1"
     },
 
     "web_domain": "oae-qa2.oaeproject.org",
