@@ -1,7 +1,7 @@
 class oaeservice::deps::pp {
     include oaeservice::deps::common
     include oaeservice::deps::ppa::oae
-    include oaeserivce::deps::libreoffice
+    include oaeservice::deps::libreoffice
 
     # Necessary packages for the preview processor
     $pp_packages = [
