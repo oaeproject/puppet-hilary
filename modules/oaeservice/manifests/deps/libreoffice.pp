@@ -1,4 +1,4 @@
-class oaeservice::deps::pp {
+class oaeservice::deps::libreoffice {
     include oaeservice::deps::ppa::oae
 
     # Install the correct version of libreoffice
