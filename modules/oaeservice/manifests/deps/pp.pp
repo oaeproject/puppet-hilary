@@ -1,6 +1,7 @@
 class oaeservice::deps::pp {
     include oaeservice::deps::common
     include oaeservice::deps::ppa::oae
+    include oaeservice::deps::libreoffice
 
     # Necessary packages for the preview processor
     $pp_packages = [
@@ -15,11 +16,6 @@ class oaeservice::deps::pp {
     ]
     package { $pp_packages:
         ensure   => installed
-    }
-
-    # Install the correct version of libreoffice
-    package {'libreoffice':
-        ensure   => '1:4.3.0-0ubuntu1~precise1'
     }
 
     # Install some more fonts because libreoffice 4.3

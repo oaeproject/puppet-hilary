@@ -1,6 +1,7 @@
 {
     "classes": [
-        "::oaeservice::etherpad"
+        "::oaeservice::etherpad",
+        "::oaeservice::deps::libreoffice"
     ],
 
     "rsyslog::imfiles": [
