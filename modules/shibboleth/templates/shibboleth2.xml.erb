@@ -87,6 +87,17 @@
                 # Federations #
                 ###############
             -->
+
+            <!-- Meta data for Austrian federation. The federation includes various UK institutions -->
+            <MetadataProvider type="XML" uri="http://eduid.at/md/aconet-registered.xml" backingFilePath="aconet-metadata.xml" reloadInterval="43200">
+                <MetadataFilter type="RequireValidUntil" maxValidityInterval="2592000"/>
+                <MetadataFilter type="Signature" certificate="federations/aconet-metadata-signing.crt"/>
+                <MetadataFilter type="EntityRoleWhiteList">
+                    <RetainedRole>md:IDPSSODescriptor</RetainedRole>
+                    <RetainedRole>md:AttributeAuthorityDescriptor</RetainedRole>
+               </MetadataFilter>
+            </MetadataProvider>
+
             <!-- Meta data for uk federation. The federation includes various UK institutions -->
             <MetadataProvider type="XML" uri="http://metadata.ukfederation.org.uk/ukfederation-metadata.xml" backingFilePath="uk-federation-metadata.xml" reloadInterval="43200">
                 <MetadataFilter type="RequireValidUntil" maxValidityInterval="2592000"/>
