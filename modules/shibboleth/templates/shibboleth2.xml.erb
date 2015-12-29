@@ -1,5 +1,8 @@
 <!-- DEVIATION: I removed the unused namespaces -->
-<SPConfig xmlns="urn:mace:shibboleth:2.0:native:sp:config" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" clockSkew="300">
+<SPConfig xmlns="urn:mace:shibboleth:2.0:native:sp:config"
+          xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+          xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui"
+          clockSkew="300">
 
     <!-- The entityID of our service provider -->
     <ApplicationDefaults entityID="<%= @entity_id %>" REMOTE_USER="eppn persistent-id targeted-id">
