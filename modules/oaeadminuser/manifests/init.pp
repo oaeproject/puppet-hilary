@@ -1,4 +1,4 @@
-define oaeadminuser ($pubkey = undef, $passwd = undef, $pubkey_type = 'ssh-rsa', $groups = 'admin') {
+define oaeadminuser ($pubkey = undef, $passwd = undef, $pubkey_type = 'ssh-rsa', $groups = 'admin', $ensure = 'present') {
 
     user { $name:
         ensure      => $ensure,

@@ -21,7 +21,6 @@
 
     "admin_users": {
         "branden": {
-            "ensure": "present",
             "pubkey": "AAAAB3NzaC1yc2EAAAADAQABAAABAQCw4+hHSSV1XRF1JNEdmOmhnV3qqw4cz38Wek32dATUkBbrXohX2+Z/zhtfdt8V4inEcW2gto/OQJC+FOxUTGGgZT17TWDDM30KwhkyfVOcsCDixmYmfkwqeWAJYd8B4LXpu4ge5s/w6HnMKJ9d+LXCa0pKyOTJODycpGhea41Y6MPJs1/8d3O5njN5rpTIHy1CLE4LSJYe7QMa91PNvG8w1lzW5cdpxqKPnfQgNAMSi0n5PkpyVlKdRDIxCydiPlPoTHY7B4udjiaOXra4yLAm3lEhOjziJ4psHDSwYxC6Qqbp4HUvdljU5CyD+Zsgo/0vWz5d7PEVKfeYZ13+yYYp",
             "passwd": "$6$PkqN0kSf$RMt3vHRL0I3sYIcMHo49AmuELhp3MANnZek6JSW4Plsb4830pQzrtYzgEWP723zvJw6hFQ561tw9Pt7NmSrSm1"
         },
@@ -30,7 +29,6 @@
             "pubkey": "AAAAB3NzaC1yc2EAAAABIwAAAQEAtmHx7EdE6WVfyfh4K6veFhZLjmbsts99sgmAbqfmsAO/Nxx9/F7ggNe7LnytgsSCqEzqR+kvy32CFEKJjNuF3APJ4o3O8IavsnskVSJ5wDR/Z+KWyzMCecDp7OqVjfNasGY0G4W/SWbWIo+PQFNBC1W7LPdYq6V59Ar/5/ommk0Mxrh8ggS9hFdJlX8/JhBXgp/sLOCoL12jHFkb/Vei+X3ksL9jP2YTAMm0bhT3N7cBz9NJPxnxPAlnCaRiEHQ6NdAzRJ1lA1SH3wfQFkpcShobvHdGIs3kAsqZAXTEwvEFheXHdqB/rUzKRbsdTZLrCtMjxDdZZF1/w7U7MbH0JQ=="
         },
         "nicolaas": {
-            "ensure": "present",
             "pubkey": "AAAAB3NzaC1yc2EAAAABIwAAAQEAq1HCf4BjEswCl2SfoYoC2agdRtINYyLAsnrv7bPSaZr3XsX8/yJcgzDcbQVpdOlLzbngNVGTt7Q3MvqIH65FB+AAqymWxzzNqEATUdXxVNBV9/ZbNkcJOTK3TJraIIQc3mD1q/Cf9AmMzyErqGWntIiuqHx1yGQ1gEZEMF7mbpDqicVPOhQAzjPIxx8mTOHev1GTXEplBxz0OSeTC107PWnbJdJi6D1gmwEIFvImI3XYUEjQMf7RKRe2KLgtf6lTSWiT27uMtP/eyBVYSjvTU+zfT8H33UD/IzHu7wnzj3KSYeZNeu3vOSimTs2hTc8qq3i9lvmxUemhjeJvGL9/jQ==",
             "passwd": "$6$US1xSb5O$lL/qguPCoLkqyCVxtyLwtWvQXCTUca99QrA7DLiSr0Qk9vQ1wAG3RIUKBTIyBF8/fH/3zcB8iLm0ZWE5owtu00"
         },
@@ -38,7 +36,6 @@
             "pubkey": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0soT8Mx3eHVbfpqevzdoVSNU7QlQETqqH1N9vIMNucjT4/lEd2Hwb+taHNtx/PA8x4vPIoOjpAp2A9uzjgjLiKZ9spKt3+P+TrmqWysgImFDAIQ0isrA+IsQpjWPB1bxpnoNihiAnYAG5A3G4r6WByVVnmZumPCzDTsKda5USoyu0pNIZMoCUVMZLiFiDfORje83AH0Z81E7DDF6Gatw4vJhtR/FApgGm0MgDjfjW73Jww3PmQkgB4cIzLFugc87xWEDYbrVglg/nDqzPLMyjqnAeaKMUe6ztVGmIGISAoqnUFB5wnD9Z2Is3CQMszsh/tuV1ROXa1o88Bx0l7uVZQ=="
         },
         "davidoae": {
-            "ensure": "present",
             "pubkey": "AAAAB3NzaC1yc2EAAAADAQABAAABAQC0RoWMv8pGnN1T/OKbA8j70G66p0b9k+L50kLmJ1lcNZ7ZoFkYRV0YVyjlP9xoelVQjcTu/CKQsF3k+5K3mDiL7LwPXliWvLd/ENbsuapjzuyYV61v+tPyiuoIRc/3uP0bs0ASfZqH8WR9bO8z8ibEItp/5Q3rjz5VLzQVglkhNVVnqQzfAv1FqauG6zELFNwfXXmuVi/6eHyo88ywc/+KOC53e8zleaRscQQxBsxmCOi31bBLyssnFywRnVN/UBjqTZYfeP6crz/oJH0nXm14JYpieQNfabxzv7CP8nK1lqPt0wZHeq6DqhRmUWReSIpqecGYxl4QcPZ+gBW3yyHf",
             "passwd": "$6$uWjbBlEL$X1yM.Yp6al2raqAwYTjYG3xN1Cy9kn7Sp8wBI1rCsdfBQETJ9Yrp/BzEnSd1t4Z5Gbop1lkFNKZYq6LLsGEoe/"
         }
