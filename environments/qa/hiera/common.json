@@ -20,6 +20,7 @@
             "passwd": "$6$PkqN0kSf$RMt3vHRL0I3sYIcMHo49AmuELhp3MANnZek6JSW4Plsb4830pQzrtYzgEWP723zvJw6hFQ561tw9Pt7NmSrSm1"
         },
         "stuartf": {
+            "ensure": "absent",
             "pubkey": "AAAAB3NzaC1yc2EAAAABIwAAAQEAtmHx7EdE6WVfyfh4K6veFhZLjmbsts99sgmAbqfmsAO/Nxx9/F7ggNe7LnytgsSCqEzqR+kvy32CFEKJjNuF3APJ4o3O8IavsnskVSJ5wDR/Z+KWyzMCecDp7OqVjfNasGY0G4W/SWbWIo+PQFNBC1W7LPdYq6V59Ar/5/ommk0Mxrh8ggS9hFdJlX8/JhBXgp/sLOCoL12jHFkb/Vei+X3ksL9jP2YTAMm0bhT3N7cBz9NJPxnxPAlnCaRiEHQ6NdAzRJ1lA1SH3wfQFkpcShobvHdGIs3kAsqZAXTEwvEFheXHdqB/rUzKRbsdTZLrCtMjxDdZZF1/w7U7MbH0JQ=="
         },
         "nicolaas": {
