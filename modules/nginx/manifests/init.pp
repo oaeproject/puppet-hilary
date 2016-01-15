@@ -100,6 +100,20 @@ class nginx (
     }
 
 
+    ##################
+    ## redirect map ##
+    ##################
+
+    file { "${nginx_conf_dir}/redirect_map.conf":
+        ensure  => present,
+        mode    => 0640,
+        owner   => $owner,
+        group   => $group,
+        source  => "puppet:///modules/nginx/redirect_map.conf",
+        require => $nginx_config_requires,
+    }
+
+
     ################################
     ## ADMIN TENANT CONFIGURATION ##
     ################################

@@ -24,6 +24,11 @@ server {
     server_name <%= @server_name %>;
 <% end -%>
 
+    # applies redirects determined from redirect_map.conf
+    if ($redirect_host) {
+        return 302 $scheme://$redirect_host$request_uri;
+    }
+
     ssl_certificate      <%= @ssl_crt_path %>;
     ssl_certificate_key  <%= @ssl_key_path %>;
 
