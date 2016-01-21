@@ -98,6 +98,16 @@
                </MetadataFilter>
             </MetadataProvider>
 
+            <!-- Meta data for Canadian Access Federation (CAF) -->
+            <MetadataProvider type="XML" uri="https://caf-shib2ops.ca/CoreServices/caf_metadata_signed_sha256.xml" backingFilePath="caf_metadata_signed.xml" reloadInterval="43200">
+                <MetadataFilter type="RequireValidUntil" maxValidityInterval="2592000"/>
+                <MetadataFilter type="Signature" certificate="federations/caf_metadata_verify.crt"/>
+                <MetadataFilter type="EntityRoleWhiteList">
+                    <RetainedRole>md:IDPSSODescriptor</RetainedRole>
+                    <RetainedRole>md:AttributeAuthorityDescriptor</RetainedRole>
+               </MetadataFilter>
+            </MetadataProvider>
+
             <!-- Meta data for uk federation. The federation includes various UK institutions -->
             <MetadataProvider type="XML" uri="http://metadata.ukfederation.org.uk/ukfederation-metadata.xml" backingFilePath="uk-federation-metadata.xml" reloadInterval="43200">
                 <MetadataFilter type="RequireValidUntil" maxValidityInterval="2592000"/>
