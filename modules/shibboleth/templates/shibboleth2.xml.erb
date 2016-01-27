@@ -1,5 +1,8 @@
 <!-- DEVIATION: I removed the unused namespaces -->
-<SPConfig xmlns="urn:mace:shibboleth:2.0:native:sp:config" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" clockSkew="300">
+<SPConfig xmlns="urn:mace:shibboleth:2.0:native:sp:config"
+          xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+          xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui"
+          clockSkew="300">
 
     <!-- The entityID of our service provider -->
     <ApplicationDefaults entityID="<%= @entity_id %>" REMOTE_USER="eppn persistent-id targeted-id">
@@ -65,6 +68,14 @@
                     <md:GivenName>Unity SSO Support</md:GivenName>
                     <md:EmailAddress>unity-sso@researchresearch.com</md:EmailAddress>
                 </md:ContactPerson>
+
+                <mdui:UIInfo>
+                    <mdui:DisplayName xml:lang="en">*Unity</mdui:DisplayName>
+                    <mdui:Description xml:lang="en">*Unity is the new way to work with anyone in universities and research. It’s a simple place to form groups, share files and work on them together.</mdui:Description>
+                    <mdui:InformationURL xml:lang="en">http://www.unity.ac</mdui:InformationURL>
+                    <mdui:Logo height="375" width="385">https://shib-sp.unity.ac/assets/unity-sso.png</mdui:Logo>
+                </mdui:UIInfo>
+
             </Handler>
 
             <!-- Status reporting service. -->
