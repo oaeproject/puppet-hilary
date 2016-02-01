@@ -14,7 +14,7 @@ class shibboleth::sp (
 
     # Ensure that the required shibboleth packages have been installed
     package { 'shibboleth':
-        ensure  => '2.5.3-0switchaai1',
+        ensure  => '2.5.5-0switchaai1',
     }
 
     # Configure the shibboleth SP config
