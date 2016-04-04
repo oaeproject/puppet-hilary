@@ -9,5 +9,17 @@
         "::oaeservice::shibboleth"
     ],
 
+    "rsyslog::imfiles": [
+         {
+             "path": "/var/log/shibboleth/shibd.log",
+             "tag": "access",
+             "state_file_name": "etherpad_access",
+             "severity": "info",
+             "facility": "local0",
+             "poll_interval_seconds": 10
+         }
+    ],
+
+
     "nagios_hostgroup": "webservers"
 }
