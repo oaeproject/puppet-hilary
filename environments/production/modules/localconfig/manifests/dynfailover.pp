@@ -17,7 +17,7 @@ class dynfailover {
         command => "/usr/local/bin/dyn_failover",
         user    => 'root',
         target  => 'root',
-        minute  => '*/5'
+        minute  => '*'
     }
 }
 
