@@ -3,7 +3,8 @@
         "::oaeservice::puppet",
         "::oaeservice::postfix",
         "::oaeservice::nagios::puppet",
-        "::oaeservice::nagios::server"
+        "::oaeservice::nagios::server",
+        "::localconfig::dynfailover"
     ],
 
     "nagios_hostgroup": "misc"

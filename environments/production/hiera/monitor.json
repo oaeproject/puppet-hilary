@@ -3,8 +3,7 @@
         "::oaeservice::postfix",
         "::oaeservice::opscenter",
         "::oaeservice::backup::userfiles",
-        "::oaeservice::munin::master",
-	"::localconfig::dynfailover"
+        "::oaeservice::munin::master"
     ],
 
     "dse::opscenter::version": "5.0.0",
