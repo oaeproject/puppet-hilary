@@ -147,6 +147,16 @@ class nagios::client (
   # These checks can then be added to nrpe and executed remotely.
   # The @@command resource should be specified in server.pp as these can only be defined ones.
 
+  # used for detecting lock files
+  file { '/usr/lib/nagios/plugins/check_file_notexist':
+    ensure  => present,
+    source  => 'puppet:///modules/nagios/check_file_notexist',
+    mode    => 0555,
+    owner   => 'nagios',
+    group   => 'nagios',
+    require => Package[$packages],
+  }
+
   file { '/usr/lib/nagios/plugins/check_puppetmaster':
     content => template('nagios/checks/check_puppetmaster'),
     mode    => 0555,

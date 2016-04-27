@@ -54,4 +54,14 @@ class oaeservice::nagios::puppet {
     check_command       => "check_puppetmaster",
     target              => "/etc/nagios3/conf.d/puppet/services/$hostname-check-puppet-ran-on-all-nodes.cfg",
   }
+
+  # check if dyn_failover lockfile exists
+  @@nagios_service { "${hostname}_check_dyn_failover_lockfile":
+    use                 => "generic-service",
+    service_description => "Dynfailover::lockfile",
+    host_name           => "$hostname",
+    check_command       => "check_file_notexist!/var/lock/dyn_failover.lock",
+    target              => "/etc/nagios3/conf.d/puppet/services/$hostname-check-dyn_failover-lockfile.cfg",
+  }
+
 }

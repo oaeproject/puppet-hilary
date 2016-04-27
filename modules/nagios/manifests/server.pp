@@ -378,6 +378,7 @@ class nagios::server (
     content => template('nagios/monitormailq.sh.erb'),
     ensure  => present,
   }
+
   cron { 'monitoring-mailq':
     ensure  => present,
     command => '/usr/local/bin/monitormailq.sh',
@@ -387,4 +388,13 @@ class nagios::server (
     require => File['monitormailq.sh'],
   }
 
+  # used for detecting lock files
+  nagios_command { 'check_file_notexist':
+    target              => '/etc/nagios3/conf.d/puppet/commands/check_file_notexist.cfg',
+    command_line        => '/usr/lib/nagios/plugins/check_file_notexist $ARG1$',
+    ensure              => 'present',
+    require             => File[$nagios_directories],
+  }
+
 }
+
