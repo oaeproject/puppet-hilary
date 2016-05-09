@@ -12,6 +12,7 @@ class rsyslog (
         ensure  => directory,
         owner   => $owner,
         group   => $group,
+        mode    => 0755,
     }
 
     file { '/etc/rsyslog.conf':
@@ -32,14 +33,14 @@ class rsyslog (
             content => template('rsyslog/filter-bunyan.erb'),
             owner   => 'root',
             group   => 'root',
-            mode    => 0754,
+            mode    => 0755,
         }
 
         file { "/usr/local/bin/tail-hilary":
             content => template('rsyslog/tail-hilary.erb'),
             owner   => 'root',
             group   => 'root',
-            mode    => 0754,
+            mode    => 0755,
         }
 
         # Compress all log files that haven't been modified in over 1 day
