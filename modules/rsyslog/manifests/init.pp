@@ -12,7 +12,7 @@ class rsyslog (
         ensure  => directory,
         owner   => $owner,
         group   => $group,
-	mode	=> '0755',
+        mode    => 0755,
     }
 
     file { '/etc/rsyslog.conf':
