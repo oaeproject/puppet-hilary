@@ -59,6 +59,9 @@ statefile=/etc/dyn_failover.state
 # dynamic api, should not need to change
 dynbaseurl='https://members.dyndns.org/nic/update?'
 
+# curl's default timeout is too long, this is only used for checkhost, in seconds
+connecttimeout=15
+
 }
 ### end configure ###
 
@@ -143,7 +146,7 @@ function doreport {
 #
 function checksite {
   # why o why does curl make the HTTP status have a weird character at eol
-  websitereturn=$(curl -sk -I $checkurl | awk '/HTTP/ { if ($NF~"OK") {ok="OK"} else {ok=$NF} print $2,ok }')
+  websitereturn=$(curl -sk -I --connect-timeout $connecttimeout $checkurl | awk '/HTTP/ { if ($NF~"OK") {ok="OK"} else {ok=$NF} print $2,ok }')
 }
 
 ### main ###
