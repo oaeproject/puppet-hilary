@@ -15,7 +15,8 @@
 	url = https://github.com/camptocamp/puppet-archive.git
 [submodule "modules/nfs"]
 	path = modules/nfs
-	url = https://github.com/sakaiproject/puppet-nfs.git
+	url = https://github.com/davidoae/puppet-nfs.git
+	branch = portmapPackage
 [submodule "modules/openvpn"]
 	path = modules/openvpn
 	url = https://github.com/luxflux/puppet-openvpn.git
