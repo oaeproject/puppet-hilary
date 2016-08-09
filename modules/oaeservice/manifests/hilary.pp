@@ -102,6 +102,7 @@ class oaeservice::hilary {
 
     config_search_enabled   => hiera('search_enabled', true),
 
+    config_zencoder_enabled          => hiera('zencoder_enabled', false),
     config_zencoder_api_key          => hiera('zencoder_api_key'),
     config_zencoder_watermark        => hiera('zencoder_watermark'),
     config_zencoder_s3_bucket        => hiera('zencoder_s3_bucket'),
