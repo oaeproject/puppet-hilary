@@ -130,7 +130,7 @@
             </MetadataProvider>
 
             <!-- Meta data for InCommon federation. The federation includes various US institutions -->
-            <MetadataProvider type="XML" uri="http://md.incommon.org/InCommon/InCommon-metadata.xml" backingFilePath="InCommon-metadata.xml" reloadInterval="43200">
+            <MetadataProvider type="XML" uri="http://md.incommon.org/InCommon/InCommon-metadata-idp-only.xml" backingFilePath="InCommon-metadata-idp-only.xml" reloadInterval="43200">
                 <MetadataFilter type="RequireValidUntil" maxValidityInterval="2592000"/>
                 <MetadataFilter type="Signature" certificate="federations/incommon.pem"/>
                 <MetadataFilter type="EntityRoleWhiteList">
