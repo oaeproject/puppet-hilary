@@ -47,6 +47,7 @@ smtp_sasl_auth_enable = yes
 smtp_sasl_password_maps = static:<%= smtp_server_user %>:<%= smtp_server_pass %>
 smtp_sasl_security_options = noanonymous
 smtp_tls_security_level = may
-start_tls = yes
+smtp_tls_security_level = encrypt
 header_size_limit = 4096000
 relayhost = [<%= smtp_server_host %>]:<%= smtp_server_port %>
+
