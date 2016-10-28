@@ -365,4 +365,26 @@ class nagios::server (
     group   => root,
   }
 
+  # for the nagios server to monitor it's own mailq with sms alerts
+  $monitoring_mailq_maxalerts = hiera('monitoring_mailq_maxalerts')
+  $monitoring_mailq_maxsize = hiera('monitoring_mailq_maxsize')
+  $adminphones = hiera('adminphones')
+  $smsbroadcast_user = hiera('smsbroadcast_user')
+  $smsbroadcast_pass = hiera('smsbroadcast_pass')
+
+  file { 'monitormailq.sh':
+    path    => "/usr/local/bin/monitormailq.sh",
+    mode    => 0755,
+    content => template('nagios/monitormailq.sh.erb'),
+    ensure  => present,
+  }
+  cron { 'monitoring-mailq':
+    ensure  => present,
+    command => '/usr/local/bin/monitormailq.sh',
+    user    => 'root',
+    target  => 'root',
+    minute  => '*/5',
+    require => File['monitormailq.sh'],
+  }
+
 }
