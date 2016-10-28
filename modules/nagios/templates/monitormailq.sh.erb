@@ -1,0 +1,116 @@
+#!/bin/bash
+#
+# Copyright 2016 Apereo Foundation (AF) Licensed under the
+# Educational Community License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may
+# obtain a copy of the License at
+#
+#     http://opensource.org/licenses/ECL-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an "AS IS"
+# BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+# or implied. See the License for the specific language governing
+# permissions and limitations under the License.
+#
+# -----
+#
+# This script checks the active, incoming, deferred and maildrop postfix queue directories.
+# Sends sms alerts if they're too large.
+#
+
+### config
+
+# if countfile exists and has more than maxalerts then don't do anything
+maxalerts=<%= @monitoring_mailq_maxalerts %>
+countfile=/var/lock/monitoringmailq_alertcount
+
+# If the number of messages in any of these directories is more than $maxqlength, then alert
+maxqlength=<%= @monitoring_mailq_maxsize %>
+
+# people to send the alert messages to, comma delimited, no spaces
+tosms=<%= @adminphones %>
+
+# who the alerts appear to be from
+smsfrom=UnityAdmin
+
+# auth for smsbroadcast
+smsbroadcastuser=<%= @smsbroadcast_user %>
+smsbroadcastpasswd="<%= @smsbroadcast_pass %>"
+
+# where you find out wtf is happening when it doesn't work
+smslogfile=/var/log/monitoringmailq.log
+
+### functions
+
+# use to encode for use in url, nicked from somewhere on stackoverflow
+function rawurlencode() {
+  local string="${1}"
+  local strlen=${#string}
+  local encoded=""
+  local pos c o
+
+  for (( pos=0 ; pos<strlen ; pos++ ))
+  do
+    c=${string:$pos:1}
+    case "$c" in
+      [-_.~a-zA-Z0-9] ) o="${c}" ;;
+      * )               printf -v o '%%%02x' "'$c"
+    esac
+    encoded+="${o}"
+  done
+  encodedreply="${encoded}"
+} # rawurlencode
+
+# actually makes the api call to send the alerts
+function send() {
+  local smsmessage="${1}"
+  rawurlencode "$smsmessage" # now global var $encodedreply should hold encoded smsmessage
+  local querystring="username=${smsbroadcastuser}&password=${smsbroadcastpasswd}&to=${smsto}&from=${smsfrom}&message=${encodedreply}"
+  local fullurl="https://api.smsbroadcast.co.uk/api-adv.php?${querystring}"
+  local smstempfile=smsreply
+  local wgetoptions="--append-output=${smslogfile} --no-verbose --tries=3 --output-document=${smstempfile} --server-response --no-proxy"
+
+  # actually make the http api call and log it
+  wget ${wgetoptions} "${fullurl}"
+  cat $smstempfile >> $smslogfile
+  echo -e "\n" >> $smslogfile # tidy log for easier parsing
+
+  # cleanup
+  rm $smstempfile
+} # send
+
+### main
+
+# stops too many alerts, only a couple should be sufficient
+count=0
+if [ -e "$countfile" ]
+then
+  count=$(cat "$countfile")
+fi
+if [ $count -ge $maxalerts ]
+then
+  echo "Suppressing alerts until $countfile deleted."
+  exit 1
+fi
+
+# Get the number of messages sitting in each postfix queue directory
+queuedir="/var/spool/postfix"
+active=$(find ${queuedir}/active -type f | wc -l)
+incoming=$(find ${queuedir}/incoming -type f | wc -l)
+deferred=$(find ${queuedir}/deferred -type f | wc -l)
+maildrop=$(find ${queuedir}/maildrop -type f | wc -l)
+
+# If any of these have more than $maxqlength issue an alert
+if [ ${active} -gt ${maxqlength} -o ${incoming} -gt ${maxqlength} -o ${deferred} -gt ${maxqlength} -o ${maildrop} -gt ${maxqlength} ]
+then
+  # this countfile limits the number of alerts
+  count=$(( count + 1 ))
+  echo -n "$count" > "${countfile}"
+  # maybe should make this message configurable
+  send "Unusual mail queue length detected on puppet server"
+  exit 2
+fi
+
+exit 0
+
