@@ -12,7 +12,7 @@ class oaeservice::etherpad {
 
   $install_method = hiera('etherpad_install_method', 'archive')
   $install_config = hiera('etherpad_install_config', {
-    'url_base'              => 'https://s3.amazonaws.com/oae-releases/etherpad',
+    'url_base'              => 'https://s3-eu-west-1.amazonaws.com/oae-releases/etherpad',
     'version_major_minor'   => '1.2',
     'version_patch'         => '91',
     'version_nodejs'        => '0.10.17',

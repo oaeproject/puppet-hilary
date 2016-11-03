@@ -30,7 +30,7 @@
 class hilary::install::archive ($install_config, $app_root_dir = '/opt/oae') {
 
     $_install_config = merge({
-        'url_base' 		=> 'https://s3.amazonaws.com/oae-releases/oae',
+        'url_base' 		=> 'https://s3-eu-west-1.amazonaws.com/oae-releases/oae',
         'url_extension' => 'tar.gz',
         'checksum_type' => 'sha1',
     }, $install_config)

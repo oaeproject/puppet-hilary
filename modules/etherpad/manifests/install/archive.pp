@@ -30,7 +30,7 @@
 class etherpad::install::archive ($install_config, $etherpad_root_dir = '/opt/etherpad') {
 
     $_install_config = merge({
-        'url_base'      => 'https://s3.amazonaws.com/oae-releases/etherpad',
+        'url_base'      => 'https://s3-eu-west-1.amazonaws.com/oae-releases/etherpad',
         'url_extension' => 'tar.gz',
         'checksum_type' => 'sha1',
     }, $install_config)
