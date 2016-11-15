@@ -1,0 +1,231 @@
+#!/bin/bash
+#
+# tool for manipulating dynamic DNS
+# including webserver auto failover
+#
+# david.stringer@researchresearch.com
+#
+
+# Copyright 2015 Apereo Foundation (AF) Licensed under the
+# Educational Community License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may
+# obtain a copy of the License at
+#
+#     http://opensource.org/licenses/ECL-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an "AS IS"
+# BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+# or implied. See the License for the specific language governing
+# permissions and limitations under the License.
+
+
+### TODO
+###   acquire webserver labels and ips from puppet
+###   email (or text?) on failure or switch
+###   nagios check for lock file
+
+### configure this section as appropriate ###
+{
+
+# faiover if we have bad state for longer than failovertimeout in seconds
+failovertimeout=<%= @dynfailovertimeout %>
+
+### how are these available from puppet
+# define webservers label and ip
+primary=web0
+secondary=web1
+#
+primaryip="<%= @web0ip %>"
+secondaryip="<%= @web1ip %>"
+
+# dynmanic hostname on dyn to update
+updatehost="<%= @dynamichost %>"
+
+# the service we're checking
+checkhost="<%= @app_admin_tenant %>.<%= @web_domain %>"
+checkurl=https://$checkhost
+
+# dyn auth
+dynapiuser="<%= @dynapiuser %>"
+dynapipass="<%= @dynapipass %>"
+
+# will not update if lock file exists
+lockfile=/var/lock/dyn_failover.lock
+
+# state file to track aparent downtime
+statefile=/etc/dyn_failover.state
+
+# dynamic api, should not need to change
+dynbaseurl='https://members.dyndns.org/nic/update?'
+
+# curl's default timeout is too long, this is only used for checkhost, in seconds
+connecttimeout=15
+
+}
+### end configure ###
+
+# ensure these vars empty in case they creep in from environment :)
+livewebserver=
+livewebserverip=
+backupwebserver=
+backupwebserverip=
+statelastcheck=
+statetimestamp=
+
+# help
+function usage {
+  echo "dyn_failover [ -h ] [ -c | -r | -s ]"
+  echo "    -h Shows this help."
+  echo "    -c Check mode,  Checks status of target."
+  echo "    -r Report mode, Reports everything it can."
+  echo "    -s Manual mode, Do switchover."
+  echo "    No options, default mode."
+  echo "      Does switchover if the live webserver does not respond 200 and no lock file."
+  echo "      Is quiet except on failure."
+  echo "      If \$lockfile ($lockfile) exists no update will be done. The script never removes the lockfile."
+  exit
+}
+
+# process options
+while getopts 'hcrs' opts
+do
+  case "$opts" in
+    r) reportopt=yes;;
+    c) checkopt=yes;;
+    s) switchopt=yes;;
+    *) usage;;
+  esac
+done
+
+# determines which webserver is live based on IP from DNS
+# exits on failure
+function checkdns {
+  local output=$(dig -4 +short +nocomments $checkhost | grep -P '\d+\.\d+\.\d+\.\d+')
+  if [ "$output" == "$primaryip" ]
+  then
+    livewebserver=$primary
+    livewebserverip=$primaryip
+    backupwebserver=$secondary
+    backupwebserverip=$secondaryip
+  elif [ "$output" == "$secondaryip" ]
+  then
+    livewebserver=$secondary
+    livewebserverip=$secondaryip
+    backupwebserver=$primary
+    backupwebserverip=$primaryip
+  else
+    echo "IP mismatch, DNS does not agree with my server IP list."
+    echo "Doing nothing."
+    exit
+  fi
+}
+
+# as long as lock file doesn't exist then do the switch
+function doswitch {
+  if [ -e "$lockfile" ]
+  then
+    echo "Lockfile exists! no change made."
+  else
+    echo -n "Applying change: "
+    curl -u "${dynapiuser}:${dynapipass}" "${dynbaseurl}hostname=${updatehost}&myip=$backupwebserverip"
+    echo
+    websitereturn="not checked"
+    doreport
+  fi
+}
+
+# say everything we know
+function doreport {
+  echo "Live webserver: $livewebserver"
+  echo "Live response:  $websitereturn"
+  echo "statelastcheck: $statelastcheck"
+  echo "statetimestamp: $statetimestamp"
+}
+
+#
+function checksite {
+  # why o why does curl make the HTTP status have a weird character at eol
+  websitereturn=$(curl -sk -I --connect-timeout $connecttimeout $checkurl | awk '/HTTP/ { if ($NF~"OK") {ok="OK"} else {ok=$NF} print $2,ok }')
+}
+
+### main ###
+
+# update state from file, if exists
+if [ -e "$statefile" ]
+then
+  source "$statefile"
+else
+  touch "$statefile"
+fi
+
+# need these for statefile
+nowdate=$(date '+%Y/%m/%d %H:%M:%S')
+nowstamp=$(date '+%H%M%S')
+
+# apply options
+# either show website status...
+if [ "$checkopt" == 'yes' ]
+then
+  checksite
+  echo $websitereturn
+
+# ...or show everything we know...
+elif [ "$reportopt" == 'yes' ]
+then
+  checkdns
+  checksite
+  doreport
+
+# ...or just do the switch...
+elif [ "$switchopt" == 'yes' ]
+then
+  checkdns
+  # note that checkdns exits on failure
+  doswitch
+  # set state file to ok
+
+
+# ...or default behaviour is to check the service and switch if not 200
+else
+  checkdns
+
+  if [ "$statelastcheck" != 'bad' ]
+  then
+    # state ok or no state so do check and save results
+    checksite
+    if [ "$websitereturn" == '200 OK' ]
+    then
+      echo -ne "# State as of ${nowdate}\nstatelastcheck=ok\nstatetimestamp=${nowstamp}\n" > $statefile
+    else
+      echo -ne "# State as of ${nowdate}\nstatelastcheck=bad\nstatetimestamp=${nowstamp}\n" > $statefile
+    fi
+
+  else
+# state bad so check timestamp to see if > than timeout
+
+    checksite
+    if [ "$websitereturn" == '200 OK' ]
+    then
+      # well if the site is good now no need to do anything except save state
+      echo -ne "# State as of ${nowdate}\nstatelastcheck=ok\nstatetimestamp=${nowstamp}\n" > $statefile
+
+    else
+      # to get to here we have bad from statefile and bad from webserver
+      # check if timestamp is longer than timeout
+      # if time remains then do nothing, including not updating statefile
+      if [ $(($statetimestamp+$failovertimeout)) -lt $nowstamp ]
+      then
+        # too long therefore do dns switch and set statefile to pretend all is well
+        doswitch
+        echo -ne "# State as of ${nowdate}\nstatelastcheck=ok\nstatetimestamp=${nowstamp}\n" > $statefile
+      fi # timeout
+
+    fi # website fail
+
+  fi # statelastcheck
+
+fi # apply options
+
+#end
+
