@@ -1,4 +1,4 @@
-class dynfailover {
+class localconfig::dynfailover {
 
     $dynamichost = hiera('dynamichost')
     $dynapiuser  = hiera('dynapiuser')
