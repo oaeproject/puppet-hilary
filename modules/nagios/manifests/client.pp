@@ -150,7 +150,7 @@ class nagios::client (
   # used for detecting lock files
   file { '/usr/lib/nagios/plugins/check_file_notexist':
     ensure  => present,
-    source  => 'puppet:///modules/nagios/check_file_notexist',
+    content => template('nagios/checks/check_file_notexist'),
     mode    => 0555,
     owner   => 'nagios',
     group   => 'nagios',
