@@ -89,7 +89,7 @@ cat > /etc/mcollective/server.cfg <<EOF
 libdir = /usr/share/mcollective/plugins
 logfile = /var/log/mcollective.log
 daemonize = 1
-keeplogs = 0
+keeplogs = 3
 max_log_size = 10240
 loglevel = debug
 identity = $SCRIPT_HOSTNAME
