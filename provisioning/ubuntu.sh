@@ -91,7 +91,7 @@ logfile = /var/log/mcollective.log
 daemonize = 1
 keeplogs = 3
 max_log_size = 10240
-loglevel = debug
+loglevel = info
 identity = $SCRIPT_HOSTNAME
 registerinterval = 300
 
