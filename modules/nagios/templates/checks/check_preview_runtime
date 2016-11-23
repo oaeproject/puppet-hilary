@@ -1,0 +1,69 @@
+#!/bin/bash
+#
+# Simple script to report long running libreoffice preview processes
+#
+# Usage:
+#   ./check_preview_runtime -w 2 -c 4
+#
+
+warning=
+critical=
+
+# Parse the args
+while getopts ":w:c:" opt; do
+  case $opt in
+    w)
+      warning=$OPTARG
+      ;;
+    c)
+      critical=$OPTARG
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 3
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 3
+      ;;
+  esac
+done
+
+# checks args are sensible value
+if ! [[ "$warning" =~ [0-9]{1,2} && "$critical" =~ [0-9]{1,2} && "$warning" -lt "$critical" && $warning -gt 0 ]]
+then
+  echo "Thresholds not sensible, ensure they're digits and warning is less than critical"
+  exit 3
+fi
+
+# look for the bad guys
+warncount=0
+critcount=0
+for ipid in $(pgrep soffice.bin)
+do
+  # cannot use etimes= as ps too old
+  time=$(ps -p $ipid -o etime=)
+  mins=${time%%:*}
+  if [ "$mins" -ge "$critical" ]
+  then
+    (( critcount++ ))
+  elif [ "$mins" -ge "$warning" ]
+  then
+    (( warncount++ ))
+  fi
+done
+
+# Nagios friendly output
+if [ "$critcount" -gt 0 ]
+then
+  echo "CRITICAL:$critcount long running libreoffice preview processes and $warncount warnings"
+  exit 2
+elif [ "$warncount" -gt 0 ]
+then
+  echo "WARNING:$warncount long running libreoffice preview processes"
+  exit 1
+else
+  echo "OK:No long running libreoffice preview processes"
+  exit 0
+fi
+
