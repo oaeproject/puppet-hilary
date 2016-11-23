@@ -224,4 +224,14 @@ class nagios::client (
     group   => 'nagios',
     require => Package[$packages],
   }
+
+  # Create a check that monitors for long running libreoffice preview processes
+  file { '/usr/lib/nagios/plugins/check_preview_runtime':
+    content => template('nagios/checks/check_preview_runtime'),
+    mode    => 0555,
+    owner   => 'nagios',
+    group   => 'nagios',
+    require => Package[$packages],
+  }
 }
+

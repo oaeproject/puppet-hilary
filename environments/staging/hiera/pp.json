@@ -3,7 +3,8 @@
         "::oaeservice::hilary",
         "::oaeservice::hilary::files",
         "::oaeservice::ui",
-        "::oaeservice::nagios::hilary"
+        "::oaeservice::nagios::hilary",
+        "::oaeservice::nagios::preview_runtime"
     ],
 
     "hilary::config_previews_enabled": true,
