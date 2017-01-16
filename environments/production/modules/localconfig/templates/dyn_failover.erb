@@ -117,6 +117,7 @@ function checkdns {
   else
     echo "IP mismatch, DNS does not agree with my server IP list."
     echo "Doing nothing."
+    logger -t dyn_failover "{ \"message\":\"IP mismatch\", \"severity\":\"ERROR\" }"
     exit
   fi
 }
@@ -126,10 +127,12 @@ function doswitch {
   if [ -e "$lockfile" ]
   then
     echo "Lockfile exists! no change made."
+    logger -t dyn_failover "{ \"message\":\"Lockfile prevented failover\", \"severity\":\"WARNING\" }"
   else
     echo -n "Applying change: "
     curl -u "${dynapiuser}:${dynapipass}" "${dynbaseurl}hostname=${updatehost}&myip=$backupwebserverip"
     echo
+    logger -t dyn_failover "{ \"message\":\"Performing failover\", \"severity\":\"ERROR\", \"config\": { \"updatehost\":\"${updatehost}\", \"backupwebserverip\":\"${backupwebserverip}\" } }"
     websitereturn="not checked"
     doreport
   fi
@@ -199,6 +202,7 @@ else
       echo -ne "# State as of ${nowdate}\nstatelastcheck=ok\nstatetimestamp=${nowstamp}\n" > $statefile
     else
       echo -ne "# State as of ${nowdate}\nstatelastcheck=bad\nstatetimestamp=${nowstamp}\n" > $statefile
+      logger -t dyn_failover "{ \"message\":\"State switched to bad\", \"severity\":\"WARNING\", \"config\": { \"websitereturn\":\"${websitereturn}\" } }"
     fi
 
   else
@@ -209,6 +213,7 @@ else
     then
       # well if the site is good now no need to do anything except save state
       echo -ne "# State as of ${nowdate}\nstatelastcheck=ok\nstatetimestamp=${nowstamp}\n" > $statefile
+      logger -t dyn_failover "{ \"message\":\"State returned to good\", \"severity\":\"WARNING\" }"
 
     else
       # to get to here we have bad from statefile and bad from webserver
@@ -219,6 +224,8 @@ else
         # too long therefore do dns switch and set statefile to pretend all is well
         doswitch
         echo -ne "# State as of ${nowdate}\nstatelastcheck=ok\nstatetimestamp=${nowstamp}\n" > $statefile
+      else
+        logger -t dyn_failover "{ \"message\":\"State continues to be bad, failover timeout not reached\", \"severity\":\"WARNING\", \"config\": { \"websitereturn\":\"${websitereturn}\", \"statetimestamp\":\"${statetimestamp}\", \"failovertimeout\":\"${failovertimeout}\" } }"
       fi # timeout
 
     fi # website fail
