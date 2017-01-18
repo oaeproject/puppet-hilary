@@ -16,7 +16,7 @@ while getopts "n:" opt; do
     case "$opt" in
     n)  lines=$OPTARG
         ;;
-    f)  follow='-f'
+    f)  follow='yes'
         ;;
     esac
 done
@@ -26,5 +26,13 @@ shift $((OPTIND-1))
 # Hilary logs to local0-2015-03-26.log
 today_log="local0-$(date +%Y-%m-%d).log"
 
-# Tail and filter the logs
-tail -n $lines $follow <%= @server_logdir %>/app*/$today_log <%= @server_logdir %>/pp*/$today_log <%= @server_logdir %>/activity*/$today_log
+# Tail and sort the log lines into time order
+tail -n $lines <%= @server_logdir %>/app*/$today_log <%= @server_logdir %>/pp*/$today_log <%= @server_logdir %>/activity*/$today_log \
+  | sort -k1M -k2n -k3n
+
+#
+if [ "$follow" == "yes" ]
+then
+  tail -n 0 -f <%= @server_logdir %>/app*/$today_log <%= @server_logdir %>/pp*/$today_log <%= @server_logdir %>/activity*/$today_log
+fi
+
