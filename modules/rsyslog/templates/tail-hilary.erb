@@ -12,7 +12,7 @@ OPTIND=1
 # Get the arguments
 lines=10
 follow=
-while getopts "n:" opt; do
+while getopts "n:f" opt; do
     case "$opt" in
     n)  lines=$OPTARG
         ;;
