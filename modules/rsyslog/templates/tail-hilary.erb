@@ -3,6 +3,7 @@
 # Tail the logs outputted by all the Hilary application servers
 # Options:
 #   -n K    output the last K lines, instead of the last 10; or use -n +K to output lines starting with the Kth
+#   -f      use tail's follow option
 #
 
 # Reset in case getopts has been used previously in the shell
@@ -10,9 +11,12 @@ OPTIND=1
 
 # Get the arguments
 lines=10
+follow=
 while getopts "n:" opt; do
     case "$opt" in
     n)  lines=$OPTARG
+        ;;
+    f)  follow='-f'
         ;;
     esac
 done
@@ -23,4 +27,4 @@ shift $((OPTIND-1))
 today_log="local0-$(date +%Y-%m-%d).log"
 
 # Tail and filter the logs
-tail -n $lines -f <%= @server_logdir %>/app*/$today_log <%= @server_logdir %>/pp*/$today_log <%= @server_logdir %>/activity*/$today_log
+tail -n $lines $follow <%= @server_logdir %>/app*/$today_log <%= @server_logdir %>/pp*/$today_log <%= @server_logdir %>/activity*/$today_log
