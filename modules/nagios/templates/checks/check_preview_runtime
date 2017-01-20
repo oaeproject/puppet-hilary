@@ -47,9 +47,11 @@ do
   if [ "$mins" -ge "$critical" ]
   then
     (( critcount++ ))
+    logger -t preview_runtime "Critical process: time=$time pid=$ipid"
   elif [ "$mins" -ge "$warning" ]
   then
     (( warncount++ ))
+    logger -t preview_runtime "Warning process: time=$time pid=$ipid"
   fi
 done
 
