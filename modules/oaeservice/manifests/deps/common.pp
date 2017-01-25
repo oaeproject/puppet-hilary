@@ -5,6 +5,7 @@ class oaeservice::deps::common {
     package { 'build-essential': ensure => installed }
     package { 'automake': ensure => installed }
     package { 'libssl-dev': ensure => installed }
+    package { 'libffi-dev': ensure => installed }
 
     include ::oaeservice::deps::package::git
 }
