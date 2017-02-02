@@ -25,9 +25,18 @@
              "severity": "info",
              "facility": "local1",
              "poll_interval_seconds": 10
+         },
+         {
+             "path": "/var/log/shibboleth/transaction.log",
+             "tag": "shibd_transaction",
+             "state_file_name": "shibd_transaction",
+             "severity": "info",
+             "facility": "local1",
+             "poll_interval_seconds": 10
          }
     ],
 
 
     "nagios_hostgroup": "webservers"
 }
+
