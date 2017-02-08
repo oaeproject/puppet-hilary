@@ -9,7 +9,12 @@
 
         <!-- DEVIATION: handlerSSL should be true. We do not want to deal with private/secure information over plain http -->
         <!-- https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPSessions -->
+
+<% if $environment == "production" %>
         <Sessions lifetime="28800" timeout="3600" checkAddress="false" relayState="ss:mem" handlerSSL="true" consistentAddress="false">
+<% else %>
+        <Sessions lifetime="28800" timeout="3600" checkAddress="false" relayState="ss:mem" handlerSSL="false" consistentAddress="false">
+<% end %>
 
             <!--
                 Create a session initiator that responds to /Shibboleth.sso/Login .
@@ -98,6 +103,8 @@
                 # Federations #
                 ###############
             -->
+
+<% if $environment == "production" %>
 
             <!-- Meta data for Austrian federation. The federation includes various Austrian institutions -->
             <MetadataProvider type="XML" uri="http://eduid.at/md/aconet-registered.xml" backingFilePath="aconet-metadata.xml" reloadInterval="43200">
@@ -203,6 +210,11 @@
 
             <!-- Meta data for Utrecht University -->
             <MetadataProvider type="XML" uri="https://login.services.uu.nl/nidp/saml2/metadata" backingFilePath="utrecht-metadata.xml" reloadInterval="180000"/>
+
+<% else %>
+            <MetadataProvider type="XML" uri="http://www.testshib.org/metadata/testshib-providers.xml" backingFilePath="testshib-two-idp-metadata.xml" reloadInterval="180000" />
+<% end %>
+
         </MetadataProvider>
 
         <!-- Map to extract attributes from SAML assertions. -->
