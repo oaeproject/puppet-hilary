@@ -9,7 +9,7 @@ Puppet configuration and environment management for the [Open Academic Environme
 
 ### Local machine / Vagrant
 
-It's possible to get OAE up and running on your local machine using [Vagrant(http://www.vagrantup.com)] by following these steps:
+It's possible to get OAE up and running on your local machine using [Vagrant](http://www.vagrantup.com) by following these steps:
 
 #### Preparation
 
