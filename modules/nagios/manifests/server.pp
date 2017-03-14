@@ -271,14 +271,14 @@ class nagios::server (
   # Create the notification commands.
   nagios_command { 'notify-host-by-email':
     target          => '/etc/nagios3/conf.d/puppet/commands/notify-host-by-email.cfg',
-    command_line    => "/usr/bin/printf \"%b\" \"***** OAE Monitoring Alert *****\\n\\nNotification Type: \$NOTIFICATIONTYPE\$\\nHost: \$HOSTNAME\$\\nState: \$HOSTSTATE\$\\nAddress: \$HOSTADDRESS\$\\nInfo: \$HOSTOUTPUT\$\\n\\nDate/Time: \$LONGDATETIME\$\\n\" | /usr/bin/mail -a \"From: Nagios Alerting\" -s \"[Nagios]  \$NOTIFICATIONTYPE\$ Host Alert: \$HOSTNAME\$ is \$HOSTSTATE\$\" \$CONTACTEMAIL\$",
+    command_line    => "/usr/bin/printf \"%b\" \"***** OAE Monitoring Alert *****\\n\\nNotification Type: \$NOTIFICATIONTYPE\$\\nHost: \$HOSTNAME\$\\nState: \$HOSTSTATE\$\\nAddress: \$HOSTADDRESS\$\\nInfo: \$HOSTOUTPUT\$\\n\\nDate/Time: \$LONGDATETIME\$\\n\" | /usr/bin/mail -a \"From: Nagios_Alerting\" -s \"[Nagios]  \$NOTIFICATIONTYPE\$ Host Alert: \$HOSTNAME\$ is \$HOSTSTATE\$\" \$CONTACTEMAIL\$",
     ensure          => 'present',
     require         =>  File[$nagios_directories],
   }
 
   nagios_command { 'notify-service-by-email':
     target          => '/etc/nagios3/conf.d/puppet/commands/notify-service-by-email.cfg',
-    command_line    => "/usr/bin/printf \"%b\" \"***** OAE Monitoring Alert *****\\n\\nNotification Type: \$NOTIFICATIONTYPE\$\\nHost: \$HOSTNAME\$\\nState: \$HOSTSTATE\$\\nService output: \$SERVICEOUTPUT\$ \$LONGSERVICEOUTPUT\$\\nAddress: \$HOSTADDRESS\$\\nInfo: \$HOSTOUTPUT\$\\n\\nDate/Time: \$LONGDATETIME\$\\n\" | /usr/bin/mail -a \"From: Nagios Alerting\" -s \"[Nagios] \$NOTIFICATIONTYPE\$ Service Alert on \$HOSTNAME\$: \$SERVICEDESC\$ - \$SERVICESTATE\$\" \$CONTACTEMAIL\$",
+    command_line    => "/usr/bin/printf \"%b\" \"***** OAE Monitoring Alert *****\\n\\nNotification Type: \$NOTIFICATIONTYPE\$\\nHost: \$HOSTNAME\$\\nState: \$HOSTSTATE\$\\nService output: \$SERVICEOUTPUT\$ \$LONGSERVICEOUTPUT\$\\nAddress: \$HOSTADDRESS\$\\nInfo: \$HOSTOUTPUT\$\\n\\nDate/Time: \$LONGDATETIME\$\\n\" | /usr/bin/mail -a \"From: Nagios_Alerting\" -s \"[Nagios] \$NOTIFICATIONTYPE\$ Service Alert on \$HOSTNAME\$: \$SERVICEDESC\$ - \$SERVICESTATE\$\" \$CONTACTEMAIL\$",
     ensure          => 'present',
     require         =>  File[$nagios_directories],
   }
