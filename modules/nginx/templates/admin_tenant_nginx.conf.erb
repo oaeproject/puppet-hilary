@@ -63,7 +63,11 @@ server {
     <% else -%>
     rewrite ^/favicon.ico           /shared/oae/img/favicon.ico last;
     <% end -%>
+    <% if @environment == "production" -%>
     rewrite ^/robots.txt              /shared/oae/robots.txt last;
+    <% else -%>
+    rewrite ^/robots.txt              /shared/oae/non_production_robots.txt last;
+    <% end -%>
 
 
     #####################
