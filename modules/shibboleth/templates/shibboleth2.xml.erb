@@ -177,9 +177,9 @@
             </MetadataProvider>
 
             <!-- Metadata for Swedish Federated Authentication Association -->
-            <MetadataProvider type="XML" uri="http://md.swamid.se/md/swamid-idp-transitive.xml" backingFilePath="swamid-idp-transitive.xml" reloadInterval="43200">
+            <MetadataProvider type="XML" uri="http://mds.swamid.se/md/swamid-idp-transitive.xml" backingFilePath="swamid-idp-transitive.xml" reloadInterval="43200">
                 <MetadataFilter type="RequireValidUntil" maxValidityInterval="2419200"/>
-                <MetadataFilter type="Signature" certificate="federations/swamid-idp-transitive.pem"/>
+                <MetadataFilter type="Signature" certificate="federations/swamid-idp-transitive-md-signer2.crt"/>
                 <MetadataFilter type="EntityRoleWhiteList">
                     <RetainedRole>md:IDPSSODescriptor</RetainedRole>
                     <RetainedRole>md:AttributeAuthorityDescriptor</RetainedRole>
