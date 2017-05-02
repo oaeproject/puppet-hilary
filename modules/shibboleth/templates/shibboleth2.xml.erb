@@ -60,6 +60,10 @@
                         <!-- SAML2 version -->
                         <md:RequestedAttribute FriendlyName="eduPersonTargetedID"
                                                Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.10"
+                                               NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"
+                                               isRequired="false"/>
+                        <md:RequestedAttribute FriendlyName="eduPersonTargetedID"
+                                               Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.10"
                                                NameFormat="urn:mace:shibboleth:1.0:attributeNamespace:uri"
                                                isRequired="false"/>
                 <md:Organization>
@@ -78,6 +82,7 @@
                     <mdui:Description xml:lang="en">*Unity is the new way to work with anyone in universities and research. It’s a simple place to form groups, share files and work on them together.</mdui:Description>
                     <mdui:InformationURL xml:lang="en">http://www.unity.ac</mdui:InformationURL>
                     <mdui:Logo height="375" width="385">https://shib-sp.unity.ac/assets/unity-sso.png</mdui:Logo>
+                    <mdui:PrivacyStatementURL xml:lang="en">http://www.researchresearch.com/privacy-policy/</mdui:PrivacyStatementURL>
                 </mdui:UIInfo>
 
             </Handler>
