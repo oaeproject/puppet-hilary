@@ -1,4 +1,4 @@
-class oaeservice::deps::archive::nodejs ($nodejs_version) {
+class oaeservice::deps::archive::nodejs {
 
     if ! $nodejs_version {
       $nodejs_version = hiera('global_nodejs_version')
