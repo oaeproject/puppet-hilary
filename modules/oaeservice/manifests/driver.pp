@@ -9,6 +9,9 @@ class oaeservice::driver {
     Class['::oaeservice::deps::package::erlang']    -> Class['::tsung::install::git']
     Class['::oaeservice::deps::package::git']       -> Vcsrepo<| |>
 
+    if ! $nodejs_version {
+      $nodejs_version = hiera('global_nodejs_version')
+    }
 
     # Install OAE-model-loader and node-oae-tsung
 
@@ -24,7 +27,7 @@ class oaeservice::driver {
 
     exec { 'npm_install_tsung':
         cwd     => $oae_tsung_dir,
-        command => '/usr/local/node-v6.10.0-linux-x64/bin/npm install -d',
+        command => "/usr/local/$nodejs_version/bin/npm install -d",
         require => Vcsrepo[$oae_tsung_dir]
     }
 
@@ -37,7 +40,7 @@ class oaeservice::driver {
 
     exec { 'npm_install_modelloader':
         cwd     => $oae_loader_dir,
-        command => '/usr/local/node-v6.10.0-linux-x64/bin/npm install -d',
+        command => "/usr/local/$nodejs_version/bin/npm install -d",
         require => [Class['::oaeservice::deps::package::nodejs'], Vcsrepo[$oae_loader_dir]]
     }
 

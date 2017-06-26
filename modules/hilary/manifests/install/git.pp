@@ -1,6 +1,10 @@
 class hilary::install::git ($install_config, $app_root_dir = '/opt/oae') {
     require ::oaeservice::deps::package::git
 
+    if ! $nodejs_version {
+      $nodejs_version = hiera('global_nodejs_version')
+    }
+
     $_install_config = merge({
         'source'    => 'https://github.com/oaeproject/Hilary',
         'revision'  => 'master'
@@ -29,7 +33,7 @@ class hilary::install::git ($install_config, $app_root_dir = '/opt/oae') {
 
         # Forcing CFLAGS for std=c99 for hiredis, until https://github.com/pietern/hiredis-node/pull/33 is resolved
         environment => ['CFLAGS="-std=c99"', 'HOME=/root'],
-        command     => '/usr/local/node-v6.10.0-linux-x64/bin/npm install -d',
+        command     => "/usr/local/$nodejs_version/bin/npm install -d",
         logoutput   => 'on_failure',
     }
 

@@ -13,6 +13,8 @@
 
     "nodetype": "%{nodetype}",
     "nodesuffix": "%{nodesuffix}",
+    "global_nodejs_version": "v6.10.0",
+    "nodejs_base_url": "https://nodejs.org/dist",
 
     "admin_users": {
         "skarppinen": {
@@ -85,7 +87,7 @@
     "etherpad_install_config": {
         "version_major_minor": "1.5",
         "version_patch": "7-56-c337a05_0",
-        "version_nodejs": "0.10.17"
+        "version_nodejs": "node-6.10.0-linux-x64"
     },
 
     "cache_host": "127.0.0.1",
@@ -134,7 +136,7 @@
     "hilary::config_activity_enabled": true,
     "hilary::config_previews_enabled": true,
 
-    "oaeservice::deps::package::nodejs::nodejs_version": "0.10.17-1chl1~precise1",
+    "oaeservice::deps::package::nodejs::nodejs_version": "node-v6.10.0-linux-x64",
 
     "rabbitmq::server::version": "3.1.1-1",
     "rabbitmq::server::wipe_db_on_cookie_change": true,

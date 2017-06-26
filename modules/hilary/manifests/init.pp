@@ -93,6 +93,9 @@ class hilary (
   $config_files_tmp_upload_dir = "${config_files_tmp_dir}/uploads"
   $config_previews_tmp_dir = "${config_files_tmp_dir}/previews"
 
+  if ! $nodejs_version {
+    $nodejs_version = hiera('global_nodejs_version')
+  }
 
 
   ##################
