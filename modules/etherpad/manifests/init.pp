@@ -23,7 +23,7 @@ class etherpad (
         $service_name           = 'etherpad',
         $enable_abiword         = false) {
 
-    $global_node_version = hiera('global_nodejs_version')
+    $global_nodejs_version = hiera('global_nodejs_version')
 
     # Install etherpad
     class { "::etherpad::install::${install_method}":
