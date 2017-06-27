@@ -6,8 +6,8 @@
 
     "app_install_method": "git",
     "app_install_config": {
-        "source":"https://github.com/sallakarppinen/Hilary.git",
-        "revision":"issue-1336"
+        "source":"https://github.com/oaeproject/Hilary.git",
+        "revision":"master"
    },
     "app_ui_path": "/opt/3akai-ux/",
 
