@@ -6,7 +6,7 @@ class oaeservice::deps::archive::nodejs {
     $nodejs_base_url = hiera('nodejs_base_url')
 
     # Download and unpack the archive
-    archive { "node-v6.10.0":
+    archive { "node-v6.11.1":
         ensure          => present,
         url             => "$nodejs_base_url/$nodejs_version/node-$nodejs_version-linux-x64.tar.gz",
         target          => '/usr/local',
