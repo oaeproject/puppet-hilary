@@ -73,7 +73,7 @@
     "etherpad_install_config": {
         "version_major_minor": "1.5",
         "version_patch": "7-56-c337a05_0",
-        "version_nodejs": "6.11.1"
+        "version_nodejs": "0.10.17"
     },
 
     "cache_host": "127.0.0.1",
