@@ -11,7 +11,7 @@
     "app_install_config": {
   "version_major_minor": "13.0",
   "version_patch": "0",
-  "version_nodejs": "0.10.30",
+  "version_nodejs": "6.11.1",
         "__source":"https://github.com/orodan/Hilary.git",
         "__revision":"jitsi"
    },
