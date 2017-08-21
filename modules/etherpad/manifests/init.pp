@@ -118,6 +118,7 @@ class etherpad (
             File["${etherpad_dir}/node_modules/ep_etherpad-lite/static/custom/pad.css"],
             File["${etherpad_dir}/node_modules/ep_headings2/templates/editbarButtons.ejs"],
             File["${etherpad_dir}/src/static/custom/pad.css"],
+            File["${etherpad_dir}/src/static/css/pad.css"],
             File['etherpad_settings_json'],
             File['etherpad_apikey_txt'],
             Exec['chown_etherpad_dir'],
