@@ -50,6 +50,12 @@ class etherpad (
         require    => Class["::etherpad::install::${install_method}"],
     }
 
+    file { "${etherpad_dir}/src/static/css/pad.css":
+        ensure     => present,
+        source     => "${etherpad_dir}/node_modules/ep_oae/static/css/pad.css",
+        require    => Class["::etherpad::install::${install_method}"],
+    }
+
     file { "${etherpad_dir}/src/static/custom/pad.css":
         ensure     => present,
         source     => "${etherpad_dir}/node_modules/ep_oae/static/css/pad.css",
@@ -112,6 +118,7 @@ class etherpad (
             File["${etherpad_dir}/node_modules/ep_etherpad-lite/static/custom/pad.css"],
             File["${etherpad_dir}/node_modules/ep_headings2/templates/editbarButtons.ejs"],
             File["${etherpad_dir}/src/static/custom/pad.css"],
+            File["${etherpad_dir}/src/static/css/pad.css"],
             File['etherpad_settings_json'],
             File['etherpad_apikey_txt'],
             Exec['chown_etherpad_dir'],
