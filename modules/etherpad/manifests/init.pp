@@ -50,6 +50,12 @@ class etherpad (
         require    => Class["::etherpad::install::${install_method}"],
     }
 
+    file { "${etherpad_dir}/src/static/css/pad.css":
+        ensure     => present,
+        source     => "${etherpad_dir}/node_modules/ep_oae/static/css/pad.css",
+        require    => Class["::etherpad::install::${install_method}"],
+    }
+
     file { "${etherpad_dir}/src/static/custom/pad.css":
         ensure     => present,
         source     => "${etherpad_dir}/node_modules/ep_oae/static/css/pad.css",
