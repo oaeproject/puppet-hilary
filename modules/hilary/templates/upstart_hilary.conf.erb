@@ -17,7 +17,7 @@ limit nofile 32768 32768
 expect fork
 
 # Pass along some environment variables
-env NODE_ENV=production
+env NODE_ENV=<%= @environment %>
 
 chdir <%= @app_root_dir %>
 script

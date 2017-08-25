@@ -147,7 +147,16 @@ class hilary (
       group   => $os_group,
       content => template('hilary/config.js.erb'),
       require => [ File[$upload_files_dir], File[$config_files_tmp_dir], File[$config_files_tmp_upload_dir] ]
-  }
+
+    # Env specific config file
+    "${app_root_dir}/${environment}.js":
+      ensure  => present,
+      mode    => "0644",
+      owner   => $os_user,
+      group   => $os_group,
+      content => template('hilary/${environment}.js'),
+      require => [ File[$upload_files_dir], File[$config_files_tmp_dir], File[$config_files_tmp_upload_dir] ]
+    }
 
 
 
