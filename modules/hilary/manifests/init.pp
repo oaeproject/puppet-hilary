@@ -157,7 +157,7 @@ class hilary (
       mode    => "0644",
       owner   => $os_user,
       group   => $os_group,
-      source => "puppet:///modules/hilary/$environment.js",
+      source => "puppet:///modules/hilary/${environment}.js",
       require => File[$config_files_tmp_dir];
   }
 
