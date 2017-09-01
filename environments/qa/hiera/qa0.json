@@ -1,9 +1,30 @@
 {
     "classes": [
-        "::oaeqaautomation"
+        "::oaeqaautomation",
+  "::oaeservice::shibboleth"
     ],
 
-    "ui_cdn_url": "https://qa0-researchresearch-researchresearch.netdna-ssl.com",
+    "app_install_method": "git",
+    "app_install_config": {
+        "source":"https://github.com/oaeproject/Hilary.git",
+        "revision":"master"
+   },
+    "app_ui_path": "/opt/3akai-ux/",
+
+    "ux_root_dir": "/opt/3akai-ux",
+    "ux_install_method": "git",
+    "ux_install_config": {
+        "source":"https://github.com/oaeproject/3akai-ux.git",
+        "revision":"master"
+    },
+
+    "shibboleth_entity_id": "https://shib-sp.oae-qa0.oaeproject.org/shibboleth",
+    "shibboleth_keyname": "shib-sp.oae-qa0.oaeproject.org",
+    "shibboleth_subjectname": "CN=shib-sp.oae-qa0.oaeproject.org",
+    "shibboleth_sp_host": "shib-sp.oae-qa0.oaeproject.org",
+
     "web_domain": "oae-qa0.oaeproject.org",
     "email_debug": "false"
+
 }
+
