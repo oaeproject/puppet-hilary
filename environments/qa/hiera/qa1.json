@@ -3,7 +3,7 @@
 
     "classes": [
         "::oaeqaautomation",
-  "::oaeservice::shibboleth"
+        "::oaeservice::shibboleth"
     ],
 
     "__app_install_method": "git",

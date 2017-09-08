@@ -27,7 +27,7 @@ class oaeservice::driver {
 
     exec { 'npm_install_tsung':
         cwd     => $oae_tsung_dir,
-        command => "/usr/local/$nodejs_version/bin/npm install -d",
+        command => "/usr/local/${nodejs_version}/bin/npm install -d",
         require => Vcsrepo[$oae_tsung_dir]
     }
 
@@ -40,7 +40,7 @@ class oaeservice::driver {
 
     exec { 'npm_install_modelloader':
         cwd     => $oae_loader_dir,
-        command => "/usr/local/$nodejs_version/bin/npm install -d",
+        command => "/usr/local/${nodejs_version}/bin/npm install -d",
         require => [Class['::oaeservice::deps::package::nodejs'], Vcsrepo[$oae_loader_dir]]
     }
 

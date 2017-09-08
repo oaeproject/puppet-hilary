@@ -86,10 +86,10 @@
     "etherpad_enable_abiword": true,
     "etherpad_install_config": {
         "__full_package_name": "etherpad-1.5.7-56-c337a05_0_node-node-6.11.1-linux-x64.tar.gz",
-        "version_major_minor": "1.5",
-        "version_patch": "7-56-c337a05_0",
+        "version_major_minor": "1.6",
+        "version_patch": "1_1",
         "__version_nodejs": "node-6.11.1-linux-x64",
-        "version_nodejs": "0.10.17"
+        "version_nodejs": "6.11.1"
     },
 
     "cache_host": "127.0.0.1",
