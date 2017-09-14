@@ -18,6 +18,9 @@
 
     "nodetype": "%{nodetype}",
     "nodesuffix": "%{nodesuffix}",
+    "global_nodejs_version": "v6.11.1",
+    "nodejs_base_url": "https://nodejs.org/dist",
+
 
     "admin_users": {
         "skarppinen": {
@@ -39,9 +42,9 @@
 
     "app_install_method": "archive",
     "app_install_config": {
-        "version_major_minor": "13.0",
-        "version_patch": "0",
-        "version_nodejs": "0.10.30"
+        "version_major_minor": "14.0",
+        "version_patch": "1",
+        "version_nodejs": "6.11.1"
     },
 
     "app_os_user": "root",
@@ -69,8 +72,8 @@
     "ux_root_dir": "/opt/3akai-ux",
     "ux_install_method": "archive",
     "ux_install_config": {
-        "version_major_minor": "13.0",
-        "version_patch": "0"
+        "version_major_minor": "14.0",
+        "version_patch": "1"
     },
 
     "db_cluster_name": "OAE Production Cluster",
@@ -156,7 +159,7 @@
     "nagios_contact_alias": "OAE Monitoring",
     "nagios_contact_email": "oae-monitoring@googlegroups.com",
 
-    "oaeservice::deps::package::nodejs::nodejs_version": "0.10.17-1chl1~precise1",
+    "oaeservice::deps::package::nodejs::nodejs_version": "node-v6.11.1-linux-x64",
 
     "rabbitmq::server::version": "3.1.1-1",
     "rabbitmq::server::wipe_db_on_cookie_change": true,
