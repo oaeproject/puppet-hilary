@@ -36,7 +36,8 @@
     },
     "deploy_user_passwd": "$6$2BFhituA$GsonI147Xto4qfXrU8olEwXC/9jmRNkFg8PTTGWviAQ/QQ2RAeYDrbAEaSL.IoafVQlOtGNVX0jIDOVZCMf191",
 
-    "web_domain": "oae-staging.oaeproject.org",
+    "_web_domain": "oae-staging.oaeproject.org",
+    "web_domain": "unity.ac",
     "web_domains_external": [],
     "web_internal_address": "web0",
 
@@ -64,10 +65,10 @@
     "app_use_https": true,
     "app_strict_https": false,
 
-    "shibboleth_entity_id": "https://shib-sp.oaeproject.org/shibboleth",
-    "shibboleth_keyname": "shib-sp.oaeproject.org",
-    "shibboleth_subjectname": "CN=shib-sp.oaeproject.org",
-    "shibboleth_sp_host": "shib-sp.oaeproject.org",
+    "shibboleth_entity_id": "https://shib-sp.unity.ac/shibboleth",
+    "shibboleth_keyname": "shib-sp.unity.ac",
+    "shibboleth_subjectname": "CN=shib-sp.unity.ac",
+    "shibboleth_sp_host": "shib-sp.unity.ac",
 
     "ux_root_dir": "/opt/3akai-ux",
     "ux_install_method": "archive",
