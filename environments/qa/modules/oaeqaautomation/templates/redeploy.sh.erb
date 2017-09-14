@@ -5,7 +5,7 @@
 # can also be run at any time to redeploy
 #
 
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PATH=/usr/local/<%= @nodejs_version %>/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 function usage {
   echo "$0 [ --debug ] [ --force ]"
@@ -81,7 +81,7 @@ echo "Performing production build (this will take a little while)"
 service hilary stop
 
 cd <%= ux_root_dir %>
-npm install -g grunt-cli --loglevel warn
+/usr/local/<%= @nodejs_version %>/bin/npm install -g grunt-cli --loglevel warn
 
 # so...in theory a tarball release can be handled by the puppet run earlier
 if [ -e /opt/oae/build-info.json ]
@@ -92,14 +92,14 @@ else
 # but a git master release needs some processing
     echo "Detected git master install"
 
-    npm install -d --loglevel warn
+    /usr/local/<%= @nodejs_version %>/bin/npm install -d --loglevel warn
 
     # Only cdnify if ui_cdn_url is set in hiera
     ui_cdn_url="<%= ui_cdn_url %>"
     if [ ! -z "$ui_cdn_url" ]; then
         CDN_URL="$ui_cdn_url" grunt
     else
-        grunt
+        /usr/local/<%= @nodejs_version %>/bin/grunt
     fi
 
     # jiggle arround the ux files until they're all in the right place
@@ -127,7 +127,7 @@ cd <%= scripts_dir %>
 
 echo
 echo "Updating oaesh"
-npm install -g oaesh --loglevel warn
+/usr/local/<%= @nodejs_version %>/bin/npm install -g oaesh --loglevel warn
 
 # Create an 'oae' tenant.
 echo

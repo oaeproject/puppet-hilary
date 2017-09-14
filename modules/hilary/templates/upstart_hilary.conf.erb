@@ -17,9 +17,9 @@ limit nofile 32768 32768
 expect fork
 
 # Pass along some environment variables
-env NODE_ENV=production
+env NODE_ENV=<%= @environment %>
 
 chdir <%= @app_root_dir %>
 script
-    exec /usr/bin/node app.js &
+    exec /usr/local/<%= @nodejs_version %>/bin/node app.js &
 end script

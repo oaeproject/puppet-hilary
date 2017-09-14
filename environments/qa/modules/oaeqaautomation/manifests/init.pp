@@ -43,6 +43,10 @@ class oaeqaautomation (
     $slideshare_api_key = hiera('automation_slideshare_api_key')
     $youtube_api_key = hiera('automation_youtube_api_key')
 
+    if ! $nodejs_version {
+      $nodejs_version = hiera('global_nodejs_version')
+    }
+
     exec { 'mkdir_scripts': command => "mkdir -p ${scripts_dir}", unless => "test -d ${scripts_dir}" }
 
     # Create the nightly log file directory

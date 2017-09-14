@@ -1,8 +1,42 @@
 {
+    "__comment": "Used __ to comments stuff out",
+
     "classes": [
-        "::oaeqaautomation"
+        "::oaeqaautomation",
+        "::oaeservice::shibboleth"
     ],
 
+    "__app_install_method": "git",
+    "app_install_method": "archive",
+    "app_install_config": {
+  "version_major_minor": "13.0",
+  "version_patch": "0",
+  "version_nodejs": "6.11.1",
+        "__source":"https://github.com/orodan/Hilary.git",
+        "__revision":"jitsi"
+   },
+    "__app_ui_path": "/opt/3akai-ux/",
+    "app_ui_path": "/opt/3akai-ux/optimized",
+
+    "ux_root_dir": "/opt/3akai-ux",
+    "__ux_install_method": "git",
+    "ux_install_method": "archive",
+    "ux_install_config": {
+  "version_major_minor": "13.0",
+  "version_patch": "0",
+        "__source":"https://github.com/orodan/3akai-ux.git",
+        "__revision":"jitsi"
+    },
+
+    "shibboleth_entity_id": "https://shib-sp.oae-qa1.oaeproject.org/shibboleth",
+    "shibboleth_keyname": "shib-sp.oae-qa1.oaeproject.org",
+    "shibboleth_subjectname": "CN=shib-sp.oae-qa1.oaeproject.org",
+    "shibboleth_sp_host": "shib-sp.oae-qa1.oaeproject.org",
+
     "web_domain": "oae-qa1.oaeproject.org",
-    "email_debug": "false"
+    "email_debug": "false",
+
+    "app_admin_username": "previewadmin",
+    "app_admin_password": "3PE1b97mIW3FpLna2N7hoCGnV"
 }
+

@@ -71,9 +71,9 @@
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_enable_abiword": true,
     "etherpad_install_config": {
-        "version_major_minor": "1.5",
-        "version_patch": "7-56-c337a05_0",
-        "version_nodejs": "0.10.17"
+        "version_major_minor": "1.6",
+        "version_patch": "1_1",
+        "version_nodejs": "6.11.1"
     },
 
     "cache_host": "127.0.0.1",

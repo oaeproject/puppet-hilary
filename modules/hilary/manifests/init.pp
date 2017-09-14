@@ -93,6 +93,9 @@ class hilary (
   $config_files_tmp_upload_dir = "${config_files_tmp_dir}/uploads"
   $config_previews_tmp_dir = "${config_files_tmp_dir}/previews"
 
+  if ! $nodejs_version {
+    $nodejs_version = hiera('global_nodejs_version')
+  }
 
 
   ##################
@@ -146,7 +149,16 @@ class hilary (
       owner   => $os_user,
       group   => $os_group,
       content => template('hilary/config.js.erb'),
-      require => [ File[$upload_files_dir], File[$config_files_tmp_dir], File[$config_files_tmp_upload_dir] ]
+      require => [ File[$upload_files_dir], File[$config_files_tmp_dir], File[$config_files_tmp_upload_dir] ];
+
+    # Env specific config file
+    "${app_root_dir}/${environment}.js":
+      ensure  => present,
+      mode    => "0644",
+      owner   => $os_user,
+      group   => $os_group,
+      source => "puppet:///modules/hilary/${environment}.js",
+      require => File[$config_files_tmp_dir];
   }
 
 
