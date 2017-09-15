@@ -91,10 +91,6 @@ bin/pull.sh
 
 ## Puppet Dashboard
 
-# Set root password to "root" for the upcoming mysql prompt
-echo "mysql-server mysql-server/root_password password root" | debconf-set-selections
-echo "mysql-server mysql-server/root_password_again password root" | debconf-set-selections
-
 apt-get install -y build-essential irb libmysql-ruby libmysqlclient-dev libopenssl-ruby libreadline-ruby mysql-server rake rdoc ri ruby ruby-dev
 
 # Install rubygems (do not use the installation that came w/ OS)
@@ -109,6 +105,18 @@ ruby setup.rb
 
 update-alternatives --install /usr/bin/gem gem /usr/bin/gem1.8 1
 apt-get install -y puppet-dashboard
+
+# reconfigure mysql ready for dashboard
+service mysql stop
+mkdir -p /data/mysql
+chown mysql.mysql /data/mysql
+chmod 755 /data/mysql
+# tweak mysql config
+sed -i 's/datadir.*/datadir = \/data\/mysql/;s/# \* InnoDB/# * InnoDB\n\ninnodb_buffer_pool_size = 512M\ninnodb_file_per_table = 1\ninnodb_data_file_path = ibdata:10M:autoextend:max:10G\n\n/;s/max_allowed_packet.*/max_allowed_packet = 32M/' /etc/mysql/my.cnf
+/usr/bin/mysql_install_db --user=mysql --ldata=/data/mysql/
+service mysql start
+# Set root password to "root" for the upcoming mysql prompt
+/usr/bin/mysqladmin -u root password root
 
 # Create 'dashboard' user with password 'dashboard'
 mysql -u root -proot -e "CREATE DATABASE dashboard CHARACTER SET utf8;"
@@ -127,8 +135,6 @@ chmod 660 /usr/share/puppet-dashboard/config/database.yml
 
 # Deploy the database
 cd /usr/share/puppet-dashboard
-sed -i 's/max_allowed_packet.*/max_allowed_packet = 32M/g' /etc/mysql/my.cnf
-service mysql restart
 rake RAILS_ENV=production db:migrate
 
 # Make an init script for puppetmaster (since we're using passenger, we'll just bounce apache)
@@ -201,6 +207,15 @@ touch /usr/share/puppet-dashboard/log/production.log
 chmod 0666 /usr/share/puppet-dashboard/log/production.log
 service puppet-dashboard-workers start
 
+# include a cron to delete old dashboard reports after 6 months
+cat <<EOF > /etc/cron.daily/delete_old_dashboard_reports
+#!/bin/bash
+DBOARD_DIR=/usr/share/puppet-dashboard
+cd ${DBOARD_DIR}
+rake RAILS_ENV=production reports:prune upto=6 unit=mon
+rake RAILS_ENV=production db:raw:optimize
+EOF
+chmod +x /etc/cron.daily/delete_old_dashboard_reports
 
 # Install mcollective server *AND CLIENT* (Client is the one that communicates with all the other nodes)
 apt-get -y install openjdk-6-jre
