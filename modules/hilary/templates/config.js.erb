@@ -394,7 +394,8 @@ config.activity = {
     'collectionPollingFrequency': 5,
     'collectionBatchSize': 1000,
     'mail': {
-        'pollingFrequency': 10 * 60,    // Collect every 10 minutes
+        'pollingFrequency': <%= @config_activity_mail_polling_frequency %>,
+        'gracePeriod': <%= @config_activity_mail_grace_period %>,
         'daily': {
             'hour': 8                   // Sent daily at 8am
         },
