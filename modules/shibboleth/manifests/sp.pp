@@ -43,6 +43,13 @@ class shibboleth::sp (
         require => Package['shibboleth'],
     }
 
+    # Process additional attributes
+    file { '/etc/shibboleth/attribute-map.xml':
+        ensure  => present,
+        source  => "puppet:///modules/shibboleth/attribute-map.xml",
+        require => Package['shibboleth'],
+    }
+
     # Configure some error styling
     file { '/usr/share/doc/shibboleth/logo.jpg':
         ensure  => present,
