@@ -26,6 +26,7 @@ logdir=/var/log/puppet
 vardir=/var/lib/puppet
 ssldir=/var/lib/puppet/ssl
 rundir=/var/run/puppet
+reportdir=/var/lib/puppet/reports
 factpath=\$vardir/lib/facter
 templatedir=\$confdir/templates
 pluginsync=true
