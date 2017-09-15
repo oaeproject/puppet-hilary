@@ -140,8 +140,8 @@
 
     "oaeservice::deps::package::nodejs::nodejs_version": "node-v6.11.1-linux-x64",
 
-    "rabbitmq::server::version": "3.1.1-1",
-    "rabbitmq::server::wipe_db_on_cookie_change": true,
+    "rabbitmq::version": "3.1.1-1",
+    "rabbitmq::wipe_db_on_cookie_change": true,
 
     "automation_scripts_dir": "/opt/scripts",
     "automation_backup_dir": "/opt/backup",

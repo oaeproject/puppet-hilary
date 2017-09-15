@@ -157,8 +157,8 @@
 
     "oaeservice::deps::package::nodejs::nodejs_version": "present",
 
-    "rabbitmq::server::version": "3.1.1-1",
-    "rabbitmq::server::wipe_db_on_cookie_change": true,
+    "rabbitmq::version": "3.1.1-1",
+    "rabbitmq::wipe_db_on_cookie_change": true,
 
     "oaeservice::limits::user_soft_max_files": "16000",
     "oaeservice::limits::user_hard_max_files": "32000",
