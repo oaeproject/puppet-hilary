@@ -101,5 +101,13 @@ class oaeservice::hilary {
     config_servers_server_internal_address  => hiera('web_internal_address', '127.0.0.1'),
 
     config_search_enabled   => hiera('search_enabled', true),
+
+    config_zencoder_enabled          => hiera('zencoder_enabled', false),
+    config_zencoder_api_key          => hiera('zencoder_api_key'),
+    config_zencoder_watermark        => hiera('zencoder_watermark'),
+    config_zencoder_s3_bucket        => hiera('zencoder_s3_bucket'),
+    config_zencoder_s3_region        => hiera('zencoder_s3_region'),
+    config_zencoder_s3_access_key    => hiera('zencoder_s3_access_key'),
+    config_zencoder_s3_secret_key    => hiera('zencoder_s3_secret_key')
   }
 }
