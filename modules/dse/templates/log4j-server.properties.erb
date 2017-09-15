@@ -28,6 +28,7 @@ log4j.rootLogger=INFO,stdout,R
 log4j.appender.stdout=org.apache.log4j.ConsoleAppender
 log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
 log4j.appender.stdout.layout.ConversionPattern=%5p %d{HH:mm:ss,SSS} %m%n
+log4j.appender.stdout.Threshold=WARN
 
 <% if @rsyslog_enabled -%>
 # syslog logging
@@ -66,6 +67,7 @@ log4j.appender.V.File=/var/log/cassandra/solrvalidation.log
 #log4j.logger.org.apache.cassandra.service.StorageProxy=DEBUG
 # Adding this to avoid thrift logging disconnect errors.
 log4j.logger.org.apache.thrift.server.TNonblockingServer=FATAL
+log4j.logger.org.apache.cassandra.service.AntiEntropyService=WARN
 
 # stderr
 log4j.appender.stderr=org.apache.log4j.ConsoleAppender
