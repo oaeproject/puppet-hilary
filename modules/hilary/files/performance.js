@@ -27,5 +27,7 @@ var config = module.exports.config = {};
  * @param  {String}    timeout            The mocha timeout that should be used
  */
 config.test = {
-    'timeout': 60000
+    'timeout': 60000,
+    'level': 'info',
+    'path': './tests.log'
 };
