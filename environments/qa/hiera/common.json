@@ -147,6 +147,9 @@
     "automation_slideshare_shared_secret": "unset",
     "automation_slideshare_api_key": "unset",
     "automation_youtube_api_key": "unset",
+    "automation_googleauth_clientid": "unset",
+    "automation_googleauth_secret": "unset",
+    "automation_googleauth_emaildomains": "unset",
 
     "oaeservice::limits::user_soft_max_files": "8192",
     "oaeservice::limits::user_hard_max_files": "32000",

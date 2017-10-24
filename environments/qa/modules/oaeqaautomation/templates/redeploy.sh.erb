@@ -164,6 +164,16 @@ if [[ "<%= youtube_api_key %>" != "unset" ]] ; then
             -k "oae-preview-processor/youtube/key=<%=youtube_api_key %>"
 fi
 
+# Configuring Google auth
+if [[ "<%= googleauth_clientid %>" != "unset" ]] && [[ "<%= googleauth_secret %>" != "unset" ]] && [[ "<%= googleauth_emaildomains %>" != "unset" ]] ; then
+    oaesh -i -U https://<%= admin_host %> -u administrator -p administrator -- \
+        config-set \
+            -k "oae-authentication/google/enabled=true" \
+            -k "oae-authentication/google/key=<%= googleauth_clientid %>" \
+            -k "oae-authentication/google/secret=<%= googleauth_secret %>" \
+            -k "oae-authentication/google/domains=<%= googleauth_emaildomains %>"
+fi
+
 # Performing a data load. An initial set of scripts should already be present on the server (requires
 # manual intervention)
 echo
