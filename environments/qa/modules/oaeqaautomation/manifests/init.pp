@@ -42,6 +42,9 @@ class oaeqaautomation (
     $slideshare_shared_secret = hiera('automation_slideshare_shared_secret')
     $slideshare_api_key = hiera('automation_slideshare_api_key')
     $youtube_api_key = hiera('automation_youtube_api_key')
+    $googleauth_clientid = hiera('automation_googleauth_clientid')
+    $googleauth_secret = hiera('automation_googleauth_secret')
+    $googleauth_emaildomains = hiera('automation_googleauth_emaildomains')
 
     if ! $nodejs_version {
       $nodejs_version = hiera('global_nodejs_version')
