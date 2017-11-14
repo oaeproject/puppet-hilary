@@ -1,10 +1,10 @@
 class oaeservice::etherpad {
   include oaeservice::deps::common
-  include oaeservice::deps::package::nodejs
+  include oaeservice::deps::package::etherpadnodejs
   include oaeservice::deps::ppa::oae
 
   Class['::oaeservice::deps::common']           -> Class['::etherpad']
-  Class['::oaeservice::deps::package::nodejs']  -> Class['::etherpad']
+  Class['::oaeservice::deps::package::etherpadnodejs']  -> Class['::etherpad']
   Class['::oaeservice::deps::ppa::oae']         -> Class['::etherpad']
 
   $index = hiera('etherpad_index', 0)
