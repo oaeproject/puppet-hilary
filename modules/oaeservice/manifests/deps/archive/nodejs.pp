@@ -6,7 +6,8 @@ class oaeservice::deps::archive::nodejs {
     $nodejs_base_url = hiera('nodejs_base_url')
 
     # Download and unpack the archive
-    archive { "node-package":
+    # Had to add the nodejs_version in the name otherwise puppet downloads the wrong version, hmm
+    archive { "node-package_$nodejs_version":
         ensure          => present,
         url             => "$nodejs_base_url/$nodejs_version/node-$nodejs_version-linux-x64.tar.gz",
         target          => '/usr/local',
